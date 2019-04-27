@@ -25,3 +25,5 @@ This library is a bit of a labor of love and personal.  I am not against contrib
 
 ## Goals
 The goals of the library is to provide a set of features in one place.  Kitchen Sink library.  So, memory handling, file IO, data containers, networking, etc.  All with a, hopefully, simpler interface that will be 'good enough'.  I try to make the code fast and simple but there will always be a tradeoff or two somewhere.  Not everything will be fully fleshed out either as I only develope to a point where I satisfy a need.  For example the Networking just implements simple TCP connections since I didn't need UDP at the time I was working on it.
+
+Ultimately I do want this to become cross platform.  Windows, MacOS, and Linux.  However most of my life is currently developing on Windows so that is the main focus of the commits and code base.  I do have a Mac and Linux machine at home but I have not had a need to make a cross platform program just yet to warrant the effort to port the code properly over to those machines.
