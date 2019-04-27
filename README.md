@@ -8,6 +8,8 @@ Galaxy is now owned by a Brazilian company called Ambiencia which had appeared t
 
 This left us in a bit of a lurch.  So on a whim I started to make a kitchen sink library like Galaxy on my own time at home, in the hopes it would be adopted by the company.  It never was.  They opted to move to C++ and its standard library instead.  However, I use this library in my hobby coding so I still continue with the development of the library.
 
+Initially GRL stood for Galaxy Replacement Library but since it was not going to be doing that in reality, I just decided to rebrand it (de) Groot's Runtime Library.
+
 ## State of the library
 I am moving the library over bit by bit as I am documenting and tweaking some of it as I move it over.  
 
