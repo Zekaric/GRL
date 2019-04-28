@@ -16,6 +16,18 @@
     <Filter Include="Source Files\Gguid">
       <UniqueIdentifier>{3bb74590-3977-4234-8270-c570c8ba544b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Gmem">
+      <UniqueIdentifier>{5f376cc2-3bde-47cb-88f8-435d33101691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gmem">
+      <UniqueIdentifier>{7bcbf0b4-e475-4d70-afd9-89b0b2b6f3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Glock">
+      <UniqueIdentifier>{f1fe44fd-1422-4a4c-bc15-493414631688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Glock">
+      <UniqueIdentifier>{8628911d-4de1-414c-8583-84c7d5317244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\g_base.h">
@@ -27,6 +39,15 @@
     <ClInclude Include="..\Include\pre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gleak.h">
+      <Filter>Header Files\Gmem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gmem.h">
+      <Filter>Header Files\Gmem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\glock.h">
+      <Filter>Header Files\Glock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">
@@ -37,6 +58,15 @@
     </ClCompile>
     <ClCompile Include="..\Source\Gguid\gguid.c">
       <Filter>Source Files\Gguid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gmem\gleak.c">
+      <Filter>Source Files\Gmem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gmem\gmem.c">
+      <Filter>Source Files\Gmem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Glock\glock.c">
+      <Filter>Source Files\Glock</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

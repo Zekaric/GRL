@@ -2,6 +2,37 @@
 file:       GRL
 author:     Robbert de Groot
 copyright:  2000-2012, Robbert de Groot
+
+description:
+GRL - Groot's Runtime Library.
+
+A kitchen sink library to speed up 'C' development by providing missing or 
+easier APIs for common programming things.
+
+Usage:
+Start up GRL.  Called as one of the first things your program will do.
+
+   if (!grlStart())
+   { 
+      // GRL failed to start.  Shutdown as nothing will work.
+   }
+
+Clean up.  Called as one of the last things your program will do.
+
+   grlStop();
+
+On stop you will get a leak report in the output window in Visual Studio.
+
+Compiling:
+You need to properly set at compile time
+
+   grlWINDOWS, grlOSX, or grlLINUX 
+
+and
+
+   grl32, or grl64 
+
+Compile time defines when using this library.
 ******************************************************************************/
 
 /******************************************************************************
@@ -38,7 +69,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /******************************************************************************
 include:
 ******************************************************************************/
-#if defined(WIN32)
+#if defined(grlWINDOWS) // I defined this, compile time define.
 
 #define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
@@ -78,15 +109,20 @@ include:
 #include <wchar.h>
 //lint -restore
 
-// Grl stuff
+// includes are in order of dependence.  
+
 #include "g_base.h"
+
+#include "glock.h"
+
+#include "gleak.h"
+#include "gmem.h"
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gtime.h"
 
 #include "gprofile.h"   // depends on gtime
 
-#include "gmem.h"
 #include "gtrace.h"
 #include "grandom.h"
 
@@ -98,10 +134,8 @@ include:
 #include "gswap.h"
 
 #include "gbit.h"
-#include "gleak.h"
 
 #include "gthread.h"
-#include "glock.h"
 #include "glockQueue.h"
 
 #include "gc.h"

@@ -72,7 +72,7 @@ constant:
 ******************************************************************************/
 
 // Flags when in debug.
-#if _DEBUG == 1
+#if defined(_DEBUG)
 
 // CHECK_MEMORY_IS_ON is used in conjunction with debugCheckMemory() macro below.  
 // This is basically to check the heap if it got corrupted in any way.  Used
@@ -96,24 +96,10 @@ constant:
 
 #endif
 
-// Windows platform.
-#if defined(WIN32)
-// This define is there or it is not.  If building on MacOS grlWINDOWS will not
-// be defined.
-#define grlWINDOWS            1
-#endif
-
 // Byte swapping flag.
 // 0 - No swapping.  Machine architecture is in network byte order, bit endian
 // 1 - Swapping.  Machine architecture is little endian.
 #define grlSWAP_NEEDED        1
-
-// 32 or 64 bit architecture.  Currently windows specific.
-#if defined(_WIN64)
-#define grl64                 1
-#else
-#define grl32                 1
-#endif
 
 // For the types further down below.
 #define GiBIT_COUNT           64
@@ -185,10 +171,10 @@ macro:
 #define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
 #define forCountDown(INDEX, COUNT)  for ((INDEX) = (COUNT) - 1; (INDEX) >= (COUNT); (INDEX) -= 1)
 // loop* - infinite loop.
-#define loop()                      for (;;)
+#define loop                        for (;;)
 #define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
 // loopOnce - single iteration loop.
-#define loopOnce(INDEX)             for ((INDEX) = 0; (INDEX) < 1; (INDEX) += 1)
+#define loopOnce                    for (int __index__ = 0; __index__ < 1; __index__++)
 
 // Return macroes
 // Again some will hate these but I find they help prevent mistakes and improve
