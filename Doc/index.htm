@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="style_reset.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>G.R.L: Groot's Runtime Library</title>
+ </head>
+ <body>
+
+  <h1 class="page">G.R.L.: Groot's Runtime Library</h1>
+
+  <p><a href="doc.htm">Table Of Contents</a></p>
+
+  <h2>Description:</h2>
+  <p>G.R.L. (Girl) is a C kitchen sink library to make development easier.</p>
+
+  <h2>History:</h2>
+  <p>
+   I joined a company back in 1995 that created software for Sun OS, Sun Solaris, SGI Irix, and
+   Window NT 3.XX. In order for them to do that they used a cross platform library called Galaxy
+   which was owned by a company called Visix. A little time after Java came on to the scene and a
+   Visix thought that was going to be the future of cross platform development. They let Galaxy
+   stagnate and focused on a Java product they developed. Moving on a few years the Java product 
+   did not sell well (I believe, no facts to back it up) and their bread and butter clients using 
+   Galaxy were moving on as their products were becoming stagnant because Galaxy was not keeping
+   up with the times. Visix just decided to pack up and quit.
+  </p>
+  <p>
+   Galaxy is now owned by a Brazilian company called Ambiencia which appeared to have no interest 
+   in supporting any of the existing clients (without the clients to pay for yet another round 
+   of licensing to them even though a lot already paid a lot to Visix) and so essentially killed 
+   any chance for Galaxy to move on. It is still around but no one should use it anymore in my 
+   opinion. QT, Microsoft's WPF, Xamarin, and others have surpassed Galaxy. 
+  </p>
+  <p>
+   QT did exist at the same time when the company was looking for a cross platform library but it 
+   was very small back then and not as complete as Galaxy was. Plus C++ compilers back then were 
+   not the same quality from platform to platform. Also the developers the company had already, 
+   mostly FORTRAN programmers, would have a harder jump to C++ than to C.  Or at least that was 
+   the feeling at the time.
+  </p>
+  <p>
+   This left us in a bit of a lurch. So on a whim, back in and around 2000, I started to make a 
+   kitchen sink library to replace Galaxy on my own time at home, in the hopes it would be adopted
+   by the company. It never was.  They opted to move to C++ and its standard library instead. 
+   However, I use this library in my hobby coding so I still continue with the development of the 
+   library.  This library has gone through a couple of iterations as I was playing with a few ideas
+   which some just did not work out.
+  </p>
+  <p>
+   Why not just wrap C++ stdlib for this work instead of writing everything again in C?  That is 
+   also an option when doing something like this.  I did not do it that way because I am not a big
+   fan of C++.  I also like control.  I want to be able to tweak the implementation and not leave
+   it in someone else's hands.  Yeah, yeah, reinventing the wheel.  But sometimes it is necessary
+   to be happy.
+  </p>
+  <p>
+   Initially GRL stood for "Galaxy Replacement Library" but since it was not going to be doing that
+   in reality, I just decided to rebrand it (de) "Groot's Runtime Library".  For the longest time I
+   wanted to hopefully make money of this code but in my opinion that time has long since past.  So
+   I decided to make it free for use.
+  </p>
+
+  <h2>License:</h2>
+  <pre>/******************************************************************************
+BSD 2-Clause License
+
+Copyright (c) 2000, Robbert de Groot
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+******************************************************************************/</pre>
+
+  <h2>Goals</h2>
+  <ul>
+   <li>
+    Kitchen sink library.  It should do 'almost' everything you need for development.
+   </li>
+   <li>
+    Simplify API.  Some tasks networking with socket IO I find has an odd API or unknown gotchas 
+    that you will only find out once you hit them or have carefully read the fine detail in the 
+    documentation.  I would like to get rid of as much of those gotchas as possible.
+   </li>
+   <li>
+    Cross platform.  Currently failing here because I am only adding to the library when the need
+    arrises.  OSX and *NIX OSes will eventually come but currently, I spend most of my life in 
+    WINDOWS.
+   </li>
+   <li>
+    Performance.  The library should not really slow you down in terms of coding or in terms of
+    run time.  There are always going to be some compromises but for the most part it should be
+    out of the way and not causing grief.
+   </li>
+  </ul>
+ </body>
+</html>

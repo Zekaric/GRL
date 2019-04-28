@@ -111,8 +111,11 @@ include:
 
 // includes are in order of dependence.  
 
+#include "g_config.h"
+
 #include "g_base.h"
 
+#include "gguid.h"
 #include "glock.h"
 
 #include "gleak.h"
@@ -221,11 +224,6 @@ grlAPI void     grlStop(         void);
 grlAPI Gb       gguidIsEqual(    Gguid const a, Gguid const b);
 grlAPI Gguid    gguidMake(       void);
 grlAPI Gguid    gguidMakeFromA(  Char const * const string);
-
-grlAPI Gid      gidGetNone(     void);
-grlAPI Gid      gidGetUndefined(void);
-
-grlAPI Gid      gidMakeNSwap(    Gn4                value);
 
 /*****************************************************************************/
 #ifdef __cplusplus

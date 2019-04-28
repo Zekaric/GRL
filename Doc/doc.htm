@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="style_reset.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>G.R.L: Groot's Runtime Library</title>
+ </head>
+ <body>
+
+  <h1 class="page">G.R.L.: Groot's Runtime Library</h1>
+
+  <h2>Table Of Contenst:</h2>
+
+  <ol>
+   <li><a href="index.htm">About G.R.L.</a></li>
+   <li><a href="#compile" >How to compile GRL library</a></li>
+   <li><a href="#link"    >How to compile with GRL libary</a></li>
+   <li><a href="#use"     >How to use GRL library</a></li>
+   <li><a href="#baseType">Base types</a></li>
+   <ol>
+    <li><a href="#Gb">Gb (Boolean)</a></li>
+    <li><a href="#Gi">Gi (Signed Integer)</a></li>
+   </ol>
+  </ol>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name"compile"><h1>How to compile GRL library </h1></a>
+  <p>
+   I do not use helpers like CMake.  Mainly because I have not found one that is not annoying
+   to me on some way.  So with this project there will be a...
+  </p>
+  <ul>
+   <li>Visual Studio project(s) for a Windows compile.</li>
+   <li>XCode project for OSX compiles (once done)</li>
+   <li>Make file(s) or whatever for *NIX compiles (once done)</li>
+  </ul>
+  <p>
+   Find the appropriate solution for you and compile.
+  </p>
+  <p>
+   The library compiles to a static library instead of a DLL or shared library.  If you want a DLL
+   or shared libary then you will have to do the work yourself.  I like to keep my life simple and
+   just use static libraries as there is less pain involved when it comes time to release.
+  </p>
+  <p>
+   When you build the library you will need to provide some compile time defines.
+  </p>
+  <ul>
+   <li>
+    <strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform
+    code is compiled for the libary.
+   </li>
+   <li>
+    <strong>grl32 or grl64</strong>, needs to be defined so that the proper architecture code is
+    compiled for the library.
+   </li>
+   <li><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
+  </ul>
+
+  <h2>g_config.h</h2>
+  <p>
+   In the source file g_config.h there are some flags at the top that you may wish to set for 
+   different code to be compiled in.
+  </p>
+
+  <h3>GCHECK_MEMORY_IS_ON</h3>
+  <p>
+   Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call
+   a check on the sanity of the heap to be done.  On Windows this is a CRT function call.  
+  </p>
+  <p>
+   You would use this if you are experiencing heap corruption and wanting to find out who might be
+   corrupting the heap or at least narrow it down to when the Heap was good to when it became bad in
+   an effort to narrow down your search.
+  </p>
+
+  <h3>GTRACE_IS_ON</h3>
+  <p>
+   Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all
+   of the functions that were called assuming genter and greturn* were used in the code.
+  </p>
+
+  <h3>GMEM_INCLUDES_TYPE_STRING</h3>
+  <p>
+   Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is 
+   stored with the dynamic memory in debug by default.  Sometimes this comes in handy when you are
+   dealing with baffling dynamic memory pointer issues.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name"link"><h1>How to compile with GRL library</h1></a>
+  <p>
+   When you build your project and you intend to use this library, you will need to provide some
+   compile time defines.
+  </p>
+  <ul>
+   <li>
+    <strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform
+    code is compiled for the libary.
+   </li>
+   <li>
+    <strong>grl32 or grl64</strong>, needs to be defined so that the proper architecture code is
+    compiled for the library.
+   </li>
+   <li><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
+  </ul>
+  <p>
+   Add the grl.lib and grl include path to your build.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="use"><h1>How to use</h1></a>
+  <p>
+   Add to your source file(s) the grl include...
+  </p>
+  <pre class="code">
+#include "grl.h"
+</pre>
+
+  <p>
+   At your program start you need to call...
+  </p>
+  <pre class="code">
+if (!grlStart())
+{
+   // Failed to start GRL.  Shutdown.
+}
+</pre>
+  <p>
+   grlStart() will set up internal states of the library.  Failure to do this will cause problems.
+  </p>
+
+  <p>
+   At your program exit you should call...
+  </p>
+  <pre class="code">
+grlStop();
+</pre>
+  <p>
+   grlStop() will display debug information like a leak report if you are doing leak checking with
+   GRL.  It is not strictly necessary to call but it would be a wise thing to do in my opinion.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="baseType"><h1>Base types</h1></a>
+
+  <a name="Gb"><h2>Gb (Boolean)</h2></a>
+  <pre class="code">typedef enum
+{
+   gbFALSE              =  0,
+   gbTRUE               =  1,
+   gbUNDEFINED          = -1
+} Gb;</pre>
+  <p>
+   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
+   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  
+   Otherwise assume it is not a possibility.
+  </p>
+
+  <a name="Gi"><h2>Gi (Signed integer)</h2></a>
+  <pre class="code">typedef int8_t             Gi1;
+typedef int16_t            Gi2;
+typedef int32_t            Gi4;
+typedef int64_t            Gi8;
+</pre>
+  <p>
+   As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
+   not really common yet.  I could be wrong.  But like any other library, I define my own types
+   based on memory size for the time.  Instead of bits I use byte count.  And I really dislike 
+   "_t" suffix on C types.  I find "_" difficult to type.  Not that numbers are easy to type either.
+  </p>
+ </body>
+</html>

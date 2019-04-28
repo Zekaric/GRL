@@ -67,13 +67,6 @@ constant:
 #define POOL_MIN                 8
 #define POOL_UNBINNED_INDEX      GindexMAX
 
-// When allocating memory we allocation some more for the type string.
-#if defined(_DEBUG)
-#define MEM_INCLUDES_TYPE_STRING 1
-#else
-#define MEM_INCLUDES_TYPE_STRING 0
-#endif
-
 // Calculation to find the bin index
 #define POOL_BIN_FROM_SIZE(SIZE) ((SIZE <= POOL_MIN) ? 0 : (((SIZE) - 1) / POOL_INC) - 1)
 #define POOL_BIN_SIZE(POOL_BIN)  (((POOL_BIN) + 2) * POOL_INC)
@@ -99,7 +92,7 @@ struct FreeList
 
 typedef struct
 {
-#if MEM_INCLUDES_TYPE_STRING == 1
+#if GMEM_INCLUDES_TYPE_STRING == 1
    Char     const *type;
 #endif
    Gi4             size,
@@ -327,37 +320,37 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
    {
       breakIf(byteCount - count < 4);
 
-#if grlSWAP_NEEDED == 0
-      *pn4 = 0xdeadbeef;
-#else
+#if defined(grlSWAP)
       *pn4 = 0xefbeadde;
+#else
+      *pn4 = 0xdeadbeef;
 #endif
       pn4++; count += 4;
       greturnVoidIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
-#if grlSWAP_NEEDED == 0
-      *pn4 = 0xfeedface;
-#else
+#if defined(grlSWAP)
       *pn4 = 0xcefaedfe;
+#else
+      *pn4 = 0xfeedface;
 #endif
       pn4++; count += 4;
       greturnVoidIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
-#if grlSWAP_NEEDED == 0
-      *pn4 = 0xdeafcafe;
-#else
+#if defined(grlSWAP)
       *pn4 = 0xfecaafde;
+#else
+      *pn4 = 0xdeafcafe;
 #endif
       pn4++; count += 4;
       greturnVoidIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
-#if grlSWAP_NEEDED == 0
-      *pn4 = 0xfee1f00d;
-#else
+#if defined(grlSWAP)
       *pn4 = 0x0df0e1fe;
+#else
+      *pn4 = 0xfee1f00d;
 #endif
       pn4++; count += 4;
       greturnVoidIf(count == byteCount);
@@ -425,7 +418,7 @@ static Gp *_PoolCreate(Char const * const type, Gi4 const size)
          return NULL;
       }
 
-#if MEM_INCLUDES_TYPE_STRING == 1
+#if GMEM_INCLUDES_TYPE_STRING == 1
       buffer->type    = type;
 #endif
       buffer->size    = size;
@@ -459,7 +452,7 @@ static Gp *_PoolCreate(Char const * const type, Gi4 const size)
          _pool[poolBin].poolCount++; //lint !e661
       }
 
-#if MEM_INCLUDES_TYPE_STRING == 1
+#if GMEM_INCLUDES_TYPE_STRING == 1
       buffer->type    = type;
 #endif
       buffer->size    = size;

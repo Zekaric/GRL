@@ -42,8 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // head but suffice to say I have looked into them.
 /*lint -save -e960 -e961 -e9026 */
 
-#if !defined(GCONSTH)
-#define      GCONSTH
+#if !defined(G_BASEH)
+#define      G_BASEH
 
 // GRL was initially developed to be a DLL.  After a while I found DLLs were 
 // just being a pain when it comes to distribution of the exe.  So I have more
@@ -70,36 +70,6 @@ extern "C" {
 /******************************************************************************
 constant:
 ******************************************************************************/
-
-// Flags when in debug.
-#if defined(_DEBUG)
-
-// CHECK_MEMORY_IS_ON is used in conjunction with debugCheckMemory() macro below.  
-// This is basically to check the heap if it got corrupted in any way.  Used
-// to track down memory corruption locations.
-// 0 = No heap checking
-// 1 = Heap checking
-#define GCHECK_MEMORY_IS_ON   0
-
-// TRACE_IS_ON is used to track the flow of the CPU through the code.  I do not
-// use this option much, it was an idea but it can and will produce way too 
-// much output.
-// 0 = No function tracing
-// 1 = Function tracing
-#define GTRACE_IS_ON          0
-
-// Flags wen in relese.
-#else
-
-#define GCHECK_MEMORY_IS_ON   0
-#define GTRACE_IS_ON          0
-
-#endif
-
-// Byte swapping flag.
-// 0 - No swapping.  Machine architecture is in network byte order, bit endian
-// 1 - Swapping.  Machine architecture is little endian.
-#define grlSWAP_NEEDED        1
 
 // For the types further down below.
 #define GiBIT_COUNT           64
@@ -314,7 +284,7 @@ macro:
 #define gidIsUndefined(ID) ((ID) == Gn4MAX)
 #define gidGetN(ID)        ((Gn4) ID)
 #define gidGetFromN(VALUE) ((Gid) VALUE)
-#if grlSWAP_NEEDED == 1
+#if defined(grlSWAP)
 #define gidGetC(ID, CHAR4)                \
    (CHAR4[3] = (Char) (((ID) & 0xff000000) >> 24), \
     CHAR4[2] = (Char) (((ID) & 0x00ff0000) >> 16), \

@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Include\gguid.h" />
     <ClInclude Include="..\Include\gleak.h" />
     <ClInclude Include="..\Include\glock.h" />
     <ClInclude Include="..\Include\gmem.h" />
     <ClInclude Include="..\Include\grl.h" />
     <ClInclude Include="..\Include\g_base.h" />
+    <ClInclude Include="..\Include\g_config.h" />
     <ClInclude Include="..\Include\pre.h" />
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +125,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;grlWINDOWS;grl32%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;grlWINDOWS;grl32;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions> </AdditionalOptions>
       <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
@@ -142,7 +144,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;grlWINDOWS;grl64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;grlWINDOWS;grl64;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
       <StringPooling>true</StringPooling>
@@ -162,7 +164,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;grlWINDOWS;grl32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;grlWINDOWS;grl32;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
       <StringPooling>true</StringPooling>
@@ -184,7 +186,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;grlWINDOWS;grl64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;grlWINDOWS;grl64;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
       <StringPooling>true</StringPooling>

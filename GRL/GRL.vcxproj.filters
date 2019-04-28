@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Glock">
       <UniqueIdentifier>{8628911d-4de1-414c-8583-84c7d5317244}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gguid">
+      <UniqueIdentifier>{35649d7d-f320-47ef-8361-5141e6ece05f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\g_base.h">
@@ -47,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="..\Include\glock.h">
       <Filter>Header Files\Glock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gguid.h">
+      <Filter>Header Files\Gguid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_config.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
