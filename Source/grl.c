@@ -90,8 +90,11 @@ grlAPI Gb grlStart(void)
 {
 #if 0
    returnFalseIf(!gtimeStart());
+#endif
    returnFalseIf(!gleakStart());
    returnFalseIf(!gmemStart());
+
+#if 0
 #if GTRACE_IS_ON == 1
    returnFalseIf(!gtraceStartGrl());
 #endif
@@ -145,12 +148,15 @@ grlAPI void grlStop(void)
 #if GTRACE_IS_ON == 1
    gtraceStopGrl();
 #endif
+#endif
 
    // Ensure the free lists are removed before making the report.
    gmemFlushPools();
 
    gmemStop();
    gleakStop();
+
+#if 0
    gtimeStop();
 
 #if GPROFILE_IS_ON == 1

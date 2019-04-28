@@ -58,7 +58,6 @@ Gb gguidIsEqual(Gguid const a, Gguid const b)
    greturn gbTRUE;
 }
 
-#if 0 //requires gmem
 /******************************************************************************
 func: gguidMake
 ******************************************************************************/
@@ -88,7 +87,7 @@ Gguid gguidMake(void)
    }
 #endif
 
-#if defined(grlMAX_OSX)
+#if defined(grlOSX) // Not tested
    {
       auto newId = CFUUIDCreate(NULL);
       auto bytes = CFUUIDGetUUIDBytes(newId);
@@ -113,7 +112,7 @@ Gguid gguidMake(void)
    }
 #endif
 
-#if defined(grlLINUX)
+#if defined(grlLINUX) // Todo
    {
       uuid_t id;
       uuid_generate(id);
@@ -138,4 +137,3 @@ Gguid gguidMakeFromA(Char const * const string)
 
    greturn guid;
 }
-#endif
