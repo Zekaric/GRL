@@ -24,6 +24,7 @@
     <ClInclude Include="..\Include\pre.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\Gguid\gguid.c" />
     <ClCompile Include="..\Source\grl.c" />
     <ClCompile Include="..\Source\pre.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
