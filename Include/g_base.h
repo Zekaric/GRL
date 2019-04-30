@@ -437,6 +437,16 @@ typedef Gn2                Gnh;
 typedef Gr4                Grp;
 #endif
 
+// Count Index Offset Size
+// A lot of functions have parameters that indicate a count, index, offset, and
+// size.  So I made them their own types to make it more obvious the intended
+// used of the variable/parameter.  These will use the most efficient integer
+// representation for the architecture.
+typedef Gi4                Gcount;
+typedef Gi4                Gindex;
+typedef Gi4                Goffset;
+typedef Gi4                Gsize;
+
 // Because bit fields in a structure definition always trips me up.  Needs to be
 // unsigned.
 typedef unsigned int       Gbit;
@@ -454,16 +464,6 @@ typedef struct
 // Id is a basic natural number.  Not the same as a GUID but meant to be used
 // in the same way in that it should be a unique number on other data.
 typedef Gn4                Gid;
-
-// Count Index Offset Size
-// A lot of functions have parameters that indicate a count, index, offset, and
-// size.  So I made them their own types to make it more obvious the intended
-// used of the variable/parameter.  These will use the most efficient integer
-// representation for the architecture.
-typedef Gi4                Gcount;
-typedef Gi4                Gindex;
-typedef Gi4                Goffset;
-typedef Gi4                Gsize;
 
 // HashN is for hashing functions.  Hash resturns are naturals.
 typedef Gn4                GhashN;

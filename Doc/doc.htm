@@ -19,8 +19,9 @@
    <li><a href="#use"     >How to use GRL library</a></li>
    <li><a href="#baseType">Base types</a></li>
    <ol>
-    <li><a href="#Gb">Gb (Boolean)</a></li>
-    <li><a href="#Gi">Gi (Signed Integer)</a></li>
+    <li><a href="#Gb"    >Gb (Boolean)</a></li>
+    <li><a href="#Gi"    >Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</a></li>
+    <li><a href="#Gcount">Gcount, Gindex, Goffset, Gsize</a></li>
    </ol>
   </ol>
 
@@ -114,15 +115,13 @@
   <p>
    Add to your source file(s) the grl include...
   </p>
-  <pre class="code">
-#include "grl.h"
+  <pre class="code">#include "grl.h"
 </pre>
 
   <p>
    At your program start you need to call...
   </p>
-  <pre class="code">
-if (!grlStart())
+  <pre class="code">if (!grlStart())
 {
    // Failed to start GRL.  Shutdown.
 }
@@ -134,8 +133,7 @@ if (!grlStart())
   <p>
    At your program exit you should call...
   </p>
-  <pre class="code">
-grlStop();
+  <pre class="code">grlStop();
 </pre>
   <p>
    grlStop() will display debug information like a leak report if you are doing leak checking with
@@ -158,17 +156,116 @@ grlStop();
    Otherwise assume it is not a possibility.
   </p>
 
-  <a name="Gi"><h2>Gi (Signed integer)</h2></a>
+  <a name="Gi"><h2>Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</h2></a>
   <pre class="code">typedef int8_t             Gi1;
 typedef int16_t            Gi2;
 typedef int32_t            Gi4;
 typedef int64_t            Gi8;
+typedef uint8_t            Gn1;
+typedef uint16_t           Gn2;
+typedef uint32_t           Gn4;
+typedef uint64_t           Gn8;
+typedef float              Gr4;
+typedef double             Gr8;
 </pre>
   <p>
    As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
-   not really common yet.  I could be wrong.  But like any other library, I define my own types
-   based on memory size for the time.  Instead of bits I use byte count.  And I really dislike 
-   "_t" suffix on C types.  I find "_" difficult to type.  Not that numbers are easy to type either.
+   not really common yet and I was using standard C types.  I could be wrong.  But like any other 
+   library, I define my own types based on memory size.  Instead of bits I use byte count.  
   </p>
+  <p>
+   <strong>i</strong> - Integer type.  (Signed integers)<br />
+   <strong>n</strong> - Natural type and 0.  (Unsigned integers)<br />
+   <strong>r</strong> - Real type.  (Floating point numbers)
+  </p>
+  <pre class="code">typedef void               Gp;
+typedef Gi8                Gi;
+typedef Gn8                Gn;
+typedef Gr8                Gr;
+  </pre>
+  <p>
+   Same as the above but the numberless versions represent the largest possible representation of
+   the type for the platform.  Which may not be the most efficient form for the types.
+  </p>
+  <pre class="code">typedef intptr_t           Gip;
+typedef uintptr_t          Gnp;
+</pre>
+  <p>
+   Pointer sized versions of integer and natural.
+  </p>
+  <pre class="code">typedef Gi4                Gih;
+typedef Gn4                Gnh;
+typedef Gr8                Grp;
+</pre>
+  <p>
+   Half size versions for the platform.
+  </p>
+
+  <pre class="code">#define GnMAX                 Gn8MAX
+#define GiMAX                 Gi8MAX
+#define GrMAX                 Gr8MAX
+#define GrMIN                 Gr8MIN
+
+#define Gi1MAX                INT8_MAX
+#define Gi1MIN                INT8_MIN
+#define Gi2MAX                INT16_MAX
+#define Gi2MIN                INT16_MIN
+#define Gi4MAX                INT32_MAX
+#define Gi4MIN                INT32_MIN
+#define Gi8MAX                INT64_MAX
+#define Gi8MIN                INT64_MIN
+
+#define Gn1MAX                UINT8_MAX
+#define Gn2MAX                UINT16_MAX
+#define Gn4MAX                UINT32_MAX
+#define Gn8MAX                UINT64_MAX
+
+#define Gr4MAX                FLT_MAX
+#define Gr4MIN                FLT_MIN
+#define Gr8MAX                DBL_MAX
+#define Gr8MIN                DBL_MIN
+
+#define GnpMAX                UINTPTR_MAX
+#define GipMAX                INTPTR_MAX
+</pre>
+  <p>
+   The limit constants for these types.  Not complete when it comes to Reals but I have not needed
+   the other constants just yet.
+  </p>
+
+  <a name="Gcount"><h2>Gcount, Gindex, Goffset, Gsize</h2></a>
+  <pre class="code">typedef Gi4                Gcount;
+typedef Gi4                Gindex;
+typedef Gi4                Goffset;
+typedef Gi4                Gsize;
+</pre>
+  <p>
+   These are common integer/natural types used in a lot of places.  These will be the most efficient
+   size for the platform and currently are integers and not naturals.  I initially tried naturals
+   but for some things, like offset, you need negative numbers.  For simplicity I kepts them 
+   integers.  If you end up in a situation where the efficient size integers is not enough range 
+   then you will have to do something else.
+  </p>
+  <p>
+   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
+   variable/parameter.  In this case, if I have a funciton that expects an offset then it is clear
+   what that variable intends to do.  You may not need to even look at the name of the variable.
+   So I use it as a form of making the code more clear.
+  </p>
+
+  <pre class="code">#define GcountMAX             Gi4MAX
+
+#define GindexERROR           Gi4MIN
+#define GindexMAX             Gi4MAX
+
+#define GoffsetMAX            Gi4MAX
+#define GoffsetMIN            Gi4MIN
+
+#define GsizeMAX              Gi4MAX
+</pre>
+  <p>
+   The limit constants for these types.  
+  </p>
+
  </body>
 </html>
