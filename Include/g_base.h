@@ -451,6 +451,17 @@ typedef Gi4                Gsize;
 // unsigned.
 typedef unsigned int       Gbit;
 
+// Id is a basic natural number.  Not the same as a GUID but meant to be used
+// in the same way in that it should be a unique number on other data.
+typedef Gn4                Gid;
+
+// GUID type.
+typedef struct
+{
+   Gn8             n[2];
+   Gn1             b[16];
+} Gguid;
+
 // Keys in data containers are always const pointers.  So in the generic sense
 // a key a void *
 typedef Gp                 Gkey;
@@ -460,10 +471,6 @@ typedef struct
    Gkey const              *key;
    Gp                      *value;
 } GkeyP;
-
-// Id is a basic natural number.  Not the same as a GUID but meant to be used
-// in the same way in that it should be a unique number on other data.
-typedef Gn4                Gid;
 
 // HashN is for hashing functions.  Hash resturns are naturals.
 typedef Gn4                GhashN;
@@ -531,13 +538,6 @@ typedef struct
       Gs          *s;
    }            value;
 } Gv; //lint !e960 !e9018
-
-// GUID type.
-typedef struct
-{
-   Gn8             n[2];
-   Gn1             b[16];
-} Gguid;
 
 // Common callback function patterns.
 typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);

@@ -19,9 +19,37 @@
    <li><a href="#use"     >How to use GRL library</a></li>
    <li><a href="#baseType">Base types</a></li>
    <ol>
-    <li><a href="#Gb"    >Gb (Boolean)</a></li>
-    <li><a href="#Gi"    >Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</a></li>
-    <li><a href="#Gcount">Gcount, Gindex, Goffset, Gsize</a></li>
+    <li><a href="#Gb"         >Gb (Boolean)</a></li>
+    <li><a href="#Gi"         >Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</a></li>
+    <li><a href="#Gcount"     >Gcount, Gindex, Goffset, Gsize</a></li>
+    <li><a href="#Gbit"       >Gbit</a></li>
+    <li><a href="#Gvp"        >Gvp</a></li>
+    <li><a href="#Gv"         >Gv, GvType</a></li>
+    <li><a href="#Gid"        >Gid</a></li>
+    <li><a href="#Gguid"      >Gguid</a></li>
+    <li><a href="#Gkey"       >Gkey</a></li>
+    <li><a href="#GkeyP"      >GkeyP</a></li>
+    <li><a href="#GhashN"     >GhashN</a></li>
+    <li><a href="#GheapN"     >GheapN</a></li>
+    <li><a href="#Char, Uchar">Char, Uchar</a></li>
+    <li><a href="#Galignment" >Galignment</a></li>
+    <li><a href="#Gcompare"   >Gcompare</a></li>
+    <li><a href="#Gposition"  >Gposition</a></li>
+    <li><a href="#G_Func"     >G*Func</a></li>
+   </ol>
+   <li><a href="#baseMacro">Base macroes</a></li>
+   <ol>
+    <li><a href="#gsizeof"  >gsizeof()</a></li>
+    <li><a href="#loop"     >for*(), loop*()</a></li>
+    <li><a href="#greturn"  >greturn()</a></li>
+    <li><a href="#return"   >return()</a></li>
+    <li><a href="#breakIf"  >breakIf(), continueIf()</a></li>
+    <li><a href="#gotoIf"   >gotoIf(), stopIf()</a></li>
+    <li><a href="#debugHalt">debugHalt(), debugHaltIf(), debugPrint(), debugCheckMemory()</a></li>
+    <li><a href="#genter"   >genter, greturn</a></li>
+    <li><a href="#gid"      >gid*()</a></li>
+    <li><a href="#g_IsGood" >gcountIsGood(), gindexIsGood(), gsizeIsGood()</a></li>
+    <li><a href="#gpHash"   >gpHash()</a></li>
    </ol>
   </ol>
 
@@ -61,14 +89,14 @@
 
   <h2>g_config.h</h2>
   <p>
-   In the source file g_config.h there are some flags at the top that you may wish to set for 
+   In the source file g_config.h there are some flags at the top that you may wish to set for
    different code to be compiled in.
   </p>
 
   <h3>GCHECK_MEMORY_IS_ON</h3>
   <p>
    Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call
-   a check on the sanity of the heap to be done.  On Windows this is a CRT function call.  
+   a check on the sanity of the heap to be done.  On Windows this is a CRT function call.
   </p>
   <p>
    You would use this if you are experiencing heap corruption and wanting to find out who might be
@@ -84,7 +112,7 @@
 
   <h3>GMEM_INCLUDES_TYPE_STRING</h3>
   <p>
-   Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is 
+   Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is
    stored with the dynamic memory in debug by default.  Sometimes this comes in handy when you are
    dealing with baffling dynamic memory pointer issues.
   </p>
@@ -152,7 +180,7 @@
 } Gb;</pre>
   <p>
    Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
-   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  
+   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
    Otherwise assume it is not a possibility.
   </p>
 
@@ -170,8 +198,8 @@ typedef double             Gr8;
 </pre>
   <p>
    As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
-   not really common yet and I was using standard C types.  I could be wrong.  But like any other 
-   library, I define my own types based on memory size.  Instead of bits I use byte count.  
+   not really common yet and I was using standard C types.  I could be wrong.  But like any other
+   library, I define my own types based on memory size.  Instead of bits I use byte count.
   </p>
   <p>
    <strong>i</strong> - Integer type.  (Signed integers)<br />
@@ -242,8 +270,8 @@ typedef Gi4                Gsize;
   <p>
    These are common integer/natural types used in a lot of places.  These will be the most efficient
    size for the platform and currently are integers and not naturals.  I initially tried naturals
-   but for some things, like offset, you need negative numbers.  For simplicity I kepts them 
-   integers.  If you end up in a situation where the efficient size integers is not enough range 
+   but for some things, like offset, you need negative numbers.  For simplicity I kepts them
+   integers.  If you end up in a situation where the efficient size integers is not enough range
    then you will have to do something else.
   </p>
   <p>
@@ -264,8 +292,223 @@ typedef Gi4                Gsize;
 #define GsizeMAX              Gi4MAX
 </pre>
   <p>
-   The limit constants for these types.  
+   The limit constants for these types.
   </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gbit"><h2>Gbit</h2></a>
+  <pre>typedef unsigned int       Gbit;
+</pre>
+  <p>
+   This is specific to bit fields in a struct.  Because every time using standard C types, I
+   forget the "unsigned" keyword.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gvp"><h2>Gvp</h2></a>
+  <pre>typedef union
+{
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
+} Gvp;
+</pre>
+  <p>
+   Generic value structure.  This is assuming, when you use this structure you know what is stored
+   inside.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gv"><h2>Gv, GvType</h2></a>
+  <pre>typedef enum
+{
+   gvTypeNONE,
+
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
+
+   gvTypeS,
+
+   gvTypeCOUNT
+} GvType;
+
+typedef struct
+{
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
+} Gv; //lint !e960 !e9018
+</pre>
+  <p>
+   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
+   that I wrote up.  The type is to identify what actual value is stored in the generic value
+   structure.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gid"><h2>Gid</h2></a>
+  <pre>typedef Gn4                Gid;
+</pre>
+  <p>
+   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gguid"><h2>Gguid</h2></a>
+  <pre>typedef struct
+{
+   Gn8             n[2];
+   Gn1             b[16];
+} Gguid;
+</pre>
+  <p>
+   GUID type wrapper.  Using system calls to handle GUIDs.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gkey"><h2>Gkey</h2></a>
+  <pre>typedef Gp                 Gkey;
+</pre>
+  <p>
+   The general idea of a key for use in key value pais for the data containers.  A key will always
+   be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="GkeyP"><h2>GkeyP</h2></a>
+  <pre>typedef struct
+{
+   Gkey const              *key;
+   Gp                      *value;
+} GkeyP;
+</pre>
+  <p>
+   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
+   the value.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="GhashN"><h2>GhashN</h2></a>
+  <pre>typedef Gn4                GhashN;
+</pre>
+  <p>
+   The data type that all hash functions will return.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="GheapN"><h2>GheapN</h2></a>
+  <pre>typedef Gn4                GheapN;
+</pre>
+  <p>
+   The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
+   implementation.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Char, Uchar"><h2>Char, Uchar</h2></a>
+  <pre>typedef signed char        Char;
+typedef unsigned char      Uchar;
+</pre>
+  <p>
+   Not usually types I use.  However I define these because I am using PCLint program to keep the
+   code somewhat clean of issues.  One of the things with PCLint is that it warns about using char
+   and unsigned char so I have these defined to avoid the issue.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Galignment"><h2>Galignment</h2></a>
+  <pre>typedef enum
+{
+   galignmentDEFAULT    = 0,
+
+   galignmentH_LEFT     = 0x10000000,
+   galignmentH_CENTER   = 0x01000000,
+   galignmentH_FILL     = 0x00100000,
+   galignmentH_RIGHT    = 0x00010000,
+
+   galignmentV_TOP      = 0x00001000,
+   galignmentV_CENTER   = 0x00000100,
+   galignmentV_FILL     = 0x00000010,
+   galignmentV_BOTTOM   = 0x00000001,
+
+   galignmentH_MASK     = 0xFFFF0000u,
+   galignmentV_MASK     = 0x0000FFFF
+} Galignment;
+</pre>
+  <p>
+   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
+   to define one type to cover them all.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gcompare"><h2>Gcompare</h2></a>
+  <pre>typedef enum
+{
+   gcompareLESS_THAN    = -1,
+   gcompareEQUAL        =  0,
+   gcompareGREATER_THAN =  1,
+   gcompareUNKNOWN      =  2
+} Gcompare;
+</pre>
+  <p>
+   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
+   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
+   be made very clear.  I may remove it in the future.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="Gposition"><h2>Gposition</h2></a>
+  <pre>typedef enum
+{
+   gpositionSTART   = SEEK_SET,
+   gpositionEND     = SEEK_END,
+   gpositionCURRENT = SEEK_CUR
+} Gposition;
+</pre>
+  <p>
+   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
+   situations.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <a name="G_Func"><h2>G*Func</h2></a>
+  <pre>typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
+typedef void       (*GrlDestroyFunc)(        Gp       * const value);
+typedef void       (*GrlForEachFunc)(        Gp       * const value);
+typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
+typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
+typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
+typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
+typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
+typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
+</pre>
+  <p>
+   Various function types for callbacks.
+  </p>
+  <p>
+   <strong>Compare</strong> - Used for comparing to items together.<br />
+   <strong>Destroy</strong> - Used to clean up dynamic memory.<br />
+   <strong>ForEach</strong> - Used in a ForEach function call to perform an action on each item.<br />
+   <strong>ForEachKey</strong> - Used on a ForEach function with a key value container.<br />
+   <strong>ForEachProcess</strong> - <br />
+   <strong>ForEachAlt</strong> - <br />
+   <strong>Get</strong> - A form of array/buffer access function.<br />
+   <strong>Hash</strong> - Obtain a hash value of something.<br />
+   <strong>Swap</strong> - Swap two values in a form of array/buffer.
+  </p>
+
+
+
+
 
  </body>
 </html>
