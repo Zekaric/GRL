@@ -48,9 +48,10 @@ extern "C" {
 /******************************************************************************
 prototype:
 ******************************************************************************/
-grlAPI Gb       gguidIsEqual(    Gguid const a, Gguid const b);
-grlAPI Gguid    gguidMake(       void);
-grlAPI Gguid    gguidMakeFromA(  Char const * const string);
+grlAPI void     gguidCreateContent(       Gguid * const guid);
+grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
+
+grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
 
 /*****************************************************************************/
 #ifdef __cplusplus
