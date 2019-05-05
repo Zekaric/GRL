@@ -94,6 +94,7 @@ pre {
    margin-top:       1.0rem;
    margin-bottom:    1.0rem;
    margin-left:      3.0rem;
+   margin-right:     3.0rem;
    border:           1px solid gray;
    border-radius:    0.5rem;
    padding:          0.5rem;
@@ -110,7 +111,14 @@ ul, ol {
    margin-left:      3.5rem;
 }
 
-ul.ul, ol.ol {
+ul ul, ol ol {
    font-size:        1.0rem;
-   margin-left:      4.5rem;
+   margin-bottom:    0.0rem;
+   margin-left:      1.5rem;
+}
+
+ul ul ul, ol ol ol {
+   font-size:        1.0rem;
+   margin-bottom:    0.0rem;
+   margin-left:      1.5rem;
 }

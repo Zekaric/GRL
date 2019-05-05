@@ -5,90 +5,290 @@
   <link rel="stylesheet" type="text/css" href="style_reset.css">
   <link rel="stylesheet" type="text/css" href="style.css">
   <title>G.R.L: Groot's Runtime Library</title>
+
+  <!-- Script for generation a table of contents -->
+  <script>
+const indexLEVEL     = 0;
+const indexTAG       = 1;
+const indexTITLE     = 2;
+const indexHAS_TYPE  = 3;
+const indexHAS_CONST = 4;
+const indexHAS_FUNC  = 5;
+const indexCOUNT     = 6;
+
+var tocIndex = 0;
+var toc      = [];
+
+// Display a header line and add to the table of contents (TOC)
+function HeaderAdd(level, tag, title)
+{
+   var record = [];
+   
+   record[indexLEVEL]     = level;
+   record[indexTAG]       = tag;
+   record[indexTITLE]     = title;
+   record[indexHAS_TYPE]  = false;
+   record[indexHAS_CONST] = false;
+   record[indexHAS_FUNC]  = false;
+
+   toc.push(record);
+
+   // Chrome complains about this document write.  I have looked for an alternative but everything
+   // I have found is utter rubbish.  HeaderAdd is only called on doc load.  This call is not a
+   // problem.
+   document.write("<h" + level + "><a name=\"" + tag + "\">" + title + "</a></h" + level + ">\n\n");
+}
+
+function HeaderAddType()
+{
+   var record = toc[toc.length - 1];
+
+   record[indexHAS_TYPE] = true;
+
+   document.write("<h2><a name=\"" + record[indexTAG] + "Type\">Type</a></h2>\n\n");
+}
+
+function HeaderAddConst()
+{
+   var record = toc[toc.length - 1];
+
+   record[indexHAS_CONST] = true;
+
+   document.write("<h2><a name=\"" + record[indexTAG] + "Const\">Constant</a></h2>\n\n");
+}
+
+function HeaderAddFunc()
+{
+   var record = toc[toc.length - 1];
+
+   record[indexHAS_FUNC] = true;
+
+   document.write("<h2><a name=\"" + record[indexTAG] + "Func\">Function</a></h2>\n\n");
+}
+
+// Update the TOC with all the header lines.
+function UpdateToc()
+{
+   var value;
+   var record;
+   var index;
+
+   value = "<table>\n";
+
+   for (; tocIndex < toc.length; tocIndex++)
+   {
+      record     = toc[tocIndex];
+    
+      value += "<tr>\n<td>";
+    
+      // Indenting
+      for (index = 1; index < record[0]; index++)
+      {
+         value += "&nbsp;&nbsp;&nbsp;&nbsp;";
+      }
+
+      value += "<a href=\"#" + record[1] + "\">" + record[2] + "</a></td>\n";
+      
+      value += "<td>";
+      if (record[indexHAS_TYPE] == 1)
+      {
+         value += "<a href=\"#" + record[1] + "Type\">Type</a>\n";
+      }
+      value += "</td>\n";
+      
+      value += "<td>";
+      if (record[indexHAS_CONST] == 1)
+      {
+         value += "<a href=\"#" + record[1] + "Const\">Constant</a>\n";
+      }
+      value += "</td>\n";
+
+      value += "<td>";
+      if (record[indexHAS_TYPE] == 1)
+      {
+         value += "<a href=\"#" + record[1] + "Func\">Function</a>\n";
+      }
+      value += "</td>\n";
+
+      value += "</td>\n";
+   }
+
+   value += "</table>\n";
+
+   document.getElementById("toc").innerHTML = value;
+}
+  </script>
  </head>
  <body>
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <h1 class="page">G.R.L.: Groot's Runtime Library</h1>
+
+  <p>
+   This doc is in development so it will change quite a lot from update to update.  I am using
+   Visual Studio for editing the doc.  Tabs are 4 but indents are 1 and spaces instead of tabs.
+  </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
   <h2>Table Of Contenst:</h2>
-  <ol>
-   <li><a href="index.htm">About G.R.L.</a></li>
-   <li><a href="#compile" >How to compile GRL library</a></li>
-   <li><a href="#link"    >How to compile with GRL libary</a></li>
-   <li><a href="#use"     >How to use GRL library</a></li>
-   <li><a href="#style"   >Style</a></li>
-   <li>
-    <a href="#baseType">Base types</a>
-    <ol>
-     <li><a href="#Gb"         >Gb (Boolean)</a></li>
-     <li><a href="#Gi"         >Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</a></li>
-     <li><a href="#Gcount"     >Gcount, Gindex, Goffset, Gsize</a></li>
-     <li><a href="#Gbit"       >Gbit</a></li>
-     <li><a href="#Gvp"        >Gvp</a></li>
-     <li><a href="#Gv"         >Gv, GvType</a></li>
-     <li><a href="#Gid"        >Gid</a></li>
-     <li><a href="#Gkey"       >Gkey</a></li>
-     <li><a href="#GkeyP"      >GkeyP</a></li>
-     <li><a href="#GhashN"     >GhashN</a></li>
-     <li><a href="#GheapN"     >GheapN</a></li>
-     <li><a href="#Char"       >Char, Uchar</a></li>
-     <li><a href="#Galignment" >Galignment</a></li>
-     <li><a href="#Gcompare"   >Gcompare</a></li>
-     <li><a href="#Gposition"  >Gposition</a></li>
-     <li><a href="#G_Func"     >G*Func</a></li>
-    </ol>
-   </li>
-   <li>
-    <a href="#baseMacro">Base macroes</a>
-    <ol>
-     <li><a href="#gsizeof"    >gsizeof()</a></li>
-     <li><a href="#for"        >for*(), loop*()</a></li>
-     <li><a href="#greturn"    >greturn()</a></li>
-     <li><a href="#return"     >return()</a></li>
-     <li><a href="#breakIf"    >breakIf(), continueIf()</a></li>
-     <li><a href="#gotoIf"     >gotoIf(), stopIf()</a></li>
-     <li><a href="#debugHalt"  >debugHalt(), debugHaltIf(), debugPrint(), debugCheckMemory()</a></li>
-     <li><a href="#genter"     >genter, greturn</a></li>
-     <li><a href="#gid"        >gid*()</a></li>
-     <li><a href="#g_IsGood"   >gcountIsGood(), gindexIsGood(), gsizeIsGood()</a></li>
-     <li><a href="#gpHash"     >gpHash()</a></li>
-    </ol>
-   </li>
-   <li>
-    <a href="#Gguid">Gguid</a>
-    <ol>
-     <li><a href="#GguidType">Type</a></li>
-     <li><a href="#GguidFunc">Function</a></li>
-    </ol>
-   </li>
-  </ol>
+
+  <p id="toc"></p>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name"compile">How to compile GRL library</a></h1>
+  <script>HeaderAdd(1, "about", "About G.R.L.");</script>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "aboutDesc", "Description");</script>
+
+  <p>G.R.L. (Girl) is a C kitchen sink library to make development easier.</p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "aboutHist", "History");</script>
+
+  <p>
+   I joined a company back in 1995 that created software for Sun OS, Sun Solaris, SGI Irix, and
+   Window NT 3.XX. In order for them to do that they used a cross platform library called Galaxy
+   which was owned by a company called Visix. A little time after Java came on to the scene and a
+   Visix thought that was going to be the future of cross platform development. They let Galaxy
+   stagnate and focused on a Java product they developed. Moving on a few years the Java product
+   did not sell well (I believe, no facts to back it up) and their bread and butter clients using
+   Galaxy were moving on as their products were becoming stagnant because Galaxy was not keeping
+   up with the times. Visix just decided to pack up and quit.
+  </p>
+
+  <p>
+   Galaxy is now owned by a Brazilian company called Ambiencia which appeared to have no interest
+   in supporting any of the existing clients (without the clients to pay for yet another round
+   of licensing to them even though a lot already paid a lot to Visix) and so essentially killed
+   any chance for Galaxy to move on. It is still around but no one should use it anymore in my
+   opinion. QT, Microsoft's WPF, Xamarin, and others have surpassed Galaxy.
+  </p>
+
+  <p>
+   QT did exist at the same time when the company was looking for a cross platform library but it
+   was very small back then and not as complete as Galaxy was. Plus C++ compilers back then were
+   not the same quality from platform to platform. Also the developers the company had already,
+   mostly FORTRAN programmers, would have a harder jump to C++ than to C.  Or at least that was
+   the feeling at the time.
+  </p>
+
+  <p>
+   This left us in a bit of a lurch. So on a whim, back in and around 2000, I started to make a
+   kitchen sink library to replace Galaxy on my own time at home, in the hopes it would be adopted
+   by the company. It never was.  They opted to move to C++ and its standard library instead.
+   However, I use this library in my hobby coding so I still continue with the development of the
+   library.  This library has gone through a couple of iterations as I was playing with a few ideas
+   which some just did not work out.
+  </p>
+
+  <p>
+   Why not just wrap C++ stdlib for this work instead of writing everything again in C?  That is
+   also an option when doing something like this.  I did not do it that way because I am not a big
+   fan of C++.  I also like control.  I want to be able to tweak the implementation and not leave
+   it in someone else's hands.  Yeah, yeah, reinventing the wheel.  But sometimes it is necessary
+   to be happy.
+  </p>
+
+  <p>
+   Initially GRL stood for "Galaxy Replacement Library" but since it was not going to be doing that
+   in reality, I just decided to rebrand it (de) "Groot's Runtime Library".  For the longest time I
+   wanted to hopefully make money of this code but in my opinion that time has long since past.  So
+   I decided to make it free for use.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "aboutLic", "License");</script>
+
+  <pre>
+BSD 2-Clause License
+
+Copyright (c) 2000, Robbert de Groot
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</pre>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "aboutGoal", "Goals");</script>
+
+  <ul>
+   <li>
+    Kitchen sink library.  It should do 'almost' everything you need for development.
+   </li>
+   <li>
+    Simplify API.  Some tasks networking with socket IO I find has an odd API or unknown gotchas
+    that you will only find out once you hit them or have carefully read the fine detail in the
+    documentation.  I would like to get rid of as much of those gotchas as possible.
+   </li>
+   <li>
+    Cross platform.  Currently failing here because I am only adding to the library when the need
+    arrises.  OSX and *NIX OSes will eventually come but currently, I spend most of my life in
+    WINDOWS.
+   </li>
+   <li>
+    Performance.  The library should not really slow you down in terms of coding or in terms of
+    run time.  There are always going to be some compromises but for the most part it should be
+    out of the way and not causing grief.
+   </li>
+  </ul>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "compileLib", "How to compile GRL library");</script>
+
   <p>
    I do not use helpers like CMake.  Mainly because I have not found one that is not annoying
    to me on some way.  So with this project there will be a...
   </p>
+
   <ul>
    <li>Visual Studio project(s) for a Windows compile.</li>
    <li>XCode project for OSX compiles (once done)</li>
    <li>Make file(s) or whatever for *NIX compiles (once done)</li>
   </ul>
+
   <p>
    Find the appropriate solution for you and compile.
   </p>
+
   <p>
    The library compiles to a static library instead of a DLL or shared library.  If you want a DLL
    or shared libary then you will have to do the work yourself.  I like to keep my life simple and
    just use static libraries as there is less pain involved when it comes time to release.
   </p>
+
   <p>
    When you build the library you will need to provide some compile time defines.
   </p>
+
   <ul>
    <li>
     <strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform
@@ -100,45 +300,57 @@
    </li>
    <li><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
   </ul>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2>g_config.h</h2>
+  <script>HeaderAdd(2, "conpileLibGconfig", "g_config.h");</script>
+
   <p>
    In the source file g_config.h there are some flags at the top that you may wish to set for
    different code to be compiled in.
   </p>
+
   <!---------------------------------------------------------------------------------------------->
-  <h3>GCHECK_MEMORY_IS_ON</h3>
+  <script>HeaderAdd(3, "compileLibGCHECK", "GCHECK_MEMORY_IS_ON");</script>
+
   <p>
    Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call
    a check on the sanity of the heap to be done.  On Windows this is a CRT function call.
   </p>
+
   <p>
    You would use this if you are experiencing heap corruption and wanting to find out who might be
    corrupting the heap or at least narrow it down to when the Heap was good to when it became bad in
    an effort to narrow down your search.
   </p>
+
   <!---------------------------------------------------------------------------------------------->
-  <h3>GTRACE_IS_ON</h3>
-  <p>
-   Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all
-   of the functions that were called assuming genter and greturn* were used in the code.
-  </p>
-  <!---------------------------------------------------------------------------------------------->
-  <h3>GMEM_INCLUDES_TYPE_STRING</h3>
+  <script>HeaderAdd(3, "compilerLibGMEM", "GMEM_INCLUDES_TYPE_STRING");</script>
+
   <p>
    Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is
    stored with the dynamic memory in debug by default.  Sometimes this comes in handy when you are
    dealing with baffling dynamic memory pointer issues.
   </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <script>HeaderAdd(3, "compileLibGTRACE", "GTRACE_IS_ON");</script>
+
+  <p>
+   Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all
+   of the functions that were called assuming genter and greturn* were used in the code.
+  </p>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name"link">How to compile with GRL library</a></h1>
+  <script>HeaderAdd(1, "compileExe", "How to compile with GRL library");</script>
+
   <p>
    When you build your project and you intend to use this library, you will need to provide some
    compile time defines.
   </p>
+
   <ul>
    <li>
     <strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform
@@ -150,409 +362,209 @@
    </li>
    <li><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
   </ul>
+
   <p>
    Add the grl.lib and grl include path to your build.
   </p>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name="use">How to use GRL library</a></h1>
+  <script>HeaderAdd(1, "use", "How to use GRL library");</script>
+
   <p>
    Add to your source file(s) the grl include...
   </p>
-  <pre>#include "grl.h"
+
+  <pre>
+#include "grl.h"
 </pre>
+
   <p>
    At your program start you need to call...
   </p>
-  <pre>if (!grlStart())
+
+  <pre>
+if (!grlStart())
 {
    // Failed to start GRL.  Shutdown.
 }
 </pre>
+
   <p>
    grlStart() will set up internal states of the library.  Failure to do this will cause problems.
   </p>
+
   <p>
    At your program exit you should call...
   </p>
-  <pre>grlStop();
+
+  <pre>
+grlStop();
 </pre>
+
   <p>
    grlStop() will display debug information like a leak report if you are doing leak checking with
    GRL.  It is not strictly necessary to call but it would be a wise thing to do in my opinion.
   </p>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name="baseType">Base types</a></h1>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gb">Gb (Boolean)</a></h2>
-  <pre>typedef enum
-{
-   gbFALSE              =  0,
-   gbTRUE               =  1,
-   gbUNDEFINED          = -1
-} Gb;</pre>
-  <p>
-   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
-   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
-   Otherwise assume it is not a possibility.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gi">Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)</a></h2>
-  <pre>typedef int8_t             Gi1;
-typedef int16_t            Gi2;
-typedef int32_t            Gi4;
-typedef int64_t            Gi8;
-typedef uint8_t            Gn1;
-typedef uint16_t           Gn2;
-typedef uint32_t           Gn4;
-typedef uint64_t           Gn8;
-typedef float              Gr4;
-typedef double             Gr8;
-</pre>
-  <p>
-   As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
-   not really common yet and I was using standard C types.  I could be wrong.  But like any other
-   library, I define my own types based on memory size.  Instead of bits I use byte count.
-  </p>
-  <p>
-   <strong>i</strong> - Integer type.  (Signed integers)<br />
-   <strong>n</strong> - Natural type and 0.  (Unsigned integers)<br />
-   <strong>r</strong> - Real type.  (Floating point numbers)
-  </p>
-  <pre>typedef void               Gp;
-typedef Gi8                Gi;
-typedef Gn8                Gn;
-typedef Gr8                Gr;
-  </pre>
-  <p>
-   Same as the above but the numberless versions represent the largest possible representation of
-   the type for the platform.  Which may not be the most efficient form for the types.
-  </p>
-  <pre>typedef intptr_t           Gip;
-typedef uintptr_t          Gnp;
-</pre>
-  <p>
-   Pointer sized versions of integer and natural.
-  </p>
-  <pre>typedef Gi4                Gih;
-typedef Gn4                Gnh;
-typedef Gr8                Grp;
-</pre>
-  <p>
-   Half size versions for the platform.
-  </p>
-  <pre>#define GnMAX                 Gn8MAX
-#define GiMAX                 Gi8MAX
-#define GrMAX                 Gr8MAX
-#define GrMIN                 Gr8MIN
+  <script>HeaderAdd(1, "style", "Style");</script>
 
-#define Gi1MAX                INT8_MAX
-#define Gi1MIN                INT8_MIN
-#define Gi2MAX                INT16_MAX
-#define Gi2MIN                INT16_MIN
-#define Gi4MAX                INT32_MAX
-#define Gi4MIN                INT32_MIN
-#define Gi8MAX                INT64_MAX
-#define Gi8MIN                INT64_MIN
+  <p>
+   I use a particular style with GRL and my own coding.  With this style is makes identifying what
+   something is fairly easily.
+  </p>
 
-#define Gn1MAX                UINT8_MAX
-#define Gn2MAX                UINT16_MAX
-#define Gn4MAX                UINT32_MAX
-#define Gn8MAX                UINT64_MAX
+  <p>
+   Naming convention being used.
+  </p>
 
-#define Gr4MAX                FLT_MAX
-#define Gr4MIN                FLT_MIN
-#define Gr8MAX                DBL_MAX
-#define Gr8MIN                DBL_MIN
+  <pre>
+Program Global:
+Constant:        prefixTypeNameCONSTANT_VALUE
+Type:            PrefixTypeName
+Variable:        [There are none.  Use a module global and a function to manipulate it.]
+Function:        prefixFuncionName()
 
-#define GnpMAX                UINTPTR_MAX
-#define GipMAX                INTPTR_MAX
-</pre>
-  <p>
-   The limit constants for these types.  Not complete when it comes to Reals but I have not needed
-   the other constants just yet.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gcount">Gcount, Gindex, Goffset, Gsize</a></h2>
-  <pre>typedef Gi4                Gcount;
-typedef Gi4                Gindex;
-typedef Gi4                Goffset;
-typedef Gi4                Gsize;
-</pre>
-  <p>
-   These are common integer/natural types used in a lot of places.  These will be the most efficient
-   size for the platform and currently are integers and not naturals.  I initially tried naturals
-   but for some things, like offset, you need negative numbers.  For simplicity I kepts them
-   integers.  If you end up in a situation where the efficient size integers is not enough range
-   then you will have to do something else.
-  </p>
-  <p>
-   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
-   variable/parameter.  In this case, if I have a funciton that expects an offset then it is clear
-   what that variable intends to do.  You may not need to even look at the name of the variable.
-   So I use it as a form of making the code more clear.
-  </p>
-  <pre>#define GcountMAX             Gi4MAX
+Libary Global:
+Function:        _prefixFunctionName
 
-#define GindexERROR           Gi4MIN
-#define GindexMAX             Gi4MAX
+Module Global:
+Variable:        static ... _variableName
+Function:        static ... _FunctionName
 
-#define GoffsetMAX            Gi4MAX
-#define GoffsetMIN            Gi4MIN
+Function Levle:
+Varaible:        variableName
+</pre>
 
-#define GsizeMAX              Gi4MAX
-</pre>
   <p>
-    The limit constants for these types.
+   prefix being a string that identifies what part of the code it belongs to.  like glist for
+   linked lists for example.
   </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
- <h2><a name="Gbit">Gbit</a></h2>
-  <pre>typedef unsigned int       Gbit;
-</pre>
-  <p>
-   This is specific to bit fields in a struct.  Because every time using standard C types, I
-   forget the "unsigned" keyword.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gvp">Gvp</a></h2>
-  <pre>typedef union
-{
-   Gip             i;
-   Gnp             n;
-   Gp             *p;
-   Grp             r;
-} Gvp;
-</pre>
-  <p>
-   Generic value structure.  This is assuming, when you use this structure you know what is stored
-   inside.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gv">Gv, GvType</a></h2>
-  <pre>typedef enum
-{
-   gvTypeNONE,
 
-   gvTypeI,
-   gvTypeN,
-   gvTypeP,
-   gvTypeR,
+  <p>
+   The capitalization is important.  I dislike the use of '_' because I find it annoying to type so
+   I heavily use CamelCasing to differentiate the words in a name.  Starting letter may or may not
+   be capitalized and it is specific to usage.
+  </p>
 
-   gvTypeS,
+  <p>
+   The idea is that by just by looking at a name of something you should be able to tell the scope
+   of what you are looking at without having to find our where it was actually defined.
+  </p>
 
-   gvTypeCOUNT
-} GvType;
+  <p>
+   Also on a little of the OCD side, I organize the C files so that I have sections, in order,
+   includes, constants, types, variables, local function prototypes, global function definitions,
+   local function definitions.  Simlar H files are ordered, includes (if needed), constants, types,
+   and glocal function prototypes.
+  </p>
 
-typedef struct
-{
-   GvType       type;
-   union
-   {
-      Gip          i;
-      Gnp          n;
-      Gp          *p;
-      Grp          r;
-      Gs          *s;
-   }            value;
-} Gv; //lint !e960 !e9018
-</pre>
-  <p>
-   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
-   that I wrote up.  The type is to identify what actual value is stored in the generic value
-   structure.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gid">Gid</a></h2>
-  <pre>typedef Gn4                Gid;
-</pre>
-  <p>
-   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gkey">Gkey</a></h2>
-  <pre>typedef Gp                 Gkey;
-</pre>
-  <p>
-   The general idea of a key for use in key value pais for the data containers.  A key will always
-   be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="GkeyP">GkeyP</a></h2>
-  <pre>typedef struct
-{
-   Gkey const              *key;
-   Gp                      *value;
-} GkeyP;
-</pre>
-  <p>
-   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
-   the value.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="GhashN">GhashN</a></h2>
-  <pre>typedef Gn4                GhashN;
-</pre>
-  <p>
-   The data type that all hash functions will return.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="GheapN">GheapN</a></h2>
-  <pre>typedef Gn4                GheapN;
-</pre>
-  <p>
-   The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
-   implementation.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Char">Char, Uchar</a></h2>
-  <pre>typedef signed char        Char;
-typedef unsigned char      Uchar;
-</pre>
-  <p>
-   Not usually types I use.  However I define these because I am using PCLint program to keep the
-   code somewhat clean of issues.  One of the things with PCLint is that it warns about using char
-   and unsigned char so I have these defined to avoid the issue.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Galignment">Galignment</a></h2>
-  <pre>typedef enum
-{
-   galignmentDEFAULT    = 0,
 
-   galignmentH_LEFT     = 0x10000000,
-   galignmentH_CENTER   = 0x01000000,
-   galignmentH_FILL     = 0x00100000,
-   galignmentH_RIGHT    = 0x00010000,
 
-   galignmentV_TOP      = 0x00001000,
-   galignmentV_CENTER   = 0x00000100,
-   galignmentV_FILL     = 0x00000010,
-   galignmentV_BOTTOM   = 0x00000001,
 
-   galignmentH_MASK     = 0xFFFF0000u,
-   galignmentV_MASK     = 0x0000FFFF
-} Galignment;
-</pre>
-  <p>
-   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
-   to define one type to cover them all.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gcompare">Gcompare</a></h2>
-  <pre>typedef enum
-{
-   gcompareLESS_THAN    = -1,
-   gcompareEQUAL        =  0,
-   gcompareGREATER_THAN =  1,
-   gcompareUNKNOWN      =  2
-} Gcompare;
-</pre>
-  <p>
-   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
-   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
-   be made very clear.  I may remove it in the future.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="Gposition">Gposition</a></h2>
-  <pre>typedef enum
-{
-   gpositionSTART   = SEEK_SET,
-   gpositionEND     = SEEK_END,
-   gpositionCURRENT = SEEK_CUR
-} Gposition;
-</pre>
-  <p>
-   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
-   situations.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="G_Func">G*Func</a></h2>
-  <pre>typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
-typedef void       (*GrlDestroyFunc)(        Gp       * const value);
-typedef void       (*GrlForEachFunc)(        Gp       * const value);
-typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
-typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
-typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
-typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
-typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
-typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
-</pre>
-  <p>
-   Various function types for callbacks.
-  </p>
-  <p>
-   <strong>Compare</strong> - Used for comparing to items together.<br />
-   <strong>Destroy</strong> - Used to clean up dynamic memory.<br />
-   <strong>ForEach</strong> - Used in a ForEach function call to perform an action on each item.<br />
-   <strong>ForEachKey</strong> - Used on a ForEach function with a key value container.<br />
-   <strong>ForEachProcess</strong> - <br />
-   <strong>ForEachAlt</strong> - <br />
-   <strong>Get</strong> - A form of array/buffer access function.<br />
-   <strong>Hash</strong> - Obtain a hash value of something.<br />
-   <strong>Swap</strong> - Swap two values in a form of array/buffer.
-  </p>
+
+
+
+
+
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name="baseMacro">Base macroes</a></h1>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="gsizeof">gsizeof()</a></h2>
-  <pre>#define gsizeof(V)         ((Gsize) sizeof(V))</pre>
+  <script>HeaderAdd(1, "macro", "Macroes");</script>
+
   <p>
-   Wrapper for sizeof function.
-  </p> 
+   You may find some or all of these macroes curious or infuriating.  I use them for the reason of
+   better code readability (subjective I know) and better coding experience, reducing tired
+   programmer mistakes and related.  You do not have to use any of these but I use them a lot in
+   my own coding.
+  </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2><a name="for">for*(), loop*()</a></h2>
-  <pre>#define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
+  <script>HeaderAdd(2, "breakIf", "breakIf(), continueIf()");</script>
+  <pre>
+#define continueIf(C)      if ((C)) { continue; }
+#define breakIf(C)         if ((C)) { break; }
+</pre>
+
+  <p>
+   Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and
+   slightly less typing.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "debugHalt", "debugHalt(), debugHaltIf(), debugPrint(), debugCheckMemory()");</script>
+
+  <pre>
+#define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
+#define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
+#define debugPrint(WSTR)            OutputDebugString(WSTR)
+#define debugCheckMemory()    _CrtCheckMemory();
+</pre>
+
+  <p>
+   Some debug helpers.  These will not be present in a release build of the program.
+  </p>
+
+  <p>
+   Halt is calling assert().  I just find it easier to read than using the assert() function call.
+  </p>
+
+  <p>
+   Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.
+   Nothing specific for OSX and Linux yet.
+  </p>
+
+  <p>
+   CheckMemory will test the dynamic heap for corruption.  This can be handy when trying to find
+   memory corruption.  Sprinkle these functions around your code where you think the corruption
+   may be happening.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "for", "for*(), loop*()");</script>
+
+  <pre>
+#define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
 #define forCountDown(INDEX, COUNT)  for ((INDEX) = (COUNT) - 1; (INDEX) >= (COUNT); (INDEX) -= 1)
 #define loop                        for (;;)
 #define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
 #define loopOnce                    for (int __index__ = 0; __index__ < 1; __index__++)
 </pre>
+
   <p>
    Wrappers for loops.  You may find these curious but I find these save me some headaches as they
    reduce errors like bad increment and such.  Plus I find they are easier to read.
   </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2><a name="greturn">greturn()</a></h2>
-  <pre>#define greturnIf(C,V)     if ((C)) { greturn (V); }
-#define greturn0If(C)      if ((C)) { greturn 0; }
-#define greturn1If(C)      if ((C)) { greturn 1; }
-#define greturnVoidIf(C)   if ((C)) { greturn; }
-#define greturnNullIf(C)   if ((C)) { greturn NULL; }
-#define greturnTrueIf(C)   if ((C)) { greturn gbTRUE; }
-#define greturnFalseIf(C)  if ((C)) { greturn gbFALSE; }
+  <script>HeaderAdd(2, "gotoIf", "gotoIf(), stopIf()");</script>
+
+  <pre>
+#define gotoIf(C,G)        if ((C)) { goto G; }
+#define stopIf(C)          if ((C)) { goto STOP; }
 </pre>
+
   <p>
-   Wrappers for common return cases.  Makes for easier to read code in my opinion and slightly less
-   typing.  These call greturn while matches genter.
+   Wrappers for goto calls.  If you need to use these, use them sparingly and only forward jumps
+   to a equal or higher level scope.  Do not jump into another scope.  Sometimes it is useful for
+   simple exception like handling.  Stop if will jump to the label STOP.
   </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2><a name="return">return()</a></h2>
-  <pre>#define returnIf(C,V)      if ((C)) { return (V); }
+  <script>HeaderAdd(2, "return", "return*()");</script>
+
+  <pre>
+#define returnIf(C,V)      if ((C)) { return (V); }
 #define return0If(C)       if ((C)) { return 0; }
 #define return1If(C)       if ((C)) { return 1; }
 #define returnVoidIf(C)    if ((C)) { return; }
@@ -560,58 +572,18 @@ typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const ind
 #define returnTrueIf(C)    if ((C)) { return gbTRUE; }
 #define returnFalseIf(C)   if ((C)) { return gbFALSE; }
 </pre>
+
   <p>
-   Basic return equivalents to greturn.  These do not call greturn and so are not paired with 
+   Basic return equivalents to greturn.  These do not call greturn and so are not paired with
    genter.
   </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2><a name="breakIf">breakIf(), continueIf()</a></h2>
-  <pre>#define continueIf(C)      if ((C)) { continue; }
-#define breakIf(C)         if ((C)) { break; }
-</pre>
-  <p>
-   Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and 
-   slightly less typing.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="gotoIf">gotoIf(), stopIf()</a></h2>
-  <pre>#define gotoIf(C,G)        if ((C)) { goto G; }
-#define stopIf(C)          if ((C)) { goto STOP; }
-</pre>
-  <p>
-   Wrappers for goto calls.  If you need to use these, use them sparingly and only forward jumps
-   to a equal or higher level scope.  Do not jump into another scope.  Sometimes it is useful for
-   simple exception like handling.  Stop if will jump to the label STOP.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="debugHalt">debugHalt(), debugHaltIf(), debugPrint(), debugCheckMemory()</a></h2>
-  <pre>#define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
-#define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
-#define debugPrint(WSTR)            OutputDebugString(WSTR)
-#define debugCheckMemory()    _CrtCheckMemory();
-</pre>
-  <p>
-   Some debug helpers.  These will not be present in a release build of the program.  
-  </p>
-  <p>
-   Halt is calling assert().  I just find it easier to read than using the assert() function call.
-  </p>
-  <p>
-   Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.
-   Nothing specific for OSX and Linux yet.
-  </p>
-  <p>
-   CheckMemory will test the dynamic heap for corruption.  This can be handy when trying to find
-   memory corruption.  Sprinkle these functions around your code where you think the corruption
-   may be happening.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="genter">genter, greturn</a></h2>
-  <pre>#if 0 // kept in case I need to revisit.
+  <script>HeaderAdd(2, "genter", "genter, greturn");</script>
+
+  <pre>
+#if 0 // kept in case I need to revisit.
 #if   (GPROFILE_IS_ON == 1) && (GTRACE_IS_ON == 1)
 
 #define genter \
@@ -673,14 +645,17 @@ typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const ind
 
 #endif
 </pre>
+
   <p>
    I have always wanted a way to add common code to the entry of the function and to the exit of a
    function.  Unfortunately there is no nice way to do this.  So all the higher level code that I
    write includes a genter and greturn macroes.  This way I can do what I want on entry and exit.
   </p>
+
   <p>
    Things I have tried:
   </p>
+
   <ul>
    <li>
     Profiler code - For a time there was not any free profilers so I added some code to do that.
@@ -699,14 +674,438 @@ typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const ind
     function entry will be recorded in a trace file.
    </li>
   </ul>
+
   <p>
    Those are some of the reasons I was using genter and greturn.  I keep them around just in case
    another need arrises.
   </p>
+
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <h2><a name="gid">gid*()</a></h2>
-  <pre>#define gidIsEqual(A,B)    ((A) == (B))
+  <script>HeaderAdd(2, "greturn", "greturn*()");</script>
+
+  <pre>
+#define greturnIf(C,V)     if ((C)) { greturn (V); }
+#define greturn0If(C)      if ((C)) { greturn 0; }
+#define greturn1If(C)      if ((C)) { greturn 1; }
+#define greturnVoidIf(C)   if ((C)) { greturn; }
+#define greturnNullIf(C)   if ((C)) { greturn NULL; }
+#define greturnTrueIf(C)   if ((C)) { greturn gbTRUE; }
+#define greturnFalseIf(C)  if ((C)) { greturn gbFALSE; }
+</pre>
+
+  <p>
+   Wrappers for common greturn cases.  Makes for easier to read code in my opinion and slightly less
+   typing.  These call greturn while matches genter.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "gsizeof", "gsizeof()");</script>
+
+  <pre>
+#define gsizeof(V)         ((Gsize) sizeof(V))
+</pre>
+
+  <p>
+   Wrapper for sizeof function.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "gpHash", "gpHash()");</script>
+
+  <pre>
+#define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
+</pre>
+
+  <p>
+   A basic function for hashing a pointer.  This is assuming pointers are 4 byte aligned.
+  </p>
+
+
+
+
+
+
+
+
+
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "types", "Types");</script>
+
+  <p>
+   Like a lot of C libraries I have defined my own types just to address the problem that C's base
+   integer types are not strictly of a certain size.  Or there are missing types like boolean.
+  </p>
+
+  <p>
+   Granted newer updates to C have tried to rectify the situation but maybe a little too late.
+   Plus I dislike typeing '_' but will use it only for constants for historical reasons.  So all
+   the new types like wchar_t, int16_t, etc.  God I hate that '_'.  It slows down typing in my
+   opinion and does not really improve readability in my opinion.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Char", "Char, Uchar");</script>
+
+  <pre>
+typedef signed char        Char;
+typedef unsigned char      Uchar;
+</pre>
+
+  <p>
+   Not usually types I use.  However I define these because I am using PCLint program to keep the
+   code somewhat clean of issues.  One of the things with PCLint is that it warns about using char
+   and unsigned char so I have these defined to avoid the issue.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Galignment", "Galignment");</script>
+
+  <pre>
+typedef enum
+{
+   galignmentDEFAULT    = 0,
+
+   galignmentH_LEFT     = 0x10000000,
+   galignmentH_CENTER   = 0x01000000,
+   galignmentH_FILL     = 0x00100000,
+   galignmentH_RIGHT    = 0x00010000,
+
+   galignmentV_TOP      = 0x00001000,
+   galignmentV_CENTER   = 0x00000100,
+   galignmentV_FILL     = 0x00000010,
+   galignmentV_BOTTOM   = 0x00000001,
+
+   galignmentH_MASK     = 0xFFFF0000u,
+   galignmentV_MASK     = 0x0000FFFF
+} Galignment;
+</pre>
+
+  <p>
+   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
+   to define one type to cover them all.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gb", "Gb (Boolean)");</script>
+
+  <pre>
+typedef enum
+{
+   gbFALSE              =  0,
+   gbTRUE               =  1,
+   gbUNDEFINED          = -1
+} Gb;
+</pre>
+
+  <p>
+   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
+   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
+   Otherwise assume it is not a possibility.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gbit", "Gbit");</script>
+
+  <pre>
+typedef unsigned int       Gbit;
+</pre>
+
+  <p>
+   This is specific to bit fields in a struct.  Because every time using standard C types, I
+   forget the "unsigned" keyword.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gcompare", "Gcompare");</script>
+
+  <pre>
+typedef enum
+{
+   gcompareLESS_THAN    = -1,
+   gcompareEQUAL        =  0,
+   gcompareGREATER_THAN =  1,
+   gcompareUNKNOWN      =  2
+} Gcompare;
+</pre>
+
+  <p>
+   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
+   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
+   be made very clear.  I may remove it in the future.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gcount", "Gcount, Gindex, Goffset, Gsize");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gcount;
+typedef Gi4                Gindex;
+typedef Gi4                Goffset;
+typedef Gi4                Gsize;
+</pre>
+
+  <p>
+   These are common integer/natural types used in a lot of places.  These will be the most efficient
+   size for the platform and currently are integers and not naturals.  I initially tried naturals
+   but for some things, like offset, you need negative numbers.  For simplicity I kepts them
+   integers.  If you end up in a situation where the efficient size integers is not enough range
+   then you will have to do something else.
+  </p>
+
+  <p>
+   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
+   variable/parameter.  In this case, if I have a funciton that expects an offset then it is clear
+   what that variable intends to do.  You may not need to even look at the name of the variable.
+   So I use it as a form of making the code more clear.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GcountMAX             Gi4MAX
+
+#define GindexERROR           Gi4MIN
+#define GindexMAX             Gi4MAX
+
+#define GoffsetMAX            Gi4MAX
+#define GoffsetMIN            Gi4MIN
+
+#define GsizeMAX              Gi4MAX
+</pre>
+
+  <p>
+   The limit constants for these types.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define gcountIsGood(C)    (0 <= (C))
+#define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
+#define gsizeIsGood(S)     (0 <= (S))
+</pre>
+
+  <p>
+   IsGood checks for a gcount, gindex, and gsize types.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gguid", "Gguid");</script>
+
+  <p>
+   GUID type wrapper.  Using system calls to handle GUIDs.
+  </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef struct
+{
+   Gn8             n[2];
+   Gn1             b[16];
+} Gguid;
+</pre>
+
+  <script>HeaderAddFunc();</script>
+
+  <!---------------------------------------------------------------------------------------------->
+  <h3>CreateContent</h3>
+
+  <pre>
+grlAPI void     gguidCreateContent(       Gguid * const guid);
+</pre>
+
+  <p>
+   Wrapper of OS routines for Initializing the contents of a GUID with a new unique GUID value.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <h3>CreateContentFromA</h3>
+
+  <pre>
+grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
+</pre>
+
+  <p>
+   Initialize a Gguid from a char string representation of a GUID.
+  </p>
+
+  <!---------------------------------------------------------------------------------------------->
+  <h3>IsEqual</h3>
+  <pre>
+grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
+</pre>
+
+  <p>
+   Test two guids for equality.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "GhashN", "GhashN");</script>
+
+  <pre>
+typedef Gn4                GhashN;
+</pre>
+
+  <p>
+   The data type that all hash functions will return.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "GheapN", "GheapN");</script>
+
+  <pre>
+typedef Gn4                GheapN;
+</pre>
+
+  <p>
+   The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
+   implementation.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gi", "Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)");</script>
+
+  <script>HeaderAddType();</script>
+  <pre>
+typedef int8_t             Gi1;
+typedef int16_t            Gi2;
+typedef int32_t            Gi4;
+typedef int64_t            Gi8;
+typedef uint8_t            Gn1;
+typedef uint16_t           Gn2;
+typedef uint32_t           Gn4;
+typedef uint64_t           Gn8;
+typedef float              Gr4;
+typedef double             Gr8;
+</pre>
+
+  <p>
+   As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
+   not really common yet and I was using standard C types.  I could be wrong.  But like any other
+   library, I define my own types based on memory size.  Instead of bits I use byte count.
+  </p>
+
+  <p>
+   <strong>i</strong> - Integer type.  (Signed integers)<br />
+   <strong>n</strong> - Natural type and 0.  (Unsigned integers)<br />
+   <strong>r</strong> - Real type.  (Floating point numbers)
+  </p>
+
+  <pre>
+typedef void               Gp;
+typedef Gi8                Gi;
+typedef Gn8                Gn;
+typedef Gr8                Gr;
+</pre>
+
+  <p>
+   Same as the above but the numberless versions represent the largest possible representation of
+   the type for the platform.  Which may not be the most efficient form for the types.
+  </p>
+
+  <pre>
+typedef intptr_t           Gip;
+typedef uintptr_t          Gnp;
+</pre>
+
+  <p>
+   Pointer sized versions of integer and natural.
+  </p>
+
+  <pre>
+typedef Gi4                Gih;
+typedef Gn4                Gnh;
+typedef Gr8                Grp;
+</pre>
+
+  <p>
+   Half size versions for the platform.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GnMAX                 Gn8MAX
+#define GiMAX                 Gi8MAX
+#define GrMAX                 Gr8MAX
+#define GrMIN                 Gr8MIN
+
+#define Gi1MAX                INT8_MAX
+#define Gi1MIN                INT8_MIN
+#define Gi2MAX                INT16_MAX
+#define Gi2MIN                INT16_MIN
+#define Gi4MAX                INT32_MAX
+#define Gi4MIN                INT32_MIN
+#define Gi8MAX                INT64_MAX
+#define Gi8MIN                INT64_MIN
+
+#define Gn1MAX                UINT8_MAX
+#define Gn2MAX                UINT16_MAX
+#define Gn4MAX                UINT32_MAX
+#define Gn8MAX                UINT64_MAX
+
+#define Gr4MAX                FLT_MAX
+#define Gr4MIN                FLT_MIN
+#define Gr8MAX                DBL_MAX
+#define Gr8MIN                DBL_MIN
+
+#define GnpMAX                UINTPTR_MAX
+#define GipMAX                INTPTR_MAX
+</pre>
+
+  <p>
+   The limit constants for these types.  Not complete when it comes to Reals but I have not needed
+   the other constants just yet.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gid", "Gid");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gn4                Gid;
+</pre>
+
+  <p>
+   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define gidIsEqual(A,B)    ((A) == (B))
 #define gidIsGood(I)       (0 < (I))
 #define gidIsUndefined(ID) ((ID) == Gn4MAX)
 #define gidGetN(ID)        ((Gn4) ID)
@@ -735,10 +1134,12 @@ typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const ind
     (CHAR4[3]))
 #endif
 </pre>
+
   <p>
-   Gid was meant as a very simple ID handler.  Not to compete at all with Gguid.  The onus of 
+   Gid was meant as a very simple ID handler.  Not to compete at all with Gguid.  The onus of
    uniqueness is up to the coder.
   </p>
+
   <p>
    <strong>IsEqual</strong> - is to compare two ids for equality.<br />
    <strong>IsGood</strong> - is to check if the id is valid.  <br />
@@ -748,68 +1149,161 @@ typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const ind
    <strong>GetC</strong> - will convert an id to a 4 character char string, not NULL terminated.<br />
    <strong>GetFromC</strong> - will convert a 4 character char string, not NULL terminated, to an id.<br />
   </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="gcountIsGood">gcountIsGood(), gindexIsGood(), gsizeIsGood()</a></h2>
-  <pre>#define gcountIsGood(C)    (0 <= (C))
-#define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
-#define gsizeIsGood(S)     (0 <= (S))
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gkey", "Gkey");</script>
+
+  <pre>
+typedef Gp                 Gkey;
 </pre>
+
   <p>
-   IsGood checks for a gcount, gindex, and gsize types.  
+   The general idea of a key for use in key value pais for the data containers.  A key will always
+   be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.
   </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="gpHash">gpHash()</a></h2>
-  <pre>#define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
-</pre>
-  <p>
-   A basic function for hashing a pointer.  This is assuming pointers are 4 byte aligned.
-  </p>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <h1><a name="Gguid">Gguid</a></h1>
-  <p>
-   GUID type wrapper.  Using system calls to handle GUIDs.
-  </p>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="GguidType">Type</a></h2>
-  <pre>typedef struct
+  <script>HeaderAdd(1, "GkeyP", "GkeyP");</script>
+
+  <pre>
+typedef struct
 {
-   Gn8             n[2];
-   Gn1             b[16];
-} Gguid;
+   Gkey const              *key;
+   Gp                      *value;
+} GkeyP;
 </pre>
-  <!--==========================================================================================-->
-  <!--==========================================================================================-->
-  <h2><a name="GguidFunc">Function</a></h2>
-  <!---------------------------------------------------------------------------------------------->
-  <h3><a name="gguidCreateContent">CreateContent</a></h3>
-  <pre>grlAPI void     gguidCreateContent(       Gguid * const guid);
-</pre>
+
   <p>
-   Wrapper of OS routines for Initializing the contents of a GUID with a new unique GUID value.
-  </p>
-  <!---------------------------------------------------------------------------------------------->
-  <h3><a name="gguidCreateContentFromA">MakeFromA</a></h3>
-  <pre>grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
-</pre>
-  <p>
-   Initialize a Gguid from a char string representation of a GUID.
-  </p>
-  <!---------------------------------------------------------------------------------------------->
-  <h3><a name="gguidIsEqual">IsEqual</a></h3>
-  <pre>grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
-</pre>
-  <p>
-   Test two guids for equality.
+   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
+   the value.
   </p>
 
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gposition", "Gposition");</script>
+
+  <pre>
+typedef enum
+{
+   gpositionSTART   = SEEK_SET,
+   gpositionEND     = SEEK_END,
+   gpositionCURRENT = SEEK_CUR
+} Gposition;
+</pre>
+
+  <p>
+   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
+   situations.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gv", "Gv, GvType");</script>
+
+  <pre>
+typedef enum
+{
+   gvTypeNONE,
+
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
+
+   gvTypeS,
+
+   gvTypeCOUNT
+} GvType;
+
+typedef struct
+{
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
+} Gv; //lint !e960 !e9018
+</pre>
+
+  <p>
+   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
+   that I wrote up.  The type is to identify what actual value is stored in the generic value
+   structure.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gvp", "Gvp");</script>
+
+  <pre>
+typedef union
+{
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
+} Gvp;
+</pre>
+
+  <p>
+   Generic value structure.  This is assuming, when you use this structure you know what is stored
+   inside.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "G_Func", "G*Func");</script>
+
+  <pre>
+typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
+typedef void       (*GrlDestroyFunc)(        Gp       * const value);
+typedef void       (*GrlForEachFunc)(        Gp       * const value);
+typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
+typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
+typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
+typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
+typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
+typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
+</pre>
+
+  <p>
+   Various function types for callbacks.
+  </p>
+
+  <p>
+   <strong>Compare</strong> - Used for comparing to items together.<br />
+   <strong>Destroy</strong> - Used to clean up dynamic memory.<br />
+   <strong>ForEach</strong> - Used in a ForEach function call to perform an action on each item.<br />
+   <strong>ForEachKey</strong> - Used on a ForEach function with a key value container.<br />
+   <strong>ForEachProcess</strong> - <br />
+   <strong>ForEachAlt</strong> - <br />
+   <strong>Get</strong> - A form of array/buffer access function.<br />
+   <strong>Hash</strong> - Obtain a hash value of something.<br />
+   <strong>Swap</strong> - Swap two values in a form of array/buffer.
+  </p>
 
 
 
+
+
+
+
+
+
+
+  <script>UpdateToc();</script>
 
  </body>
 </html>
