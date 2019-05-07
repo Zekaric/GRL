@@ -104,7 +104,7 @@ function UpdateToc()
       value += "</td>\n";
 
       value += "<td>";
-      if (record[indexHAS_TYPE] == 1)
+      if (record[indexHAS_FUNC] == 1)
       {
          value += "<a href=\"#" + record[1] + "Func\">Function</a>\n";
       }
@@ -311,7 +311,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </p>
 
   <!---------------------------------------------------------------------------------------------->
-  <script>HeaderAdd(3, "compileLibGCHECK", "GCHECK_MEMORY_IS_ON");</script>
+  <h3>GCHECK_MEMORY_IS_ON</h3>
 
   <p>
    Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call
@@ -325,7 +325,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </p>
 
   <!---------------------------------------------------------------------------------------------->
-  <script>HeaderAdd(3, "compilerLibGMEM", "GMEM_INCLUDES_TYPE_STRING");</script>
+  <h3>GMEM_INCLUDES_TYPE_STRING</h3>
 
   <p>
    Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is
@@ -334,7 +334,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </p>
 
   <!---------------------------------------------------------------------------------------------->
-  <script>HeaderAdd(3, "compileLibGTRACE", "GTRACE_IS_ON");</script>
+  <h3>GTRACE_IS_ON</h3>
 
   <p>
    Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all
@@ -463,7 +463,14 @@ Varaible:        variableName
    and glocal function prototypes.
   </p>
 
-
+  <p>
+   Indents are 3.<br />
+   I line up =, logic ops, parameters on mulitple lines, etc.<br />
+   I never have an assignment in a conditional, which means I write x == 0 instead of 0 == x.<br />
+   Logic statements have the logic op at the end (not at the beginning) using reverse indentation.<br />
+   Code is paragraphed.<br />
+   etc.
+  </p>
 
 
 
@@ -486,9 +493,8 @@ Varaible:        variableName
 
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <script>HeaderAdd(2, "breakIf", "breakIf(), continueIf()");</script>
+  <script>HeaderAdd(2, "breakIf", "breakIf()");</script>
   <pre>
-#define continueIf(C)      if ((C)) { continue; }
 #define breakIf(C)         if ((C)) { break; }
 </pre>
 
@@ -499,32 +505,54 @@ Varaible:        variableName
 
   <!--==========================================================================================-->
   <!--==========================================================================================-->
-  <script>HeaderAdd(2, "debugHalt", "debugHalt(), debugHaltIf(), debugPrint(), debugCheckMemory()");</script>
-
+  <script>HeaderAdd(2, "continueIf", "continueIf()");</script>
   <pre>
-#define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
-#define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
-#define debugPrint(WSTR)            OutputDebugString(WSTR)
-#define debugCheckMemory()    _CrtCheckMemory();
+#define continueIf(C)      if ((C)) { continue; }
 </pre>
 
   <p>
-   Some debug helpers.  These will not be present in a release build of the program.
+   Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and
+   slightly less typing.
   </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "debugHalt", "debugHalt*()");</script>
+
+  <pre>
+#define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
+#define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
+</pre>
 
   <p>
    Halt is calling assert().  I just find it easier to read than using the assert() function call.
   </p>
 
-  <p>
-   Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.
-   Nothing specific for OSX and Linux yet.
-  </p>
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "debugCheckMemory", "debugCheckMemory()");</script>
+
+  <pre>
+#define debugCheckMemory()    _CrtCheckMemory();
+</pre>
 
   <p>
    CheckMemory will test the dynamic heap for corruption.  This can be handy when trying to find
    memory corruption.  Sprinkle these functions around your code where you think the corruption
    may be happening.
+  </p>
+
+  <!--==========================================================================================-->
+  <!--==========================================================================================-->
+  <script>HeaderAdd(2, "debugPrint", "debugPrint()");</script>
+
+  <pre>
+#define debugPrint(WSTR)            OutputDebugString(WSTR)
+</pre>
+
+  <p>
+   Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.
+   Nothing specific for OSX and Linux yet.
   </p>
 
   <!--==========================================================================================-->
@@ -735,7 +763,7 @@ Varaible:        variableName
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "types", "Types");</script>
+  <script>HeaderAdd(1, "API", "API");</script>
 
   <p>
    Like a lot of C libraries I have defined my own types just to address the problem that C's base
@@ -747,6 +775,51 @@ Varaible:        variableName
    Plus I dislike typeing '_' but will use it only for constants for historical reasons.  So all
    the new types like wchar_t, int16_t, etc.  God I hate that '_'.  It slows down typing in my
    opinion and does not really improve readability in my opinion.
+  </p>
+
+  <p>
+   Also other API that do not include a specific type but more a module for some purpose.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "grl", "grl*");</script>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+grlAPI Gpath   *grlGetExePath(   void);
+</pre>
+  <p>
+   Get the path to the exe file.
+  </p>
+  <pre>
+grlAPI Gb       grlIsStarted(    void);
+</pre>
+  <p>
+   Is the grl library initialized and ready.
+  </p>
+
+  <pre>
+grlAPI Gb       grlSetExePath(   Gpath * const path);
+</pre>
+  <p>
+   Set the exe file path.  Not usually called by you.  The exe path is set on program start.
+  </p>
+
+  <pre>
+grlAPI Gb       grlStart(        void);
+</pre>
+  <p>
+   Start the grl library.
+  </p>
+
+  <pre>
+grlAPI void     grlStop(         void);
+</pre>
+  <p>
+   Stop the grl library.
   </p>
 
   <!--##########################################################################################-->
@@ -853,28 +926,25 @@ typedef enum
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "Gcount", "Gcount, Gindex, Goffset, Gsize");</script>
+  <script>HeaderAdd(1, "Gcount", "Gcount");</script>
 
   <script>HeaderAddType();</script>
 
   <pre>
 typedef Gi4                Gcount;
-typedef Gi4                Gindex;
-typedef Gi4                Goffset;
-typedef Gi4                Gsize;
 </pre>
 
   <p>
-   These are common integer/natural types used in a lot of places.  These will be the most efficient
-   size for the platform and currently are integers and not naturals.  I initially tried naturals
-   but for some things, like offset, you need negative numbers.  For simplicity I kepts them
-   integers.  If you end up in a situation where the efficient size integers is not enough range
-   then you will have to do something else.
+   A common integer/natural type used in a lot of places.  This will be the most efficient
+   size for the platform and currently is an integer and not a natural.  I initially tried a
+   natural but for some things, you need negative numbers.  For simplicity I kept it an integer.
+   If you end up in a situation where the efficient size integer is not enough range then you will
+   have to do something else.
   </p>
 
   <p>
    Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
-   variable/parameter.  In this case, if I have a funciton that expects an offset then it is clear
+   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
    what that variable intends to do.  You may not need to even look at the name of the variable.
    So I use it as a form of making the code more clear.
   </p>
@@ -883,14 +953,6 @@ typedef Gi4                Gsize;
 
   <pre>
 #define GcountMAX             Gi4MAX
-
-#define GindexERROR           Gi4MIN
-#define GindexMAX             Gi4MAX
-
-#define GoffsetMAX            Gi4MAX
-#define GoffsetMIN            Gi4MIN
-
-#define GsizeMAX              Gi4MAX
 </pre>
 
   <p>
@@ -901,12 +963,10 @@ typedef Gi4                Gsize;
 
   <pre>
 #define gcountIsGood(C)    (0 <= (C))
-#define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
-#define gsizeIsGood(S)     (0 <= (S))
 </pre>
 
   <p>
-   IsGood checks for a gcount, gindex, and gsize types.
+   IsGood check for a gcount.
   </p>
 
   <!--##########################################################################################-->
@@ -930,9 +990,6 @@ typedef struct
 
   <script>HeaderAddFunc();</script>
 
-  <!---------------------------------------------------------------------------------------------->
-  <h3>CreateContent</h3>
-
   <pre>
 grlAPI void     gguidCreateContent(       Gguid * const guid);
 </pre>
@@ -940,9 +997,6 @@ grlAPI void     gguidCreateContent(       Gguid * const guid);
   <p>
    Wrapper of OS routines for Initializing the contents of a GUID with a new unique GUID value.
   </p>
-
-  <!---------------------------------------------------------------------------------------------->
-  <h3>CreateContentFromA</h3>
 
   <pre>
 grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
@@ -952,8 +1006,6 @@ grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const
    Initialize a Gguid from a char string representation of a GUID.
   </p>
 
-  <!---------------------------------------------------------------------------------------------->
-  <h3>IsEqual</h3>
   <pre>
 grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
 </pre>
@@ -992,7 +1044,7 @@ typedef Gn4                GheapN;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "Gi", "Gi (Signed Integer), Gn (Unsigned Integer), Gr (Real)");</script>
+  <script>HeaderAdd(1, "Gi", "Gi (Integer)");</script>
 
   <script>HeaderAddType();</script>
   <pre>
@@ -1000,12 +1052,6 @@ typedef int8_t             Gi1;
 typedef int16_t            Gi2;
 typedef int32_t            Gi4;
 typedef int64_t            Gi8;
-typedef uint8_t            Gn1;
-typedef uint16_t           Gn2;
-typedef uint32_t           Gn4;
-typedef uint64_t           Gn8;
-typedef float              Gr4;
-typedef double             Gr8;
 </pre>
 
   <p>
@@ -1014,17 +1060,8 @@ typedef double             Gr8;
    library, I define my own types based on memory size.  Instead of bits I use byte count.
   </p>
 
-  <p>
-   <strong>i</strong> - Integer type.  (Signed integers)<br />
-   <strong>n</strong> - Natural type and 0.  (Unsigned integers)<br />
-   <strong>r</strong> - Real type.  (Floating point numbers)
-  </p>
-
   <pre>
-typedef void               Gp;
 typedef Gi8                Gi;
-typedef Gn8                Gn;
-typedef Gr8                Gr;
 </pre>
 
   <p>
@@ -1034,7 +1071,6 @@ typedef Gr8                Gr;
 
   <pre>
 typedef intptr_t           Gip;
-typedef uintptr_t          Gnp;
 </pre>
 
   <p>
@@ -1043,8 +1079,6 @@ typedef uintptr_t          Gnp;
 
   <pre>
 typedef Gi4                Gih;
-typedef Gn4                Gnh;
-typedef Gr8                Grp;
 </pre>
 
   <p>
@@ -1054,10 +1088,7 @@ typedef Gr8                Grp;
   <script>HeaderAddConst();</script>
 
   <pre>
-#define GnMAX                 Gn8MAX
 #define GiMAX                 Gi8MAX
-#define GrMAX                 Gr8MAX
-#define GrMIN                 Gr8MIN
 
 #define Gi1MAX                INT8_MAX
 #define Gi1MIN                INT8_MIN
@@ -1068,17 +1099,6 @@ typedef Gr8                Grp;
 #define Gi8MAX                INT64_MAX
 #define Gi8MIN                INT64_MIN
 
-#define Gn1MAX                UINT8_MAX
-#define Gn2MAX                UINT16_MAX
-#define Gn4MAX                UINT32_MAX
-#define Gn8MAX                UINT64_MAX
-
-#define Gr4MAX                FLT_MAX
-#define Gr4MIN                FLT_MIN
-#define Gr8MAX                DBL_MAX
-#define Gr8MIN                DBL_MIN
-
-#define GnpMAX                UINTPTR_MAX
 #define GipMAX                INTPTR_MAX
 </pre>
 
@@ -1105,28 +1125,46 @@ typedef Gn4                Gid;
   <script>HeaderAddFunc();</script>
 
   <pre>
-#define gidIsEqual(A,B)    ((A) == (B))
-#define gidIsGood(I)       (0 < (I))
-#define gidIsUndefined(ID) ((ID) == Gn4MAX)
 #define gidGetN(ID)        ((Gn4) ID)
+</pre>
+  <p>
+   Return the natural value of the id. <br />
+  </p>
+
+  <pre>
 #define gidGetFromN(VALUE) ((Gid) VALUE)
+</pre>
+  <p>
+   Convert a natrual value to an id.<br />
+  </p>
+
+  <pre>
 #if defined(grlSWAP)
 #define gidGetC(ID, CHAR4)                \
    (CHAR4[3] = (Char) (((ID) & 0xff000000) >> 24), \
     CHAR4[2] = (Char) (((ID) & 0x00ff0000) >> 16), \
     CHAR4[1] = (Char) (((ID) & 0x0000ff00) >>  8), \
     CHAR4[0] = (Char) (((ID) & 0x000000ff)))
-#define gidGetFromC(CHAR4)                \
-   ((CHAR4[3] << 24) |                    \
-    (CHAR4[2] << 16) |                    \
-    (CHAR4[1] <<  8) |                    \
-    (CHAR4[0]))
 #else
 #define gidGetC(ID, CHAR4)                \
    (CHAR4[0] = (Char) (((ID) & 0xff000000) >> 24), \
     CHAR4[1] = (Char) (((ID) & 0x00ff0000) >> 16), \
     CHAR4[2] = (Char) (((ID) & 0x0000ff00) >>  8), \
     CHAR4[3] = (Char) (((ID) & 0x000000ff)))
+#endif
+</pre>
+  <p>
+   Convert an id to a 4 character char string, not NULL terminated.<br />
+  </p>
+
+  <pre>
+#if defined(grlSWAP)
+#define gidGetFromC(CHAR4)                \
+   ((CHAR4[3] << 24) |                    \
+    (CHAR4[2] << 16) |                    \
+    (CHAR4[1] <<  8) |                    \
+    (CHAR4[0]))
+#else
 #define gidGetFromC(VALUE)                \
    ((CHAR4[0] << 24) |                    \
     (CHAR4[1] << 16) |                    \
@@ -1134,20 +1172,76 @@ typedef Gn4                Gid;
     (CHAR4[3]))
 #endif
 </pre>
+  <p>
+   Convert a 4 character char string, not NULL terminated, to an id.<br />
+  </p>
+
+  <pre>
+#define gidIsEqual(A,B)    ((A) == (B))
+</pre>
+  <p>
+   Compare two ids for equality.<br />
+  </p>
+
+  <pre>
+#define gidIsGood(I)       (0 < (I))
+</pre>
+  <p>
+   Check if the id is valid.  <br />
+  </p>
+
+  <pre>
+#define gidIsUndefined(ID) ((ID) == Gn4MAX)
+</pre>
+  <p>
+   Check if the is set to something.<br />
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gindex", "Gindex");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gindex;
+</pre>
 
   <p>
-   Gid was meant as a very simple ID handler.  Not to compete at all with Gguid.  The onus of
-   uniqueness is up to the coder.
+   A common integer/natural type used in a lot of places.  This will be the most efficient
+   size for the platform and currently is an integer and not a natural.  I initially tried a
+   natural but for some things, you need negative numbers.  For simplicity I kept it an integer.
+   If you end up in a situation where the efficient size integer is not enough range then you will
+   have to do something else.
   </p>
 
   <p>
-   <strong>IsEqual</strong> - is to compare two ids for equality.<br />
-   <strong>IsGood</strong> - is to check if the id is valid.  <br />
-   <strong>isUndefined</strong> - is to check if the is set to something.<br />
-   <strong>GetN</strong> - will return the natural value of the id. <br />
-   <strong>GetFronN</strong> - will convert a natrual value to an id.<br />
-   <strong>GetC</strong> - will convert an id to a 4 character char string, not NULL terminated.<br />
-   <strong>GetFromC</strong> - will convert a 4 character char string, not NULL terminated, to an id.<br />
+   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
+   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
+   what that variable intends to do.  You may not need to even look at the name of the variable.
+   So I use it as a form of making the code more clear.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GindexERROR           Gi4MIN
+#define GindexMAX             Gi4MAX
+</pre>
+
+  <p>
+   The limit constants for these types.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
+</pre>
+
+  <p>
+   IsGood checks for a gindex.
   </p>
 
   <!--##########################################################################################-->
@@ -1185,6 +1279,126 @@ typedef struct
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gn", "Gn (Natural and 0)");</script>
+
+  <script>HeaderAddType();</script>
+  <pre>
+typedef uint8_t            Gn1;
+typedef uint16_t           Gn2;
+typedef uint32_t           Gn4;
+typedef uint64_t           Gn8;
+</pre>
+
+  <p>
+   Or in other words, unsigned integers.
+  </p>
+
+  <p>
+   As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
+   not really common yet and I was using standard C types.  I could be wrong.  But like any other
+   library, I define my own types based on memory size.  Instead of bits I use byte count.
+  </p>
+
+  <pre>
+typedef Gn8                Gn;
+</pre>
+
+  <p>
+   Same as the above but the numberless versions represent the largest possible representation of
+   the type for the platform.  Which may not be the most efficient form for the types.
+  </p>
+
+  <pre>
+typedef uintptr_t          Gnp;
+</pre>
+
+  <p>
+   Pointer sized versions of integer and natural.
+  </p>
+
+  <pre>
+typedef Gn4                Gnh;
+</pre>
+
+  <p>
+   Half size versions for the platform.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GnMAX                 Gn8MAX
+
+#define Gn1MAX                UINT8_MAX
+#define Gn2MAX                UINT16_MAX
+#define Gn4MAX                UINT32_MAX
+#define Gn8MAX                UINT64_MAX
+
+#define GnpMAX                UINTPTR_MAX
+</pre>
+
+  <p>
+   The limit constants for these types.  Not complete when it comes to Reals but I have not needed
+   the other constants just yet.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Goffset", "Goffset");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Goffset;
+</pre>
+
+  <p>
+   A common integer/natural type used in a lot of places.  This will be the most efficient
+   size for the platform and currently is an integer and not a natural.  I initially tried a
+   natural but for some things, you need negative numbers.  For simplicity I kept it an integer.
+   If you end up in a situation where the efficient size integer is not enough range then you will
+   have to do something else.
+  </p>
+
+  <p>
+   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
+   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
+   what that variable intends to do.  You may not need to even look at the name of the variable.
+   So I use it as a form of making the code more clear.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GoffsetMAX            Gi4MAX
+#define GoffsetMIN            Gi4MIN
+</pre>
+
+  <p>
+   The limit constants for these types.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gp", "Gp (void)");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef void               Gp;
+</pre>
+
+  <p>
+   Why not just use void?  I do use void in places like empty function paramerters, but seeing as
+   I have basically redefined everything else, might as well redefine this one as well.  Usually
+   never used alone, always used with '*' for a void pointer.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gposition", "Gposition");</script>
 
   <pre>
@@ -1199,6 +1413,104 @@ typedef enum
   <p>
    A lot of functions need an anchor location for offsetting from.  Using this type to handle those
    situations.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gr", "Gr* (Real)");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef float              Gr4;
+typedef double             Gr8;
+</pre>
+
+  <p>
+   Different names for standard types just to be complete.
+  </p>
+
+  <pre>
+typedef Gr8                Gr;
+</pre>
+
+  <p>
+   Same as the above but the numberless versions represent the largest possible representation of
+   the type for the platform.  Which may not be the most efficient form for the types.  I'm 
+   ignoring long double since it only allows for higher exponents and not higher precision.
+  </p>
+
+  <pre>
+typedef Gr8                Grp;
+</pre>
+
+  <p>
+   Pointer sized versions of integer and natural.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GrMAX                 Gr8MAX
+
+#define GrMIN                 Gr8MIN
+
+#define Gr4MAX                FLT_MAX
+#define Gr4MIN                FLT_MIN
+#define Gr8MAX                DBL_MAX
+#define Gr8MIN                DBL_MIN
+</pre>
+
+  <p>
+   The limit constants for these types.  Not complete when it comes to Reals but I have not needed
+   the other constants just yet.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gsize", "Gsize");</script>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gsize;
+</pre>
+
+  <p>
+   A common integer/natural type used in a lot of places.  This will be the most efficient
+   size for the platform and currently is an integer and not a natural.  I initially tried a
+   natural but for some things, you need negative numbers.  For simplicity I kept it an integer.
+   If you end up in a situation where the efficient size integer is not enough range then you will
+   have to do something else.
+  </p>
+
+  <p>
+   Why not just use the raw integer type?  Well, sometimes the type adds to the description of the
+   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
+   what that variable intends to do.  You may not need to even look at the name of the variable.
+   So I use it as a form of making the code more clear.
+  </p>
+
+  <script>HeaderAddConst();</script>
+
+  <pre>
+#define GsizeMAX              Gi4MAX
+</pre>
+
+  <p>
+   The limit constants for these types.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define gsizeIsGood(S)     (0 <= (S))
+</pre>
+
+  <p>
+   IsGood check for a gsize.
   </p>
 
   <!--##########################################################################################-->
@@ -1266,32 +1578,71 @@ typedef union
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "G_Func", "G*Func");</script>
 
-  <pre>
-typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
-typedef void       (*GrlDestroyFunc)(        Gp       * const value);
-typedef void       (*GrlForEachFunc)(        Gp       * const value);
-typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
-typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
-typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
-typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
-typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
-typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
-</pre>
-
   <p>
    Various function types for callbacks.
   </p>
 
+  <pre>
+typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
+</pre>
   <p>
-   <strong>Compare</strong> - Used for comparing to items together.<br />
-   <strong>Destroy</strong> - Used to clean up dynamic memory.<br />
-   <strong>ForEach</strong> - Used in a ForEach function call to perform an action on each item.<br />
-   <strong>ForEachKey</strong> - Used on a ForEach function with a key value container.<br />
-   <strong>ForEachProcess</strong> - <br />
-   <strong>ForEachAlt</strong> - <br />
-   <strong>Get</strong> - A form of array/buffer access function.<br />
-   <strong>Hash</strong> - Obtain a hash value of something.<br />
-   <strong>Swap</strong> - Swap two values in a form of array/buffer.
+   Comparing to items together.<br />
+  </p>
+
+  <pre>
+typedef void       (*GrlDestroyFunc)(        Gp       * const value);
+</pre>
+  <p>
+   Clean up dynamic memory.<br />
+  </p>
+
+  <pre>
+typedef void       (*GrlForEachFunc)(        Gp       * const value);
+</pre>
+  <p>
+   Used in a ForEach function call to perform an action on each item.<br />
+  </p>
+
+  <pre>
+typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
+</pre>
+  <p>
+   Used on a ForEach function with a key value container.<br />
+  </p>
+
+  <pre>
+typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
+</pre>
+  <p>
+   -
+  </p>
+
+  <pre>
+typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
+</pre>
+  <p>
+   -
+  </p>
+
+  <pre>
+typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
+</pre>
+  <p>
+   <A form of array/buffer access function.<br />
+  </p>
+
+  <pre>
+typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
+</pre>
+  <p>
+   Obtain a hash value of something.<br />
+  </p>
+
+  <pre>
+typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
+</pre>
+  <p>
+   Swap two values in a form of array/buffer.
   </p>
 
 
