@@ -784,7 +784,7 @@ Varaible:        variableName
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "grl", "grl*");</script>
+  <script>HeaderAdd(1, "grl", "grl");</script>
 
   <script>HeaderAddFunc();</script>
 
@@ -1279,6 +1279,279 @@ typedef struct
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
+  <script>HeaderAdd(1, "gleak", "gleak");</script>
+
+  <p>
+   No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is
+   used by gmem for dynamic memory leak tracking.
+  </p>
+
+  <p>
+   Internally gleak code maintains a hash table of leak records.  The hash table is organized as
+   bins of linked lists of leak records.  This is reasonably fast in debug.  If not, you may need
+   to tweak the hash table size to reduce linked list lengths.
+  </p>
+
+  <p>
+   gleak is completely disabled in release builds.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define gleakCreate(P,S) gleakCreate_((P), (S), __FILE__, __LINE__)
+grlAPI Gp  *gleakCreate_(   Gp * const p, Gsize const size, Char const * const file, Gindex const line);
+</pre>
+  <p>
+   Create a leak record.  If this leak record is not destroyed it will be reported at grlStop().  A
+   leak record includes the file and location in the file where the leak occurred.  You would not
+   use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the
+   same pointer up the call stack.  The last gleakCreate() call will overwrite any previous
+   leak record.
+  </p>
+
+  <pre>
+#define gleakDestroy(P)  gleakDestroy_((P))
+grlAPI Gp  *gleakDestroy_(  Gp *p);
+</pre>
+  <p>
+   Destroy a leak record.  This is done when the resource was properly closed, destroyed, or
+   whatever needed to happen to it.
+  </p>
+
+  <pre>
+grlAPI Gb   gleakLockEnter( void);
+grlAPI Gb   gleakLockExit(  void);
+</pre>
+  <p>
+   If you have a lot of gleakCreate() calls in rapid succession you may want to call wrap them
+   in between a LockEnter and LockExit so that the lock only happens once and the speed of the
+   enclosed code will be uninterrupted and fast.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Glock", "Glock");</script>
+
+  <p>
+   Critical Section lock routines.
+  </p>
+
+  <p><strong>Example Use:</strong></p>
+
+  <pre>
+// Define the lock.
+static Glock _lock;
+
+...
+
+// Somewhere on startup.
+{
+   // Initialize the lock
+   glockCreateContent(&_lock);
+}
+
+// Somewhere on shutdown.
+{
+   // Clean up
+   glockDestroyContent(&_lock);
+}
+
+// Somewhere threaded.
+{
+   // Entering the critical section.  The thread will halt here if another thread has the lock.
+   glockEnter(&_lock);
+
+   // If the thread is executing here then it is the only one executing here.
+
+   // We are done, release the lock.
+   glockExit(&_lock);
+}
+
+</pre>
+
+  <script>HeaderAddType();</script>
+  <pre>
+#if grlWINDOWS == 1
+typedef CRITICAL_SECTION Glock;
+#else
+#endif
+</pre>
+
+  <p>
+   Currently only Windows defined.  I haven't started on any other platforms.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>grlAPI void       glockCreateContent(    Glock * const lock);</pre>
+  <p>
+   Initializes a lock.
+  </p>
+
+  <pre>grlAPI void       glockDestroyContent(   Glock * const lock);</pre>
+  <p>
+   Clean up a lock.
+  </p>
+
+  <pre>grlAPI void       glockEnter(            Glock * const lock);</pre>
+  <p>
+   Enter a critical section.
+  </p>
+  <p>
+   Code will stop here until the lock is obtained.
+  </p>
+
+  <pre>grlAPI void       glockExit(             Glock * const lock);</pre>
+  <p>
+   Exit a critical section.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "gmem", "gmem");</script>
+
+  <p>
+   Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.
+  </p>
+
+  <p>
+   In both debug and release, dynamic memory buffers that are 'small' are pooled.  Meaning, if you
+   create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when 
+   'destroyed' will just be kept around in a pool of buffers that are 80 bytes in size.  When the
+   next time the program asks for an 80 byte buffer, the first available buffer from the pool is
+   used.
+  </p>
+  <p>
+   Why are we doing this?  Dynamic memory creation and destruction can be slow.  Often causing a
+   kernel call which basically locks the system down in order to perform the operation.  If we can
+   avoid these calls as much as possible then the speed of the program will be greatly improved.
+   At the cost of using some more memory that is.  Reusing a previously allocated buffer is a lot
+   quicker than having to free it and then recreate it.
+  </p>
+  <p>
+   Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool 
+   flushing but for now this is the responsibility of the programmer.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+#define memCreate(               BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
+#define memCreateType(           TYPE)                                  (TYPE *) memCreate(gsizeof(TYPE))
+#define memCreateTypeArray(      TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
+</pre>
+  <p>
+   Simple wrappers around standard C dynamic memory creation functions.  Not gleak tracked.  
+  </p>
+  <p>
+   CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a
+   type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors
+   when writing out dynamic memory creation calls.
+  </p>
+
+  <pre>
+#define memDestroy(              P)                                              free((Gp *) (P))
+</pre>
+  <p>
+   Freeing the dynamic memory using standart C functions.
+  </p>
+
+  <pre>
+#define gmemClear(               P, BYTECOUNT)                                   gmemClearAt(   (P),     (BYTECOUNT),               0)
+#define gmemClearType(           P, TYPE)                                        gmemClearAt(   (P),     gsizeof(TYPE),             0)
+#define gmemClearTypeAt(         P, TYPE, INDEX)                                 gmemClearAt(   (P),     gsizeof(TYPE),             gsizeof(TYPE) * (INDEX))
+#define gmemClearTypeArray(      P, TYPE, COUNT)                                 gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   0)
+#define gmemClearTypeArrayAt(    P, TYPE, COUNT, INDEX)                          gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX))
+
+grlAPI void  gmemClearAt(     Gp         * const p,    Gcount const byteCount, Gindex const byteIndex);
+</pre>
+  <p>
+   Given a pointer to a buffer, zero out its memroy.
+  </p>
+  <p>
+   <strong>Type</strong> will specify the size of memory to zero out.  <br />
+   <strong>At</strong> will indicate where inside an array of types to zero out.<br />
+   <strong>Array</strong> will indicate we will be zeroing out an array of types.
+  </p>
+
+  <pre>
+#define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
+</pre>
+  <p>
+   Copying a subset of an array of types, onto itself at a new location.
+  </p>
+
+  <pre>
+#define gmemCopyOver(            PSRC, BYTECOUNT,              PDST)             gmemCopyOverAt((PSRC),  (BYTECOUNT),               0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverType(        PSRC, TYPE,                   PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE),             0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArray(   PSRC, TYPE, COUNT,            PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArrayAt( PSRC, TYPE, COUNT, INDEX_SRC, PDST, INDEX_DST)  gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  (PDST),  gsizeof(TYPE) * (INDEX_DST))
+
+grlAPI Gb    gmemCopy(        Gp         * const p,    Gcount const byteCount, Gindex const byteIndexSrc,                  Gindex const byteIndexDst);
+grlAPI Gb    gmemCopyOverAt(  Gp   const * const pSrc, Gcount const byteCount, Gindex const byteIndexSrc, Gp * const pDst, Gindex const byteIndexDst);
+</pre>
+  <p>
+   Copying part of a buffer onto another buffer.  Non-overlapping.  Use gmemCopyTypeArray() if copying into the same buffer.
+  </p>
+
+  <pre>
+#define gmemCreate(              TYPE_CHAR,  BYTECOUNT)                          gleakCreate((Gp *) gmemCreate_((TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
+#define gmemCreateType(          TYPE)                                  (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
+#define gmemCreateTypeArray(     TYPE,       COUNT)                     (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
+
+grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
+</pre>
+  <p>
+   Create a new dynamic memory buffer.  
+  </p>
+  <p>
+   CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a
+   type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors 
+   when writing out dynamic memory creation calls.
+  </p>
+  <p>
+   gleak tracking is only done in debug builds.
+  </p>
+
+  <pre>
+grlAPI void  gmemDestroy(     Gp        * const p);
+</pre>
+  <p>
+   Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with
+   memCreate, malloc, or calloc calls.
+  </p>
+
+  <pre>
+#define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
+#define gmemIsEqualType(         PA, PB, TYPE)                                   (memcmp((PA), (PB), sizeof(TYPE))      == 0)
+</pre>
+  <p>
+   wrapper to memcmp functions.
+  </p>
+
+  <pre>
+grlAPI void  gmemFlushPools(  void);
+</pre>
+  <p>
+   Trim the memory pools.  See description for more information.
+  </p>
+
+  <pre>
+#define gmemSet(                 P,    BYTECOUNT, BYTEVALUE)                     memset((P), (BYTEVALUE), (size_t) (BYTECOUNT))
+
+grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
+</pre>
+  <p>
+   Set the values of the bytes in a buffer.  Defaced will set the values to things like 0xFEEDFACE,
+   0xDEADBEEF, etc.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gn", "Gn (Natural and 0)");</script>
 
   <script>HeaderAddType();</script>
@@ -1418,7 +1691,7 @@ typedef enum
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "Gr", "Gr* (Real)");</script>
+  <script>HeaderAdd(1, "Gr", "Gr (Real)");</script>
 
   <script>HeaderAddType();</script>
 
@@ -1437,7 +1710,7 @@ typedef Gr8                Gr;
 
   <p>
    Same as the above but the numberless versions represent the largest possible representation of
-   the type for the platform.  Which may not be the most efficient form for the types.  I'm 
+   the type for the platform.  Which may not be the most efficient form for the types.  I'm
    ignoring long double since it only allows for higher exponents and not higher precision.
   </p>
 
@@ -1587,6 +1860,9 @@ typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const *
 </pre>
   <p>
    Comparing to items together.<br />
+
+
+
   </p>
 
   <pre>
@@ -1594,6 +1870,9 @@ typedef void       (*GrlDestroyFunc)(        Gp       * const value);
 </pre>
   <p>
    Clean up dynamic memory.<br />
+
+
+
   </p>
 
   <pre>
@@ -1601,6 +1880,9 @@ typedef void       (*GrlForEachFunc)(        Gp       * const value);
 </pre>
   <p>
    Used in a ForEach function call to perform an action on each item.<br />
+
+
+
   </p>
 
   <pre>
@@ -1608,6 +1890,9 @@ typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp      
 </pre>
   <p>
    Used on a ForEach function with a key value container.<br />
+
+
+
   </p>
 
   <pre>
@@ -1629,6 +1914,9 @@ typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const ind
 </pre>
   <p>
    <A form of array/buffer access function.<br />
+
+
+
   </p>
 
   <pre>
@@ -1636,6 +1924,9 @@ typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
 </pre>
   <p>
    Obtain a hash value of something.<br />
+
+
+
   </p>
 
   <pre>

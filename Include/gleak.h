@@ -81,11 +81,11 @@ extern "C" {
 /******************************************************************************
 constant:
 ******************************************************************************/
-typedef enum
-{
-   gleakErrorNONE,
-   gleakErrorPOINTER_NOT_FOUND
-} GleakError;
+//typedef enum
+//{
+//   gleakErrorNONE,
+//   gleakErrorPOINTER_NOT_FOUND
+//} GleakError;
 
 /******************************************************************************
 Function:
