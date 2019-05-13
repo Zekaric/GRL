@@ -31,6 +31,18 @@
     <Filter Include="Header Files\Gguid">
       <UniqueIdentifier>{35649d7d-f320-47ef-8361-5141e6ece05f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Gtrace">
+      <UniqueIdentifier>{c4cd0fac-a8f9-4ef0-8dd2-8ca46e72cff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gtime">
+      <UniqueIdentifier>{04bea43e-698f-4f08-8fe8-baae0911eefb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gtrace">
+      <UniqueIdentifier>{ea2b9631-8579-4f94-a039-e45119f29a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gtime">
+      <UniqueIdentifier>{3d75dc5b-d4d3-406e-aa5e-8d75fae2a275}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\g_base.h">
@@ -57,6 +69,12 @@
     <ClInclude Include="..\Include\g_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gtrace.h">
+      <Filter>Header Files\Gtrace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gtime.h">
+      <Filter>Header Files\Gtime</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">
@@ -76,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="..\Source\Glock\glock.c">
       <Filter>Source Files\Glock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gtrace\gtrace.c">
+      <Filter>Source Files\Gtrace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gtime\gtime.c">
+      <Filter>Source Files\Gtime</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

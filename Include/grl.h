@@ -117,16 +117,15 @@ include:
 
 #include "gguid.h"
 #include "glock.h"
+#include "gtime.h"
 
 #include "gleak.h"
 #include "gmem.h"
+#include "gtrace.h"
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
-#include "gtime.h"
-
 #include "gprofile.h"   // depends on gtime
 
-#include "gtrace.h"
 #include "grandom.h"
 
 #include "gmemCompressFast.h" //

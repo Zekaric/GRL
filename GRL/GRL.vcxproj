@@ -24,6 +24,8 @@
     <ClInclude Include="..\Include\glock.h" />
     <ClInclude Include="..\Include\gmem.h" />
     <ClInclude Include="..\Include\grl.h" />
+    <ClInclude Include="..\Include\gtime.h" />
+    <ClInclude Include="..\Include\gtrace.h" />
     <ClInclude Include="..\Include\g_base.h" />
     <ClInclude Include="..\Include\g_config.h" />
     <ClInclude Include="..\Include\pre.h" />
@@ -34,6 +36,8 @@
     <ClCompile Include="..\Source\Gmem\gleak.c" />
     <ClCompile Include="..\Source\Gmem\gmem.c" />
     <ClCompile Include="..\Source\grl.c" />
+    <ClCompile Include="..\Source\Gtime\gtime.c" />
+    <ClCompile Include="..\Source\Gtrace\gtrace.c" />
     <ClCompile Include="..\Source\pre.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pre.h</PrecompiledHeaderFile>
@@ -127,7 +131,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;grlWINDOWS;grl32;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions> </AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
       <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
       <StringPooling>true</StringPooling>
       <OpenMPSupport>true</OpenMPSupport>

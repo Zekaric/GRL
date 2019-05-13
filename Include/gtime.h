@@ -1,11 +1,10 @@
 /******************************************************************************
-file:       Gguid
+file:       gtime
 author:     Robbert de Groot
-copyright:  2000-2012, Robbert de Groot
+copyright:  2002-2009, Robbert de Groot
 
 description:
-GUID is the Globally Unique Identifier structure.  This code wraps some of the
-madness.
+base time functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -36,27 +35,45 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GGUIDH)
-#define      GGUIDH
+#if !defined(GTIMEH)
+#define      GTIMEH
 
-/*****************************************************************************/
-#ifdef __cplusplus
-extern "C" {
+/******************************************************************************
+constant:
+******************************************************************************/
+typedef enum
+{
+   GtimeDST_UNKNOWN = -1,
+   GtimeDST_INACTIVE,
+   GtimeDST_ACTIVE
+} GtimeDST;
+
+/******************************************************************************
+type:
+******************************************************************************/
+/*lint -save -e960 */
+#if grlWINDOWS == 1
+
+#define gtimeNONE Gi8MIN
+#define Gtime __time64_t
 #endif
-/*****************************************************************************/
+
+#if defined(MACOSX)
+
+#define Gtime time_t
+#endif
+/*lint -restore */
 
 /******************************************************************************
 prototype:
 ******************************************************************************/
-grlAPI void     gguidCreateContent(       Gguid * const guid);
-grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
+grlAPI Gtime gtimeGet(         void);
+grlAPI Gb    gtimeGetLocalTime(Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
 
-grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
+grlAPI Gb    gtimeIsStarted(   void);
 
-/*****************************************************************************/
-#ifdef __cplusplus
-}
-#endif
-/*****************************************************************************/
+grlAPI Gb    gtimeStart(       void);
+grlAPI void  gtimeStop(        void);
 
 #endif
