@@ -784,7 +784,11 @@ Varaible:        variableName
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "grl", "grl");</script>
+  <script>HeaderAdd(1, "Grl", "Grl");</script>
+
+  <p>
+   Library level calls.  Mainly to set up the library before use.
+  </p>
 
   <script>HeaderAddFunc();</script>
 
@@ -827,21 +831,30 @@ grlAPI void     grlStop(         void);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Char", "Char, Uchar");</script>
 
+  <p>
+   I define these because I am using PCLint program to keep the code somewhat clean of issues.  One
+   of the things with PCLint is that it warns about using char and unsigned char so I have these
+   defined to avoid the warning/error.
+  </p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef signed char        Char;
 typedef unsigned char      Uchar;
 </pre>
 
-  <p>
-   Not usually types I use.  However I define these because I am using PCLint program to keep the
-   code somewhat clean of issues.  One of the things with PCLint is that it warns about using char
-   and unsigned char so I have these defined to avoid the issue.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Galignment", "Galignment");</script>
+
+  <p>
+   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
+   to define one type to cover them all.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -863,15 +876,18 @@ typedef enum
 } Galignment;
 </pre>
 
-  <p>
-   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
-   to define one type to cover them all.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gb", "Gb (Boolean)");</script>
+
+  <p>
+   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
+   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
+   Otherwise assume it is not a possibility.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -882,31 +898,34 @@ typedef enum
 } Gb;
 </pre>
 
-  <p>
-   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
-   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
-   Otherwise assume it is not a possibility.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gbit", "Gbit");</script>
-
-  <pre>
-typedef unsigned int       Gbit;
-</pre>
 
   <p>
    This is specific to bit fields in a struct.  Because every time using standard C types, I
    forget the "unsigned" keyword.
   </p>
 
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef unsigned int       Gbit;
+</pre>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gcompare", "Gcompare");</script>
 
+  <p>
+   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
+   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
+   be made very clear.  I may remove it in the future.
+  </p>
+
+  <script>HeaderAddType();</script>
   <pre>
 typedef enum
 {
@@ -917,22 +936,10 @@ typedef enum
 } Gcompare;
 </pre>
 
-  <p>
-   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
-   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
-   be made very clear.  I may remove it in the future.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gcount", "Gcount");</script>
-
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gcount;
-</pre>
 
   <p>
    A common integer/natural type used in a lot of places.  This will be the most efficient
@@ -948,6 +955,12 @@ typedef Gi4                Gcount;
    what that variable intends to do.  You may not need to even look at the name of the variable.
    So I use it as a form of making the code more clear.
   </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gcount;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1019,32 +1032,40 @@ grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GhashN", "GhashN");</script>
 
-  <pre>
-typedef Gn4                GhashN;
-</pre>
-
   <p>
    The data type that all hash functions will return.
   </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gn4                GhashN;
+</pre>
 
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GheapN", "GheapN");</script>
 
-  <pre>
-typedef Gn4                GheapN;
-</pre>
-
   <p>
    The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
    implementation.
   </p>
 
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gn4                GheapN;
+</pre>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gi", "Gi (Integer)");</script>
+
+  <p>
+   Integer type.
+  </p>
 
   <script>HeaderAddType();</script>
   <pre>
@@ -1112,15 +1133,15 @@ typedef Gi4                Gih;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gid", "Gid");</script>
 
+  <p>
+   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
+  </p>
+
   <script>HeaderAddType();</script>
 
   <pre>
 typedef Gn4                Gid;
 </pre>
-
-  <p>
-   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
-  </p>
 
   <script>HeaderAddFunc();</script>
 
@@ -1202,12 +1223,6 @@ typedef Gn4                Gid;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gindex", "Gindex");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gindex;
-</pre>
-
   <p>
    A common integer/natural type used in a lot of places.  This will be the most efficient
    size for the platform and currently is an integer and not a natural.  I initially tried a
@@ -1222,6 +1237,12 @@ typedef Gi4                Gindex;
    what that variable intends to do.  You may not need to even look at the name of the variable.
    So I use it as a form of making the code more clear.
   </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gindex;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1249,19 +1270,28 @@ typedef Gi4                Gindex;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gkey", "Gkey");</script>
 
-  <pre>
-typedef Gp                 Gkey;
-</pre>
-
   <p>
    The general idea of a key for use in key value pais for the data containers.  A key will always
    be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.
   </p>
 
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gp                 Gkey;
+</pre>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GkeyP", "GkeyP");</script>
+
+  <p>
+   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
+   the value.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef struct
@@ -1271,19 +1301,14 @@ typedef struct
 } GkeyP;
 </pre>
 
-  <p>
-   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
-   the value.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "gleak", "gleak");</script>
+  <script>HeaderAdd(1, "Gleak", "Gleak");</script>
 
   <p>
-   No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is
-   used by gmem for dynamic memory leak tracking.
+   Track resource leaks.  Not specifically for memory leaks but is used by gmem for dynamic memory
+   leak tracking.
   </p>
 
   <p>
@@ -1304,10 +1329,12 @@ grlAPI Gp  *gleakCreate_(   Gp * const p, Gsize const size, Char const * const f
 </pre>
   <p>
    Create a leak record.  If this leak record is not destroyed it will be reported at grlStop().  A
-   leak record includes the file and location in the file where the leak occurred.  You would not
-   use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the
-   same pointer up the call stack.  The last gleakCreate() call will overwrite any previous
-   leak record.
+   leak record includes the file and location in the file where the leak occurred.
+  </p>
+  <p>
+   You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call
+   gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite
+   any previous leak record.
   </p>
 
   <pre>
@@ -1411,7 +1438,7 @@ typedef CRITICAL_SECTION Glock;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "gmem", "gmem");</script>
+  <script>HeaderAdd(1, "Gmem", "Gmem");</script>
 
   <p>
    Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.
@@ -1419,11 +1446,12 @@ typedef CRITICAL_SECTION Glock;
 
   <p>
    In both debug and release, dynamic memory buffers that are 'small' are pooled.  Meaning, if you
-   create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when 
+   create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when
    'destroyed' will just be kept around in a pool of buffers that are 80 bytes in size.  When the
    next time the program asks for an 80 byte buffer, the first available buffer from the pool is
    used.
   </p>
+
   <p>
    Why are we doing this?  Dynamic memory creation and destruction can be slow.  Often causing a
    kernel call which basically locks the system down in order to perform the operation.  If we can
@@ -1431,8 +1459,9 @@ typedef CRITICAL_SECTION Glock;
    At the cost of using some more memory that is.  Reusing a previously allocated buffer is a lot
    quicker than having to free it and then recreate it.
   </p>
+
   <p>
-   Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool 
+   Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool
    flushing but for now this is the responsibility of the programmer.
   </p>
 
@@ -1444,7 +1473,7 @@ typedef CRITICAL_SECTION Glock;
 #define memCreateTypeArray(      TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
 </pre>
   <p>
-   Simple wrappers around standard C dynamic memory creation functions.  Not gleak tracked.  
+   Simple wrappers around standard C dynamic memory creation functions.  Not gleak tracked.
   </p>
   <p>
    CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a
@@ -1505,11 +1534,11 @@ grlAPI Gb    gmemCopyOverAt(  Gp   const * const pSrc, Gcount const byteCount, G
 grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
 </pre>
   <p>
-   Create a new dynamic memory buffer.  
+   Create a new dynamic memory buffer.
   </p>
   <p>
    CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a
-   type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors 
+   type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors
    when writing out dynamic memory creation calls.
   </p>
   <p>
@@ -1554,6 +1583,10 @@ grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gn", "Gn (Natural and 0)");</script>
 
+  <p>
+   Natural numbers including 0, or in other words, unsigned integers.
+  </p>
+
   <script>HeaderAddType();</script>
   <pre>
 typedef uint8_t            Gn1;
@@ -1561,10 +1594,6 @@ typedef uint16_t           Gn2;
 typedef uint32_t           Gn4;
 typedef uint64_t           Gn8;
 </pre>
-
-  <p>
-   Or in other words, unsigned integers.
-  </p>
 
   <p>
    As you can see I am using the stdint types.  I believe when I was starting out with GRL it was
@@ -1620,12 +1649,6 @@ typedef Gn4                Gnh;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Goffset", "Goffset");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Goffset;
-</pre>
-
   <p>
    A common integer/natural type used in a lot of places.  This will be the most efficient
    size for the platform and currently is an integer and not a natural.  I initially tried a
@@ -1640,6 +1663,12 @@ typedef Gi4                Goffset;
    what that variable intends to do.  You may not need to even look at the name of the variable.
    So I use it as a form of making the code more clear.
   </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Goffset;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1657,22 +1686,29 @@ typedef Gi4                Goffset;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gp", "Gp (void)");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef void               Gp;
-</pre>
-
   <p>
    Why not just use void?  I do use void in places like empty function paramerters, but seeing as
    I have basically redefined everything else, might as well redefine this one as well.  Usually
    never used alone, always used with '*' for a void pointer.
   </p>
 
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef void               Gp;
+</pre>
+
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gposition", "Gposition");</script>
+
+  <p>
+   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
+   situations.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -1683,15 +1719,14 @@ typedef enum
 } Gposition;
 </pre>
 
-  <p>
-   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
-   situations.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gr", "Gr (Real)");</script>
+
+  <p>
+   Real numbers or floating point numbers.
+  </p>
 
   <script>HeaderAddType();</script>
 
@@ -1745,12 +1780,6 @@ typedef Gr8                Grp;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gsize", "Gsize");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gsize;
-</pre>
-
   <p>
    A common integer/natural type used in a lot of places.  This will be the most efficient
    size for the platform and currently is an integer and not a natural.  I initially tried a
@@ -1765,6 +1794,12 @@ typedef Gi4                Gsize;
    what that variable intends to do.  You may not need to even look at the name of the variable.
    So I use it as a form of making the code more clear.
   </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gsize;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1789,7 +1824,168 @@ typedef Gi4                Gsize;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gtime", "Gtime");</script>
+
+  <p>
+   Simple date and time wrapper.  Not completely fleshed out.
+  </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+#if grlWINDOWS == 1
+
+#define gtimeNONE Gi8MIN
+#define Gtime __time64_t
+#endif
+
+#if defined(MACOSX)
+
+#define Gtime time_t
+#endif
+</pre>
+
+  <p>
+   64 bit time to avoid the 2028 time problem.
+  </p>
+
+  <pre>
+typedef enum
+{
+   GtimeDST_UNKNOWN = -1,
+   GtimeDST_INACTIVE,
+   GtimeDST_ACTIVE
+} GtimeDST;
+</pre>
+  <p>
+   Daylights Saving Time flag.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+grlAPI Gtime gtimeGet(         void);
+</pre>
+  <p>
+   The current time of the system.
+  </p>
+
+  <pre>
+grlAPI Gb    gtimeGetLocalTime(Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+</pre>
+  <p>
+   Convert the Gtime to values that are human readable.  Local time zone.
+  </p>
+
+  <pre>
+grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+</pre>
+  <p>
+   Conver the Gtime to values that are human readable.  Greenwich Mean Time zome.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gtrace", "Gtrace");</script>
+
+  <p>
+   Trace functions for recording the flow of the program to a file.  This will incur some 
+   performance penalty because each trace call, opens the file, writes the message and then closes
+   the file and all within in a critical section for thread safety.
+  </p>
+
+  <p>
+   To activate the code you will need to set GTRACE_IS_ON in g_config.h.
+  </p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef enum
+{
+   gtraceLevelNONE       = 0x00000000,
+   gtraceLevelALL        = 0xffffffffU,
+   gtraceLevelENTER_EXIT = 0x10000000,
+   gtraceLevelNOTICE     = 0x20000000,
+   gtraceLevelWARNING    = 0x40000000,
+   gtraceLevelERROR      = 0x80000000U
+} GtraceLevel;
+</pre>
+
+  <p>
+   This is a bit mask of what you want recorded into the trace file.
+  </p>
+
+  <script>HeaderAddFunc();</script>
+
+  <pre>
+grlAPI Gb      gtraceEnter(     void);
+#define gtraceEnter() \
+   ((___gtraceLevel___ & gtraceLevelENTER_EXIT) ? \
+      gtraceMessage_(__FILE__, __FUNCTION__, __LINE__, " {") :\
+      gbFALSE)
+
+grlAPI void    gtraceExit(      void);
+#define gtraceExit() \
+   if (___gtraceLevel___ & gtraceLevelENTER_EXIT) {\
+      gtraceMessage_(__FILE__, __FUNCTION__, __LINE__, " }");\
+   }
+</pre>
+  <p>
+   Not something you would call normally.  If tracing is enabled then genter, and greturn macroes
+   are calling this.
+  </p>
+
+  <pre>
+grlAPI void    gtraceMessage(   GtraceLevel level, char *message);
+#define gtraceMessage(LEVEL, X) \
+   if (___gtraceLevel___ & LEVEL) {\
+      gtraceMessage_(__FILE__, __FUNCTION__, __LINE__, X);\
+   }
+</pre>
+  <p>
+   You can add your own messages inside the code.  If tracing is not enabled this ends up being
+   and empty line.
+  </p>
+
+  <pre>
+grlAPI Gb      gtraceStart(     GtraceLevel level, char *filename);
+</pre>
+  <p>
+   You may want tracing to be available in your release build but you may not want it enabled until
+   certain conditions are met.  Like, maybe, an environment variable being present.  And then you
+   may want a certain granularity.  Tracing only a new feature of the program and not everything.
+  </p>
+
+  <p>
+   Call Start() when you want the start the recording of trace events.
+  </p>
+
+  <p>
+   Level is a bit mask of which trace messages you want recorded in the given filename.
+  </p>
+
+  <pre>
+grlAPI void    gtraceStop(      void);
+</pre>
+
+  <p>
+   clean up.
+  </p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gv", "Gv, GvType");</script>
+
+  <p>
+   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
+   that I wrote up.  The type is to identify what actual value is stored in the generic value
+   structure.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -1820,16 +2016,17 @@ typedef struct
 } Gv; //lint !e960 !e9018
 </pre>
 
-  <p>
-   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
-   that I wrote up.  The type is to identify what actual value is stored in the generic value
-   structure.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gvp", "Gvp");</script>
+
+  <p>
+   Generic value structure.  This is assuming, when you use this structure you know what is stored
+   inside.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef union
@@ -1841,11 +2038,6 @@ typedef union
 } Gvp;
 </pre>
 
-  <p>
-   Generic value structure.  This is assuming, when you use this structure you know what is stored
-   inside.
-  </p>
-
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
@@ -1855,44 +2047,34 @@ typedef union
    Various function types for callbacks.
   </p>
 
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
 </pre>
   <p>
-   Comparing to items together.<br />
-
-
-
+   Comparing to items together.
   </p>
 
   <pre>
 typedef void       (*GrlDestroyFunc)(        Gp       * const value);
 </pre>
   <p>
-   Clean up dynamic memory.<br />
-
-
-
+   Clean up dynamic memory.
   </p>
 
   <pre>
 typedef void       (*GrlForEachFunc)(        Gp       * const value);
 </pre>
   <p>
-   Used in a ForEach function call to perform an action on each item.<br />
-
-
-
+   Used in a ForEach function call to perform an action on each item.
   </p>
 
   <pre>
 typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
 </pre>
   <p>
-   Used on a ForEach function with a key value container.<br />
-
-
-
+   Used on a ForEach function with a key value container.
   </p>
 
   <pre>
@@ -1913,20 +2095,14 @@ typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachF
 typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
 </pre>
   <p>
-   <A form of array/buffer access function.<br />
-
-
-
+   A form of array/buffer access function.
   </p>
 
   <pre>
 typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
 </pre>
   <p>
-   Obtain a hash value of something.<br />
-
-
-
+   Obtain a hash value of something.
   </p>
 
   <pre>
