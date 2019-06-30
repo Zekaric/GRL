@@ -679,7 +679,11 @@ Varaible:        variableName
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "grl", "grl");</script>
+  <script>HeaderAdd(1, "Grl", "Grl");</script>
+
+  <p>
+   Library level calls.  Mainly to set up the library before use.
+  </p>
 
   <script>HeaderAddFunc();</script>
 
@@ -718,6 +722,14 @@ grlAPI void     grlStop(         void);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Char", "Char, Uchar");</script>
 
+  <p>
+   I define these because I am using PCLint program to keep the code somewhat clean of issues.  One
+   of the things with PCLint is that it warns about using char and unsigned char so I have these
+   defined to avoid the warning/error.
+  </p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef signed char        Char;
 typedef unsigned char      Uchar;
@@ -731,6 +743,13 @@ typedef unsigned char      Uchar;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Galignment", "Galignment");</script>
+
+  <p>
+   Various functions require defining an alignment in the horizontal and vertical directions.  Trying
+   to define one type to cover them all.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -759,6 +778,14 @@ typedef enum
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gb", "Gb (Boolean)");</script>
+
+  <p>
+   Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean
+   results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.
+   Otherwise assume it is not a possibility.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -834,6 +861,13 @@ grlAPI Gb       gbitArraySet(     Gn4       * const data, Gindex const bit, Gcou
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gcompare", "Gcompare");</script>
 
+  <p>
+   Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the
+   most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should
+   be made very clear.  I may remove it in the future.
+  </p>
+
+  <script>HeaderAddType();</script>
   <pre>
 typedef enum
 {
@@ -853,12 +887,6 @@ typedef enum
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gcount", "Gcount");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gcount;
-</pre>
-
   <p>A common integer/natural type used in a lot of places.  This will be the most efficient size 
   for the platform and currently is an integer and not a natural.  I initially tried a natural but 
   for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up
@@ -869,6 +897,12 @@ typedef Gi4                Gcount;
   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
   what that variable intends to do.  You may not need to even look at the name of the variable.  So
   I use it as a form of making the code more clear.</p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gcount;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -928,6 +962,12 @@ grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GhashN", "GhashN");</script>
 
+  <p>
+   The data type that all hash functions will return.
+  </p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef Gn4                GhashN;
 </pre>
@@ -939,17 +979,23 @@ typedef Gn4                GhashN;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GheapN", "GheapN");</script>
 
+  <p>The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
+  implementation.</p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef Gn4                GheapN;
 </pre>
-
-  <p>The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree
-  implementation.</p>
 
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gi", "Gi (Integer)");</script>
+
+  <p>
+   Integer type.
+  </p>
 
   <script>HeaderAddType();</script>
   <pre>
@@ -1006,6 +1052,10 @@ typedef Gi4                Gih;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gid", "Gid");</script>
+
+  <p>
+   Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
+  </p>
 
   <script>HeaderAddType();</script>
 
@@ -1088,12 +1138,6 @@ typedef Gn4                Gid;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gindex", "Gindex");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gindex;
-</pre>
-
   <p>A common integer/natural type used in a lot of places.  This will be the most efficient size
   for the platform and currently is an integer and not a natural.  I initially tried a natural but
   for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up
@@ -1104,6 +1148,12 @@ typedef Gi4                Gindex;
   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
   what that variable intends to do.  You may not need to even look at the name of the variable.  So
   I use it as a form of making the code more clear.</p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gindex;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1127,17 +1177,26 @@ typedef Gi4                Gindex;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gkey", "Gkey");</script>
 
+  <p>The general idea of a key for use in key value pais for the data containers.  A key will always
+  be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.</p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef Gp                 Gkey;
 </pre>
-
-  <p>The general idea of a key for use in key value pais for the data containers.  A key will always
-  be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.</p>
 
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "GkeyP", "GkeyP");</script>
+
+  <p>
+   The basis of a key value pair.  A const pointer for the key and some generic data pointer for
+   the value.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef struct
@@ -1153,7 +1212,7 @@ typedef struct
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "gleak", "gleak");</script>
+  <script>HeaderAdd(1, "Gleak", "Gleak");</script>
 
   <p>No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is
   used by gmem for dynamic memory leak tracking.</p>
@@ -1170,6 +1229,11 @@ typedef struct
 #define gleakCreate(P,S) gleakCreate_((P), (S), __FILE__, __LINE__)
 grlAPI Gp  *gleakCreate_(   Gp * const p, Gsize const size, Char const * const file, Gindex const line);
 </pre>
+  <p>
+   You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call
+   gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite
+   any previous leak record.
+  </p>
 
   <p>Create a leak record.  If this leak record is not destroyed it will be reported at grlStop().
   A leak record includes the file and location in the file where the leak occurred.  You would not
@@ -1267,12 +1331,12 @@ typedef CRITICAL_SECTION Glock;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
-  <script>HeaderAdd(1, "gmem", "gmem");</script>
+  <script>HeaderAdd(1, "Gmem", "Gmem");</script>
 
   <p>Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.</p>
 
   <p>In both debug and release, dynamic memory buffers that are 'small' are pooled.  Meaning, if you
-  create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when 
+   create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when
   'destroyed' will just be kept around in a pool of buffers that are 80 bytes in size.  When the
   next time the program asks for an 80 byte buffer, the first available buffer from the pool is used.</p>
   
@@ -1351,7 +1415,7 @@ grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
   <p>Create a new dynamic memory buffer.</p>
   
   <p>CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a
-  type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors 
+   type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors
   when writing out dynamic memory creation calls.</p>
   
   <p>gleak tracking is only done in debug builds.</p>
@@ -1389,6 +1453,10 @@ grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gn", "Gn (Natural and 0)");</script>
+
+  <p>
+   Natural numbers including 0, or in other words, unsigned integers.
+  </p>
 
   <script>HeaderAddType();</script>
   
@@ -1445,12 +1513,6 @@ typedef Gn4                Gnh;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Goffset", "Goffset");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Goffset;
-</pre>
-
   <p>A common integer/natural type used in a lot of places.  This will be the most efficient size 
   for the platform and currently is an integer and not a natural.  I initially tried a natural but
   for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up
@@ -1461,6 +1523,12 @@ typedef Gi4                Goffset;
   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
   what that variable intends to do.  You may not need to even look at the name of the variable.  So
   I use it as a form of making the code more clear.</p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Goffset;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1476,6 +1544,12 @@ typedef Gi4                Goffset;
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gp", "Gp (void)");</script>
 
+  <p>
+   Why not just use void?  I do use void in places like empty function paramerters, but seeing as
+   I have basically redefined everything else, might as well redefine this one as well.  Usually
+   never used alone, always used with '*' for a void pointer.
+  </p>
+
   <script>HeaderAddType();</script>
 
   <pre>
@@ -1490,6 +1564,13 @@ typedef void               Gp;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gposition", "Gposition");</script>
+
+  <p>
+   A lot of functions need an anchor location for offsetting from.  Using this type to handle those
+   situations.
+  </p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef enum
@@ -1519,6 +1600,10 @@ typedef enum
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gr", "Gr (Real)");</script>
+
+  <p>
+   Real numbers or floating point numbers.
+  </p>
 
   <script>HeaderAddType();</script>
 
@@ -1668,12 +1753,6 @@ typedef struct
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gsize", "Gsize");</script>
 
-  <script>HeaderAddType();</script>
-
-  <pre>
-typedef Gi4                Gsize;
-</pre>
-
   <p>A common integer/natural type used in a lot of places.  This will be the most efficient size 
   for the platform and currently is an integer and not a natural.  I initially tried a natural but
   for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up
@@ -1684,6 +1763,12 @@ typedef Gi4                Gsize;
   variable/parameter.  In this case, if I have a function that expects an offset then it is clear
   what that variable intends to do.  You may not need to even look at the name of the variable.  So
   I use it as a form of making the code more clear.</p>
+
+  <script>HeaderAddType();</script>
+
+  <pre>
+typedef Gi4                Gsize;
+</pre>
 
   <script>HeaderAddConst();</script>
 
@@ -1791,6 +1876,14 @@ grlAPI void    gtraceStop(      void);
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gv", "Gv, GvType");</script>
 
+  <p>
+   Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
+   that I wrote up.  The type is to identify what actual value is stored in the generic value
+   structure.
+  </p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef enum
 {
@@ -1829,6 +1922,13 @@ typedef struct
   <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gvp", "Gvp");</script>
 
+  <p>
+   Generic value structure.  This is assuming, when you use this structure you know what is stored
+   inside.
+  </p>
+
+  <script>HeaderAddType();</script>
+
   <pre>
 typedef union
 {
@@ -1848,6 +1948,8 @@ typedef union
   <script>HeaderAdd(1, "G_Func", "G*Func");</script>
 
   <p>Various function types for callbacks.</p>
+
+  <script>HeaderAddType();</script>
 
   <pre>
 typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
