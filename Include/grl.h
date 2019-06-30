@@ -115,6 +115,7 @@ include:
 
 #include "g_base.h"
 
+#include "gbit.h"
 #include "gguid.h"
 #include "glock.h"
 #include "gtime.h"
@@ -123,11 +124,11 @@ include:
 #include "gmem.h"
 #include "gtrace.h"
 
-#if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gprofile.h"   // depends on gtime
 
 #include "grandom.h"
 
+#if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //
 #include "gmemCompressZip.h"  //
 
@@ -135,7 +136,6 @@ include:
 #include "gosversion.h"
 #include "gswap.h"
 
-#include "gbit.h"
 
 #include "gthread.h"
 #include "glockQueue.h"

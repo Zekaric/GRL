@@ -68,12 +68,11 @@ type:
 prototype:
 ******************************************************************************/
 grlAPI Gtime gtimeGet(         void);
-grlAPI Gb    gtimeGetLocalTime(Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
 grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+grlAPI Gb    gtimeGetTimeLocal(Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
 
-grlAPI Gb    gtimeIsStarted(   void);
-
-grlAPI Gb    gtimeStart(       void);
-grlAPI void  gtimeStop(        void);
+// Start and Stop called in grlStart and grtStop
+       Gb    gtimeStart(       void);
+       void  gtimeStop(        void);
 
 #endif

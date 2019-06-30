@@ -72,45 +72,7 @@ grlAPI Gtime gtimeGet(void)
 }
 
 /******************************************************************************
-func: gtimeGetLocalTime
-
-Get the local time of the system in understandable format.
-
-param:
-time
-   Gtime
-   in
-   the time.
-
-daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, second
-   GtimeDST *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *
-   in/out, in/out, in/out, in/out, in/out, in/out, in/out, in/out, in/out,
-   Daylight saving time flag.  Year number.  Day of the year number (0-365).
-   Month number.  Day of the month number.  Day of the week number (Sun = 0).
-   Hour number.  Minute numbers.  Second Number.  All values here
-   can be NULL if not desired.
-******************************************************************************/
-grlAPI Gb gtimeGetLocalTime(const Gtime timeValue, GtimeDST * const daylightSavingTime, 
-   Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay,
-   Gi4 * const hour, Gi4 * const minute, Gi4 * const second)
-{
-   struct tm ttemp;
-
-   genter;
-
-   if (_localtime64_s(&ttemp, &timeValue) != 0)
-   {
-      debugHalt("_localtime64_s failed");
-      greturn gbFALSE;
-   }
-
-   _Get(ttemp, daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, second);
-
-   greturn gbTRUE;
-}
-
-/******************************************************************************
-func: gtimeGetLocalTime
+func: gtimeGetTime
 
 Get the local time of the system in understandable format.
 
@@ -139,6 +101,44 @@ grlAPI Gb gtimeGetTime(const Gtime timeValue, GtimeDST * const daylightSavingTim
    if (_gmtime64_s(&ttemp, &timeValue) != 0)
    {
       debugHalt("_gmtime64_s failed");
+      greturn gbFALSE;
+   }
+
+   _Get(ttemp, daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, second);
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gtimeGetTimeLocal
+
+Get the local time of the system in understandable format.
+
+param:
+time
+   Gtime
+   in
+   the time.
+
+daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, second
+   GtimeDST *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *, Gi4 *
+   in/out, in/out, in/out, in/out, in/out, in/out, in/out, in/out, in/out,
+   Daylight saving time flag.  Year number.  Day of the year number (0-365).
+   Month number.  Day of the month number.  Day of the week number (Sun = 0).
+   Hour number.  Minute numbers.  Second Number.  All values here
+   can be NULL if not desired.
+******************************************************************************/
+grlAPI Gb gtimeGetTimeLocal(const Gtime timeValue, GtimeDST * const daylightSavingTime, 
+   Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay,
+   Gi4 * const hour, Gi4 * const minute, Gi4 * const second)
+{
+   struct tm ttemp;
+
+   genter;
+
+   if (_localtime64_s(&ttemp, &timeValue) != 0)
+   {
+      debugHalt("_localtime64_s failed");
       greturn gbFALSE;
    }
 

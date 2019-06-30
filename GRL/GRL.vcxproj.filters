@@ -43,6 +43,18 @@
     <Filter Include="Header Files\Gtime">
       <UniqueIdentifier>{3d75dc5b-d4d3-406e-aa5e-8d75fae2a275}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gmath">
+      <UniqueIdentifier>{cf88e835-a98a-49b8-ac28-e076ce8a6768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gprofile">
+      <UniqueIdentifier>{1dd9737a-62c1-491f-a7be-b5bf9d1e5dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gprofile">
+      <UniqueIdentifier>{1d024f96-55f9-4635-a9fa-ac0a8590349e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gmath">
+      <UniqueIdentifier>{9f64a4dc-49a7-4fad-ae63-84a0e695a2d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\g_base.h">
@@ -75,6 +87,15 @@
     <ClInclude Include="..\Include\gtime.h">
       <Filter>Header Files\Gtime</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gprofile.h">
+      <Filter>Header Files\Gprofile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\grandom.h">
+      <Filter>Header Files\Gmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gbit.h">
+      <Filter>Header Files\Gmem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">
@@ -100,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="..\Source\Gtime\gtime.c">
       <Filter>Source Files\Gtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GProfile\gprofile.c">
+      <Filter>Source Files\Gprofile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gmath\grandom.c">
+      <Filter>Source Files\Gmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gmem\gbit.c">
+      <Filter>Source Files\Gmem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

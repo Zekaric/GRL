@@ -88,17 +88,15 @@ func: grlStart
 ******************************************************************************/
 grlAPI Gb grlStart(void)
 {
-#if 0
    returnFalseIf(!gtimeStart());
-#endif
    returnFalseIf(!gleakStart());
    returnFalseIf(!gmemStart());
 
-#if 0
 #if GTRACE_IS_ON == 1
    returnFalseIf(!gtraceStartGrl());
 #endif
 
+#if 0
    returnFalseIf(!gtempStart());
    returnFalseIf(!gcStart());
 
@@ -144,10 +142,10 @@ grlAPI void grlStop(void)
 
    gcStop();//lint !e522
    gtempStop();
+#endif
 
 #if GTRACE_IS_ON == 1
    gtraceStopGrl();
-#endif
 #endif
 
    // Ensure the free lists are removed before making the report.
@@ -156,13 +154,10 @@ grlAPI void grlStop(void)
    gmemStop();
    gleakStop();
 
-#if 0
    gtimeStop();
 
 #if GPROFILE_IS_ON == 1
    gprofileReport();
-#endif
-
 #endif
 
    _isStarted = gbFALSE;

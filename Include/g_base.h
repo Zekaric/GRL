@@ -458,8 +458,8 @@ typedef Gn4                Gid;
 // GUID type.
 typedef struct
 {
-   Gn8             n[2];
-   Gn1             b[16];
+   Gn8                      n[2];
+   Gn1                      b[16];
 } Gguid;
 
 // Keys in data containers are always const pointers.  So in the generic sense
@@ -483,15 +483,15 @@ typedef Gn4                GheapN;
 // Integer 2D Point structure.
 typedef struct
 {
-   Gih          x,
-                y;
+   Gih                      x,
+                            y;
 } Gixy;
 
 // Natural 2D Point structure.
 typedef struct
 {
-   Gnh          x,
-                y;
+   Gnh                      x,
+                            y;
 } Gnxy;
 
 // Forward reference for GRL's Dynamic strings.
@@ -516,10 +516,10 @@ typedef enum
 // Generic data structure for any of the base data types.
 typedef union
 {
-   Gip             i;
-   Gnp             n;
-   Gp             *p;
-   Grp             r;
+   Gip                      i;
+   Gnp                      n;
+   Gp                      *p;
+   Grp                      r;
 } Gvp;
 
 // Generic data structure for any of the base data types but includes the 
@@ -528,14 +528,14 @@ typedef union
 // container that the stored type might be.
 typedef struct
 {
-   GvType       type;
+   GvType                   type;
    union
    {
-      Gip          i;
-      Gnp          n;
-      Gp          *p;
-      Grp          r;
-      Gs          *s;
+      Gip                   i;
+      Gnp                   n;
+      Gp                   *p;
+      Grp                   r;
+      Gs                   *s;
    }            value;
 } Gv; //lint !e960 !e9018
 

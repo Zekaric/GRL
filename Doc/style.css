@@ -38,8 +38,7 @@ th {
    padding-right:    0.5rem;
    padding-bottom:   0.1rem;
    text-align:       left;
-   background-color: teal;
-   color:            white;
+   border:           solid 1px;
 }
 
 th.button {
@@ -58,11 +57,7 @@ h1 {
    font-size:        2.0rem;
    margin:           0.5rem;
    margin-top:       2.0rem;
-   padding:          0.5rem;
-   background-color: cornflowerblue;
-   color:            black;
-   border:           hidden;
-   border-radius:    0.5rem;
+   border-bottom:    solid 0.25rem;
 }
 
 h1.page {
@@ -95,9 +90,10 @@ pre {
    margin-bottom:    1.0rem;
    margin-left:      3.0rem;
    margin-right:     3.0rem;
-   border:           1px solid gray;
+   border:           solid 1px;
    border-radius:    0.5rem;
    padding:          0.5rem;
+   background-color: whitesmoke;
 }
 
 img.sized {
