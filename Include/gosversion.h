@@ -1,17 +1,10 @@
 /******************************************************************************
-
-file:       gprofile
+file:       gosversion
 author:     Robbert de Groot
-copyright:  2002-2009, Robbert de Groot
+copyright:  2000-2009, Robbert de Groot
 
 description:
-These are simple profile functions for profiling functions in a GRL program.
-They are exclusivly called in genter and greturn* statements so you will
-need to use those in functions you want profiled.  
-
-The code only records how much total time a function uses during a run.  This
-includes the time used in sub functions.
-
+Determine the version of the operating system.
 ******************************************************************************/
 
 /******************************************************************************
@@ -42,33 +35,52 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GPROFILEH)
-#define      GPROFILEH
+#if !defined(GOSVERSIONH)
+#define      GOSVERSIONH
 
 /******************************************************************************
-GPROFILE_IS_ON defined in grlconfig.h
+type:
 ******************************************************************************/
-#if GPROFILE_IS_ON == 1
+/******************************************************************************
+type: Gosversion
+
+List of valid know MS windows OS versions
+
+Enumeration
+******************************************************************************/
+typedef enum
+{
+   gosversionNA,
+
+   gosversionWIN32S,
+   gosversionWIN95,
+   gosversionWIN98,
+   gosversionWINME,
+
+   gosversionWINNT351,
+   gosversionWINNT4,
+   gosversionWIN2K,
+   gosversionWINXP,
+   gosversionWINXPSP1,
+   gosversionWINXPSP2,
+   gosversionWINXPSP3,
+   gosversionWINVISTA,
+   gosversionWINVISTASP1,
+   gosversionWINVISTASP2,
+   gosversionWIN7,
+   gosversionWIN7SP1,
+   gosversionWIN8,
+   gosversionWIN8_1,
+   gosversionWIN10,
+   gosversionWINSERVER,
+
+   gosversionMACCLASSIC,
+   gosversionMACOSX
+} Gosversion;
 
 /******************************************************************************
-Functions
+function:
 ******************************************************************************/
-grlAPI void  gprofileCheckStack( Gindex index);
-
-grlAPI Gtime gprofileEnter(      Gindex * const index, Char const * const file, Char const * const function);
-grlAPI void  gprofileExit(       Gindex   const index, Gtime const startTime);
-
-grlAPI void  gprofileReport(     void);
-
-#else
-
-#define gprofileCheckStack(I)       
-
-#define gprofileEnter(I,FILE,FUNC)  0
-#define gprofileExit(I,TIME)        
-
-#define gprofileReport()            
-
-#endif
+grlAPI Gosversion gosversionGet(void);
 
 #endif

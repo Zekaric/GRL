@@ -1,17 +1,7 @@
 /******************************************************************************
-
-file:       gprofile
+file:       gswap
 author:     Robbert de Groot
-copyright:  2002-2009, Robbert de Groot
-
-description:
-These are simple profile functions for profiling functions in a GRL program.
-They are exclusivly called in genter and greturn* statements so you will
-need to use those in functions you want profiled.  
-
-The code only records how much total time a function uses during a run.  This
-includes the time used in sub functions.
-
+copyright:  2000-2009, Robbert de Groot
 ******************************************************************************/
 
 /******************************************************************************
@@ -42,33 +32,105 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GPROFILEH)
-#define      GPROFILEH
+/******************************************************************************
+include:
+******************************************************************************/
+#include "pre.h"
 
 /******************************************************************************
-GPROFILE_IS_ON defined in grlconfig.h
+type:
 ******************************************************************************/
-#if GPROFILE_IS_ON == 1
+//lint -e754
+typedef union
+{
+   Gn1 b[2];
+   Gi2 i;
+   Gn2 n;
+} Gswap2; //lint !e960 !e9018
+
+typedef union
+{
+   Gn1 b[4];
+   Gi4 i;
+   Gn4 n;
+   Gr4 r;
+} Gswap4; //lint !e960 !e9018
+
+typedef union
+{
+   Gn1 b[8];
+   Gi8 i;
+   Gn8 n;
+   Gr8 r;
+} Gswap8; //lint !e960 !e9018
 
 /******************************************************************************
-Functions
+global:
+function:
 ******************************************************************************/
-grlAPI void  gprofileCheckStack( Gindex index);
+/******************************************************************************
+func: gswap*
 
-grlAPI Gtime gprofileEnter(      Gindex * const index, Char const * const file, Char const * const function);
-grlAPI void  gprofileExit(       Gindex   const index, Gtime const startTime);
+swap from network to system.
+******************************************************************************/
+grlAPI Gp *gswap2(Gp * const value)
+{
+   Gswap2 *a,
+           b;
 
-grlAPI void  gprofileReport(     void);
+   genter;
 
-#else
+   a = (Gswap2 *) value;
 
-#define gprofileCheckStack(I)       
+   b.n = 
+      ((((Gn2) a->b[0]) << 8) +
+        ((Gn2) a->b[1])); //lint !e734
 
-#define gprofileEnter(I,FILE,FUNC)  0
-#define gprofileExit(I,TIME)        
+   a->n = b.n;
 
-#define gprofileReport()            
+   greturn value;
+}
 
-#endif
+grlAPI Gp *gswap4(Gp * const value)
+{
+   Gswap4 *a,
+           b;
 
-#endif
+   genter;
+
+   a = (Gswap4 *) value;
+
+   b.n = 
+      ((((Gn4) a->b[0]) << 24) +
+       (((Gn4) a->b[1]) << 16) +
+       (((Gn4) a->b[2]) << 8)  +
+        ((Gn4) a->b[3]));
+
+   a->n = b.n;
+
+   greturn value;
+}
+
+grlAPI Gp *gswap8(Gp * const value)
+{
+   Gswap8 *a,
+           b;
+
+   genter;
+
+   a = (Gswap8 *) value;
+
+   b.n = 
+      ((((Gn8) a->b[0]) << 56) +
+       (((Gn8) a->b[1]) << 48) +
+       (((Gn8) a->b[2]) << 40) +
+       (((Gn8) a->b[3]) << 32) +
+       (((Gn8) a->b[4]) << 24) +
+       (((Gn8) a->b[5]) << 16) +
+       (((Gn8) a->b[6]) << 8)  +
+        ((Gn8) a->b[7]));
+
+   a->n = b.n;
+
+   greturn value;
+}

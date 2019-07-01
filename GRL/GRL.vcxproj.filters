@@ -55,6 +55,18 @@
     <Filter Include="Source Files\Gmath">
       <UniqueIdentifier>{9f64a4dc-49a7-4fad-ae63-84a0e695a2d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gos">
+      <UniqueIdentifier>{8440629e-65da-4148-8319-adb53043536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gos">
+      <UniqueIdentifier>{f920fb2b-1aa1-4981-bdc6-3341a6d52c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gcontainer">
+      <UniqueIdentifier>{c15bc7f2-857c-47e2-8e3e-526f2e9ad144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gcontainer">
+      <UniqueIdentifier>{52644c54-6530-4ac7-8f4e-3ea4f33b904f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\g_base.h">
@@ -96,6 +108,42 @@
     <ClInclude Include="..\Include\gbit.h">
       <Filter>Header Files\Gmem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gswap.h">
+      <Filter>Header Files\Gmem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gosversion.h">
+      <Filter>Header Files\Gos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gv.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_Container.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_List.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_Array.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_Hash.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_HashKey.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_ListKey.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_Tree.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\g_TreeKey.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\gheap.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">
@@ -130,6 +178,39 @@
     </ClCompile>
     <ClCompile Include="..\Source\Gmem\gbit.c">
       <Filter>Source Files\Gmem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gmem\gswap.c">
+      <Filter>Source Files\Gmem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gos\gosversion.c">
+      <Filter>Source Files\Gos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\gv.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_List.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_Array.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_Hash.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_HashKey.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_ListKey.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_Tree.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\g_TreeKey.c">
+      <Filter>Source Files\Gcontainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Gcontainer\gheap.c">
+      <Filter>Source Files\Gcontainer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

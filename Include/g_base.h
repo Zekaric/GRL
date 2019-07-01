@@ -134,6 +134,11 @@ macro:
 // Wrapping sizeof to case to Gsize
 #define gsizeof(V)         ((Gsize) sizeof(V))
 
+// Abs macro
+#define gABS(V)            (((V) <    0) ? -(V) : (V))
+#define gMAX(A, B)         (((A) >= (B)) ?  (A) : (B))
+#define gMIN(A, B)         (((A) >= (B)) ?  (B) : (A))
+
 // Loop macroes.  
 // I know some will hate these but I find they help prevent typo mistakes and 
 // to some degree they help in readability.

@@ -115,43 +115,47 @@ include:
 
 #include "g_base.h"
 
+#include "g_Container.h"
+
+#include "g_Array.h"          // depends on g_Container
+#include "g_List.h"           
+#include "g_ListKey.h"
+#include "g_Tree.h"
+#include "g_TreeKey.h"
+
+#include "g_Hash.h"           // depends on g_List
+#include "g_HashKey.h"        // depends on g_ListKey
+
 #include "gbit.h"
 #include "gguid.h"
-#include "glock.h"
-#include "gtime.h"
-
+#include "gheap.h"            // Used in g_Array but not the header file.
 #include "gleak.h"
-#include "gmem.h"
-#include "gtrace.h"
-
-#include "gprofile.h"   // depends on gtime
-
+//#include "gpList.h"           // depends on g_List
+#include "glock.h"
+#include "gosversion.h"
 #include "grandom.h"
+#include "gswap.h"
+#include "gtime.h"
+#include "gtrace.h"
+#include "gv.h"
+
+#include "gmem.h"             // depends on gleak
+#include "gprofile.h"         // depends on gtime
+   
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //
 #include "gmemCompressZip.h"  //
 
 #include "ginterp.h"
-#include "gosversion.h"
-#include "gswap.h"
-
 
 #include "gthread.h"
 #include "glockQueue.h"
 
 #include "gc.h"
-#include "gv.h"
 
-#include "g_Container.h"
-#include "g_Array.h"       // Base container classes
-#include "g_List.h"
-#include "g_ListKey.h"
-#include "g_Tree.h"
-#include "g_TreeKey.h"
 #include "gpArray.h"
 #include "gpArrayKey.h"
-#include "gpList.h"
 #include "gpListKey.h"
 #include "gpTree.h"
 #include "gpTreeKey.h"
@@ -160,8 +164,6 @@ include:
 #include "gs.h"
 #include "Gbuf.h"
 
-#include "g_Hash.h"        // depends on g_List
-#include "g_HashKey.h"     // depends on g_ListKey
 #include "gpHash.h"        // depends on gpList
 #include "gpHashKey.h"     // depends on gpListKey
 #include "gsFunction.h"    // depends on gs
@@ -172,7 +174,6 @@ include:
 
 #include "GsKey.h"         // depends on gs gsHash
 
-#include "gheap.h"         //
 #include "gtemp.h"         //
 
 #include "gthreadArray.h"  // depends on g_Array

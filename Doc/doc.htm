@@ -1538,6 +1538,53 @@ typedef Gi4                Goffset;
 </pre>
 
   <p>The limit constants for these types.</p>
+  
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gosversion", "Gosversion");</script>
+  
+  <script>HeaderAddConst();</script>
+  
+<pre>
+typedef enum
+{
+   gosversionNA,
+
+   gosversionWIN32S,
+   gosversionWIN95,
+   gosversionWIN98,
+   gosversionWINME,
+
+   gosversionWINNT351,
+   gosversionWINNT4,
+   gosversionWIN2K,
+   gosversionWINXP,
+   gosversionWINXPSP1,
+   gosversionWINXPSP2,
+   gosversionWINXPSP3,
+   gosversionWINVISTA,
+   gosversionWINVISTASP1,
+   gosversionWINVISTASP2,
+   gosversionWIN7,
+   gosversionWIN7SP1,
+   gosversionWIN8,
+   gosversionWIN8_1,
+   gosversionWIN10,
+   gosversionWINSERVER,
+
+   gosversionMACCLASSIC,
+   gosversionMACOSX
+} Gosversion;
+</pre>
+
+  <script>HeaderAddFunc();</script>
+
+<pre>
+grlAPI Gosversion gosversionGet(void);
+</pre>
+
+  <p>Get the os the program is running on.</p>
 
   <!--##########################################################################################-->
   <!--##########################################################################################-->
@@ -1789,6 +1836,21 @@ typedef Gi4                Gsize;
   <!--##########################################################################################-->
   <!--##########################################################################################-->
   <!--##########################################################################################-->
+  <script>HeaderAdd(1, "Gsize", "Gsize");</script>
+
+  <script>HeaderAddFunc();</script>
+
+<pre>
+grlAPI Gp *gswap2(Gp *value);
+grlAPI Gp *gswap4(Gp *value);
+grlAPI Gp *gswap8(Gp *value);
+</pre>
+
+  <p>Byte swapping from Big Endian to Little Endian or vice versa for 2, 4, or 8 Byte values.</p>
+
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
+  <!--##########################################################################################-->
   <script>HeaderAdd(1, "Gtime", "Gtime");</script>
   
   <script>HeaderAddType();</script>
@@ -1916,6 +1978,69 @@ typedef struct
   <p>Gv is more involved than Gvp.  I was using this as variable storage in a scripting language
   that I wrote up.  The type is to identify what actual value is stored in the generic value
   structure.</p>
+  
+  <script>HeaderAddFunc();</script>
+  
+<pre>
+grlAPI Gcompare    gpCompare(       Gp const * const valueA, Gp const * const valueB);
+grlAPI Gcompare    gvCompareI(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareN(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareP(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareR(      Gv const * const valueA, Gv const * const valueB);
+</pre>
+
+  <p>Compare two Gv structures.</p>
+
+<pre>
+grlAPI Gv         *gvCreate(        void);
+grlAPI Gb          gvCreateContent( Gv       * const v);
+</pre>
+
+  <p>Create a dynamic Gv structure or intialize a Gv structure.</p>
+
+<pre>
+grlAPI void        gvDestroy(       Gv       * const v);
+grlAPI void        gvDestroyContent(Gv       * const v);
+</pre>
+
+  <p>Destroy a dynamic Gv structure or deinitialize a Gv structure.</p>
+
+<pre>
+grlAPI Gv          gvFromI(         Gip  const value);
+grlAPI Gv          gvFromN(         Gnp  const value);
+grlAPI Gv          gvFromP(         Gp * const value);
+grlAPI Gv          gvFromR(         Grp  const value);
+grlAPI Gv          gvFromS(         Gs * const value);
+</pre>
+
+  <p>Get a Gv structure from a specific value type.</p>
+
+<pre>
+grlAPI Gip         gvGetI(          Gv const * const v);
+grlAPI Gnp         gvGetN(          Gv const * const v);
+grlAPI Gp         *gvGetP(          Gv const * const v);
+grlAPI Grp         gvGetR(          Gv const * const v);
+grlAPI Gs         *gvGetS(          Gv const * const v);
+</pre>
+
+  <p>Get a specific value from a Gv structure.</p>
+
+<pre>
+grlAPI GhashN      gvHash(          Gv const * const value);
+grlAPI GhashN      gvHashS(         Gv const * const value);
+</pre>
+
+  <p>Hash a Gv structure.</p>
+
+<pre>
+grlAPI Gb          gvSetI(          Gv       * const v, Gip  const value);
+grlAPI Gb          gvSetN(          Gv       * const v, Gnp  const value);
+grlAPI Gb          gvSetP(          Gv       * const v, Gp * const value);
+grlAPI Gb          gvSetR(          Gv       * const v, Grp  const value);
+grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
+</pre>
+
+  <p>Set the value of a Gv structure.</p>
 
   <!--##########################################################################################-->
   <!--##########################################################################################-->

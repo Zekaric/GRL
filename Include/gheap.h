@@ -1,17 +1,10 @@
 /******************************************************************************
-
-file:       gprofile
+file:       gheap
 author:     Robbert de Groot
 copyright:  2002-2009, Robbert de Groot
 
 description:
-These are simple profile functions for profiling functions in a GRL program.
-They are exclusivly called in genter and greturn* statements so you will
-need to use those in functions you want profiled.  
-
-The code only records how much total time a function uses during a run.  This
-includes the time used in sub functions.
-
+Heap sort routines.
 ******************************************************************************/
 
 /******************************************************************************
@@ -42,33 +35,41 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GPROFILEH)
-#define      GPROFILEH
+#if !defined(GHEAPH)
+#define      GHEAPH
 
-/******************************************************************************
-GPROFILE_IS_ON defined in grlconfig.h
-******************************************************************************/
-#if GPROFILE_IS_ON == 1
-
-/******************************************************************************
-Functions
-******************************************************************************/
-grlAPI void  gprofileCheckStack( Gindex index);
-
-grlAPI Gtime gprofileEnter(      Gindex * const index, Char const * const file, Char const * const function);
-grlAPI void  gprofileExit(       Gindex   const index, Gtime const startTime);
-
-grlAPI void  gprofileReport(     void);
-
-#else
-
-#define gprofileCheckStack(I)       
-
-#define gprofileEnter(I,FILE,FUNC)  0
-#define gprofileExit(I,TIME)        
-
-#define gprofileReport()            
-
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
 #endif
+/*****************************************************************************/
+
+/******************************************************************************
+type:
+******************************************************************************/
+typedef struct
+{
+   Gcount          count;
+   Gp             *mem;
+   GrlGetFunc      getFunc;
+   GrlSwapFunc     swapFunc;
+   GrlCompareFunc  compareFunc;
+} Gheap;
+
+/******************************************************************************
+prototype:
+******************************************************************************/
+grlAPI void      gheapBuild(    Gheap * const data);
+
+grlAPI void      gheapHeapify(  Gheap * const data, Gcount const arraySize, Gindex const nodeIndex);
+
+grlAPI Gheap     gheapSetData(  Gcount const count, Gp * const mem, GrlGetFunc const getF, GrlSwapFunc const swapF, GrlCompareFunc const compareFunc);
+grlAPI Gb        gheapSort(     Gheap * const data);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

@@ -1,17 +1,10 @@
 /******************************************************************************
-
-file:       gprofile
-author:     Robbert de Groot
-copyright:  2002-2009, Robbert de Groot
+file:         G_Container
+author:       Robbert de Groot
+copyright:    2011-2012, Robbert de Groot
 
 description:
-These are simple profile functions for profiling functions in a GRL program.
-They are exclusivly called in genter and greturn* statements so you will
-need to use those in functions you want profiled.  
-
-The code only records how much total time a function uses during a run.  This
-includes the time used in sub functions.
-
+The base for a dynamic arrrays.
 ******************************************************************************/
 
 /******************************************************************************
@@ -42,33 +35,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GPROFILEH)
-#define      GPROFILEH
+#if !defined(G_CONTAINERH)
+#define      G_CONTAINERH
 
-/******************************************************************************
-GPROFILE_IS_ON defined in grlconfig.h
-******************************************************************************/
-#if GPROFILE_IS_ON == 1
-
-/******************************************************************************
-Functions
-******************************************************************************/
-grlAPI void  gprofileCheckStack( Gindex index);
-
-grlAPI Gtime gprofileEnter(      Gindex * const index, Char const * const file, Char const * const function);
-grlAPI void  gprofileExit(       Gindex   const index, Gtime const startTime);
-
-grlAPI void  gprofileReport(     void);
-
-#else
-
-#define gprofileCheckStack(I)       
-
-#define gprofileEnter(I,FILE,FUNC)  0
-#define gprofileExit(I,TIME)        
-
-#define gprofileReport()            
-
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
 #endif
+/*****************************************************************************/
+
+/******************************************************************************
+type:
+******************************************************************************/
+// This type is for debugging pursposes.  So you can cast any of the containers to this
+// to see what the container actually is.
+typedef struct
+{
+#define GCONTAINER_VAR                   \
+   Char const              *baseName,    \
+                           *typeName,    \
+                           *typeNameSub; \
+   Gsize                    typeSize;    \
+   Gcount                   count;
+   
+   GCONTAINER_VAR
+} G_Container;
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

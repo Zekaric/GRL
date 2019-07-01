@@ -1,17 +1,10 @@
 /******************************************************************************
-
-file:       gprofile
+file:       g_HashKey
 author:     Robbert de Groot
-copyright:  2002-2009, Robbert de Groot
+copyright:  2002-2011, Robbert de Groot
 
 description:
-These are simple profile functions for profiling functions in a GRL program.
-They are exclusivly called in genter and greturn* statements so you will
-need to use those in functions you want profiled.  
-
-The code only records how much total time a function uses during a run.  This
-includes the time used in sub functions.
-
+G_HashKey and name table to mimic Galaxy vname and vdict functionality
 ******************************************************************************/
 
 /******************************************************************************
@@ -42,33 +35,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GPROFILEH)
-#define      GPROFILEH
+#if !defined(G_HASHKEYH)
+#define      G_HASHKEYH
 
 /******************************************************************************
-GPROFILE_IS_ON defined in grlconfig.h
+type:
 ******************************************************************************/
-#if GPROFILE_IS_ON == 1
+typedef struct
+{
+   GCONTAINER_VAR
+
+   G_ListKey        **binArray;
+   GhashSize          binCount;
+} G_HashKey;
 
 /******************************************************************************
-Functions
+prototype:
 ******************************************************************************/
-grlAPI void  gprofileCheckStack( Gindex index);
+//lint -save -e960 -e961 -e9023 -e9024 -e9026
+#define g_HashKeyCreate(TYPE, TYPE_SUB, HASHSIZE) \
+   ((G_HashKey *)  gleakCreate(g_HashKeyCreate_(gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (HASHSIZE)), gsizeof(G_HashKey)))
+//lint -restore
 
-grlAPI Gtime gprofileEnter(      Gindex * const index, Char const * const file, Char const * const function);
-grlAPI void  gprofileExit(       Gindex   const index, Gtime const startTime);
+grlAPI Gb          g_HashKeyAdd(             G_HashKey       * const hash, Gkey const * const key, Gp const * const value);
 
-grlAPI void  gprofileReport(     void);
+grlAPI G_HashKey  *g_HashKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GhashSize const hashSize);
+grlAPI Gb          g_HashKeyCreateContent(   G_HashKey       * const hash, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GhashSize const hashSize);
 
-#else
+grlAPI void        g_HashKeyDestroy(         G_HashKey       * const hash);
+grlAPI void        g_HashKeyDestroyContent(  G_HashKey       * const hash);
 
-#define gprofileCheckStack(I)       
+grlAPI Gb          g_HashKeyErase(           G_HashKey       * const hash, Gkey const * const key);
 
-#define gprofileEnter(I,FILE,FUNC)  0
-#define gprofileExit(I,TIME)        
+grlAPI Gp         *g_HashKeyFind(            G_HashKey const * const hash, Gkey const * const key);
+grlAPI void        g_HashKeyFlush(           G_HashKey       * const hash);
+grlAPI Gb          g_HashKeyForEach(         G_HashKey const * const hash, GrlForEachKeyFunc const func);
 
-#define gprofileReport()            
+grlAPI Gcount      g_HashKeyGetCount(        G_HashKey const * const hash);
 
-#endif
+grlAPI Gb          g_HashKeyUpdate(          G_HashKey const * const hash, Gkey const * const key, Gp const * const value);
 
 #endif
