@@ -34,6 +34,7 @@
     <ClInclude Include="..\Include\gtrace.h" />
     <ClInclude Include="..\Include\gv.h" />
     <ClInclude Include="..\Include\g_Array.h" />
+    <ClInclude Include="..\Include\g_ArrayKey.h" />
     <ClInclude Include="..\Include\g_base.h" />
     <ClInclude Include="..\Include\g_config.h" />
     <ClInclude Include="..\Include\g_Container.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="..\Source\Gcontainer\gheap.c" />
     <ClCompile Include="..\Source\Gcontainer\gv.c" />
     <ClCompile Include="..\Source\Gcontainer\g_Array.c" />
+    <ClCompile Include="..\Source\Gcontainer\g_ArrayKey.c" />
     <ClCompile Include="..\Source\Gcontainer\g_Hash.c" />
     <ClCompile Include="..\Source\Gcontainer\g_HashKey.c" />
     <ClCompile Include="..\Source\Gcontainer\g_List.c" />

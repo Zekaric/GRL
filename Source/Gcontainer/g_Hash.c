@@ -105,7 +105,7 @@ grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName,
    hash = gmemCreateType(G_Hash);
    greturnNullIf(!hash);
 
-   if (!g_HashCreateContent(
+   if (!g_HashCreateContent_(
          hash,
          typeSize,
          typeName,
@@ -124,7 +124,7 @@ grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName,
 /******************************************************************************
 func: g_HashCreateContent
 ******************************************************************************/
-grlAPI Gb g_HashCreateContent(G_Hash * const hash, Gsize const typeSize, 
+grlAPI Gb g_HashCreateContent_(G_Hash * const hash, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub, 
    GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, 
    GhashSize const hashSize)

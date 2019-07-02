@@ -145,7 +145,7 @@ grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const type
    list = gmemCreateType(G_ListKey);
    greturnNullIf(!list);
 
-   if (!g_ListKeyCreateContent(
+   if (!g_ListKeyCreateContent_(
          list, 
          typeSize,
          typeName,
@@ -162,7 +162,7 @@ grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const type
 /******************************************************************************
 func: g_ListKeyCreateContent
 ******************************************************************************/
-grlAPI Gb g_ListKeyCreateContent(G_ListKey * const list, Gsize const typeSize,
+grlAPI Gb g_ListKeyCreateContent_(G_ListKey * const list, Gsize const typeSize,
    Char const * const typeName, Char const * const typeNameSub, 
    GrlCompareFunc const compareFunc)
 {

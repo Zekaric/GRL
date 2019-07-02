@@ -75,14 +75,14 @@ struct G_Tree
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_TreeCreate(TYPE, TYPE_SUB, COMPARE_FUNC) \
-   (G_Tree *) gleakCreate((Gp *) g_TreeCreate_(gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC)), gsizeof(G_Tree)) 
+#define g_TreeCreate(             TYPE, TYPE_SUB, COMPARE_FUNC) (G_Tree *) gleakCreate((Gp *) g_TreeCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC)), gsizeof(G_Tree)) 
+#define g_TreeCreateContent(TREE, TYPE, TYPE_SUB, COMPARE_FUNC)                               g_TreeCreateContent_(TREE, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_TreeItem *g_TreeAdd(             G_Tree       * const tree, Gp const * const value);
 
 grlAPI G_Tree     *g_TreeCreate_(                                    Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
-grlAPI Gb          g_TreeCreateContent(   G_Tree       * const tree, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
+grlAPI Gb          g_TreeCreateContent_(  G_Tree       * const tree, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
 
 grlAPI void        g_TreeDestroy(         G_Tree       * const tree);
 grlAPI void        g_TreeDestroyContent(  G_Tree       * const tree);

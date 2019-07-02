@@ -1,5 +1,5 @@
 /******************************************************************************
-file:         G_Array
+file:         G_ArrayKey
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
 
@@ -44,15 +44,14 @@ include:
 local:
 prototype:
 ******************************************************************************/
-static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb const findLocation);
-
-static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb const findLocation);
+static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const value, Gb const findLocation);
+static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const value, Gb const findLocation);
 
 /******************************************************************************
 global:
 function:
 ******************************************************************************/
-grlAPI Gb g_ArrayAdd(G_Array * const a, Gp const * const value)
+grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
 {
    Gindex index;
    Gb     result;
@@ -66,9 +65,9 @@ grlAPI Gb g_ArrayAdd(G_Array * const a, Gp const * const value)
    if (a->isSorted)
    {
       // Find the location to put the new value in.
-      index  = _BinarySearch(a, value, gbTRUE);
+      index  = _BinarySearch(a, key, gbTRUE);
       
-      result = g_ArrayAddAt(a, gABS(index), value);
+      result = g_ArrayKeyAddAt(a, gABS(index), key, value);
       
       // AddAt turns this off but sort order has not been
       // violated so turn it back on.
@@ -78,15 +77,16 @@ grlAPI Gb g_ArrayAdd(G_Array * const a, Gp const * const value)
    }
 
    // if the array is not sorted or no longer sorted then just append.
-   result = g_ArrayAddEnd(a, value);
+   result = g_ArrayKeyAddEnd(a, key, value);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayAddAt
+func: g_ArrayKeyAddAt
 ******************************************************************************/
-grlAPI Gb g_ArrayAddAt(G_Array * const a, Gindex const index, Gp const * const value)
+grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const * const key, 
+   Gp const * const value)
 {
    Gsize  size;
    Gn1   *ps,
@@ -98,16 +98,16 @@ grlAPI Gb g_ArrayAddAt(G_Array * const a, Gindex const index, Gp const * const v
       !a ||
       index < 0);
 
-   if (!g_ArraySetCount(a, gMAX(index, a->count) + 1))
+   if (!g_ArrayKeySetCount(a, gMAX(index, a->count) + 1))
    {
-      debugHalt("g_ArraySetCount failed");
+      debugHalt("g_ArrayKeySetCount failed");
       greturn gbFALSE;
    }
 
    // Use of this function marks the array as unsorted.
    a->isSorted = gbFALSE; //lint !e641
 
-   size = a->typeSize;
+   size = (a->typeSize + gsizeof(Gkey *));
    ps   = &(a->p[index * size]);
    // if the index is somewhere inside the array then move the other elements
    // out of the way.
@@ -120,48 +120,49 @@ grlAPI Gb g_ArrayAddAt(G_Array * const a, Gindex const index, Gp const * const v
 
    if (value)
    {
-      greturnFalseIf(!gmemCopyOver(value, size, ps)); //lint !e960 !e9005
+      greturnFalseIf(!gmemCopyOver(key,   sizeof(Gkey *), ps));
+      greturnFalseIf(!gmemCopyOver(value, size,           ps + gsizeof(Gkey *))); 
    }
    else
    {
-      gmemClear(ps, a->typeSize);
+      gmemClear(ps, size);
    }
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: g_ArrayAddBegin
+func: g_ArrayKeyAddBegin
 ******************************************************************************/
-grlAPI Gb g_ArrayAddBegin(G_Array * const a, Gp const * const value)
+grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
 {
    Gb result;
    
    genter;
    
-   result = g_ArrayAddAt(a, 0, value);
+   result = g_ArrayKeyAddAt(a, 0, key, value);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayAddEnd
+func: g_ArrayKeyAddEnd
 ******************************************************************************/
-grlAPI Gb g_ArrayAddEnd(G_Array * const a, Gp const * const value)
+grlAPI Gb g_ArrayKeyAddEnd(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
 {
    Gb result;
 
    genter;
    
-   result = g_ArrayAddAt(a, g_ArrayGetCount(a), value);
+   result = g_ArrayKeyAddAt(a, g_ArrayKeyGetCount(a), key, value);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayClear
+func: g_ArrayKeyClear
 ******************************************************************************/
-grlAPI Gb g_ArrayClear(G_Array * const a, Gcount const count, Gindex const index)
+grlAPI Gb g_ArrayKeyClear(G_ArrayKey * const a, Gcount const count, Gindex const index)
 {
    Gsize  size;
    Gcount ctemp;
@@ -185,7 +186,7 @@ grlAPI Gb g_ArrayClear(G_Array * const a, Gcount const count, Gindex const index
    {
       ctemp = a->count - index;
    }
-   size = a->typeSize;
+   size = (a->typeSize + gsizeof(Gkey *));
 
    gmemClearAt(a->p, ctemp * size, index * size);
 
@@ -193,9 +194,9 @@ grlAPI Gb g_ArrayClear(G_Array * const a, Gcount const count, Gindex const index
 }
 
 /******************************************************************************
-func: g_ArrayCopy
+func: g_ArrayKeyCopy
 ******************************************************************************/
-grlAPI Gb g_ArrayCopy(G_Array * const a, Gcount const count, Gindex const indexSrc,
+grlAPI Gb g_ArrayKeyCopy(G_ArrayKey * const a, Gcount const count, Gindex const indexSrc,
    Gindex const indexDst)
 {
    Gb     result;   
@@ -226,22 +227,18 @@ grlAPI Gb g_ArrayCopy(G_Array * const a, Gcount const count, Gindex const indexS
       ctemp = a->count - indexDst;
    }
 
-   size = a->typeSize;
+   size = (a->typeSize + gsizeof(Gkey *));
 
-   result = gmemCopy(
-      a->p,
-      ctemp    * size,
-      indexSrc * size,
-      indexDst * size);
+   result = gmemCopy(a->p, ctemp * size, indexSrc * size, indexDst * size);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayCopyFrom
+func: g_ArrayKeyCopyFrom
 ******************************************************************************/
-grlAPI Gb g_ArrayCopyFrom(G_Array * const aDst, Gindex const indexDst, 
-   G_Array const * const aSrc, Gcount const count, Gindex const indexSrc)
+grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst, 
+   G_ArrayKey const * const aSrc, Gcount const count, Gindex const indexSrc)
 {
    Gb     result;
    Gsize  size;
@@ -255,7 +252,7 @@ grlAPI Gb g_ArrayCopyFrom(G_Array * const aDst, Gindex const indexDst,
 
    greturnTrueIf(count == 0);
 
-   greturnIf(aDst == aSrc, g_ArrayCopy(aDst, count, indexSrc, indexDst));
+   greturnIf(aDst == aSrc, g_ArrayKeyCopy(aDst, count, indexSrc, indexDst));
 
    greturnFalseIf(
       count    < 0 ||
@@ -273,29 +270,24 @@ grlAPI Gb g_ArrayCopyFrom(G_Array * const aDst, Gindex const indexDst,
       ctemp = aDst->count - indexDst;
    }
 
-   size = aDst->typeSize;
+   size = (aDst->typeSize + gsizeof(Gkey *));
 
    // Use of this function marks the array as unsorted.
    aDst->isSorted = gbFALSE; //lint !e641
 
-   result = gmemCopyOverAt(
-      aSrc->p,
-      ctemp    * size,
-      indexSrc * size,
-      aDst->p,
-      indexDst * size);
+   result = gmemCopyOverAt(aSrc->p, ctemp * size, indexSrc * size, aDst->p, indexDst * size);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayCreate_
+func: g_ArrayKeyCreate_
 ******************************************************************************/
-grlAPI G_Array *g_ArrayCreate_(Gsize const typeSize, Char const * const typeName,
+grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const typeName,
    Char const * const typeNameSub, GrlCompareFunc const compareFunc,
-   Gb const isVectorSizing, Gb const isNullEnding)
+   Gb const isVectorSizing)
 {
-   G_Array *a;
+   G_ArrayKey *a;
 
    genter;
 
@@ -304,19 +296,18 @@ grlAPI G_Array *g_ArrayCreate_(Gsize const typeSize, Char const * const typeName
       !typeNameSub ||
       typeSize <= 0);
 
-   a = gmemCreateType(G_Array);
+   a = gmemCreateType(G_ArrayKey);
    greturnNullIf(!a);
 
-   if (!g_ArrayCreateContent_(
+   if (!g_ArrayKeyCreateContent_(
          a,
          typeSize,
          typeName,
          typeNameSub,
          compareFunc,
-         isVectorSizing,
-         isNullEnding))
+         isVectorSizing))
    {
-      g_ArrayDestroy(a);
+      g_ArrayKeyDestroy(a);
       greturn NULL;
    }
 
@@ -324,11 +315,11 @@ grlAPI G_Array *g_ArrayCreate_(Gsize const typeSize, Char const * const typeName
 }
 
 /******************************************************************************
-func: g_ArrayCreateContent
+func: g_ArrayKeyCreateContent
 ******************************************************************************/
-grlAPI Gb g_ArrayCreateContent_(G_Array * const a, Gsize const typeSize, 
+grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub, 
-   GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding)
+   GrlCompareFunc const compareFunc, Gb const isVectorSizing)
 {
    genter;
 
@@ -338,17 +329,14 @@ grlAPI Gb g_ArrayCreateContent_(G_Array * const a, Gsize const typeSize,
       !typeNameSub ||
       typeSize <= 0);
 
-   a->baseName       = "G_Array"; //lint !e916 !e64
+   a->baseName       = "G_ArrayKey"; //lint !e916 !e64
    a->typeName       = typeName;
    a->typeNameSub    = typeNameSub;
    a->compareFunc    = compareFunc;
    a->isVectorSizing = (isVectorSizing) ? gbTRUE : gbFALSE;
-   a->isNullEnding   = (isNullEnding)   ? gbTRUE : gbFALSE;
    a->typeSize       = typeSize;
    a->count          = 0;
-   a->countTotal     = g_ArrayVectorSize(
-      (Gb) a->isVectorSizing,
-      (Gcount) (a->count + isNullEnding)); //lint !e641
+   a->countTotal     = g_ArrayVectorSize((Gb) a->isVectorSizing, a->count);
 
    if (compareFunc)
    {
@@ -357,7 +345,7 @@ grlAPI Gb g_ArrayCreateContent_(G_Array * const a, Gsize const typeSize,
 
    // count can be 0;
    a->p = (Gn1 *) gleakCreate(
-      gmemCreate_(typeName, a->countTotal * a->typeSize),
+      gmemCreate_(typeName, a->countTotal * (a->typeSize + gsizeof(Gkey *))),
       a->countTotal);
    if (!a->p)
    {
@@ -369,24 +357,24 @@ grlAPI Gb g_ArrayCreateContent_(G_Array * const a, Gsize const typeSize,
 }
 
 /******************************************************************************
-func: g_ArrayDestroy
+func: g_ArrayKeyDestroy
 ******************************************************************************/
-grlAPI void g_ArrayDestroy(G_Array * const a)
+grlAPI void g_ArrayKeyDestroy(G_ArrayKey * const a)
 {
    genter;
 
    greturnVoidIf(!a);
 
-   g_ArrayDestroyContent(a);
+   g_ArrayKeyDestroyContent(a);
    gmemDestroy(a);
 
    greturn;
 }
 
 /******************************************************************************
-func: g_ArrayDestroyContent
+func: g_ArrayKeyDestroyContent
 ******************************************************************************/
-grlAPI void g_ArrayDestroyContent(G_Array const * const a)
+grlAPI void g_ArrayKeyDestroyContent(G_ArrayKey const * const a)
 {
    genter;
 
@@ -398,19 +386,19 @@ grlAPI void g_ArrayDestroyContent(G_Array const * const a)
 }
 
 /******************************************************************************
-func: g_ArrayErase
+func: g_ArrayKeyErase
 ******************************************************************************/
-grlAPI Gb g_ArrayErase(G_Array * const a, Gp const * const value)
+grlAPI Gb g_ArrayKeyErase(G_ArrayKey * const a, Gp const * const value)
 {
    Gb     result;
    Gindex index;
 
    genter;
 
-   index = g_ArrayFind(a, value);
+   index = g_ArrayKeyFind(a, value);
    if (index != GindexERROR)
    {
-      result = g_ArrayEraseAt(a, 1, index);
+      result = g_ArrayKeyEraseAt(a, 1, index);
 
       greturn result;
    }
@@ -419,10 +407,11 @@ grlAPI Gb g_ArrayErase(G_Array * const a, Gp const * const value)
 }
 
 /******************************************************************************
-func: g_ArrayEraseAt
+func: g_ArrayKeyEraseAt
 ******************************************************************************/
-grlAPI Gb g_ArrayEraseAt(G_Array * const a, Gcount const count, Gindex const index)
+grlAPI Gb g_ArrayKeyEraseAt(G_ArrayKey * const a, Gcount const count, Gindex const index)
 {
+   Gsize  size;
    Gcount ctemp;
 
    genter;
@@ -435,6 +424,7 @@ grlAPI Gb g_ArrayEraseAt(G_Array * const a, Gcount const count, Gindex const ind
       count < 0 ||
       index < 0 || a->count <= index);
 
+   size  = a->typeSize + gsizeof(Gkey *);
    ctemp = count;
 
    // Adjust the count
@@ -448,57 +438,57 @@ grlAPI Gb g_ArrayEraseAt(G_Array * const a, Gcount const count, Gindex const ind
       // Shuffle elements down.
       if (!gmemCopy(
             a->p,
-            (a->count - (index + ctemp)) * a->typeSize,
-                        (index + ctemp)  * a->typeSize,
-                         index           * a->typeSize))
+            (a->count - (index + ctemp)) * size,
+                        (index + ctemp)  * size,
+                         index           * size))
       {
-         debugHalt("g_ArrayemCopy failed");
+         debugHalt("g_ArrayKeyemCopy failed");
       }
    }
 
    gmemClearAt(
       a->p,
-      a->typeSize * ctemp,
-      (a->count - ctemp) * a->typeSize);
+      ctemp              * size,
+      (a->count - ctemp) * size);
    
-   if (!g_ArraySetCount(a, a->count - ctemp))
+   if (!g_ArrayKeySetCount(a, a->count - ctemp))
    {
-      debugHalt("g_ArraySetCount failed");
+      debugHalt("g_ArrayKeySetCount failed");
    }
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: g_ArrayEraseBegin
+func: g_ArrayKeyEraseBegin
 ******************************************************************************/
-grlAPI void g_ArrayEraseBegin(G_Array * const a)
+grlAPI void g_ArrayKeyEraseBegin(G_ArrayKey * const a)
 {
    genter;
 
    // shrinking the array shouldn't cause harm.
-   g_ArrayEraseAt(a, 1, 0); //lint !e534
+   g_ArrayKeyEraseAt(a, 1, 0); //lint !e534
 
    greturn;
 }
 
 /******************************************************************************
-func: g_ArrayEraseEnd
+func: g_ArrayKeyEraseEnd
 ******************************************************************************/
-grlAPI void g_ArrayEraseEnd(G_Array * const a)
+grlAPI void g_ArrayKeyEraseEnd(G_ArrayKey * const a)
 {
    genter;
 
    // shrinking the array shouldn't cause harm.
-   g_ArrayEraseAt(a, 1, g_ArrayGetCount(a) - 1); //lint !e534
+   g_ArrayKeyEraseAt(a, 1, g_ArrayKeyGetCount(a) - 1); //lint !e534
 
    greturn;
 }
 
 /******************************************************************************
-func: g_ArrayFind
+func: g_ArrayKeyFind
 ******************************************************************************/
-grlAPI Gindex g_ArrayFind(G_Array const * const a, Gp const * const value)
+grlAPI Gindex g_ArrayKeyFind(G_ArrayKey const * const a, Gkey const * const key)
 {
    Gindex result;
 
@@ -508,31 +498,31 @@ grlAPI Gindex g_ArrayFind(G_Array const * const a, Gp const * const value)
          !a              ||
          !a->compareFunc ||
          a->count == 0   ||
-         !value,
+         !key,
       GindexERROR);
 
    if (a->isSorted)
    {
-      result = _BinarySearch(a, value, gbFALSE);
+      result = _BinarySearch(a, key, gbFALSE);
 
       greturn result;
    }
 
-   result = _LinearSearch(a, value, gbFALSE);
+   result = _LinearSearch(a, key, gbFALSE);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayFlush
+func: g_ArrayKeyFlush
 ******************************************************************************/
-grlAPI void g_ArrayFlush(G_Array * const a)
+grlAPI void g_ArrayKeyFlush(G_ArrayKey * const a)
 {
    genter;
 
    greturnVoidIf(!a);
 
-   g_ArraySetCount(a, 0); //lint !e534
+   g_ArrayKeySetCount(a, 0); //lint !e534
 
    if (a->compareFunc)
    {
@@ -543,11 +533,14 @@ grlAPI void g_ArrayFlush(G_Array * const a)
 }
 
 /******************************************************************************
-func: g_ArrayForEach
+func: g_ArrayKeyForEach
 ******************************************************************************/
-grlAPI Gb g_ArrayForEach(G_Array const * const a, GrlForEachFunc const func)
+grlAPI Gb g_ArrayKeyForEach(G_ArrayKey const * const a, GrlForEachKeyFunc const func)
 {
-   Gi4 index;
+   Gsize        size;
+   Gi4          index;
+   Gkey const  *key;
+   Gp          *value;
 
    genter;
 
@@ -555,18 +548,22 @@ grlAPI Gb g_ArrayForEach(G_Array const * const a, GrlForEachFunc const func)
       !a ||
       !func);
 
+   size = a->typeSize + gsizeof(Gkey *);
+
    forCount(index, a->count)
    {
-      func((Gp *) &(a->p[index * a->typeSize]));
+      key   = (Gkey const *) &(a->p[index * size]);
+      value = (Gp *) &(a->p[index * size + gsizeof(Gkey *)]);
+      func(key, value);
    }
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: g_ArrayGet
+func: g_ArrayKeyGet
 ******************************************************************************/
-grlAPI Gp *g_ArrayGet(G_Array const * const a)
+grlAPI Gp *g_ArrayKeyGet(G_ArrayKey const * const a)
 {
    genter;
 
@@ -576,9 +573,9 @@ grlAPI Gp *g_ArrayGet(G_Array const * const a)
 }
 
 /******************************************************************************
-func: g_ArrayGetAt
+func: g_ArrayKeyGetAt
 ******************************************************************************/
-grlAPI Gp *g_ArrayGetAt(G_Array const * const a, Gindex const index)
+grlAPI Gp *g_ArrayKeyGetAt(G_ArrayKey const * const a, Gindex const index)
 {
    genter;
 
@@ -586,27 +583,55 @@ grlAPI Gp *g_ArrayGetAt(G_Array const * const a, Gindex const index)
       !a        ||
       index < 0 || a->count <= index);
 
-   greturn &(a->p[index * a->typeSize]);
+   greturn &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
 }
 
 /******************************************************************************
-func: g_ArrayGetBegin
+func: g_ArrayKeyGetAtKey
 ******************************************************************************/
-grlAPI Gp *g_ArrayGetBegin(G_Array const * const a)
+grlAPI Gkey const *g_ArrayKeyGetAtKey(G_ArrayKey const * const a, Gindex const index)
+{
+   genter;
+
+   greturnNullIf(
+      !a        ||
+      index < 0 || a->count <= index);
+
+   greturn &(a->p[index * (a->typeSize + gsizeof(Gkey *))]);
+}
+
+/******************************************************************************
+func: g_ArrayKeyGetBegin
+******************************************************************************/
+grlAPI Gp *g_ArrayKeyGetBegin(G_ArrayKey const * const a)
 {
    Gp *result;
 
    genter;
    
-   result = g_ArrayGetAt(a, 0);
+   result = g_ArrayKeyGetAt(a, 0);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArrayGetCount
+func: g_ArrayKeyGetBeginKey
 ******************************************************************************/
-grlAPI Gcount g_ArrayGetCount(G_Array const * const a)
+grlAPI Gkey const *g_ArrayKeyGetBeginKey(G_ArrayKey const * const a)
+{
+   Gkey const *result;
+
+   genter;
+   
+   result = g_ArrayKeyGetAtKey(a, 0);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayKeyGetCount
+******************************************************************************/
+grlAPI Gcount g_ArrayKeyGetCount(G_ArrayKey const * const a)
 {
    genter;
 
@@ -616,9 +641,9 @@ grlAPI Gcount g_ArrayGetCount(G_Array const * const a)
 }
 
 /******************************************************************************
-func: g_ArrayGetSize
+func: g_ArrayKeyGetSize
 ******************************************************************************/
-grlAPI Gsize g_ArrayGetSize(G_Array const * const a)
+grlAPI Gsize g_ArrayKeyGetSize(G_ArrayKey const * const a)
 {
    genter;
 
@@ -628,24 +653,39 @@ grlAPI Gsize g_ArrayGetSize(G_Array const * const a)
 }
 
 /******************************************************************************
-func: g_ArrayGetEnd
+func: g_ArrayKeyGetEnd
 ******************************************************************************/
-grlAPI Gp *g_ArrayGetEnd(G_Array const * const a)
+grlAPI Gp *g_ArrayKeyGetEnd(G_ArrayKey const * const a)
 {
    Gp *result;
 
    genter;
    
-   result = g_ArrayGetAt(a, a->count - 1);
+   result = g_ArrayKeyGetAt(a, a->count - 1);
 
    greturn result;
 }
 
 /******************************************************************************
-func: g_ArraySetCount
+func: g_ArrayKeyGetEndKey
 ******************************************************************************/
-grlAPI Gb g_ArraySetCount(G_Array * const a, Gcount const value)
+grlAPI Gkey const *g_ArrayKeyGetEndKey(G_ArrayKey const * const a)
 {
+   Gkey const *result;
+
+   genter;
+   
+   result = g_ArrayKeyGetAtKey(a, a->count - 1);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayKeySetCount
+******************************************************************************/
+grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
+{
+   Gsize  size;
    Gcount countTotal;
    Gp    *p;
    Gb     result;
@@ -662,14 +702,15 @@ grlAPI Gb g_ArraySetCount(G_Array * const a, Gcount const value)
       a->isSorted = gbFALSE; //lint !e641
    }
 
+   size       = a->typeSize + gsizeof(Gkey *);
    countTotal = g_ArrayVectorSize((Gb) a->isVectorSizing, value);
 
    result = gbTRUE;
    if (countTotal != a->countTotal)
    {
-      p      = gmemCreate(a->typeName, countTotal * a->typeSize);
+      p      = gmemCreate(a->typeName, countTotal * size);
 
-      result = gmemCopyOver(a->p, gMIN(value, a->count) * a->typeSize, p);
+      result = gmemCopyOver(a->p, gMIN(value, a->count) * size, p);
 
       gmemDestroy(a->p);
       a->p = (Gn1 *) p;
@@ -682,9 +723,9 @@ grlAPI Gb g_ArraySetCount(G_Array * const a, Gcount const value)
 }
 
 /******************************************************************************
-func: g_ArraySort
+func: g_ArrayKeySort
 ******************************************************************************/
-grlAPI Gb g_ArraySort(G_Array * const a)
+grlAPI Gb g_ArrayKeySort(G_ArrayKey * const a)
 {
    Gheap heap;
 
@@ -697,8 +738,8 @@ grlAPI Gb g_ArraySort(G_Array * const a)
    heap = gheapSetData(
       a->count,
       (Gp *) a,
-      (GrlGetFunc)  g_ArrayGetAt, //lint !e960 !e929
-      (GrlSwapFunc) g_ArraySwap, //lint !e960 !e929
+      (GrlGetFunc)  g_ArrayKeyGetAtKey, //lint !e960 !e929
+      (GrlSwapFunc) g_ArrayKeySwap, //lint !e960 !e929
       a->compareFunc);
 
    a->isSorted = gheapSort(&heap); //lint !e641
@@ -707,9 +748,9 @@ grlAPI Gb g_ArraySort(G_Array * const a)
 }
 
 /******************************************************************************
-func: g_ArraySwap
+func: g_ArrayKeySwap
 ******************************************************************************/
-grlAPI Gb g_ArraySwap(G_Array * const a, Gindex const indexA, Gindex const indexB)
+grlAPI Gb g_ArrayKeySwap(G_ArrayKey * const a, Gindex const indexA, Gindex const indexB)
 {
    Gindex index;
    Gsize  size;
@@ -727,7 +768,7 @@ grlAPI Gb g_ArraySwap(G_Array * const a, Gindex const indexA, Gindex const index
       // Use of this function marks the array as unsorted.
    a->isSorted = gbFALSE; //lint !e641
 
-   size = a->typeSize;
+   size = (a->typeSize + gsizeof(Gkey *));
    pa   = &(a->p[indexA * size]);
    pb   = &(a->p[indexB * size]);
    forCount(index, (Gindex) size)
@@ -741,9 +782,9 @@ grlAPI Gb g_ArraySwap(G_Array * const a, Gindex const indexA, Gindex const index
 }
 
 /******************************************************************************
-func: g_ArrayUpdateAt
+func: g_ArrayKeyUpdateAt
 ******************************************************************************/
-grlAPI Gb g_ArrayUpdateAt(G_Array * const a, Gindex const index, Gp const * const value)
+grlAPI Gb g_ArrayKeyUpdateAt(G_ArrayKey * const a, Gindex const index, Gp const * const value)
 {
    Gsize  size;
    Gn1   *p;
@@ -754,12 +795,9 @@ grlAPI Gb g_ArrayUpdateAt(G_Array * const a, Gindex const index, Gp const * cons
       !a        ||
       index < 0 || a->count <= index);
 
-      // Use of this function marks the array as unsorted.
-   a->isSorted = gbFALSE; //lint !e641
-
    size = a->typeSize;
 
-   p = &(a->p[index * size]);
+   p = &(a->p[index * (size + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
    greturnFalseIf(!gmemCopyOver(value, size, p)); //lint !e960 !e9005
 
    greturn gbTRUE;
@@ -774,7 +812,7 @@ func: _BinarySearch
 
 Binary search for the item or location where the item should be inserted.
 ******************************************************************************/
-static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb const findLocation)
+static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, Gb const findLocation)
 {
    Gindex    hi,
              lo,
@@ -798,9 +836,9 @@ static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb 
       index = (hi + lo) / 2;
 
       // Compare.  If equal then return the index.
-      data = g_ArrayGetAt(a, index);
+      data = g_ArrayKeyGetAtKey(a, index);
 
-      compare = a->compareFunc(value, data);
+      compare = a->compareFunc(key, data);
       greturnIf(compare == gcompareEQUAL, index);
 
       // Hi and lo are the same.  We are done.
@@ -829,7 +867,7 @@ static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb 
 /******************************************************************************
 func: _LinearSearch
 ******************************************************************************/
-static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb const findLocation)
+static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, Gb const findLocation)
 {
    Gindex    index;
    Gp const *data;
@@ -849,9 +887,9 @@ static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb 
    // Linear search for the item.
    forCount(index, a->count)
    {
-      data = g_ArrayGetAt(a, index);
+      data = g_ArrayKeyGetAtKey(a, index);
 
-      compare = a->compareFunc(value, data);
+      compare = a->compareFunc(key, data);
       greturnIf(compare == gcompareEQUAL, index);
 
       greturnIf(
@@ -863,59 +901,4 @@ static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb 
    greturnIf(findLocation, -(a->count));
 
    greturn -1;
-}
-
-/******************************************************************************
-func: _ArrayVectorSize
-******************************************************************************/
-Gcount g_ArrayVectorSize(Gb const isVectorSizing, Gcount const size)
-{
-   Gcount y,
-          step;
-
-   genter;
-
-   greturnIf(!isVectorSizing, gMAX(1, size));
-
-   step =
-      y = 4;
-
-   loop
-   {
-      // 001*
-      greturnIf(y > size, y);
-
-      // 010*
-      y += step;
-      greturnIf(y > size, y);
-
-      // 011*
-      y += step;
-      greturnIf(y > size, y);
-
-      // 100*
-      y += step;
-      greturnIf(y > size, y);
-
-      // 101*
-      y += step;
-      greturnIf(y > size, y);
-
-      // 110*
-      y += step;
-      greturnIf(y > size, y);
-
-      // 111*
-      y += step;
-      greturnIf(y > size, y);
-
-      // Jump up a level.
-      y   += step;
-      step = step << 1;
-
-      // Should never hit this but still.  (year 2012)
-      breakIf(step == 0x10000000000000);
-   }
-
-   greturn 0;
 }

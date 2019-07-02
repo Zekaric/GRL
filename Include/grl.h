@@ -118,6 +118,7 @@ include:
 #include "g_Container.h"
 
 #include "g_Array.h"          // depends on g_Container
+#include "g_ArrayKey.h"
 #include "g_List.h"           
 #include "g_ListKey.h"
 #include "g_Tree.h"

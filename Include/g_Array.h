@@ -53,7 +53,8 @@ typedef struct
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
-                            isSorted         : 1;
+                            isSorted         : 1,
+                            isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
    Gn1                     *p;
 } G_Array;
@@ -62,8 +63,8 @@ typedef struct
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayCreate(TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) \
-   (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
+#define g_ArrayCreate(              TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(              gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
+#define g_ArrayCreateContent(ARRAY, TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING)                                g_ArrayCreateContent_(ARRAY, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING))
 //lint -restore
 
 grlAPI Gb          g_ArrayAdd(            G_Array       * const a,                     Gp const * const value);
@@ -75,7 +76,7 @@ grlAPI Gb          g_ArrayClear(          G_Array       * const a, Gcount const 
 grlAPI Gb          g_ArrayCopy(           G_Array       * const a, Gcount const count, Gindex const indexSrc, Gindex const indexDst);
 grlAPI Gb          g_ArrayCopyFrom(       G_Array       * const aDst, Gindex const indexDst, G_Array const * const aSrc, Gcount const count, Gindex const indexSrc);
 grlAPI G_Array    *g_ArrayCreate_(                                 Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
-grlAPI Gb          g_ArrayCreateContent(  G_Array       * const a, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
+grlAPI Gb          g_ArrayCreateContent_( G_Array       * const a, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
 
 grlAPI void        g_ArrayDestroy(        G_Array       * const a);
 grlAPI void        g_ArrayDestroyContent( G_Array const * const a);
@@ -102,10 +103,7 @@ grlAPI Gb          g_ArraySwap(           G_Array       * const a, Gindex const 
 
 grlAPI Gb          g_ArrayUpdateAt(       G_Array       * const a, Gindex const index, Gp const * const value);
 
-/******************************************************************************
-local to grl library:
-******************************************************************************/
-Gcount _ArrayVectorSize(Gb const isVectorSizing, Gcount const size);
+       Gcount      g_ArrayVectorSize(     Gb const isVectorSizing, Gcount const size);
 
 /*****************************************************************************/
 #ifdef __cplusplus

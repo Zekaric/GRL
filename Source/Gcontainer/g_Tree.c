@@ -151,7 +151,7 @@ grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
    tree = gmemCreateType(G_Tree);
    greturnNullIf(!tree);
 
-   if (!g_TreeCreateContent(tree, typeSize, typeName, typeNameSub, compareFunc))
+   if (!g_TreeCreateContent_(tree, typeSize, typeName, typeNameSub, compareFunc))
    {
       g_TreeDestroy(tree);
       greturn NULL;
@@ -163,7 +163,7 @@ grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
 /******************************************************************************
 func: g_TreeCreateContent
 ******************************************************************************/
-grlAPI Gb g_TreeCreateContent(G_Tree * const tree, Gsize const typeSize, 
+grlAPI Gb g_TreeCreateContent_(G_Tree * const tree, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub,
    GrlCompareFunc const compareFunc)
 {

@@ -545,15 +545,15 @@ typedef struct
 } Gv; //lint !e960 !e9018
 
 // Common callback function patterns.
-typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
-typedef void       (*GrlDestroyFunc)(        Gp       * const value);
-typedef void       (*GrlForEachFunc)(        Gp       * const value);
+typedef Gcompare   (*GrlCompareFunc)(        Gp const   * const valueA, Gp const * const valueB);
+typedef void       (*GrlDestroyFunc)(        Gp         * const value);
+typedef void       (*GrlForEachFunc)(        Gp         * const value);
 typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
-typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
-typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
-typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
-typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
-typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
+typedef Gp        *(*GrlForEachProcessFunc)( Gp         * const value);
+typedef void       (*GrlForEachAltFunc)(     Gp         * const value,  GrlForEachFunc func);
+typedef Gp const  *(*GrlGetFunc)(            Gp const   * const mem,    Gi4 const index);
+typedef GhashN     (*GrlHashFunc)(           Gp const   * const value);
+typedef void       (*GrlSwapFunc)(           Gp         * const mem,    Gi4 const indexA, Gi4 const indexB);
 
 /*****************************************************************************/
 #ifdef __cplusplus

@@ -110,14 +110,14 @@ typedef struct
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashCreate(TYPE, TYPE_SUB, COMPARE_FUNC, HASH_FUNC, HASHSIZE) \
-   ((G_Hash *)  gleakCreate(g_HashCreate_(gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
+#define g_HashCreate(             TYPE, TYPE_SUB, COMPARE_FUNC, HASH_FUNC, HASHSIZE) ((G_Hash *)  gleakCreate((Gp *) g_HashCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
+#define g_HashCreateContent(HASH, TYPE, TYPE_SUB, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent_(HASH, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE))
 //lint -restore
 
 grlAPI Gb       g_HashAdd(             G_Hash       * const hash, Gp const * const value);
 
 grlAPI G_Hash  *g_HashCreate_(                                    Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
-grlAPI Gb       g_HashCreateContent(   G_Hash       * const hash, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
+grlAPI Gb       g_HashCreateContent_(  G_Hash       * const hash, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
 
 grlAPI void     g_HashDestroy(         G_Hash       * const hash);
 grlAPI void     g_HashDestroyContent(  G_Hash       * const hash);

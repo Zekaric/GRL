@@ -102,7 +102,7 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
    hash = gmemCreateType(G_HashKey);
    greturnNullIf(!hash);
 
-   if (!g_HashKeyCreateContent(
+   if (!g_HashKeyCreateContent_(
          hash,
          typeSize,
          typeName,
@@ -119,7 +119,7 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
 /******************************************************************************
 func: g_HashKeyCreateContent
 ******************************************************************************/
-grlAPI Gb g_HashKeyCreateContent(G_HashKey * const hash, Gsize const typeSize, 
+grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub, 
    GhashSize const hashSize)
 {

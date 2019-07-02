@@ -157,7 +157,7 @@ grlAPI G_TreeKey *g_TreeKeyCreate_(Gsize const typeSize, Char const * const type
    tree = gmemCreateType(G_TreeKey);
    greturnNullIf(!tree);
 
-   if (!g_TreeKeyCreateContent(tree, typeSize, typeName, typeNameSub, compareFunc))
+   if (!g_TreeKeyCreateContent_(tree, typeSize, typeName, typeNameSub, compareFunc))
    {
       g_TreeKeyDestroy(tree);
       greturn NULL;
@@ -169,7 +169,7 @@ grlAPI G_TreeKey *g_TreeKeyCreate_(Gsize const typeSize, Char const * const type
 /******************************************************************************
 func: g_TreeKeyCreateContent
 ******************************************************************************/
-grlAPI Gb g_TreeKeyCreateContent(G_TreeKey * const tree, Gsize const typeSize, 
+grlAPI Gb g_TreeKeyCreateContent_(G_TreeKey * const tree, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub,
    GrlCompareFunc const compareFunc)
 {
