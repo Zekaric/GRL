@@ -26,6 +26,7 @@
     <ClInclude Include="..\Include\glock.h" />
     <ClInclude Include="..\Include\gmem.h" />
     <ClInclude Include="..\Include\gosversion.h" />
+    <ClInclude Include="..\Include\gp.h" />
     <ClInclude Include="..\Include\gprofile.h" />
     <ClInclude Include="..\Include\grandom.h" />
     <ClInclude Include="..\Include\grl.h" />

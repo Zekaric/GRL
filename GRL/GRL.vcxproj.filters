@@ -147,6 +147,9 @@
     <ClInclude Include="..\Include\g_ArrayKey.h">
       <Filter>Header Files\Gcontainer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gp.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">

@@ -134,6 +134,7 @@ include:
 //#include "gpList.h"           // depends on g_List
 #include "glock.h"
 #include "gosversion.h"
+#include "gp.h"
 #include "grandom.h"
 #include "gswap.h"
 #include "gtime.h"
