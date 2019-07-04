@@ -128,12 +128,13 @@ include:
 #include "g_HashKey.h"        // depends on g_ListKey
 
 #include "gbit.h"
+#include "gc.h"
 #include "gguid.h"
 #include "gheap.h"            // Used in g_Array but not the header file.
 #include "gleak.h"
-//#include "gpList.h"           // depends on g_List
 #include "glock.h"
 #include "gosversion.h"
+#include "gp.h"
 #include "grandom.h"
 #include "gswap.h"
 #include "gtime.h"
@@ -152,8 +153,6 @@ include:
 
 #include "gthread.h"
 #include "glockQueue.h"
-
-#include "gc.h"
 
 #include "gpArray.h"
 #include "gpArrayKey.h"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\gbit.h" />
+    <ClInclude Include="..\Include\gc.h" />
     <ClInclude Include="..\Include\gguid.h" />
     <ClInclude Include="..\Include\gheap.h" />
     <ClInclude Include="..\Include\gleak.h" />
     <ClInclude Include="..\Include\glock.h" />
     <ClInclude Include="..\Include\gmem.h" />
     <ClInclude Include="..\Include\gosversion.h" />
+    <ClInclude Include="..\Include\gp.h" />
     <ClInclude Include="..\Include\gprofile.h" />
     <ClInclude Include="..\Include\grandom.h" />
     <ClInclude Include="..\Include\grl.h" />
@@ -67,6 +69,7 @@
     <ClCompile Include="..\Source\Gos\gosversion.c" />
     <ClCompile Include="..\Source\GProfile\gprofile.c" />
     <ClCompile Include="..\Source\grl.c" />
+    <ClCompile Include="..\Source\Gstring\gc.c" />
     <ClCompile Include="..\Source\Gtime\gtime.c" />
     <ClCompile Include="..\Source\Gtrace\gtrace.c" />
     <ClCompile Include="..\Source\pre.c">

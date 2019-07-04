@@ -104,10 +104,10 @@ grlAPI void           g_ListKeyItemUpdate(      G_ListKey       * const list, G_
 grlAPI void           g_ListKeyItemUpdateKey(   G_ListKey       * const list, G_ListKeyItem * const litem, Gkey const * const key);
 
 // Locally called for any g_ListKey* routines an not to be used elsewhere.
-grlAPI void           g_ListKeyAddBegin_Add(    G_ListKey       * const list, G_ListKeyItem * const litem);
-grlAPI void           g_ListKeyAddEnd_Add(      G_ListKey       * const list, G_ListKeyItem * const litem);
-
-grlAPI void           g_ListKeyItemAdd_Add(     G_ListKey       * const list, G_ListKeyItem * const litem, G_ListKeyItem * const nitem);
-grlAPI G_ListKeyItem *g_ListKeyItem_Create(     G_ListKey const * const list);
+       void           g_ListKeyAddBegin_Add(    G_ListKey       * const list, G_ListKeyItem * const litem);
+       void           g_ListKeyAddEnd_Add(      G_ListKey       * const list, G_ListKeyItem * const litem);
+       
+       void           g_ListKeyItemAdd_Add(     G_ListKey       * const list, G_ListKeyItem * const litem, G_ListKeyItem * const nitem);
+       G_ListKeyItem *g_ListKeyItem_Create(     G_ListKey const * const list);
 
 #endif
