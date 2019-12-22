@@ -125,6 +125,9 @@
     <ClInclude Include="..\Include\gc.h">
       <Filter>Source Files\Gstring</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\gp.h">
+      <Filter>Header Files\Gcontainer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\grl.c">
