@@ -114,6 +114,7 @@ include:
 #include "g_config.h"
 
 #include "g_base.h"
+#include "g_const.h"
 
 #include "g_Container.h"
 
@@ -136,13 +137,16 @@ include:
 #include "gosversion.h"
 #include "gp.h"
 #include "grandom.h"
+#include "gs.h"
 #include "gswap.h"
+#include "gtemp.h"
 #include "gtime.h"
 #include "gtrace.h"
 #include "gv.h"
 
 #include "gmem.h"             // depends on gleak
 #include "gprofile.h"         // depends on gtime
+#include "gsFunction.h"       // depends on gs
    
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
@@ -161,20 +165,16 @@ include:
 #include "gpTreeKey.h"
 
 #include "gmath.h"
-#include "gs.h"
 #include "Gbuf.h"
 
 #include "gpHash.h"        // depends on gpList
 #include "gpHashKey.h"     // depends on gpListKey
-#include "gsFunction.h"    // depends on gs
 #include "gvArray.h"       // depends on gv g_Array
 #include "gvHash.h"        // depends on gv g_Hash
 #include "gvList.h"        // depends on gv g_List
 #include "gvTree.h"        // depends on gv g_tree
 
 #include "GsKey.h"         // depends on gs gsHash
-
-#include "gtemp.h"         //
 
 #include "gthreadArray.h"  // depends on g_Array
 

@@ -385,10 +385,6 @@ typedef enum
    gpositionCURRENT = SEEK_CUR
 } Gposition;
 
-//TODO: Move to Gs
-#define gsSubStrINDEX_START 0
-#define gsSubStrINDEX_END   GindexMAX
-
 // typedefs
 // Why is this done?  One of C's failing was that it was not strict on defining
 // what size a type was.  This lead to reduced portability of raw C code.  If
@@ -500,8 +496,9 @@ typedef struct
 } Gnxy;
 
 // Forward reference for GRL's Dynamic strings.
-typedef struct Gs Gs;
-typedef struct Gs Gpath;
+typedef struct G_Array  G_Array;
+typedef struct G_Array  Gs;
+typedef struct Gs       Gpath;
 
 // Generic value type.
 typedef enum

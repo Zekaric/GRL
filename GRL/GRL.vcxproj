@@ -31,7 +31,10 @@
     <ClInclude Include="..\Include\gprofile.h" />
     <ClInclude Include="..\Include\grandom.h" />
     <ClInclude Include="..\Include\grl.h" />
+    <ClInclude Include="..\Include\gs.h" />
+    <ClInclude Include="..\Include\gsFunction.h" />
     <ClInclude Include="..\Include\gswap.h" />
+    <ClInclude Include="..\Include\gtemp.h" />
     <ClInclude Include="..\Include\gtime.h" />
     <ClInclude Include="..\Include\gtrace.h" />
     <ClInclude Include="..\Include\gv.h" />
@@ -66,10 +69,13 @@
     <ClCompile Include="..\Source\Gmem\gleak.c" />
     <ClCompile Include="..\Source\Gmem\gmem.c" />
     <ClCompile Include="..\Source\Gmem\gswap.c" />
+    <ClCompile Include="..\Source\Gmem\gtemp.c" />
     <ClCompile Include="..\Source\Gos\gosversion.c" />
     <ClCompile Include="..\Source\GProfile\gprofile.c" />
     <ClCompile Include="..\Source\grl.c" />
     <ClCompile Include="..\Source\Gstring\gc.c" />
+    <ClCompile Include="..\Source\Gstring\gs.c" />
+    <ClCompile Include="..\Source\Gstring\gsFunction.c" />
     <ClCompile Include="..\Source\Gtime\gtime.c" />
     <ClCompile Include="..\Source\Gtrace\gtrace.c" />
     <ClCompile Include="..\Source\pre.c">
