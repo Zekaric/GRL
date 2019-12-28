@@ -1682,7 +1682,7 @@ grlAPI Gindex gsFindFirstCSVComma(Gs const * const str, Gindex const position)
       // Inside quotes
       if (!isInQuotes)
       {
-         if (gsGetAt(str, index) == '"')
+         if (*gsGetAt(str, index) == L'"')
          {
             isInQuotes = gbFALSE;
          }
@@ -1690,13 +1690,13 @@ grlAPI Gindex gsFindFirstCSVComma(Gs const * const str, Gindex const position)
       // outside quotes
       else
       {
-         if (gsGetAt(str, index) == '"')
+         if (*gsGetAt(str, index) == L'"')
          {
             isInQuotes = gbTRUE;
          }
          else
          {
-            breakIf(gsGetAt(str, index) == ',');
+            breakIf(*gsGetAt(str, index) == L',');
          }
       }
    }
@@ -1742,12 +1742,12 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
 
    for (a = position; a < gsGetCount(str); a++)
    {
-      aletter = gsGetAt(str, a);
+      aletter = *gsGetAt(str, a);
 
       found = gbTRUE;
       forCount(b, gsGetCount(letters))
       {
-         if (aletter == gsGetAt(letters, b))
+         if (aletter == *gsGetAt(letters, b))
          {
             found = gbFALSE;
          }
@@ -1844,11 +1844,11 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
 
    for (a = position; a < gsGetCount(str); a++)
    {
-      aletter = gsGetAt(str, a);
+      aletter = *gsGetAt(str, a);
 
       forCount(b, gsGetCount(letters))
       {
-         greturnIf(aletter == gsGetAt(letters, b), a);
+         greturnIf(aletter == *gsGetAt(letters, b), a);
       }
    }
    greturn gsFIND_FAIL;
@@ -1940,12 +1940,12 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
 
    for (a = gsGetCount(str) - 1; a >= position; a--)
    {
-      aletter = gsGetAt(str, a);
+      aletter = *gsGetAt(str, a);
 
       found = gbTRUE;
       forCount(b, gsGetCount(letters))
       {
-         if (aletter == gsGetAt(letters, b))
+         if (aletter == *gsGetAt(letters, b))
          {
             found = gbFALSE;
             break;
@@ -2046,11 +2046,11 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
 
    for (a = gsGetCount(str) - 1; a >= position; a--)
    {
-      aletter = gsGetAt(str, a);
+      aletter = *gsGetAt(str, a);
 
       forCount(b, gsGetCount(letters))
       {
-         greturnIf(aletter == gsGetAt(letters, b), a);
+         greturnIf(aletter == *gsGetAt(letters, b), a);
       }
 
       // End of the string.
@@ -2151,7 +2151,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
          !substr,
       gsFIND_FAIL);
 
-   cp = &(gsGet(str)[position]);
+   cp = gsGetAt(str, position);
    while (*cp)
    {
       s1 = cp;
@@ -2249,7 +2249,7 @@ grlAPI Gs *gsFromCSV(Gs * const str)
       str);
 
    // CSV if a string is in " then a comma or a quote appears in the string.
-   if (gsGetBegin(str) == (Gc2) '"')
+   if (*gsGetBegin(str) == L'"')
    {
       // Remove the enclosing quotes.
       greturnNullIf(!gsEraseSub(str, 0, 1));
@@ -2259,8 +2259,8 @@ grlAPI Gs *gsFromCSV(Gs * const str)
       for (a = gsGetCount(str) - 1; ; a--)
       {
          // "" gets translated to ".  "[x] should not happen.
-         if (gsGetAt(str, a)     == (Gc2) '"' &&
-             gsGetAt(str, a - 1) == (Gc2) '"')
+         if (*gsGetAt(str, a)     == L'"' &&
+             *gsGetAt(str, a - 1) == L'"')
          {
             greturnNullIf(!gsEraseSub(str, a, a + 1));
          }
@@ -2405,7 +2405,7 @@ grlAPI GhashN gsHash(Gs const * const str)
    forCount(a, gsGetCount(str))
    {
       // Update the hash value.
-      hash = (hash << 4) + (GhashN) gsGetAt(str, a);
+      hash = (hash << 4) + (GhashN) *gsGetAt(str, a);
 
       // g holds the top half byte of the hash value.
       g = hash & 0xf0000000;
@@ -2622,7 +2622,7 @@ grlAPI Gb gsIsMultiline(Gs const * const str)
    {
       breakIf(index >= gsGetCount(str));
 
-      returnIf(gsGetAt(str, index) == (Gc2) '\n', gbTRUE);
+      returnIf(*gsGetAt(str, index) == L'\n', gbTRUE);
    }
 
    greturn gbFALSE;
@@ -2653,9 +2653,9 @@ grlAPI Gs *gsReverse(Gs * const str)
 
    forCount(a, gsGetCount(str) / 2)
    {
-      temp = gsGetAt(str, a);
+      temp = *gsGetAt(str, a);
       greturnNullIf(!gsUpdateAt(str, a, gsGetAt(str, (gsGetCount(str) - 1) - a)));
-      greturnNullIf(!gsUpdateAt(str, (gsGetCount(str) - 1) - a, temp));
+      greturnNullIf(!gsUpdateAt(str, (gsGetCount(str) - 1) - a, &temp));
    }
 
    greturn str;
@@ -2761,9 +2761,9 @@ grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
       substr = gsCreate();
       for (; index < gsGetCount(str); index++) //lint !e445
       {
-         breakIf(gsGetAt(str, index) == (Gc2) letter);
+         breakIf(*gsGetAt(str, index) == (Gc2) letter);
 
-         greturnNullIf(!gsAppendC(substr, gsGetAt(str, index)));
+         greturnNullIf(!gsAppendC(substr, *gsGetAt(str, index)));
       }
       greturnNullIf(!gsArrayAddEnd(slist, substr));
    }
@@ -2799,7 +2799,7 @@ grlAPI Gc1 *gsCreateU1_(Gs const * const str)
    b = 0;
    forCount(index, count)
    {
-      lsize = gcToU1(gsGetAt(str, index), &la, &lb, &lc, &ld); //lint !e732
+      lsize = gcToU1(*gsGetAt(str, index), &la, &lb, &lc, &ld); //lint !e732
 
                         stemp[b++] = la;
       if (lsize >= 2) { stemp[b++] = lb; }
@@ -2892,13 +2892,13 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
       for (a = gsGetCount(str) - 1; ; a--)
       {
          // move the null terminator up.
-         if (gcIsWhiteSpace(gsGetAt(str,a))) //lint !e732
+         if (gcIsWhiteSpace(*gsGetAt(str,a))) //lint !e732
          {
             breakIf(!gsSetCount(str, gsGetCount(str) - 1));
 
             // An escaped blank is still a trailing blank.
             if (a &&
-                gsGetAt(str, a - 1) == backslash)
+                *gsGetAt(str, a - 1) == backslash)
             {
                a = a - 1;
 
@@ -2927,14 +2927,14 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
            leadingWhite))
       {
          // White space
-         continueIf(gcIsWhiteSpace(gsGetAt(str, a))); //lint !e732
+         continueIf(gcIsWhiteSpace(*gsGetAt(str, a))); //lint !e732
 
          // First non white space.
          // an escaped white space is still a white space.
          continueIf(
-            !isEscaped                     &&
-            gsGetAt(str, a) == backslash &&
-            gcIsWhiteSpace(gsGetAt(str, a + 1))); //lint !e732
+            !isEscaped                    &&
+            *gsGetAt(str, a) == backslash &&
+            gcIsWhiteSpace(*gsGetAt(str, a + 1))); //lint !e732
 
          // last of the leading blanks.
          leadingWhite = gbFALSE;
@@ -2942,7 +2942,7 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
 
       // Check for escape character
       if (!isEscaped &&
-          gsGetAt(str, a) == backslash)
+          *gsGetAt(str, a) == backslash)
       {
          isEscaped = 2;
       }
@@ -2952,7 +2952,7 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
             !inquotes)                       ||
            type & gcStripESCAPE_CHAR_ALL))
       {
-         if (gsGetAt(str, a) == backslash)
+         if (*gsGetAt(str, a) == backslash)
          {
             // skip it
             isEscaped--;
@@ -2961,11 +2961,11 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
       }
 
       // Quote character
-      if (gsGetAt(str, a) == quote)
+      if (*gsGetAt(str, a) == quote)
       {
          // Make sure the character isn't escaped.
          if ((a &&
-              gsGetAt(str, a - 1) != backslash) ||
+              *gsGetAt(str, a - 1) != backslash) ||
              !a)
          {
             inquotes = (Gb) !inquotes; //lint !e930
@@ -3013,7 +3013,7 @@ grlAPI Gs *gsStripCompress(Gs * const str)
    {
       if (!found)
       {
-         if (gcIsWhiteSpace(gsGetAt(str, a))) //lint !e732
+         if (gcIsWhiteSpace((Gc) *gsGetAt(str, a))) //lint !e732
          {
             found = gbTRUE;
          }
@@ -3021,7 +3021,7 @@ grlAPI Gs *gsStripCompress(Gs * const str)
       else
       {
          // Only accept one white space.  Trim the others.
-         continueIf(gcIsWhiteSpace(gsGetAt(str, a))); //lint !e732
+         continueIf(gcIsWhiteSpace((Gc) *gsGetAt(str, a))); //lint !e732
 
          // Not a white space.  Restart the search.
          found = gbFALSE;
@@ -3062,19 +3062,19 @@ grlAPI Gs *gsToCSV(Gs * const str)
    {
       Gs *temp = gsCreate();
 
-      greturnNullIf(!gsAppendC(temp, (Gc2) '"'));
+      greturnNullIf(!gsAppendC(temp, L'"'));
 
       // double the double quotes.
       forCount(a, gsGetCount(str))
       {
-         if (gsGetAt(str, a) == (Gc2) '"')
+         if (*gsGetAt(str, a) == L'"')
          {
-            greturnNullIf(!gsAppendC(temp, (Gc2) '"'));
+            greturnNullIf(!gsAppendC(temp, L'"'));
          }
-         greturnNullIf(!gsAppendC(temp, gsGetAt(str, a)));
+         greturnNullIf(!gsAppendC(temp, *gsGetAt(str, a)));
       }
 
-      greturnNullIf(!gsAppendC(temp, (Gc2) '"'));
+      greturnNullIf(!gsAppendC(temp, L'"'));
 
       greturnNullIf(!gsSet(str, temp));
 
@@ -3115,6 +3115,7 @@ dst
 grlAPI Gs *gsToLowerCase(Gs * const str)
 {
    Gindex a;
+   Gc2    letter;
 
    genter;
 
@@ -3122,11 +3123,8 @@ grlAPI Gs *gsToLowerCase(Gs * const str)
 
    forCount(a, gsGetCount(str))
    {
-      greturnNullIf(
-         !gsUpdateAt(
-            str,
-            a,
-            (Gc2) gcToLowerCase(gsGetAt(str, a))));
+      letter = gcToLowerCase(*gsGetAt(str, a));
+      greturnNullIf(!gsUpdateAt(str, a, &letter));
    }
 
    greturn str;
@@ -3146,6 +3144,7 @@ dst
 grlAPI Gs *gsToUpperCase(Gs * const str)
 {
    Gindex a;
+   Gc2    letter;
 
    genter;
 
@@ -3153,10 +3152,8 @@ grlAPI Gs *gsToUpperCase(Gs * const str)
 
    forCount(a, gsGetCount(str))
    {
-      gsUpdateAt(
-         str,
-         a,
-         (Gc2) gcToUpperCase(gsGetAt(str, a))); //lint !e534
+      letter = gcToUpperCase(*gsGetAt(str, a));
+      gsUpdateAt(str, a, &letter); //lint !e534
    }
 
    greturn str;

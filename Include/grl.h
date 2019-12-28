@@ -114,7 +114,6 @@ include:
 #include "g_config.h"
 
 #include "g_base.h"
-#include "g_const.h"
 
 #include "g_Container.h"
 

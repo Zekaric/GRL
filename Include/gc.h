@@ -48,7 +48,7 @@ constant:
 
 #define gsDYNAMIC_EXPAND_FACTOR  (size_t) 2
 
-#define gsFIND_FAIL              gindexERROR
+#define gsFIND_FAIL              GindexERROR
 /*lint -restore */
 
 /******************************************************************************
@@ -151,8 +151,8 @@ grlAPI Gc2        gc2FromA(                Char const letter);
 grlAPI Gc         gcFromU1(                Gc1 const * const str);
 grlAPI Gc         gcFromU2(                Gc2 const * const str);
 
-grlAPI Gcount     gcGetCount(              Gc const  * const str);
-grlAPI Gcount     gcGetCountA(             Char const  * const str);
+grlAPI Gcount     gcGetCount(              Gc const * const str);
+grlAPI Gcount     gcGetCountA(             Char const * const str);
 grlAPI Gcount     gcGetCountU1(            Gc1 const * const str);
 grlAPI Gcount     gcGetCountU2(            Gc2 const * const str);
 grlAPI Gcount     gcGetLetterByteCount(    Gp const *ptr, GcType type);
