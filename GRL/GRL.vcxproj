@@ -177,6 +177,7 @@
       <StringPooling>true</StringPooling>
       <OpenMPSupport>true</OpenMPSupport>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,6 +196,7 @@
       <StringPooling>true</StringPooling>
       <OpenMPSupport>true</OpenMPSupport>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -215,6 +217,7 @@
       <StringPooling>true</StringPooling>
       <OpenMPSupport>true</OpenMPSupport>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -237,6 +240,7 @@
       <StringPooling>true</StringPooling>
       <OpenMPSupport>true</OpenMPSupport>
       <CompileAs>CompileAsC</CompileAs>
+      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
