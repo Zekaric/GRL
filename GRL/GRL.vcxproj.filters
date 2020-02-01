@@ -5,220 +5,209 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Gguid">
-      <UniqueIdentifier>{3bb74590-3977-4234-8270-c570c8ba544b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gmem">
-      <UniqueIdentifier>{5f376cc2-3bde-47cb-88f8-435d33101691}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Glock">
-      <UniqueIdentifier>{f1fe44fd-1422-4a4c-bc15-493414631688}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gtrace">
-      <UniqueIdentifier>{c4cd0fac-a8f9-4ef0-8dd2-8ca46e72cff4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gtime">
-      <UniqueIdentifier>{04bea43e-698f-4f08-8fe8-baae0911eefb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gprofile">
-      <UniqueIdentifier>{1d024f96-55f9-4635-a9fa-ac0a8590349e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gmath">
-      <UniqueIdentifier>{9f64a4dc-49a7-4fad-ae63-84a0e695a2d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gos">
-      <UniqueIdentifier>{f920fb2b-1aa1-4981-bdc6-3341a6d52c8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gcontainer">
-      <UniqueIdentifier>{c15bc7f2-857c-47e2-8e3e-526f2e9ad144}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gstring">
-      <UniqueIdentifier>{1b61677d-9e6b-45cd-a856-ba3977dd95d8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Include\g_Array.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="precompiled.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_ArrayKey.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_Array.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_Container.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_ArrayKey.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_Hash.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_base.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_HashKey.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_config.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_List.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_const.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_ListKey.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_Container.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_Tree.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_Hash.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_TreeKey.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_HashKey.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gheap.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_List.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gp.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_ListKey.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gv.h">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClInclude Include="g_Tree.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gguid.h">
-      <Filter>Source Files\Gguid</Filter>
+    <ClInclude Include="g_TreeKey.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\glock.h">
-      <Filter>Source Files\Glock</Filter>
+    <ClInclude Include="gbit.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\grandom.h">
-      <Filter>Source Files\Gmath</Filter>
+    <ClInclude Include="gc.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gswap.h">
-      <Filter>Source Files\Gmem</Filter>
+    <ClInclude Include="gguid.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gmem.h">
-      <Filter>Source Files\Gmem</Filter>
+    <ClInclude Include="gheap.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gleak.h">
-      <Filter>Source Files\Gmem</Filter>
+    <ClInclude Include="gleak.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gbit.h">
-      <Filter>Source Files\Gmem</Filter>
+    <ClInclude Include="glock.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gosversion.h">
-      <Filter>Source Files\Gos</Filter>
+    <ClInclude Include="gmem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gprofile.h">
-      <Filter>Source Files\Gprofile</Filter>
+    <ClInclude Include="gosversion.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gtime.h">
-      <Filter>Source Files\Gtime</Filter>
+    <ClInclude Include="gp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gtrace.h">
-      <Filter>Source Files\Gtrace</Filter>
+    <ClInclude Include="gprofile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\pre.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="grandom.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_base.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="grl.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\g_config.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="gs.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\grl.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="gsFunction.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gc.h">
-      <Filter>Source Files\Gstring</Filter>
+    <ClInclude Include="gswap.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gp.h">
-      <Filter>Header Files\Gcontainer</Filter>
+    <ClInclude Include="gtemp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gs.h">
-      <Filter>Source Files\Gstring</Filter>
+    <ClInclude Include="gthread.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gsFunction.h">
-      <Filter>Source Files\Gstring</Filter>
+    <ClInclude Include="gtime.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\gtemp.h">
-      <Filter>Source Files\Gmem</Filter>
+    <ClInclude Include="gtrace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gcon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpath.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\grl.c">
+    <ClCompile Include="precompiled.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\pre.c">
+    <ClCompile Include="GRL.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gguid\gguid.c">
-      <Filter>Source Files\Gguid</Filter>
+    <ClCompile Include="g_Array.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmem\gleak.c">
-      <Filter>Source Files\Gmem</Filter>
+    <ClCompile Include="g_ArrayKey.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmem\gmem.c">
-      <Filter>Source Files\Gmem</Filter>
+    <ClCompile Include="g_Hash.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Glock\glock.c">
-      <Filter>Source Files\Glock</Filter>
+    <ClCompile Include="g_HashKey.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gtrace\gtrace.c">
-      <Filter>Source Files\Gtrace</Filter>
+    <ClCompile Include="g_List.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gtime\gtime.c">
-      <Filter>Source Files\Gtime</Filter>
+    <ClCompile Include="g_ListKey.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\GProfile\gprofile.c">
-      <Filter>Source Files\Gprofile</Filter>
+    <ClCompile Include="g_Tree.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmath\grandom.c">
-      <Filter>Source Files\Gmath</Filter>
+    <ClCompile Include="g_TreeKey.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmem\gbit.c">
-      <Filter>Source Files\Gmem</Filter>
+    <ClCompile Include="gbit.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmem\gswap.c">
-      <Filter>Source Files\Gmem</Filter>
+    <ClCompile Include="gc.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gos\gosversion.c">
-      <Filter>Source Files\Gos</Filter>
+    <ClCompile Include="gguid.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\gv.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gheap.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_List.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gleak.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_Array.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="glock.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_Hash.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gmem.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_HashKey.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gosversion.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_ListKey.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gprofile.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_Tree.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="grandom.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_TreeKey.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gs.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\gheap.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gsFunction.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gcontainer\g_ArrayKey.c">
-      <Filter>Source Files\Gcontainer</Filter>
+    <ClCompile Include="gswap.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gstring\gc.c">
-      <Filter>Source Files\Gstring</Filter>
+    <ClCompile Include="gtemp.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gstring\gs.c">
-      <Filter>Source Files\Gstring</Filter>
+    <ClCompile Include="gtime.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gstring\gsFunction.c">
-      <Filter>Source Files\Gstring</Filter>
+    <ClCompile Include="gtrace.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Gmem\gtemp.c">
-      <Filter>Source Files\Gmem</Filter>
+    <ClCompile Include="gv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpath.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -18,78 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Include\gbit.h" />
-    <ClInclude Include="..\Include\gc.h" />
-    <ClInclude Include="..\Include\gguid.h" />
-    <ClInclude Include="..\Include\gheap.h" />
-    <ClInclude Include="..\Include\gleak.h" />
-    <ClInclude Include="..\Include\glock.h" />
-    <ClInclude Include="..\Include\gmem.h" />
-    <ClInclude Include="..\Include\gosversion.h" />
-    <ClInclude Include="..\Include\gp.h" />
-    <ClInclude Include="..\Include\gprofile.h" />
-    <ClInclude Include="..\Include\grandom.h" />
-    <ClInclude Include="..\Include\grl.h" />
-    <ClInclude Include="..\Include\gs.h" />
-    <ClInclude Include="..\Include\gsFunction.h" />
-    <ClInclude Include="..\Include\gswap.h" />
-    <ClInclude Include="..\Include\gtemp.h" />
-    <ClInclude Include="..\Include\gtime.h" />
-    <ClInclude Include="..\Include\gtrace.h" />
-    <ClInclude Include="..\Include\gv.h" />
-    <ClInclude Include="..\Include\g_Array.h" />
-    <ClInclude Include="..\Include\g_ArrayKey.h" />
-    <ClInclude Include="..\Include\g_base.h" />
-    <ClInclude Include="..\Include\g_config.h" />
-    <ClInclude Include="..\Include\g_Container.h" />
-    <ClInclude Include="..\Include\g_Hash.h" />
-    <ClInclude Include="..\Include\g_HashKey.h" />
-    <ClInclude Include="..\Include\g_List.h" />
-    <ClInclude Include="..\Include\g_ListKey.h" />
-    <ClInclude Include="..\Include\g_Tree.h" />
-    <ClInclude Include="..\Include\g_TreeKey.h" />
-    <ClInclude Include="..\Include\pre.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Source\Gcontainer\gheap.c" />
-    <ClCompile Include="..\Source\Gcontainer\gv.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_Array.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_ArrayKey.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_Hash.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_HashKey.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_List.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_ListKey.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_Tree.c" />
-    <ClCompile Include="..\Source\Gcontainer\g_TreeKey.c" />
-    <ClCompile Include="..\Source\Gguid\gguid.c" />
-    <ClCompile Include="..\Source\Glock\glock.c" />
-    <ClCompile Include="..\Source\Gmath\grandom.c" />
-    <ClCompile Include="..\Source\Gmem\gbit.c" />
-    <ClCompile Include="..\Source\Gmem\gleak.c" />
-    <ClCompile Include="..\Source\Gmem\gmem.c" />
-    <ClCompile Include="..\Source\Gmem\gswap.c" />
-    <ClCompile Include="..\Source\Gmem\gtemp.c" />
-    <ClCompile Include="..\Source\Gos\gosversion.c" />
-    <ClCompile Include="..\Source\GProfile\gprofile.c" />
-    <ClCompile Include="..\Source\grl.c" />
-    <ClCompile Include="..\Source\Gstring\gc.c" />
-    <ClCompile Include="..\Source\Gstring\gs.c" />
-    <ClCompile Include="..\Source\Gstring\gsFunction.c" />
-    <ClCompile Include="..\Source\Gtime\gtime.c" />
-    <ClCompile Include="..\Source\Gtrace\gtrace.c" />
-    <ClCompile Include="..\Source\pre.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pre.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pre.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{D195CD14-1865-4B39-B51E-AF70ACFF1E51}</ProjectGuid>
+    <ProjectGuid>{7EF814F4-8EB2-413A-9282-F637ABDD588A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>GRL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
@@ -141,27 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)$(Platform)\</OutDir>
-    <IntDir>$(Configuration)$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)include\;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Configuration)32\</OutDir>
+    <IntDir>$(Configuration)32\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)$(Platform)\</OutDir>
-    <IntDir>$(Configuration)$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)include\;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir>$(Configuration)64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Configuration)$(Platform)\</OutDir>
-    <IntDir>$(Configuration)$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)32\</OutDir>
+    <IntDir>$(Configuration)32\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Configuration)$(Platform)\</OutDir>
-    <IntDir>$(Configuration)$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir>$(Configuration)64\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -171,13 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;grlWINDOWS;grl32;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
-      <StringPooling>true</StringPooling>
-      <OpenMPSupport>true</OpenMPSupport>
-      <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,11 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;grlWINDOWS;grl64;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
-      <StringPooling>true</StringPooling>
-      <OpenMPSupport>true</OpenMPSupport>
-      <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -207,17 +124,14 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;grlWINDOWS;grl32;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
-      <StringPooling>true</StringPooling>
-      <OpenMPSupport>true</OpenMPSupport>
-      <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -230,17 +144,14 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;grlWINDOWS;grl64;grlSWAP=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pre.h</PrecompiledHeaderFile>
-      <StringPooling>true</StringPooling>
-      <OpenMPSupport>true</OpenMPSupport>
-      <CompileAs>CompileAsC</CompileAs>
-      <AdditionalIncludeDirectories>D:\pzgithub\GRL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -249,6 +160,83 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="gbit.h" />
+    <ClInclude Include="gc.h" />
+    <ClInclude Include="gcon.h" />
+    <ClInclude Include="gguid.h" />
+    <ClInclude Include="gheap.h" />
+    <ClInclude Include="gleak.h" />
+    <ClInclude Include="glock.h" />
+    <ClInclude Include="gmem.h" />
+    <ClInclude Include="gosversion.h" />
+    <ClInclude Include="gp.h" />
+    <ClInclude Include="gpath.h" />
+    <ClInclude Include="gprofile.h" />
+    <ClInclude Include="grandom.h" />
+    <ClInclude Include="grl.h" />
+    <ClInclude Include="gs.h" />
+    <ClInclude Include="gsFunction.h" />
+    <ClInclude Include="gswap.h" />
+    <ClInclude Include="gtemp.h" />
+    <ClInclude Include="gthread.h" />
+    <ClInclude Include="gtime.h" />
+    <ClInclude Include="gtrace.h" />
+    <ClInclude Include="gv.h" />
+    <ClInclude Include="g_Array.h" />
+    <ClInclude Include="g_ArrayKey.h" />
+    <ClInclude Include="g_base.h" />
+    <ClInclude Include="g_config.h" />
+    <ClInclude Include="g_const.h" />
+    <ClInclude Include="g_Container.h" />
+    <ClInclude Include="g_Hash.h" />
+    <ClInclude Include="g_HashKey.h" />
+    <ClInclude Include="g_List.h" />
+    <ClInclude Include="g_ListKey.h" />
+    <ClInclude Include="g_Tree.h" />
+    <ClInclude Include="g_TreeKey.h" />
+    <ClInclude Include="precompiled.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gbit.c" />
+    <ClCompile Include="gc.c" />
+    <ClCompile Include="gcon.c" />
+    <ClCompile Include="gguid.c" />
+    <ClCompile Include="gheap.c" />
+    <ClCompile Include="gleak.c" />
+    <ClCompile Include="glock.c" />
+    <ClCompile Include="gmem.c" />
+    <ClCompile Include="gosversion.c" />
+    <ClCompile Include="gpath.c" />
+    <ClCompile Include="gprofile.c" />
+    <ClCompile Include="grandom.c" />
+    <ClCompile Include="GRL.c" />
+    <ClCompile Include="gs.c" />
+    <ClCompile Include="gsFunction.c" />
+    <ClCompile Include="gswap.c" />
+    <ClCompile Include="gtemp.c" />
+    <ClCompile Include="gtime.c" />
+    <ClCompile Include="gtrace.c" />
+    <ClCompile Include="gv.c" />
+    <ClCompile Include="g_Array.c" />
+    <ClCompile Include="g_ArrayKey.c" />
+    <ClCompile Include="g_Hash.c" />
+    <ClCompile Include="g_HashKey.c" />
+    <ClCompile Include="g_List.c" />
+    <ClCompile Include="g_ListKey.c" />
+    <ClCompile Include="g_Tree.c" />
+    <ClCompile Include="g_TreeKey.c" />
+    <ClCompile Include="precompiled.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">precompiled.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
