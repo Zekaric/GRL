@@ -161,18 +161,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gat.h" />
+    <ClInclude Include="gb.h" />
     <ClInclude Include="gbit.h" />
     <ClInclude Include="gc.h" />
     <ClInclude Include="gcon.h" />
+    <ClInclude Include="gdir.h" />
     <ClInclude Include="gguid.h" />
     <ClInclude Include="gheap.h" />
+    <ClInclude Include="gi.h" />
     <ClInclude Include="gleak.h" />
     <ClInclude Include="glock.h" />
     <ClInclude Include="gmem.h" />
+    <ClInclude Include="gn.h" />
     <ClInclude Include="gosversion.h" />
     <ClInclude Include="gp.h" />
     <ClInclude Include="gpath.h" />
     <ClInclude Include="gprofile.h" />
+    <ClInclude Include="gr.h" />
     <ClInclude Include="grandom.h" />
     <ClInclude Include="grl.h" />
     <ClInclude Include="gs.h" />
@@ -183,11 +189,11 @@
     <ClInclude Include="gtime.h" />
     <ClInclude Include="gtrace.h" />
     <ClInclude Include="gv.h" />
+    <ClInclude Include="gvp.h" />
     <ClInclude Include="g_Array.h" />
     <ClInclude Include="g_ArrayKey.h" />
     <ClInclude Include="g_base.h" />
     <ClInclude Include="g_config.h" />
-    <ClInclude Include="g_const.h" />
     <ClInclude Include="g_Container.h" />
     <ClInclude Include="g_Hash.h" />
     <ClInclude Include="g_HashKey.h" />
@@ -198,9 +204,11 @@
     <ClInclude Include="precompiled.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gat.c" />
     <ClCompile Include="gbit.c" />
     <ClCompile Include="gc.c" />
     <ClCompile Include="gcon.c" />
+    <ClCompile Include="gdir.c" />
     <ClCompile Include="gguid.c" />
     <ClCompile Include="gheap.c" />
     <ClCompile Include="gleak.c" />

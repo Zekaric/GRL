@@ -3,3 +3,7 @@ DebugWin32
 Debugx64
 ReleaseWin32
 Releasex64
+/GRL/Debug32
+/GRL/Debug64
+/GRL/Release32
+/GRL/Release64

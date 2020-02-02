@@ -30,9 +30,6 @@
     <ClInclude Include="g_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="g_const.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="g_Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -118,6 +115,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gpath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gdir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gvp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,6 +225,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gpath.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gdir.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gat.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
