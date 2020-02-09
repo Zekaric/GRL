@@ -161,7 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="graft.h" />
+    <ClInclude Include="gfileRat.h" />
     <ClInclude Include="gb.h" />
     <ClInclude Include="gbit.h" />
     <ClInclude Include="gc.h" />
@@ -207,7 +207,7 @@
     <ClInclude Include="precompiled.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="graft.c" />
+    <ClCompile Include="gfileRat.c" />
     <ClCompile Include="gbit.c" />
     <ClCompile Include="gc.c" />
     <ClCompile Include="gcon.c" />

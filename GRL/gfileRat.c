@@ -1,5 +1,5 @@
 /******************************************************************************
-file:       Graft
+file:       GfileRat
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
 
@@ -56,100 +56,97 @@ variable:
 /******************************************************************************
 prototype:
 ******************************************************************************/
-static void        _FileBackup(        Graft const * const raft);
-static void        _FileBackupRemove(  Graft const * const raft);
-static Gfile      *_FileOpen(          Graft       * const raft, GraftMode const mode);
-                                                   
-static Gb          _Load(              Graft       * const raft, Gfile * const file);
-static Gb          _LoadConfig(        Graft       * const raft, Gfile * const file);
-static Gb          _LoadHeader(        Graft       * const raft, Gfile * const file);
-static Gb          _LoadRow(           Graft       * const raft, Gfile * const file, Gindex const index);
+static void           _FileBackup(        GfileRat const * const rat);
+static void           _FileBackupRemove(  GfileRat const * const rat);
+static Gfile         *_FileOpen(          GfileRat       * const rat, GfileRatMode const mode);
+                                                      
+static Gb             _Load(              GfileRat       * const rat, Gfile * const file);
+static Gb             _LoadConfig(        GfileRat       * const rat, Gfile * const file);
+static Gb             _LoadHeader(        GfileRat       * const rat, Gfile * const file);
+static Gb             _LoadRow(           GfileRat       * const rat, Gfile * const file, Gindex const index);
 
-static Gnp         _NFromHex(          Gn1   const * const n);
-static Gnp         _N1FromN1(          Gn1   const * const n);
-static Gnp         _N1FromN1Hex(       Gn1   const * const n);
-static void        _N1FromN(           Gn1         * const n, Gcount const byteCount, Gn const value);
-static Gnp         _N2FromN1(          Gn1   const * const n);
-static Gnp         _N2FromN1Hex(       Gn1   const * const n);
-static Gnp         _N4FromN1(          Gn1   const * const n);
-static Gnp         _N4FromN1Hex(       Gn1   const * const n);
-static Gnp         _N8FromN1(          Gn1   const * const n);
-static Gnp         _N8FromN1Hex(       Gn1   const * const n);
+static Gnp            _NFromHex(          Gn1      const * const n);
+static Gnp            _N1FromFileN1Hex(   Gn1      const * const n);
+static void           _FileN1FromN(       Gn1            * const n, Gcount const byteCount, Gn const value);
+static Gnp            _N2FromFileN1Hex(   Gn1      const * const n);
+static Gnp            _N4FromFileN1Hex(   Gn1      const * const n);
+static Gnp            _N8FromFileN1Hex(   Gn1      const * const n);
 
-static GraftRow   *_RowCreate(         Graft const * const raft);
-static void        _RowDestroy(        Graft const * const raft, GraftRow * const row);
+static GfileRatRow   *_RowCreate(         GfileRat const * const rat);
+static void           _RowDestroy(        GfileRat const * const rat, GfileRatRow * const row);
 
-static Gs         *_SFromN1(           Gn1   const * const n, Gcount const count);
-static Gb          _StoreAll(          Graft       * const raft);
-static void        _StoreConfig(       Graft       * const raft, Gfile * const file);
-static void        _StoreHeader(       Graft       * const raft, Gfile * const file);
-static Gb          _StoreRow(          Graft       * const raft, Gfile *file, Gindex const indexRow);
-static Gb          _StoreUpdatedRows(  Graft       * const raft);
+static Gs            *_SFromN1(           Gn1      const * const n, Gcount const count);
+static Gb             _StoreAll(          GfileRat       * const rat);
+static void           _StoreConfig(       GfileRat       * const rat, Gfile * const file);
+static void           _StoreHeader(       GfileRat       * const rat, Gfile * const file);
+static Gb             _StoreRow(          GfileRat       * const rat, Gfile *file, Gindex const indexRow);
+static Gb             _StoreUpdatedRows(  GfileRat       * const rat);
 
-static Gversion    _VersionFromN1(     Gn1   const * const n);
+static Gversion       _VersionFromN1(     Gn1      const * const n);
 
 /******************************************************************************
 global:
 function:
 ******************************************************************************/
 /******************************************************************************
-func: graftCreate_
+func: gfileRatCreate_
 ******************************************************************************/
-grlAPI Graft *graftCreate_(Gpath const * const path, Gb const isBinary, GraftMode const mode)
+grlAPI GfileRat *gfileRatCreate_(Gpath const * const path, Gb const isBinary, GfileRatMode const mode)
 {
-   Graft *raft;
+   GfileRat *rat;
 
    genter;
 
-   raft = gmemCreateType(Graft);
-   greturnNullIf(!raft);
+   rat = gmemCreateType(GfileRat);
+   greturnNullIf(!rat);
 
-   if (!graftCreateContent(raft, path, isBinary, mode))
+   if (!gfileRatCreateContent(rat, path, isBinary, mode))
    {
-      graftDestroy(raft);
+      gfileRatDestroy(rat);
       greturn NULL;
    }
 
-   greturn raft;
+   greturn rat;
 }
 
 /******************************************************************************
-func: graftCreateContent
+func: gfileRatCreateContent
 ******************************************************************************/
-grlAPI Gb graftCreateContent(Graft * const raft, Gpath const * const path, Gb const isBinary, GraftMode const mode)
+grlAPI Gb gfileRatCreateContent(GfileRat * const rat, Gpath const * const path, Gb const isBinary,
+   GfileRatMode const mode)
 {
    Gb     result;
    Gfile *file;
 
    genter;
 
-   greturnFalseIf(!raft);
+   greturnFalseIf(!rat);
 
    result = gbFALSE;
 
-   raft->isBinary          = isBinary;
-   raft->versionFile       = 0;
-   raft->versionData       = 0;
-   raft->path              = gpathCreateFrom(path);
-   raft->pathBackup        = gpathCreateFrom(path);
-   gpathPopExtension(  raft->pathBackup);
-   gpathPushExtensionA(raft->pathBackup, "bak");
+   rat->isBinary          = isBinary;
+   rat->versionFile       = 0;
+   rat->versionData       = 0;
+   rat->path              = gpathCreateFrom(path);
+   rat->pathBackup        = gpathCreateFrom(path);
+   gpathPopExtension(  rat->pathBackup);
+   gpathPushExtensionA(rat->pathBackup, "bak");
 
-   raft->colArray          = graftColArrayCreate();
-   raft->rowArray          = graftRowArrayCreate();
-   raft->isUpdatedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
-   raft->isDeletedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
-   raft->offsetData        = 0;
-   raft->dataByteCount     = 0;
-   raft->rowByteCount      = 0;
-   raft->rowBuffer         = NULL;
+   rat->colArray          = gfileRatColArrayCreate();
+   rat->rowArray          = gfileRatRowArrayCreate();
+   rat->isUpdatedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
+   rat->isDeletedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
+   rat->offsetData        = 0;
+   rat->dataByteCount     = 0;
+   rat->rowByteCount      = 0;
+   rat->rowBuffer         = NULL;
 
    // Open the file
-   file = _FileOpen(raft, mode);
+   file = _FileOpen(rat, mode);
    stopIf(!file);
 
    // Load in the file.
-   stopIf(!_Load(raft, file));
+   stopIf(!_Load(rat, file));
 
    result = gbTRUE;
 
@@ -161,164 +158,164 @@ STOP:
 }
 
 /******************************************************************************
-func: graftDestroy
+func: gfileRatDestroy
 ******************************************************************************/
-grlAPI void graftDestroy(Graft * const raft)
+grlAPI void gfileRatDestroy(GfileRat * const rat)
 {
    genter;
 
-   greturnVoidIf(!raft);
+   greturnVoidIf(!rat);
 
-   graftDestroyContent(raft);
+   gfileRatDestroyContent(rat);
 
    greturn;
 }
 
 /******************************************************************************
-func: graftDestroyContent
+func: gfileRatDestroyContent
 ******************************************************************************/
-grlAPI void graftDestroyContent(Graft * const raft)
+grlAPI void gfileRatDestroyContent(GfileRat * const rat)
 {
    Gindex  index;
-   GraftCol *col;
+   GfileRatCol *col;
 
    genter;
 
-   greturnVoidIf(!raft);
+   greturnVoidIf(!rat);
 
    // Clean out all the dynamic values in the table.
-   forCount (index, graftRowArrayGetCount(raft->rowArray))
+   forCount (index, gfileRatRowArrayGetCount(rat->rowArray))
    {
-      _RowDestroy(raft, graftRowArrayGetAt(raft->rowArray, index));
+      _RowDestroy(rat, gfileRatRowArrayGetAt(rat->rowArray, index));
    }
-   graftRowArrayDestroy(  raft->rowArray);
+   gfileRatRowArrayDestroy(  rat->rowArray);
 
    // Clean out all the dynamic value in the columns.
-   forCount (index, graftColArrayGetCount(raft->colArray))
+   forCount (index, gfileRatColArrayGetCount(rat->colArray))
    {
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
       gsDestroy(col->name);
    }
-   graftColArrayDestroy(  raft->colArray);
+   gfileRatColArrayDestroy(  rat->colArray);
 
-   gindexArrayDestroy(  raft->isUpdatedRowArray);
+   gindexArrayDestroy(  rat->isUpdatedRowArray);
 
-   gpathDestroy(        raft->path);
+   gpathDestroy(        rat->path);
    
-   gmemDestroy(         raft->rowBuffer);
+   gmemDestroy(         rat->rowBuffer);
 
    greturn;
 }
 
 /******************************************************************************
-func: graftGetColCount
+func: gfileRatGetColCount
 ******************************************************************************/
-grlAPI Gcount graftGetColCount(Graft const * const raft)
+grlAPI Gcount gfileRatGetColCount(GfileRat const * const rat)
 {
    Gcount count;
 
    genter;
 
-   greturn0If(!raft);
+   greturn0If(!rat);
 
-   count = graftColArrayGetCount(raft->colArray);
+   count = gfileRatColArrayGetCount(rat->colArray);
 
    greturn count;
 }
 
 /******************************************************************************
-func: graftGetRowCount
+func: gfileRatGetRowCount
 ******************************************************************************/
-grlAPI Gcount graftGetRowCount(Graft const * const raft)
+grlAPI Gcount gfileRatGetRowCount(GfileRat const * const rat)
 {
    Gcount count;
 
    genter;
 
-   greturn0If(!raft);
+   greturn0If(!rat);
 
-   count = graftRowArrayGetCount(raft->rowArray);
+   count = gfileRatRowArrayGetCount(rat->rowArray);
 
    greturn count;
 }
 
 /******************************************************************************
-func: graftGetVersion
+func: gfileRatGetVersion
 ******************************************************************************/
-grlAPI Gid graftGetVersion(Graft const * const raft)
+grlAPI Gid gfileRatGetVersion(GfileRat const * const rat)
 {
    genter;
 
-   greturn0If(!raft);
+   greturn0If(!rat);
 
-   greturn raft->versionFile;
+   greturn rat->versionFile;
 }
 
 /******************************************************************************
-func: graftSetVersion
+func: gfileRatSetVersion
 ******************************************************************************/
-grlAPI Gb graftSetVersion(Graft * const raft, Gversion const version)
+grlAPI Gb gfileRatSetVersion(GfileRat * const rat, Gversion const version)
 {
    genter;
 
    greturnFalseIf(
-      !raft ||
-      version <= raft->versionFile);
+      !rat ||
+      version <= rat->versionFile);
 
-   raft->versionFile      = version;
-   raft->isUpdatedVersion = gbTRUE;
+   rat->versionFile      = version;
+   rat->isUpdatedVersion = gbTRUE;
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: graftStore
+func: gfileRatStore
 ******************************************************************************/
-grlAPI Gb graftStore(Graft * const raft)
+grlAPI Gb gfileRatStore(GfileRat * const rat)
 {
    Gb result;
 
    genter;
 
-   greturnFalseIf(!raft);
+   greturnFalseIf(!rat);
 
    // Update the whole file.  
-   if (raft->isUpdatedColArray)
+   if (rat->isUpdatedColArray)
    {
-      result = _StoreAll(raft);
+      result = _StoreAll(rat);
    }
    // Update only certain rows.
    else 
    {
-      result = _StoreUpdatedRows(raft);
+      result = _StoreUpdatedRows(rat);
    }
 
    // Reset the flags.
-   raft->isUpdatedColArray = gbFALSE;
-   raft->isUpdatedVersion  = gbFALSE;
-   gindexArrayFlush(raft->isUpdatedRowArray);
+   rat->isUpdatedColArray = gbFALSE;
+   rat->isUpdatedVersion  = gbFALSE;
+   gindexArrayFlush(rat->isUpdatedRowArray);
 
    greturn result;
 }
 
 /******************************************************************************
-func: graftColCreate
+func: gfileRatColCreate
 ******************************************************************************/
-grlAPI Gb graftColCreate(Graft * const raft, Gindex const inColIndex, 
-   Gs const * const colName, GraftType const type, Gcount const byteCountForStrings)
+grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex, 
+   Gs const * const colName, GfileRatType const type, Gcount const byteCountForStrings)
 {
    Gindex    index,
              colIndex;
    Gb        result,
              allocFailed;
-   GraftCol    col;
-   GraftRow   *row;
+   GfileRatCol    col;
+   GfileRatRow   *row;
    Gvp       vp;
 
    genter;
    
-   greturnFalseIf(!raft);
+   greturnFalseIf(!rat);
 
    // Properly set the index of the column.
    colIndex = inColIndex;
@@ -326,9 +323,9 @@ grlAPI Gb graftColCreate(Graft * const raft, Gindex const inColIndex,
    {
       colIndex = 0;
    }
-   else if (graftColArrayGetCount(raft->colArray) < inColIndex)
+   else if (gfileRatColArrayGetCount(rat->colArray) < inColIndex)
    {
-      colIndex = graftColArrayGetCount(raft->colArray);
+      colIndex = gfileRatColArrayGetCount(rat->colArray);
    }
 
    result = gbFALSE;
@@ -336,7 +333,7 @@ grlAPI Gb graftColCreate(Graft * const raft, Gindex const inColIndex,
    // Setup the column information.
    col.name = gsCreateFrom(colName);
    col.type = type;
-   if (type == graftTypeS)
+   if (type == gfileRatTypeS)
    {
       col.byteCount = byteCountForStrings;
    }
@@ -344,35 +341,35 @@ grlAPI Gb graftColCreate(Graft * const raft, Gindex const inColIndex,
    {
       switch (type)
       {
-      case graftTypeB:    col.byteCount = 1;  break;
-      case graftTypeN1:   col.byteCount = 2;  break;
-      case graftTypeN2:   col.byteCount = 4;  break;
-      case graftTypeN4:   col.byteCount = 8;  break;
-      case graftTypeN8:   col.byteCount = 16; break;
-      case graftTypeI1:   col.byteCount = 2;  break;
-      case graftTypeI2:   col.byteCount = 4;  break;
-      case graftTypeI4:   col.byteCount = 8;  break;
-      case graftTypeI8:   col.byteCount = 16; break;
-      case graftTypeR4:   col.byteCount = 8;  break;
-      case graftTypeR8:   col.byteCount = 16; break;
+      case gfileRatTypeB:    col.byteCount = 1;  break;
+      case gfileRatTypeN1:   col.byteCount = 2;  break;
+      case gfileRatTypeN2:   col.byteCount = 4;  break;
+      case gfileRatTypeN4:   col.byteCount = 8;  break;
+      case gfileRatTypeN8:   col.byteCount = 16; break;
+      case gfileRatTypeI1:   col.byteCount = 2;  break;
+      case gfileRatTypeI2:   col.byteCount = 4;  break;
+      case gfileRatTypeI4:   col.byteCount = 8;  break;
+      case gfileRatTypeI8:   col.byteCount = 16; break;
+      case gfileRatTypeR4:   col.byteCount = 8;  break;
+      case gfileRatTypeR8:   col.byteCount = 16; break;
       }
    }
 
    // Add the column to the array.
-   graftColArrayAddAt(raft->colArray, colIndex, &col);
-   raft->isUpdatedColArray = gbTRUE;
+   gfileRatColArrayAddAt(rat->colArray, colIndex, &col);
+   rat->isUpdatedColArray = gbTRUE;
 
    // If a column changed then all records have changed.
-   gindexArrayFlush(raft->isUpdatedRowArray);
+   gindexArrayFlush(rat->isUpdatedRowArray);
 
    // Update the rows
    allocFailed = gbFALSE;
-   forCount (index, graftRowArrayGetCount(raft->rowArray))
+   forCount (index, gfileRatRowArrayGetCount(rat->rowArray))
    {
-      row = graftRowArrayGetAt(raft->rowArray, index);
+      row = gfileRatRowArrayGetAt(rat->rowArray, index);
 
       // Create a blank string if the column is a string.
-      if (type == graftTypeS)
+      if (type == gfileRatTypeS)
       {
          vp.s = gsCreate();
          if (!vp.s)
@@ -397,33 +394,33 @@ grlAPI Gb graftColCreate(Graft * const raft, Gindex const inColIndex,
 }
 
 /******************************************************************************
-func: graftColDestroy
+func: gfileRatColDestroy
 ******************************************************************************/
-grlAPI Gb graftColDestroy(Graft * const raft, Gindex const colIndex)
+grlAPI Gb gfileRatColDestroy(GfileRat * const rat, Gindex const colIndex)
 {
    Gindex    index;
    Gb        result;
-   GraftCol    col;
-   GraftRow   *row;
+   GfileRatCol    col;
+   GfileRatRow   *row;
 
    genter;
 
    greturnFalseIf(
-      !raft ||
-      (colIndex < 0 || graftColArrayGetCount(raft->colArray) <= colIndex));
+      !rat ||
+      (colIndex < 0 || gfileRatColArrayGetCount(rat->colArray) <= colIndex));
 
    result = gbFALSE;
 
    // Get the column info.
-   col = *graftColArrayGetAt(raft->colArray, colIndex);
+   col = *gfileRatColArrayGetAt(rat->colArray, colIndex);
 
    // For all rows...
-   forCount (index, graftRowArrayGetCount(raft->rowArray))
+   forCount (index, gfileRatRowArrayGetCount(rat->rowArray))
    {
       // Get the row.
-      row = graftRowArrayGetAt(raft->rowArray, index);
+      row = gfileRatRowArrayGetAt(rat->rowArray, index);
 
-      if (col.type == graftTypeS)
+      if (col.type == gfileRatTypeS)
       {
          gsDestroy(gvpArrayGetAt(row->value, colIndex)->s);
       }
@@ -433,13 +430,13 @@ grlAPI Gb graftColDestroy(Graft * const raft, Gindex const colIndex)
    }
 
    // Remove the column.
-   graftColArrayEraseAt(raft->colArray, 1, colIndex);
+   gfileRatColArrayEraseAt(rat->colArray, 1, colIndex);
 
    // Mark a column as being update.
-   raft->isUpdatedColArray = gbTRUE;
+   rat->isUpdatedColArray = gbTRUE;
 
    // If a column changed then all records have changed.
-   gindexArrayFlush(raft->isUpdatedRowArray);
+   gindexArrayFlush(rat->isUpdatedRowArray);
 
    result = gbTRUE;
 
@@ -447,88 +444,88 @@ grlAPI Gb graftColDestroy(Graft * const raft, Gindex const colIndex)
 }
 
 /******************************************************************************
-func: graftColGetName
+func: gfileRatColGetName
 ******************************************************************************/
-grlAPI Gs *graftColGetName(Graft const * const raft, Gindex const colIndex)
+grlAPI Gs *gfileRatColGetName(GfileRat const * const rat, Gindex const colIndex)
 {
-   GraftCol *col;
+   GfileRatCol *col;
 
    genter;
 
-   greturnNullIf(!raft);
+   greturnNullIf(!rat);
 
-   col = graftColArrayGetAt(raft->colArray, colIndex);
+   col = gfileRatColArrayGetAt(rat->colArray, colIndex);
    greturnNullIf(!col);
 
    greturn col->name;
 }
 
 /******************************************************************************
-func: graftColGetType
+func: gfileRatColGetType
 ******************************************************************************/
-grlAPI GraftType graftColGetType(Graft const * const raft, Gindex const colIndex)
+grlAPI GfileRatType gfileRatColGetType(GfileRat const * const rat, Gindex const colIndex)
 {
-   GraftCol *col;
+   GfileRatCol *col;
 
    genter;
 
-   if (!raft)
+   if (!rat)
    {
-      greturn graftTypeNONE;
+      greturn gfileRatTypeNONE;
    }
 
-   col = graftColArrayGetAt(raft->colArray, colIndex);
+   col = gfileRatColArrayGetAt(rat->colArray, colIndex);
    if (!col)
    {
-      greturn graftTypeNONE;
+      greturn gfileRatTypeNONE;
    }
 
    greturn col->type;
 }
 
 /******************************************************************************
-func: graftColGetByteCount
+func: gfileRatColGetByteCount
 ******************************************************************************/
-grlAPI Gcount graftColGetByteCount(Graft const * const raft, Gindex const colIndex)
+grlAPI Gcount gfileRatColGetByteCount(GfileRat const * const rat, Gindex const colIndex)
 {
-   GraftCol *col;
+   GfileRatCol *col;
 
    genter;
 
-   greturn0If(!raft);
+   greturn0If(!rat);
 
-   col = graftColArrayGetAt(raft->colArray, colIndex);
+   col = gfileRatColArrayGetAt(rat->colArray, colIndex);
    greturn0If(!col);
 
    greturn col->byteCount;
 }
 
 /******************************************************************************
-func: graftRowDestroy
+func: gfileRatRowDestroy
 ******************************************************************************/
-grlAPI Gb graftRowDestroy(Graft * const raft, Gindex const rowIndex)
+grlAPI Gb gfileRatRowDestroy(GfileRat * const rat, Gindex const rowIndex)
 {
    Gindex  index;
-   GraftRow *row;
-   GraftCol  col;
+   GfileRatRow *row;
+   GfileRatCol  col;
    Gvp     vp;
 
    genter;
 
    greturnFalseIf(
-      !raft ||
-      (rowIndex < 0 || graftRowArrayGetCount(raft->rowArray) <= rowIndex));
+      !rat ||
+      (rowIndex < 0 || gfileRatRowArrayGetCount(rat->rowArray) <= rowIndex));
 
    vp.n = 0;
-   row  = graftRowArrayGetAt(raft->rowArray, rowIndex);
+   row  = gfileRatRowArrayGetAt(rat->rowArray, rowIndex);
    greturnFalseIf(row->isDeleted);
 
    // Clean up the strings.
-   forCount (index, graftColArrayGetCount(raft->colArray))
+   forCount (index, gfileRatColArrayGetCount(rat->colArray))
    {
-      col = *graftColArrayGetAt(raft->colArray, index);
+      col = *gfileRatColArrayGetAt(rat->colArray, index);
 
-      if (col.type == graftTypeS)
+      if (col.type == gfileRatTypeS)
       {
          gsDestroy(gvpArrayGetAt(row->value, index)->s);
       }
@@ -544,26 +541,26 @@ grlAPI Gb graftRowDestroy(Graft * const raft, Gindex const rowIndex)
 }
 
 /******************************************************************************
-func: graftRowGetValue
+func: gfileRatRowGetValue
 ******************************************************************************/
-grlAPI Gvp graftRowGetValue(Graft const * const raft, Gindex const rowIndex, Gindex const colIndex)
+grlAPI Gvp gfileRatRowGetValue(GfileRat const * const rat, Gindex const rowIndex, Gindex const colIndex)
 {
    Gvp      *vp,
              v;
-   GraftRow   *row;
+   GfileRatRow   *row;
 
    genter;
 
    v.n = 0;
 
-   if (!raft                                                             ||
-       (rowIndex < 0 || graftRowArrayGetCount(raft->rowArray) <= rowIndex) ||
-       (colIndex < 0 || graftColArrayGetCount(raft->colArray) <= colIndex))
+   if (!rat                                                             ||
+       (rowIndex < 0 || gfileRatRowArrayGetCount(rat->rowArray) <= rowIndex) ||
+       (colIndex < 0 || gfileRatColArrayGetCount(rat->colArray) <= colIndex))
    {
       greturn v;
    }
 
-   row = graftRowArrayGetAt(raft->rowArray, rowIndex);
+   row = gfileRatRowArrayGetAt(rat->rowArray, rowIndex);
 
    vp = gvpArrayGetAt(row->value, colIndex);
    if (!vp)
@@ -575,41 +572,43 @@ grlAPI Gvp graftRowGetValue(Graft const * const raft, Gindex const rowIndex, Gin
 }
 
 /******************************************************************************
-func: graftRowIsExisting
+func: gfileRatRowIsExisting
 ******************************************************************************/
-grlAPI Gb graftRowIsExisting(Graft const * const raft, Gindex const rowIndex)
+grlAPI Gb gfileRatRowIsExisting(GfileRat const * const rat, Gindex const rowIndex)
 {
-   GraftRow *row;
+   GfileRatRow *row;
 
    genter;
 
    greturnFalseIf(
-      !raft                                                               ||
-      (rowIndex < 0 || graftRowArrayGetCount(raft->rowArray) <= rowIndex));
+      !rat                                                               ||
+      (rowIndex < 0 || gfileRatRowArrayGetCount(rat->rowArray) <= rowIndex));
 
-   row = graftRowArrayGetAt(raft->rowArray, rowIndex);
+   row = gfileRatRowArrayGetAt(rat->rowArray, rowIndex);
    greturnFalseIf(row->isDeleted);
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: graftRowSetValue
+func: gfileRatRowSetValue
 ******************************************************************************/
-grlAPI Gb graftRowSetValue(Graft * const raft, Gindex const rowIndex, Gindex const colIndex, 
+grlAPI Gb gfileRatRowSetValue(GfileRat * const rat, Gindex const rowIndex, Gindex const colIndex, 
    Gvp const value)
 {
-   GraftRow *row;
+   GfileRatRow *row;
 
    genter;
 
    greturnFalseIf(
-      !raft                                                             ||
-      (rowIndex < 0 || graftRowArrayGetCount(raft->rowArray) <= rowIndex) ||
-      (colIndex < 0 || graftColArrayGetCount(raft->colArray) <= colIndex));
+      !rat                                                             ||
+      (rowIndex < 0 || gfileRatRowArrayGetCount(rat->rowArray) <= rowIndex) ||
+      (colIndex < 0 || gfileRatColArrayGetCount(rat->colArray) <= colIndex));
 
-   row = graftRowArrayGetAt(raft->rowArray, rowIndex);
+   row = gfileRatRowArrayGetAt(rat->rowArray, rowIndex);
    gvpArrayUpdateAt(row->value, colIndex, &value);   
+
+   greturn gbTRUE;
 }
 
 /******************************************************************************
@@ -619,15 +618,15 @@ function:
 /******************************************************************************
 func: _FileBackup
 ******************************************************************************/
-static void _FileBackup(Graft const * const raft)
+static void _FileBackup(GfileRat const * const rat)
 {
    genter;
 
    // Remove an old back if it exists.
-   _FileBackupRemove(raft);
+   _FileBackupRemove(rat);
 
    // Rename the current table to be the back up table.
-   gdirRename(raft->path, raft->pathBackup);
+   gdirRename(rat->path, rat->pathBackup);
 
    greturn;
 }
@@ -635,12 +634,12 @@ static void _FileBackup(Graft const * const raft)
 /******************************************************************************
 func: _FileBackupRemove
 ******************************************************************************/
-static void _FileBackupRemove(Graft const * const raft)
+static void _FileBackupRemove(GfileRat const * const rat)
 {
    genter;
 
    // Remove the old backup.
-   gdirFileDestroy(raft->pathBackup);
+   gdirFileDestroy(rat->pathBackup);
 
    greturn;
 }
@@ -648,13 +647,13 @@ static void _FileBackupRemove(Graft const * const raft)
 /******************************************************************************
 func: _FileOpen
 ******************************************************************************/
-static Gfile *_FileOpen(Graft * const raft, GraftMode const mode)
+static Gfile *_FileOpen(GfileRat * const rat, GfileRatMode const mode)
 {
    Gfile *file;
 
    genter;
 
-   file = gfileOpen(raft->path, (GfileOpenMode) mode);
+   file = gfileOpen(rat->path, (GfileOpenMode) mode);
    
    greturn file;
 }
@@ -662,7 +661,7 @@ static Gfile *_FileOpen(Graft * const raft, GraftMode const mode)
 /******************************************************************************
 func: _Load
 ******************************************************************************/
-static Gb _Load(Graft * const raft, Gfile * const file)
+static Gb _Load(GfileRat * const rat, Gfile * const file)
 {
    Gb        result;
    Gindex    index;
@@ -672,16 +671,16 @@ static Gb _Load(Graft * const raft, Gfile * const file)
    result = gbFALSE;
 
    // Header line.
-   stopIf(!_LoadHeader(raft, file));
+   stopIf(!_LoadHeader(rat, file));
 
    // Config lines
-   stopIf(!_LoadConfig(raft, file));
+   stopIf(!_LoadConfig(rat, file));
 
    // For all rows...
    loopCount(index)
    {
       // Load the row.
-      breakIf(!_LoadRow(raft, file, index));
+      breakIf(!_LoadRow(rat, file, index));
    }
 
    result = gbTRUE;
@@ -693,30 +692,36 @@ STOP:
 /******************************************************************************
 func: _LoadConfig
 ******************************************************************************/
-static Gb _LoadConfig(Graft * const raft, Gfile * const file)
+static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
 {
-   Gb        result;
-   Gindex    index;
-   Gs       *line;
-   GsArray  *sarray;
-   GraftCol *col;
+   Gb           result;
+   Gindex       index;
+   Gs          *line;
+   GsArray     *sarray;
+   GfileRatCol *col;
 
    genter;
 
+   sarray = NULL;
    result = gbFALSE;
 
    // Get the column names.
+   line = gsCreate();
    stopIf(!gfileGetS(file, gcTypeU1, line));
    sarray = gsCreateSplit(line, L'|');
    gsDestroy(line);
 
    // Create the column array.
-   raft->colArray = graftColArrayCreate();
-   graftColArraySetCount(raft->colArray, gsArrayGetCount(sarray));
+   rat->colArray = gfileRatColArrayCreate();
+   gfileRatColArraySetCount(rat->colArray, gsArrayGetCount(sarray));
 
    // Create the columns
    forCount(index, gsArrayGetCount(sarray))
    {
+      // Get the column.
+      col = gfileRatColArrayGetAt(rat->colArray, index);
+
+      // Set the column name.
       col->name = gsArrayGetAt(sarray, index);
    }
 
@@ -731,10 +736,10 @@ static Gb _LoadConfig(Graft * const raft, Gfile * const file)
    gsDestroy(line);
 
    // For all the columns...
-   forCount(index, gsArrayGetCount(raft->colArray))
+   forCount(index, gsArrayGetCount(rat->colArray))
    {
       // Get the column.
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
       // Get the string part.
       line = gsArrayGetAt(sarray, index);
@@ -743,22 +748,22 @@ static Gb _LoadConfig(Graft * const raft, Gfile * const file)
       gsTrimU2(line, WHITESPACE_U2);
 
       // Start of a new type, potentially.
-      if      (gsIsEqualA(line, "b"))  { col->type = graftTypeB;  }
-      else if (gsIsEqualA(line, "n1")) { col->type = graftTypeN1; }
-      else if (gsIsEqualA(line, "n2")) { col->type = graftTypeN2; }
-      else if (gsIsEqualA(line, "n4")) { col->type = graftTypeN4; }
-      else if (gsIsEqualA(line, "n8")) { col->type = graftTypeN8; }
-      else if (gsIsEqualA(line, "i1")) { col->type = graftTypeI1; }
-      else if (gsIsEqualA(line, "i2")) { col->type = graftTypeI2; }
-      else if (gsIsEqualA(line, "i4")) { col->type = graftTypeI4; }
-      else if (gsIsEqualA(line, "i8")) { col->type = graftTypeI8; }
-      else if (gsIsEqualA(line, "r4")) { col->type = graftTypeR4; }
-      else if (gsIsEqualA(line, "r8")) { col->type = graftTypeR8; }
+      if      (gsIsEqualA(line, "b"))  { col->type = gfileRatTypeB;  }
+      else if (gsIsEqualA(line, "n1")) { col->type = gfileRatTypeN1; }
+      else if (gsIsEqualA(line, "n2")) { col->type = gfileRatTypeN2; }
+      else if (gsIsEqualA(line, "n4")) { col->type = gfileRatTypeN4; }
+      else if (gsIsEqualA(line, "n8")) { col->type = gfileRatTypeN8; }
+      else if (gsIsEqualA(line, "i1")) { col->type = gfileRatTypeI1; }
+      else if (gsIsEqualA(line, "i2")) { col->type = gfileRatTypeI2; }
+      else if (gsIsEqualA(line, "i4")) { col->type = gfileRatTypeI4; }
+      else if (gsIsEqualA(line, "i8")) { col->type = gfileRatTypeI8; }
+      else if (gsIsEqualA(line, "r4")) { col->type = gfileRatTypeR4; }
+      else if (gsIsEqualA(line, "r8")) { col->type = gfileRatTypeR8; }
       else if (*gsGetAt(line, 0) == L's')
       {
          gsEraseAt(line, 1, 0);
 
-         col->type      = graftTypeS;
+         col->type      = gfileRatTypeS;
          col->byteCount = (Gcount) gsGetN(line);
       }
       else 
@@ -780,7 +785,7 @@ STOP:
 /******************************************************************************
 func: _LoadHeader
 ******************************************************************************/
-static Gb _LoadHeader(Graft * const raft, Gfile * const file)
+static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
 {
    Gb       result;
    Gs      *line;
@@ -789,6 +794,7 @@ static Gb _LoadHeader(Graft * const raft, Gfile * const file)
 
    genter;
 
+   sarray = NULL;
    result = gbFALSE;
 
    // Get the versions.
@@ -807,11 +813,11 @@ static Gb _LoadHeader(Graft * const raft, Gfile * const file)
    // Are we dealing with an ASCII or Binary file or neither.
    if      (gsIsEqualA(line, "GRAFT_AF"))
    {
-      raft->isBinary = gbFALSE;
+      rat->isBinary = gbFALSE;
    }
    else if (gsIsEqualA(line, "GRAFT_BF"))
    {
-      raft->isBinary = gbTRUE;
+      rat->isBinary = gbTRUE;
    }
    else 
    {
@@ -824,9 +830,9 @@ static Gb _LoadHeader(Graft * const raft, Gfile * const file)
    version = (Gversion) gsGetNHex(line);
 
    // We can't handle the future.
-   stopIf(version > GraftVERSION);
+   stopIf(version > GfileRatVERSION);
    // For the future.  We currently on have the one version.
-   //if (version < GraftVERSION)
+   //if (version < GfileRatVERSION)
    //{
    //   // Upgrade the file.
    //}
@@ -834,12 +840,12 @@ static Gb _LoadHeader(Graft * const raft, Gfile * const file)
    // What version of the file.
    line = gsArrayGetAt(sarray, 2);
 
-   raft->versionFile = (Gversion) gsGetNHex(line);
+   rat->versionFile = (Gversion) gsGetNHex(line);
 
    // What version of the data.
    line = gsArrayGetAt(sarray, 3);
 
-   raft->versionData = (Gversion) gsGetNHex(line);
+   rat->versionData = (Gversion) gsGetNHex(line);
 
    result = gbTRUE;
 
@@ -854,45 +860,46 @@ STOP:
 /******************************************************************************
 func: _LoadRow
 ******************************************************************************/
-static Gb _LoadRow(Graft * const raft, Gfile * const file, Gindex const rowIndex)
+static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowIndex)
 {
-   Gindex           index,
-                    bufferIndex;          
-   GfileSetPosition positionResult;
-   Gvp              value;
-   Gv4              v4;
-   GraftCol          *col;
-   GraftRow          *row;
+   Gindex             index,
+                      bufferIndex;          
+   GfileSetPosition   positionResult;
+   Gvp                value;
+   Gv2                v2;
+   Gv4                v4;
+   GfileRatCol          *col;
+   GfileRatRow          *row;
    
    genter;
 
    // Set the file position
-   positionResult = gfileSetPosition(file, gpositionSTART, raft->offsetData + raft->rowByteCount * rowIndex);
+   positionResult = gfileSetPosition(file, gpositionSTART, rat->offsetData + rat->rowByteCount * rowIndex);
    greturnFalseIf(positionResult != gfileSetPositionSUCCESS);
 
    // Get the row data.
-   greturnFalseIf(gfileGet(file, raft->rowByteCount, raft->rowBuffer) != raft->rowByteCount);
+   greturnFalseIf(gfileGet(file, rat->rowByteCount, rat->rowBuffer) != rat->rowByteCount);
 
    // Create the row.
-   row = _RowCreate(raft);
+   row = _RowCreate(rat);
 
    // Get the isDeleted flag.
-   row->isDeleted = raft->rowBuffer[raft->dataByteCount] == 'T';
+   row->isDeleted = rat->rowBuffer[rat->dataByteCount] == 'T';
 
    // Get the data version.
-   row->version = _VersionFromN1(&(raft->rowBuffer[raft->dataByteCount + 1]));
+   row->version = _VersionFromN1(&(rat->rowBuffer[rat->dataByteCount + 1]));
 
    // For all columns...
    bufferIndex = 0;
-   forCount (index, graftColArrayGetCount(raft->colArray))
+   forCount (index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Get the column.
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
       switch (col->type)
       {
-      case graftTypeB:
-         switch (raft->rowBuffer[bufferIndex])
+      case gfileRatTypeB:
+         switch (rat->rowBuffer[bufferIndex])
          {
          case 'T': value.b = gbTRUE;      break;
          case 'F': value.b = gbFALSE;     break;
@@ -900,135 +907,41 @@ static Gb _LoadRow(Graft * const raft, Gfile * const file, Gindex const rowIndex
          }
          break;
 
-      case graftTypeN1:
-         if (raft->rowBuffer[bufferIndex] == ' ')
-         {
-            value.n = _N1FromN1(&raft->rowBuffer[bufferIndex]);
-         }
-         else
-         {
-            value.n = _N1FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
+      case gfileRatTypeN1:
+      case gfileRatTypeI1:
+         value.n = _N1FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
          break;
 
-      case graftTypeN2:
-         if (raft->rowBuffer[bufferIndex] == ' ')
-         {
-            value.n = _N2FromN1(&raft->rowBuffer[bufferIndex]);
-         }
-         else
-         {
-            value.n = _N2FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
+      case gfileRatTypeN2:
+      case gfileRatTypeI2:
+         v2.n = (Gn2) _N2FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
+#if grlSWAP_NEEDED == 1
+         gswap2(&v2.n);
+#endif
+         value.n = v2.n;
          break;
 
-      case graftTypeN4:
-         if (raft->rowBuffer[bufferIndex] == ' ')
-         {
-            value.n = _N4FromN1(&raft->rowBuffer[bufferIndex]);
-         }
-         else
-         {
-            value.n = _N4FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeN8:
-         if (raft->rowBuffer[bufferIndex] == ' ')
-         {
-            value.n = _N8FromN1(&raft->rowBuffer[bufferIndex]);
-         }
-         else
-         {
-            value.n = _N8FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeI1:
-         if (raft->rowBuffer[bufferIndex] == ' ' ||
-             raft->rowBuffer[bufferIndex] == '-')
-         {
-            value.n = _N1FromN1(&raft->rowBuffer[bufferIndex]);
-
-            if (raft->rowBuffer[bufferIndex] == '-')
-            {
-               value.i = -value.i;
-            }
-         }
-         else
-         {
-            value.n = _N1FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeI2:
-         if (raft->rowBuffer[bufferIndex] == ' ' ||
-             raft->rowBuffer[bufferIndex] == '-')
-         {
-            value.n = _N2FromN1(&raft->rowBuffer[bufferIndex]);
-
-            if (raft->rowBuffer[bufferIndex] == '-')
-            {
-               value.i = -value.i;
-            }
-         }
-         else
-         {
-            value.n = _N2FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeI4:
-         if (raft->rowBuffer[bufferIndex] == ' ' ||
-             raft->rowBuffer[bufferIndex] == '-')
-         {
-            value.n = _N4FromN1(&raft->rowBuffer[bufferIndex]);
-
-            if (raft->rowBuffer[bufferIndex] == '-')
-            {
-               value.i = -value.i;
-            }
-         }
-         else
-         {
-            value.n = _N4FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeI8:
-         if (raft->rowBuffer[bufferIndex] == ' ' ||
-             raft->rowBuffer[bufferIndex] == '-')
-         {
-            value.n = _N8FromN1(&raft->rowBuffer[bufferIndex]);
-
-            if (raft->rowBuffer[bufferIndex] == '-')
-            {
-               value.i = -value.i;
-            }
-         }
-         else
-         {
-            value.n = _N8FromN1Hex(&raft->rowBuffer[bufferIndex]);
-         }
-         break;
-
-      case graftTypeR4:
-         v4.n = (Gn4) _N4FromN1Hex(&raft->rowBuffer[bufferIndex]);
+      case gfileRatTypeN4:
+      case gfileRatTypeI4:
+      case gfileRatTypeR4:
+         v4.n = (Gn4) _N4FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
 #if grlSWAP_NEEDED == 1
          gswap4(&v4.n);
 #endif
          value.r = (Grp) v4.r;
          break;
 
-      case graftTypeR8:
-         value.n = _N8FromN1Hex(&raft->rowBuffer[bufferIndex]);
+      case gfileRatTypeN8:
+      case gfileRatTypeI8:
+      case gfileRatTypeR8:
+         value.n = _N8FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
 #if grlSWAP_NEEDED == 1
          gswap8(&value.n);
 #endif
          break;
 
-      case graftTypeS:
-         _SFromN1(&raft->rowBuffer[bufferIndex], col->byteCount);
+      case gfileRatTypeS:
+         _SFromN1(&rat->rowBuffer[bufferIndex], col->byteCount);
       }
 
       bufferIndex += col->byteCount;
@@ -1072,23 +985,9 @@ static Gnp _NFromHex(Gn1 const * const n)
 }
 
 /******************************************************************************
-func: _N1FromN1
+func: _N1FromFileN1Hex
 ******************************************************************************/
-static Gnp _N1FromN1(Gn1 const * const n)
-{
-   Gnp v;
-
-   genter;
-
-   v = (Gnp) (n[1] - '0');
-
-   greturn v;
-}
-
-/******************************************************************************
-func: _N1FromN1Hex
-******************************************************************************/
-static Gnp _N1FromN1Hex(Gn1 const * const n)
+static Gnp _N1FromFileN1Hex(Gn1 const * const n)
 {
    Gnp v;
 
@@ -1102,9 +1001,9 @@ static Gnp _N1FromN1Hex(Gn1 const * const n)
 }
 
 /******************************************************************************
-func: _N1FromN
+func: _FileN1FromN
 ******************************************************************************/
-static void _N1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
+static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
 {
    Gindex index,
           nindex;
@@ -1165,26 +1064,9 @@ static void _N1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
 }
 
 /******************************************************************************
-func: _N2FromN1
+func: _N2FromFileN1Hex
 ******************************************************************************/
-static Gnp _N2FromN1(Gn1 const * const n)
-{
-   Gnp v;
-
-   genter;
-
-   v = 
-      (Gnp) (n[1] - '0') * (Gnp) 100            +
-      (Gnp) (n[2] - '0') * (Gnp) 10             +
-      (Gnp) (n[3] - '0');
-
-   greturn v;
-}
-
-/******************************************************************************
-func: _N2FromN1Hex
-******************************************************************************/
-static Gnp _N2FromN1Hex(Gn1 const * const n)
+static Gnp _N2FromFileN1Hex(Gn1 const * const n)
 {
    Gnp v;
 
@@ -1200,30 +1082,9 @@ static Gnp _N2FromN1Hex(Gn1 const * const n)
 }
 
 /******************************************************************************
-func: _N4FromN1
+func: _N4FromFileN1Hex
 ******************************************************************************/
-static Gnp _N4FromN1(Gn1 const * const n)
-{
-   Gnp v;
-
-   genter;
-
-   v = 
-      (Gnp) (n[1] - '0') * (Gnp) 1000000        + 
-      (Gnp) (n[2] - '0') * (Gnp) 100000         +
-      (Gnp) (n[3] - '0') * (Gnp) 10000          +
-      (Gnp) (n[4] - '0') * (Gnp) 1000           +
-      (Gnp) (n[5] - '0') * (Gnp) 100            +
-      (Gnp) (n[6] - '0') * (Gnp) 10             +
-      (Gnp) (n[7] - '0');
-
-   greturn v;
-}
-
-/******************************************************************************
-func: _N4FromN1Hex
-******************************************************************************/
-static Gnp _N4FromN1Hex(Gn1 const * const n)
+static Gnp _N4FromFileN1Hex(Gn1 const * const n)
 {
    Gnp v;
 
@@ -1243,38 +1104,9 @@ static Gnp _N4FromN1Hex(Gn1 const * const n)
 }
 
 /******************************************************************************
-func: _N8FromN1
+func: _N8FromFileN1Hex
 ******************************************************************************/
-static Gnp _N8FromN1(Gn1 const * const n)
-{
-   Gnp v;
-
-   genter;
-
-   v = 
-      (Gnp) (n[ 1] - '0') * (Gnp) 100000000000000 +
-      (Gnp) (n[ 2] - '0') * (Gnp) 10000000000000  +
-      (Gnp) (n[ 3] - '0') * (Gnp) 1000000000000   +
-      (Gnp) (n[ 4] - '0') * (Gnp) 100000000000    +
-      (Gnp) (n[ 5] - '0') * (Gnp) 10000000000     +
-      (Gnp) (n[ 6] - '0') * (Gnp) 1000000000      +
-      (Gnp) (n[ 7] - '0') * (Gnp) 100000000       +
-      (Gnp) (n[ 8] - '0') * (Gnp) 10000000        +
-      (Gnp) (n[ 9] - '0') * (Gnp) 1000000         + 
-      (Gnp) (n[10] - '0') * (Gnp) 100000          +
-      (Gnp) (n[11] - '0') * (Gnp) 10000           +
-      (Gnp) (n[12] - '0') * (Gnp) 1000            +
-      (Gnp) (n[13] - '0') * (Gnp) 100             +
-      (Gnp) (n[14] - '0') * (Gnp) 10              +
-      (Gnp) (n[15] - '0');
-
-   greturn v;
-}
-
-/******************************************************************************
-func: _N8FromN1Hex
-******************************************************************************/
-static Gnp _N8FromN1Hex(Gn1 const * const n)
+static Gnp _N8FromFileN1Hex(Gn1 const * const n)
 {
    Gnp v;
 
@@ -1304,19 +1136,19 @@ static Gnp _N8FromN1Hex(Gn1 const * const n)
 /******************************************************************************
 func: _RowCreate
 ******************************************************************************/
-static GraftRow *_RowCreate(Graft const * const raft)
+static GfileRatRow *_RowCreate(GfileRat const * const rat)
 {
-   GraftRow *row;
+   GfileRatRow *row;
 
    genter;
 
-   row = gmemCreateType(GraftRow);
+   row = gmemCreateType(GfileRatRow);
    greturnNullIf(!row);
 
    row->value = gvpArrayCreate(NULL, gbFALSE);
    if (!row->value)
    {
-      _RowDestroy(raft, row);
+      _RowDestroy(rat, row);
       greturn NULL;
    }
 
@@ -1326,21 +1158,21 @@ static GraftRow *_RowCreate(Graft const * const raft)
 /******************************************************************************
 func: _RowDestroy
 ******************************************************************************/
-static void _RowDestroy(Graft const * const raft, GraftRow * const row)
+static void _RowDestroy(GfileRat const * const rat, GfileRatRow * const row)
 {
    Gindex  index;
-   GraftCol *col;
+   GfileRatCol *col;
 
    genter;
 
    greturnVoidIf(!row);
 
    // For all the strings...
-   forCount (index, index < graftColArrayGetCount(raft->colArray))
+   forCount (index, index < gfileRatColArrayGetCount(rat->colArray))
    {
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
-      if (col->type == graftTypeS)
+      if (col->type == gfileRatTypeS)
       {
          // Blank the strings.
          gsSetA(gvpArrayGetAt(row->value, index)->s, "");
@@ -1348,8 +1180,8 @@ static void _RowDestroy(Graft const * const raft, GraftRow * const row)
    }
 
    // Mark the row as deleted.
-   gindexArrayAdd(raft->isUpdatedRowArray, row);
-   gindexArrayAdd(raft->isDeletedRowArray, row);
+   gindexArrayAdd(rat->isUpdatedRowArray, row);
+   gindexArrayAdd(rat->isDeletedRowArray, row);
 
    gmemDestroy(row);
 
@@ -1379,7 +1211,7 @@ static Gs *_SFromN1(Gn1 const * const n, Gcount const count)
 /******************************************************************************
 func: _StoreAll
 ******************************************************************************/
-static Gb _StoreAll(Graft * const raft)
+static Gb _StoreAll(GfileRat * const rat)
 {
    Gindex    index;
    Gb        result;
@@ -1388,22 +1220,22 @@ static Gb _StoreAll(Graft * const raft)
    genter;
 
    // Save the old file.
-   _FileBackupRemove(raft);
-   _FileBackup(      raft);
+   _FileBackupRemove(rat);
+   _FileBackup(      rat);
 
    // Open a new file.
-   file = _FileOpen(raft, graftModeREAD_WRITE);
+   file = _FileOpen(rat, gfileRatModeREAD_WRITE);
 
    // Write out the header.
-   _StoreHeader(raft, file);
+   _StoreHeader(rat, file);
 
    // Write out the column name line.
-   _StoreConfig(raft, file);
+   _StoreConfig(rat, file);
 
    // Write out the rows
-   forCount(index, graftRowArrayGetCount(raft->rowArray))
+   forCount(index, gfileRatRowArrayGetCount(rat->rowArray))
    {
-      _StoreRow(raft, file, index);
+      _StoreRow(rat, file, index);
    }
 
    // Close the file.
@@ -1417,11 +1249,11 @@ static Gb _StoreAll(Graft * const raft)
 /******************************************************************************
 func: _StoreConfig
 ******************************************************************************/
-static void _StoreConfig(Graft * const raft, Gfile * const file)
+static void _StoreConfig(GfileRat * const rat, Gfile * const file)
 {
    Gindex    index;
    Gcount    byteCount;
-   GraftCol *col;
+   GfileRatCol *col;
    Gs       *line,
             *type;
 
@@ -1429,16 +1261,16 @@ static void _StoreConfig(Graft * const raft, Gfile * const file)
 
    // Write out the column names.
    line = gsCreate();
-   forCount(index, graftColArrayGetCount(raft->colArray))
+   forCount(index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Get the column.
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
       // Add the name.
       gsAppend(line, col->name);
 
       // Add the separator.
-      if (index != graftColArrayGetCount(raft->colArray) - 1)
+      if (index != gfileRatColArrayGetCount(rat->colArray) - 1)
       {
          gsAppendC(line, '|');
       }
@@ -1456,29 +1288,29 @@ static void _StoreConfig(Graft * const raft, Gfile * const file)
    byteCount = 9;
 
    type = gsCreate();
-   forCount(index, graftColArrayGetCount(raft->colArray))
+   forCount(index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Clean the type.
       gsFlush(type);
 
       // Get the column.
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
 
       // Get the type.
       switch (col->type)
       {
-      case graftTypeB:  gsAppendA(type, "b");  byteCount += 1;                         break;
-      case graftTypeI1: gsAppendA(type, "i1"); byteCount += (raft->isBinary) ? 1 :  2; break;
-      case graftTypeI2: gsAppendA(type, "i2"); byteCount += (raft->isBinary) ? 2 :  4; break;
-      case graftTypeI4: gsAppendA(type, "i4"); byteCount += (raft->isBinary) ? 4 :  8; break;
-      case graftTypeI8: gsAppendA(type, "i8"); byteCount += (raft->isBinary) ? 8 : 16; break;
-      case graftTypeN1: gsAppendA(type, "n1"); byteCount += (raft->isBinary) ? 1 :  2; break;
-      case graftTypeN2: gsAppendA(type, "n2"); byteCount += (raft->isBinary) ? 2 :  4; break;
-      case graftTypeN4: gsAppendA(type, "n4"); byteCount += (raft->isBinary) ? 4 :  8; break;
-      case graftTypeN8: gsAppendA(type, "n8"); byteCount += (raft->isBinary) ? 8 : 16; break;
-      case graftTypeR4: gsAppendA(type, "r4"); byteCount += (raft->isBinary) ? 4 :  8; break;
-      case graftTypeR8: gsAppendA(type, "r8"); byteCount += (raft->isBinary) ? 8 : 16; break;
-      case graftTypeS:  
+      case gfileRatTypeB:  gsAppendA(type, "b");  byteCount += 1;                         break;
+      case gfileRatTypeI1: gsAppendA(type, "i1"); byteCount += (rat->isBinary) ? 1 :  2; break;
+      case gfileRatTypeI2: gsAppendA(type, "i2"); byteCount += (rat->isBinary) ? 2 :  4; break;
+      case gfileRatTypeI4: gsAppendA(type, "i4"); byteCount += (rat->isBinary) ? 4 :  8; break;
+      case gfileRatTypeI8: gsAppendA(type, "i8"); byteCount += (rat->isBinary) ? 8 : 16; break;
+      case gfileRatTypeN1: gsAppendA(type, "n1"); byteCount += (rat->isBinary) ? 1 :  2; break;
+      case gfileRatTypeN2: gsAppendA(type, "n2"); byteCount += (rat->isBinary) ? 2 :  4; break;
+      case gfileRatTypeN4: gsAppendA(type, "n4"); byteCount += (rat->isBinary) ? 4 :  8; break;
+      case gfileRatTypeN8: gsAppendA(type, "n8"); byteCount += (rat->isBinary) ? 8 : 16; break;
+      case gfileRatTypeR4: gsAppendA(type, "r4"); byteCount += (rat->isBinary) ? 4 :  8; break;
+      case gfileRatTypeR8: gsAppendA(type, "r8"); byteCount += (rat->isBinary) ? 8 : 16; break;
+      case gfileRatTypeS:  
          gsAppendC(type, 's');  
          gsAppendN(type, col->byteCount);
 
@@ -1490,7 +1322,7 @@ static void _StoreConfig(Graft * const raft, Gfile * const file)
       gsPadTail(type, gsGetCount(col->name), L' ');
 
       // Add the separator.
-      if (index != graftColArrayGetCount(raft->colArray) - 1)
+      if (index != gfileRatColArrayGetCount(rat->colArray) - 1)
       {
          gsAppendC(type, '|');
       }
@@ -1506,21 +1338,21 @@ static void _StoreConfig(Graft * const raft, Gfile * const file)
    gsDestroy(line);
 
    // Update the internal values.
-   raft->dataByteCount = gsGetCount(line);
-   raft->rowByteCount  = raft->dataByteCount + 9;
+   rat->dataByteCount = gsGetCount(line);
+   rat->rowByteCount  = rat->dataByteCount + 9;
 
    // recreate the line buffer.
-   gmemDestroy(raft->rowBuffer);
-   raft->rowBuffer = gmemCreateTypeArray(Gn1, raft->rowByteCount);
+   gmemDestroy(rat->rowBuffer);
+   rat->rowBuffer = gmemCreateTypeArray(Gn1, rat->rowByteCount);
 
    // Get the starting location of the data.
-   raft->offsetData = gfileGetPosition(file);
+   rat->offsetData = gfileGetPosition(file);
 }
 
 /******************************************************************************
 func: _StoreHeader
 ******************************************************************************/
-static void _StoreHeader(Graft * const raft, Gfile * const file)
+static void _StoreHeader(GfileRat * const rat, Gfile * const file)
 {
    Gn1 version[9];
    Gs *line;
@@ -1531,7 +1363,7 @@ static void _StoreHeader(Graft * const raft, Gfile * const file)
    line = gsCreate();
 
    // Add the header.
-   if (raft->isBinary)
+   if (rat->isBinary)
    {
       gsAppendA(line, "GRAFT_BF|");
    }
@@ -1544,18 +1376,18 @@ static void _StoreHeader(Graft * const raft, Gfile * const file)
    gmemClearTypeArray(version, Gn1, 9);
 
    // Set the GRAFT version
-   _N1FromN(version, 4, 1);
+   _FileN1FromN(version, 4, 1);
    gsAppendA(line, (Char *) version);
    gsAppendC(line, L'|');
    
    // Set the file version.
-   _N1FromN(version, 4, raft->versionFile);
+   _FileN1FromN(version, 4, rat->versionFile);
    gsAppendA(line, (Char *) version);
    gsAppendC(line, L'|');
    
    // Set the data version.
-   raft->versionData++;
-   _N1FromN(version, 4, raft->versionData);
+   rat->versionData++;
+   _FileN1FromN(version, 4, rat->versionData);
    gsAppendA(line, (Char *) version);
    gsAppendC(line, '\n');
 
@@ -1572,25 +1404,27 @@ static void _StoreHeader(Graft * const raft, Gfile * const file)
 /******************************************************************************
 func: _StoreRow
 ******************************************************************************/
-static Gb _StoreRow(Graft * const raft, Gfile *file, Gindex const indexRow)
+static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
 {
-   Gindex    index,
-             byteOffset;
-   Gb        result;
-   GraftCol *col;
-   GraftRow *row;
-   Gvp       vp;
-#if grlSWAP_NEEDED == 1
-   Gn2       n2;
-   Gn4       n4;
-#endif
-   Gc1      *c1;
-   Gcount    c1Count;
+   Gindex             index,
+                      byteOffset;
+   Gb                 result;
+   GfileRatCol       *col;
+   GfileRatRow       *row;
+   Gvp                vp;
+   Gn2                n2;
+   Gn4                n4;
+   Gc1               *c1;
+   Gcount             c1Count,
+                      writeCount;
+   GfileSetPosition   positionResult;
 
    genter;
 
+   result = gbFALSE;
+
    // Get the row.
-   row = graftRowArrayGetAt(raft->rowArray, indexRow);
+   row = gfileRatRowArrayGetAt(rat->rowArray, indexRow);
    greturnFalseIf(!row);
 
    // Update the version number of the row.
@@ -1598,10 +1432,34 @@ static Gb _StoreRow(Graft * const raft, Gfile *file, Gindex const indexRow)
 
    // For all columns...
    byteOffset = 0;
-   forCount(index, graftColArrayGetCount(raft->colArray))
+
+   // Store the is deleted flag.
+   switch (row->isDeleted)
+   {
+   case gbFALSE: rat->rowBuffer[byteOffset++] = 'F'; break;
+   case gbTRUE:  rat->rowBuffer[byteOffset++] = 'T'; break;
+   }
+
+   // Store the data version.
+   n4 = row->version;
+#if grlSWAP_NEEDED == 1
+   gswap4(&n4);
+#endif
+   if (rat->isBinary)
+   {
+      gmemCopyOverType(&n4, Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;
+   }
+   else
+   {
+      _FileN1FromN(&rat->rowBuffer[byteOffset], 4, n4);
+   }
+   byteOffset += 4;
+
+   // Store the row data.
+   forCount(index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Get the column.
-      col = graftColArrayGetAt(raft->colArray, index);
+      col = gfileRatColArrayGetAt(rat->colArray, index);
       
       // Get the row value;
       vp = *gvpArrayGetAt(row->value, index);
@@ -1609,72 +1467,72 @@ static Gb _StoreRow(Graft * const raft, Gfile *file, Gindex const indexRow)
 #if grlSWAP_NEEDED == 1
       switch (col->type)
       {
-      case graftTypeI2:   
-      case graftTypeN2: 
+      case gfileRatTypeI2:   
+      case gfileRatTypeN2: 
          n2 = (Gn2) vp->n;
          gswap2(&n2);
          vp->n = n2;
          break;
 
-      case graftTypeI4:   
-      case graftTypeN4:   
-      case graftTypeR4:
+      case gfileRatTypeI4:   
+      case gfileRatTypeN4:   
+      case gfileRatTypeR4:
          n4 = (Gn4) vp->n;
          gswap4(&n4);
          vp->n = n4;
          break;
 
-      case graftTypeI8:   
-      case graftTypeN8:   
-      case graftTypeR8:
+      case gfileRatTypeI8:   
+      case gfileRatTypeN8:   
+      case gfileRatTypeR8:
          gswap8(&vp->n);
          break;
       }
 #else
       switch (col->type)
       {
-      case graftTypeI2:   
-      case graftTypeN2: 
-         n2 = (Gn2) vp->n;
+      case gfileRatTypeI2:   
+      case gfileRatTypeN2: 
+         n2 = (Gn2) vp.n;
          break;
 
-      case graftTypeI4:   
-      case graftTypeN4:   
-      case graftTypeR4:
-         n4 = (Gn4) vp->n;
+      case gfileRatTypeI4:   
+      case gfileRatTypeN4:   
+      case gfileRatTypeR4:
+         n4 = (Gn4) vp.n;
          break;
       }
 #endif
 
       // Create the binary.
-      if (raft->isBinary)
+      if (rat->isBinary)
       {
          switch (col->type)
          {
-         case graftTypeB:
-            switch (vp->b)
+         case gfileRatTypeB:
+            switch (vp.b)
             {
-            case gbFALSE:    raft->rowBuffer[byteOffset++] = 'F'; break;
-            case gbTRUE:     raft->rowBuffer[byteOffset++] = 'T'; break;
-            default:         raft->rowBuffer[byteOffset++] = ' '; break;
+            case gbFALSE:    rat->rowBuffer[byteOffset++] = 'F'; break;
+            case gbTRUE:     rat->rowBuffer[byteOffset++] = 'T'; break;
+            default:         rat->rowBuffer[byteOffset++] = ' '; break;
             }
             break;
 
-         case graftTypeI1:   
-         case graftTypeN1:   raft->rowBuffer[byteOffset++] = (Gn1) vp->n; break;
-         case graftTypeI2:   
-         case graftTypeN2:   gmemCopyOverType(n2, Gn2, &raft->rowBuffer[byteOffset]); byteOffset += 2; break;
-         case graftTypeI4:   
-         case graftTypeN4:   
-         case graftTypeR4:   gmemCopyOverType(n4, Gn4, &raft->rowBuffer[byteOffset]); byteOffset += 4;break;
-         case graftTypeI8:   
-         case graftTypeN8:   
-         case graftTypeR8:   gmemCopyOverType(n8, Gn8, &raft->rowBuffer[byteOffset]); byteOffset += 8; break;
-         case graftTypeS:
-            c1       = gsCreateU1(vp->s);
+         case gfileRatTypeI1:   
+         case gfileRatTypeN1:   rat->rowBuffer[byteOffset++] = (Gn1) vp.n; break;
+         case gfileRatTypeI2:   
+         case gfileRatTypeN2:   gmemCopyOverType(&n2,   Gn2, &rat->rowBuffer[byteOffset]); byteOffset += 2; break;
+         case gfileRatTypeI4:                           
+         case gfileRatTypeN4:                           
+         case gfileRatTypeR4:   gmemCopyOverType(&n4,   Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;break;
+         case gfileRatTypeI8:   
+         case gfileRatTypeN8:   
+         case gfileRatTypeR8:   gmemCopyOverType(&vp.n, Gn8, &rat->rowBuffer[byteOffset]); byteOffset += 8; break;
+         case gfileRatTypeS:
+            c1       = gsCreateU1(vp.s);
             c1Count  = gcGetCountU1(c1);
-            gmemClearTypeArray(&raft->rowBuffer[byteOffset], Gn1, col->byteCount); 
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &raft->rowBuffer[byteOffset]); 
+            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount); 
+            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]); 
             break;
          }
       }
@@ -1683,42 +1541,52 @@ static Gb _StoreRow(Graft * const raft, Gfile *file, Gindex const indexRow)
       {
          switch (col->type)
          {
-         case graftTypeB:
-            switch (vp->b)
+         case gfileRatTypeB:
+            switch (vp.b)
             {
-            case gbFALSE:     raft->rowBuffer[byteOffset] = 'F'; break;
-            case gbTRUE:      raft->rowBuffer[byteOffset] = 'T'; break;
-            default:          raft->rowBuffer[byteOffset] = ' '; break;
+            case gbFALSE:     rat->rowBuffer[byteOffset] = 'F'; break;
+            case gbTRUE:      rat->rowBuffer[byteOffset] = 'T'; break;
+            default:          rat->rowBuffer[byteOffset] = ' '; break;
             }
             break;
 
-         case graftTypeI1:   
-         case graftTypeN1:   _N1FromN1(&raft->rowBuffer[byteOffset], vp->n); break;
-         case graftTypeI2:   
-         case graftTypeN2:   _N1FromN2(&raft->rowBuffer[byteOffset], vp->n); break;
-         case graftTypeI4:   
-         case graftTypeN4:   
-         case graftTypeR4:   _N1FromN4(&raft->rowBuffer[byteOffset], vp->n); break;
-         case graftTypeI8:   
-         case graftTypeN8:   
-         case graftTypeR8:   _N1FromN8(&raft->rowBuffer[byteOffset], vp->n); break;
-         case graftTypeS:    
-            c1       = gsCreateU1(vp->s);
+         case gfileRatTypeI1:   
+         case gfileRatTypeN1:   _FileN1FromN(&rat->rowBuffer[byteOffset], 1, vp.n); break;
+         case gfileRatTypeI2:   
+         case gfileRatTypeN2:   _FileN1FromN(&rat->rowBuffer[byteOffset], 2, vp.n); break;
+         case gfileRatTypeI4:   
+         case gfileRatTypeN4:   
+         case gfileRatTypeR4:   _FileN1FromN(&rat->rowBuffer[byteOffset], 4, vp.n); break;
+         case gfileRatTypeI8:   
+         case gfileRatTypeN8:   
+         case gfileRatTypeR8:   _FileN1FromN(&rat->rowBuffer[byteOffset], 8, vp.n); break;
+         case gfileRatTypeS:    
+            c1       = gsCreateU1(vp.s);
             c1Count  = gcGetCountU1(c1);
-            gmemClearTypeArray(&raft->rowBuffer[byteOffset], Gn1, col->byteCount); 
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &raft->rowBuffer[byteOffset]); 
+            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount); 
+            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]); 
             break;
          }
       }
    }
 
+   // Set the file position
+   positionResult = gfileSetPosition(file, gpositionSTART, rat->offsetData + rat->rowByteCount * indexRow);
+   stopIf(positionResult != gfileSetPositionSUCCESS);
+
+   // Get the row data.
+   stopIf(!gfileSet(file, rat->rowByteCount, rat->rowBuffer, &writeCount));
+
+   result = gbTRUE;
+
+STOP:
    greturn result;
 }
 
 /******************************************************************************
 func: _StoreUpdatedRows
 ******************************************************************************/
-static Gb _StoreUpdatedRows(Graft * const raft)
+static Gb _StoreUpdatedRows(GfileRat * const rat)
 {
    Gfile *file;
    Gindex index,
@@ -1728,19 +1596,19 @@ static Gb _StoreUpdatedRows(Graft * const raft)
    genter;
 
    // Open the file
-   file = _FileOpen(raft, graftModeREAD_WRITE);
+   file = _FileOpen(rat, gfileRatModeREAD_WRITE);
 
    // Store the updated header line.
-   _StoreHeader(raft, file);
+   _StoreHeader(rat, file);
 
    // Write out the modified rows.
-   forCount(index, gindexArrayGetCount(raft->isUpdatedRowArray))
+   forCount(index, gindexArrayGetCount(rat->isUpdatedRowArray))
    {
       // Get the updated row.
-      indexRow = *gindexArrayGetAt(raft->isUpdatedRowArray, index);
+      indexRow = *gindexArrayGetAt(rat->isUpdatedRowArray, index);
 
       // Store the updated row.
-      _StoreRow(raft, file, indexRow);
+      _StoreRow(rat, file, indexRow);
    }
 
    // Close the file.

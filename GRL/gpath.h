@@ -139,13 +139,11 @@ prototype:
 #define gpathGetEnd(   PATH)        (Gs *) gleakCreate((Gp *) gpathGetEnd_(   (PATH)),           gsizeof(Gs))
 #define gpathGetMount( PATH)        (Gs *) gleakCreate((Gp *) gpathGetMount_( (PATH)),           gsizeof(Gs))
 #define gpathGetServer(PATH)        (Gs *) gleakCreate((Gp *) gpathGetServer_((PATH)),           gsizeof(Gs))
-
-#define gpathStart()                gbTRUE
-#define gpathStop()
 /*lint -restore */
 
 grlAPI Gb      gpathAppend(        Gpath       * const path, Gpath const * const add);
 
+#define        gpathCreate()        gsCreate()
 #define        gpathCreateFrom(P)   gsCreateFrom(P)
 
 #define        gpathDestroy(P)      gsDestroy(P)

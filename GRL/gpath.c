@@ -43,7 +43,7 @@ type:
 ******************************************************************************/
 typedef struct
 {
-   Gb           isFromRoot;
+   Gb         isFromRoot;
    GsArray   *folderList;
    Gs        *mount;
    Gs        *server;
@@ -89,8 +89,8 @@ grlAPI Gb gpathAppend(Gpath * const path, const Gpath * const add)
 
    forCount(index, gsArrayGetCount(atemp.folderList))
    {
-      str = gsArrayGetAt(atemp.folderList, index);
-      stopIf(!gsArrayAddEnd(ptemp.folderList, gsCreateFrom(str)));
+      str = gsCreateFrom(gsArrayGetAt(atemp.folderList, index));
+      stopIf(!gsArrayAddEnd(ptemp.folderList, &str));
    }
 
    gsFlush(path);
@@ -710,7 +710,7 @@ func: _SetPathFromSystem
 static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
 {
    Gindex index;
-   Gc2    letter;
+   Gc2   *letter;
    Gs    *folder;
 
    genter;
@@ -725,33 +725,37 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
    // Determine what kind of path this is.
 #if grlWINDOWS == 1
    // UNC path
-   letter = *gsGetAt(value, index);
-   if      ((letter == gpathFOLDER_SEPARATOR_SYSTEM ||
-             letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT) &&
-            (*gsGetAt(value, 1) == gpathFOLDER_SEPARATOR_SYSTEM ||
+   letter = gsGetAt(value, 0);
+   greturnFalseIf(!letter);
+
+   if      ((*letter == gpathFOLDER_SEPARATOR_SYSTEM              ||
+             *letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)            &&
+            (*gsGetAt(value, 1) == gpathFOLDER_SEPARATOR_SYSTEM   ||
              *gsGetAt(value, 1) == gpathFOLDER_SEPARATOR_SYSTEM_ALT))
    {
       index = 2;
       loop
       {
-         letter = *gsGetAt(value, index);
-         breakIf(letter == gpathFOLDER_SEPARATOR_SYSTEM     ||
-                  letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT ||
-                  letter == 0);
+         letter = gsGetAt(value, index);
+         breakIf(!letter                                     ||
+                 *letter == gpathFOLDER_SEPARATOR_SYSTEM     ||
+                 *letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT ||
+                 *letter == 0);
 
          gsAppendC(path->server, *gsGetAt(value, index)); //lint !e534
       }
       index++;
    }
    // Full path like C:\...
-   else if (*gsGetAt(value, 1) == gpathMOUNT_SUFFIX_SYSTEM)
+   else if (gsGetAt(value, 1) &&
+            *gsGetAt(value, 1) == gpathMOUNT_SUFFIX_SYSTEM)
    {
-      gsAppendC(path->mount, letter); //lint !e534
+      gsAppendC(path->mount, *letter); //lint !e534
       index = 3;
    }
    // root pathing \...
-   else if (letter == gpathFOLDER_SEPARATOR_SYSTEM ||
-            letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)
+   else if (*letter == gpathFOLDER_SEPARATOR_SYSTEM ||
+            *letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)
    {
       path->isFromRoot = gbTRUE;
       index++;
@@ -760,12 +764,13 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
    // Get the folders.
    loop
    {
-      letter = *gsGetAt(value, index);
-      if      (letter == 0)
+      letter = gsGetAt(value, index);
+      if      (letter  == NULL ||
+               *letter == 0)
       {
          if (folder)
          {
-            gsArrayAddEnd(path->folderList, folder); //lint !e534
+            gsArrayAddEnd(path->folderList, &folder); //lint !e534
          }
          folder = NULL;
          break;
@@ -776,15 +781,15 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
          folder = gsCreate();
       }
 
-      if (letter == gpathFOLDER_SEPARATOR_SYSTEM     ||
-          letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)
+      if (*letter == gpathFOLDER_SEPARATOR_SYSTEM     ||
+          *letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)
       {
-         gsArrayAddEnd(path->folderList, folder); //lint !e534
+         gsArrayAddEnd(path->folderList, &folder); //lint !e534
          folder = gsCreate();
       }
       else
       {
-         gsAppendC(folder, letter); //lint !e534
+         gsAppendC(folder, *letter); //lint !e534
       }
       index++;
    }
@@ -826,7 +831,6 @@ static Gb _SetGpathFromPath(Gpath * const str, const GpathData * const path)
       greturnFalseIf(!gsAppendC(str, gpathFOLDER));
       greturnFalseIf(!gsAppend( str, gsArrayGetAt(path->folderList, index)));
    }
-   //lint -restore
 
    greturn gbTRUE;
 }

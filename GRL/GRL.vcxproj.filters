@@ -144,7 +144,7 @@
     <ClInclude Include="gindex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="graft.h">
+    <ClInclude Include="gfileRat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -245,7 +245,7 @@
     <ClCompile Include="gindex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="graft.c">
+    <ClCompile Include="gfileRat.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

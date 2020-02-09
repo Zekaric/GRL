@@ -2815,7 +2815,7 @@ grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
 
          greturnNullIf(!gsAppendC(substr, *gsGetAt(str, index)));
       }
-      greturnNullIf(!gsArrayAddEnd(slist, substr));
+      greturnNullIf(!gsArrayAddEnd(slist, &substr));
    }
 
    greturn slist; //lint !e850

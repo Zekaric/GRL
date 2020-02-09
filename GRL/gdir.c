@@ -262,7 +262,7 @@ grlAPI Gb gdirFileDestroy(Gpath const * const path)
       !gdirIsExisting(path));
 
    // Get the system path.
-   tpath = gpathCreateFromPath(path);
+   tpath = gpathCreateFrom(path);
    gpathSetToSystem(tpath);
 
    // Perform the delete of the file.
@@ -613,8 +613,8 @@ grlAPI Gb gdirRename(Gpath const * const path, Gpath const * const pathDestinati
       !gdirIsExisting(path));
 
    // Get the system paths;
-   tpath             = gpathCreateFromPath(path);
-   tpathDestination  = gpathCreateFromPath(pathDestination);
+   tpath             = gpathCreateFrom(path);
+   tpathDestination  = gpathCreateFrom(pathDestination);
 
    gpathSetToSystem(tpath);
    gpathSetToSystem(tpathDestination);

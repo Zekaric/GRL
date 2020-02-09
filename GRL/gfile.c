@@ -619,7 +619,7 @@ grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArr
       }
 
       // Append to the lines.
-      if (!gsArrayAddEnd(strArray, stemp))
+      if (!gsArrayAddEnd(strArray, &stemp))
       {
          debugHalt("gsArrayAddLast failed");
          break;

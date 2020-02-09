@@ -121,10 +121,10 @@ prototype:
 #define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
 
 // Copying data from one array over to some other array of a given type.
-#define gmemCopyOver(            PSRC, BYTECOUNT,              PDST)             gmemCopyOverAt((PSRC),  (BYTECOUNT),               0,                       (PDST),  (Gi) 0)
-#define gmemCopyOverType(        PSRC, TYPE,                   PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE),             0,                       (PDST),  (Gi) 0)
-#define gmemCopyOverTypeArray(   PSRC, TYPE, COUNT,            PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   0,                       (PDST),  (Gi) 0)
-#define gmemCopyOverTypeArrayAt( PSRC, TYPE, COUNT, INDEX_SRC, PDST, INDEX_DST)  gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  (PDST),  gsizeof(TYPE) * (INDEX_DST))
+#define gmemCopyOver(            PSRC, BYTECOUNT,              PDST)             gmemCopyOverAt((Gp *) (PSRC),  (BYTECOUNT),               0,                            (Gp *) (PDST),  (Gi) 0)
+#define gmemCopyOverType(        PSRC, TYPE,                   PDST)             gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE),             0,                            (Gp *) (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArray(   PSRC, TYPE, COUNT,            PDST)             gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE) * (COUNT),   0,                            (Gp *) (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArrayAt( PSRC, TYPE, COUNT, INDEX_SRC, PDST, INDEX_DST)  gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  (Gp *) (PDST),  gsizeof(TYPE) * (INDEX_DST))
 
 // Create a dynamic memory buffer on the heap.
 // Type  - provide a type to define the size of the element(s) to create.
