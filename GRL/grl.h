@@ -146,6 +146,9 @@ include:
 #include "gv.h"
 #include "gvp.h"
 
+#include "gcount.h"
+#include "gindex.h"
+
 #include "gc.h"
 #include "gs.h"
 
@@ -169,8 +172,9 @@ include:
 #include "gpath.h"            // depends on gs, gsFunction
 
 #include "gdir.h"             // depends on gpath
+#include "gfile.h"            // depends on gc gs gpath
 
-//#include "gat.h"              // depends on gpath, gfile
+#include "graft.h"            // depends on gpath, gfile
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //
@@ -194,7 +198,6 @@ include:
 #include "gbin.h"          // depends on gc gs
 #include "gpinPin.h"       // depends on gc gs
 
-#include "gfile.h"         // depends on gc gs gpath
 
 //#include "gdirArray.h"     // depends on gdir gpArray
 

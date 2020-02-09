@@ -147,6 +147,8 @@ grlAPI Gb             gdirCreateContent(        Gdir       * const gdir);
 grlAPI void           gdirDestroy(              Gdir       * const gdir);
 grlAPI void           gdirDestroyContent(       Gdir       * const gdir);
 
+grlAPI Gb             gdirFileDestroy(          Gpath const * const path);
+
 grlAPI Gb             gdirFolderCreate(         Gpath const * const path);
 grlAPI Gb             gdirFolderDestroy(        Gpath const * const path);
 
@@ -162,6 +164,8 @@ grlAPI GdirType       gdirGetType(              Gdir const * const dir);
 grlAPI Gpath         *gdirGetWorking(           void);
 
 grlAPI Gb             gdirIsExisting(           Gpath const * const path);
+
+grlAPI Gb             gdirRename(               Gpath const * const path, Gpath const * const pathDestination);
 
 grlAPI Gb             gdirSetWorking(           Gpath const * const path);
 

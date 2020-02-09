@@ -161,15 +161,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="gat.h" />
+    <ClInclude Include="graft.h" />
     <ClInclude Include="gb.h" />
     <ClInclude Include="gbit.h" />
     <ClInclude Include="gc.h" />
     <ClInclude Include="gcon.h" />
+    <ClInclude Include="gcount.h" />
     <ClInclude Include="gdir.h" />
+    <ClInclude Include="gfile.h" />
     <ClInclude Include="gguid.h" />
     <ClInclude Include="gheap.h" />
     <ClInclude Include="gi.h" />
+    <ClInclude Include="gindex.h" />
     <ClInclude Include="gleak.h" />
     <ClInclude Include="glock.h" />
     <ClInclude Include="gmem.h" />
@@ -204,13 +207,15 @@
     <ClInclude Include="precompiled.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gat.c" />
+    <ClCompile Include="graft.c" />
     <ClCompile Include="gbit.c" />
     <ClCompile Include="gc.c" />
     <ClCompile Include="gcon.c" />
     <ClCompile Include="gdir.c" />
+    <ClCompile Include="gfile.c" />
     <ClCompile Include="gguid.c" />
     <ClCompile Include="gheap.c" />
+    <ClCompile Include="gindex.c" />
     <ClCompile Include="gleak.c" />
     <ClCompile Include="glock.c" />
     <ClCompile Include="gmem.c" />

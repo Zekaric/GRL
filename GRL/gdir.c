@@ -65,7 +65,7 @@ grlAPI GdirArray *gdirArrayCreateFromPath_(const Gpath * const path)
 
    // Find first file in current directory
    // Create the mask.
-   ptemp = gsCreateFrom(path);
+   ptemp = gpathCreateFrom(path);
    greturnNullIf(!ptemp);
 
    stemp = gsCreateFromU2(L"*.*");
@@ -108,13 +108,13 @@ grlAPI GdirArray *gdirArrayCreateFromMask_(const Gpath * const path)
    }
    else
    {
-      pathWorking = gsCreateFrom(path);
+      pathWorking = gpathCreateFrom(path);
    }
 
    // Find first file in current directory
    // Create the mask.
-   pathMinusMask = gsCreateFrom(pathWorking);
-   pathSystem    = gsCreateFrom(pathWorking);
+   pathMinusMask = gpathCreateFrom(pathWorking);
+   pathSystem    = gpathCreateFrom(pathWorking);
 
    gpathPop(pathMinusMask); //lint !e534
 
@@ -135,7 +135,7 @@ grlAPI GdirArray *gdirArrayCreateFromMask_(const Gpath * const path)
 
          data->name = gsCreateFromU2(finfo.name);
 
-         data->path = gsCreateFrom(pathMinusMask);
+         data->path = gpathCreateFrom(pathMinusMask);
          gpathPush(data->path, data->name); //lint !e534
 
          if (finfo.attrib & _A_SUBDIR)
@@ -248,6 +248,33 @@ grlAPI void gdirDestroyContent(Gdir * const gdir)
 }
 
 /******************************************************************************
+func: gdirFileDestroy
+******************************************************************************/
+grlAPI Gb gdirFileDestroy(Gpath const * const path)
+{
+   Gb     result;
+   Gpath *tpath;
+
+   genter;
+
+   greturnFalseIf(
+      !gpathIsPath(   path) ||
+      !gdirIsExisting(path));
+
+   // Get the system path.
+   tpath = gpathCreateFromPath(path);
+   gpathSetToSystem(tpath);
+
+   // Perform the delete of the file.
+   result = (Gb) (_wremove(gsGet(tpath)) == 0);
+
+   // Clean up.
+   gpathDestroy(tpath);
+
+   greturn result;
+}
+
+/******************************************************************************
 func: gdirFolderCreate
 
 Create the folder(s) provided in the path.
@@ -260,18 +287,19 @@ grlAPI Gb gdirFolderCreate(Gpath const * const path)
 
    genter;
 
-   greturnFalseIf(!gpathIsPath(path));
+   greturnFalseIf(
+      !gpathIsPath(  path) ||
+      gdirIsExisting(path));
 
    result  = gbTRUE;
    popPath = NULL;
 
    // test to see if the path already exists.
-   tpath = gsCreateFrom(path);
-   stopIf(gdirIsExisting(tpath));
+   tpath = gpathCreateFrom(path);
 
    // Path doesn't already exist.
    // Pop up the dir tree.
-   popPath = gsCreateFrom(tpath);
+   popPath = gpathCreateFrom(tpath);
    gpathPop(popPath); //lint !e534
 
    // Test again recursively.
@@ -300,18 +328,18 @@ grlAPI Gb gdirFolderDestroy(Gpath const * const path)
 
    genter;
 
-   result  = gbTRUE;
+   greturnFalseIf(
+      !gpathIsPath(   path) ||
+      !gdirIsExisting(path));
 
-   // test to see if the path already exists.
-   tpath = gsCreateFrom(path);
-   stopIf(!gdirIsExisting(tpath));
-
-   // Path exists.
-   // attempt to delete the folder.
+   // Get the system path.
+   tpath = gpathCreateFrom(path);
    gpathSetToSystem(tpath);
+
+   // Attempt to delete the folder.
    result = (Gb) (_wrmdir(gsGet(tpath)) == 0);
 
-STOP:
+   // Clean up.
    gsDestroy(tpath);
 
    greturn result;
@@ -554,7 +582,7 @@ grlAPI Gb gdirIsExisting(const Gpath * const path)
 
    greturnFalseIf(!gpathIsPath(path));
 
-   ptemp = gsCreateFrom(path);
+   ptemp = gpathCreateFrom(path);
    greturnFalseIf(!ptemp);
 
    result = gbFALSE;
@@ -569,6 +597,38 @@ grlAPI Gb gdirIsExisting(const Gpath * const path)
 }
 
 /******************************************************************************
+func: gdirRename
+******************************************************************************/
+grlAPI Gb gdirRename(Gpath const * const path, Gpath const * const pathDestination)
+{
+   Gb     result;
+   Gpath *tpath,
+         *tpathDestination;
+
+   genter;
+
+   greturnFalseIf(
+      !gpathIsPath(   path)            ||
+      !gpathIsPath(   pathDestination) ||
+      !gdirIsExisting(path));
+
+   // Get the system paths;
+   tpath             = gpathCreateFromPath(path);
+   tpathDestination  = gpathCreateFromPath(pathDestination);
+
+   gpathSetToSystem(tpath);
+   gpathSetToSystem(tpathDestination);
+
+   // move the file
+   result = (Gb) (_wrename(gsGet(tpath), gsGet(tpathDestination)) == 0);
+
+   gpathDestroy(tpath);
+   gpathDestroy(tpathDestination);
+
+   greturn result;
+}
+
+/******************************************************************************
 func: gdirSetWorking
 ******************************************************************************/
 grlAPI Gb gdirSetWorking(const Gpath * const path)
@@ -577,7 +637,7 @@ grlAPI Gb gdirSetWorking(const Gpath * const path)
 
    genter;
 
-   ptemp = gsCreateFrom(path);
+   ptemp = gpathCreateFrom(path);
    greturnIf(!ptemp, gbFALSE);
 
    gpathSetToSystem(ptemp); //lint !e534

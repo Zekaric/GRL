@@ -120,9 +120,6 @@
     <ClInclude Include="gdir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,6 +133,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gvp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gcount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gindex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -230,7 +239,13 @@
     <ClCompile Include="gdir.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gat.c">
+    <ClCompile Include="gfile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gindex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graft.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -182,6 +182,7 @@ macro:
 /*lint -save -e9022 */ 
 #define gotoIf(C,G)        if ((C)) { goto G; }
 /*lint -restore */
+#define stop()             goto STOP
 #define stopIf(C)          if ((C)) { goto STOP; }
 
 // debug macroes
@@ -521,11 +522,29 @@ typedef enum
 // Generic data structure for any of the base data types.
 typedef union
 {
+   Gb                       b;
    Gip                      i;
    Gnp                      n;
-   Gp                      *p;
    Grp                      r;
+   Gs                      *s;
+   Gp                      *p;
 } Gvp;
+
+typedef union
+{
+   Gb                       b;
+   Gi8                      i;
+   Gn8                      n;
+   Gr8                      r;
+} Gv8;
+
+typedef union
+{
+   Gb                       b;
+   Gi4                      i;
+   Gn4                      n;
+   Gr4                      r;
+} Gv4;
 
 // Generic data structure for any of the base data types but includes the 
 // actual stored type.  Why use this?  Use this if you have a container that

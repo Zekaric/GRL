@@ -146,9 +146,9 @@ prototype:
 
 grlAPI Gb      gpathAppend(        Gpath       * const path, Gpath const * const add);
 
-#define        gpathCreateFromPath(P)   gsCreateFrom(P)
+#define        gpathCreateFrom(P)   gsCreateFrom(P)
 
-#define        gpathDestroy(P)          gsDestroy(P)
+#define        gpathDestroy(P)      gsDestroy(P)
 
 grlAPI Gs     *gpathGetAt_(        Gpath const * const path, Gindex const index);
 grlAPI Gcount  gpathGetCount(      Gpath const * const path);
@@ -160,9 +160,11 @@ grlAPI Gb      gpathIsFromRoot(    Gpath const * const path);
 grlAPI Gb      gpathIsPath(        Gpath const * const path);
 grlAPI Gb      gpathIsRelative(    Gpath const * const path);
 
+grlAPI Gb      gpathPop(           Gpath       * const path);
+grlAPI Gb      gpathPopExtension(  Gpath       * const path);
 grlAPI Gb      gpathPush(          Gpath       * const path, Gs  const * const value);
 grlAPI Gb      gpathPushU2(        Gpath       * const path, Gc2 const * const value);
-grlAPI Gb      gpathPop(           Gpath       * const path);
+grlAPI Gb      gpathPushExtensionA(Gpath       * const path, Char const * const extension);
 
 grlAPI Gb      gpathReduce(        Gpath       * const path);
 
@@ -172,7 +174,6 @@ grlAPI Gb      gpathSetMount(      Gpath       * const path, Gs const * const va
 grlAPI Gb      gpathSetServer(     Gpath       * const path, Gs const * const value);
 grlAPI Gb      gpathSetToSystem(   Gpath       * const path);
 
-grlAPI Gb      gpathTrimExtension( Gpath       * const path);
 
 /******************************************************************************
 Gpath containers.

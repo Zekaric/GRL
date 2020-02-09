@@ -289,6 +289,55 @@ grlAPI Gb gpathIsRelative(const Gpath * const path)
 }
 
 /******************************************************************************
+func: gpathPop
+******************************************************************************/
+grlAPI Gb gpathPop(Gpath * const path)
+{
+   GpathData ptemp;
+   Gb        result;
+
+   genter;
+
+   greturnFalseIf(!gpathIsPath(path));
+
+   result = gbFALSE;
+
+   stopIf(!_SetPathFromGpath(&ptemp, path));
+
+   gsDestroy(gsArrayGetEnd(ptemp.folderList)); //lint !e929
+   gsArrayEraseEnd(ptemp.folderList);
+
+   gsFlush(path);
+   stopIf(!_SetGpathFromPath(path, &ptemp));
+      
+   result = gbTRUE;
+
+STOP:
+   _DestroyPathData(&ptemp);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gpathPopExtension
+******************************************************************************/
+grlAPI Gb gpathPopExtension(Gpath * const path)
+{
+   Gindex location;
+
+   genter;
+
+   greturnFalseIf(!path);
+
+   location = gsFindLastOfA(path, 0, ".");
+   greturnFalseIf(location == gsFIND_FAIL);
+
+   gsEraseSub(path, location, gsSubStrINDEX_END); //lint !e534
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
 func: gpathPush
 ******************************************************************************/
 grlAPI Gb gpathPush(Gpath * const path, const Gs * const value)
@@ -333,33 +382,17 @@ grlAPI Gb gpathPushU2(Gpath * const path, const wchar_t * const value)
 }
 
 /******************************************************************************
-func: gpathPop
+func: gpathPushExtensionA
 ******************************************************************************/
-grlAPI Gb gpathPop(Gpath * const path)
+grlAPI Gb gpathPushExtensionA(Gpath * const path, Char const * const extension)
 {
-   GpathData ptemp;
-   Gb        result;
-
    genter;
 
-   greturnFalseIf(!gpathIsPath(path));
+   greturnFalseIf(!path);
 
-   result = gbFALSE;
+   gsAppendA(path, extension);
 
-   stopIf(!_SetPathFromGpath(&ptemp, path));
-
-   gsDestroy(gsArrayGetEnd(ptemp.folderList)); //lint !e929
-   gsArrayEraseEnd(ptemp.folderList);
-
-   gsFlush(path);
-   stopIf(!_SetGpathFromPath(path, &ptemp));
-      
-   result = gbTRUE;
-
-STOP:
-   _DestroyPathData(&ptemp);
-
-   greturn result;
+   greturn gbTRUE;
 }
 
 /******************************************************************************
@@ -563,25 +596,6 @@ STOP:
    _DestroyPathData(&ptemp);
 
    greturn result;
-}
-
-/******************************************************************************
-func: gpathTrimExtension
-******************************************************************************/
-grlAPI Gb gpathTrimExtension(Gpath * const path)
-{
-   Gindex location;
-
-   genter;
-
-   greturnFalseIf(!path);
-
-   location = gsFindLastOfA(path, 0, ".");
-   greturnFalseIf(location == gsFIND_FAIL);
-
-   gsEraseSub(path, location, gsSubStrINDEX_END); //lint !e534
-
-   greturn gbTRUE;
 }
 
 /******************************************************************************

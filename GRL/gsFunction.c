@@ -2328,22 +2328,72 @@ func: gsGetN
 ******************************************************************************/
 grlAPI Gn gsGetN(Gs const * const str)
 {
-#if 0
-   Gc2 *stemp;
-#endif
    Gi   ntemp;
 
    genter;
 
    greturn0If(!str);
 
-#if 0
-   stemp = gsCreateU2(str);
-   ntemp = (Gi) _wtoi64(stemp);
-   gmemDestroy(stemp);
-#else
    ntemp = (Gi) _wtoi64(gsGet(str));
-#endif
+
+   greturn (Gn) ntemp;
+}
+
+/******************************************************************************
+func: gsGetNHex
+******************************************************************************/
+grlAPI Gn gsGetNHex(Gs const * const str)
+{
+   Gindex loopIndex;
+   Gi     ntemp;
+   Gc2    letter;
+
+   genter;
+
+   greturn0If(!str);
+
+   // Skip leading spaces.
+   forCount (loopIndex, gsGetCount(str))
+   {
+      breakIf(!gcIsWhiteSpace(*gsGetAt(str, loopIndex)));
+   }
+
+   ntemp = 0;
+   for (; loopIndex < gsGetCount(str); loopIndex++)
+   {
+      letter = *gsGetAt(str, loopIndex);
+      switch (letter)
+      {
+      case L'0': ntemp = (ntemp << 4) | 0x0; break;
+      case L'1': ntemp = (ntemp << 4) | 0x1; break;
+      case L'2': ntemp = (ntemp << 4) | 0x2; break;
+      case L'3': ntemp = (ntemp << 4) | 0x3; break;
+      case L'4': ntemp = (ntemp << 4) | 0x4; break;
+      case L'5': ntemp = (ntemp << 4) | 0x5; break;
+      case L'6': ntemp = (ntemp << 4) | 0x6; break;
+      case L'7': ntemp = (ntemp << 4) | 0x7; break;
+      case L'8': ntemp = (ntemp << 4) | 0x8; break;
+      case L'9': ntemp = (ntemp << 4) | 0x9; break;
+      case L'a':
+      case L'A': ntemp = (ntemp << 4) | 0xa; break;
+      case L'b':
+      case L'B': ntemp = (ntemp << 4) | 0xb; break;
+      case L'c':
+      case L'C': ntemp = (ntemp << 4) | 0xc; break;
+      case L'd':
+      case L'D': ntemp = (ntemp << 4) | 0xd; break;
+      case L'e':
+      case L'E': ntemp = (ntemp << 4) | 0xe; break;
+      case L'f':
+      case L'F': ntemp = (ntemp << 4) | 0xf; break;
+
+      default:
+         goto STOP;
+         break;
+      }
+   }
+
+STOP:
 
    greturn (Gn) ntemp;
 }
@@ -3164,7 +3214,7 @@ grlAPI Gs *gsToUpperCase(Gs * const str)
  * wished to trim all the WHITESPACE from a string you
  * would use,
  *
- * gsModifyTrimA(str, WHITESPACE_A);
+ * gsTrimA(str, WHITESPACE_A);
  *
  * PARAM:
  * str

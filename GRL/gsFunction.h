@@ -167,6 +167,7 @@ grlAPI void           gsGetII(              Gs const * const str, Gi * const a, 
 //grlAPI Gcount         gsGetLengthU1(        Gs const * const str);
 //grlAPI Gcount         gsGetLengthU2(        Gs const * const str);
 grlAPI Gn             gsGetN(               Gs const * const str);
+grlAPI Gn             gsGetNHex(            Gs const * const str);
 grlAPI Gr             gsGetR(               Gs const * const str);
 
 grlAPI GhashN         gsHash(               Gs const * const str);
