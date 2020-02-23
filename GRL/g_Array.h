@@ -68,9 +68,13 @@ prototype:
 //lint -restore
 
 grlAPI Gb          g_ArrayAdd(            G_Array       * const a,                     Gp const * const value);
+grlAPI Gb          g_ArrayAddP(           G_Array       * const a,                     Gp const * const value);
 grlAPI Gb          g_ArrayAddAt(          G_Array       * const a, Gindex const index, Gp const * const value);
+grlAPI Gb          g_ArrayAddAtP(         G_Array       * const a, Gindex const index, Gp const * const value);
 grlAPI Gb          g_ArrayAddBegin(       G_Array       * const a,                     Gp const * const value);
+grlAPI Gb          g_ArrayAddBeginP(      G_Array       * const a,                     Gp const * const value);
 grlAPI Gb          g_ArrayAddEnd(         G_Array       * const a,                     Gp const * const value);
+grlAPI Gb          g_ArrayAddEndP(        G_Array       * const a,                     Gp const * const value);
 
 grlAPI Gb          g_ArrayClear(          G_Array       * const a, Gcount const count, Gindex const index);
 grlAPI Gb          g_ArrayCopy(           G_Array       * const a, Gcount const count, Gindex const indexSrc, Gindex const indexDst);
@@ -82,19 +86,25 @@ grlAPI void        g_ArrayDestroy(        G_Array       * const a);
 grlAPI void        g_ArrayDestroyContent( G_Array const * const a);
 
 grlAPI Gb          g_ArrayErase(          G_Array       * const a, Gp const * const value);
+grlAPI Gb          g_ArrayEraseP(         G_Array       * const a, Gp const * const value);
 grlAPI Gb          g_ArrayEraseAt(        G_Array       * const a, Gcount const count, Gindex const index);
 grlAPI void        g_ArrayEraseBegin(     G_Array       * const a);
 grlAPI void        g_ArrayEraseEnd(       G_Array       * const a);
 
 grlAPI Gindex      g_ArrayFind(           G_Array const * const a, Gp const * const value);
+grlAPI Gindex      g_ArrayFindP(          G_Array const * const a, Gp const * const value);
 grlAPI void        g_ArrayFlush(          G_Array       * const a);
 grlAPI Gb          g_ArrayForEach(        G_Array const * const a, GrlForEachFunc const func);
+grlAPI Gb          g_ArrayForEachP(       G_Array const * const a, GrlForEachFunc const func);
 
 grlAPI Gp         *g_ArrayGet(            G_Array const * const a);
 grlAPI Gp         *g_ArrayGetAt(          G_Array const * const a, Gindex const index);
+grlAPI Gp         *g_ArrayGetAtP(         G_Array const * const a, Gindex const index);
 grlAPI Gp         *g_ArrayGetBegin(       G_Array const * const a);
+grlAPI Gp         *g_ArrayGetBeginP(      G_Array const * const a);
 grlAPI Gcount      g_ArrayGetCount(       G_Array const * const a);
 grlAPI Gp         *g_ArrayGetEnd(         G_Array const * const a);
+grlAPI Gp         *g_ArrayGetEndP(        G_Array const * const a);
 grlAPI Gsize       g_ArrayGetSize(        G_Array const * const a);
 
 grlAPI Gb          g_ArraySetCount(       G_Array       * const a, Gcount const value);
@@ -102,6 +112,7 @@ grlAPI Gb          g_ArraySort(           G_Array       * const a);
 grlAPI Gb          g_ArraySwap(           G_Array       * const a, Gindex const indexA, Gindex const indexB);
 
 grlAPI Gb          g_ArrayUpdateAt(       G_Array       * const a, Gindex const index, Gp const * const value);
+grlAPI Gb          g_ArrayUpdateAtP(      G_Array       * const a, Gindex const index, Gp const * const value);
 
        Gcount      g_ArrayVectorSize(     Gb const isVectorSizing, Gcount const size);
 

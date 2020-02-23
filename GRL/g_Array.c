@@ -44,13 +44,18 @@ include:
 local:
 prototype:
 ******************************************************************************/
-static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb const findLocation);
+static Gindex _BinarySearch(  G_Array const * const a, Gp const * const value, Gb const findLocation);
+static Gindex _BinarySearchP( G_Array const * const a, Gp const * const value, Gb const findLocation);
 
-static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb const findLocation);
+static Gindex _LinearSearch(  G_Array const * const a, Gp const * const value, Gb const findLocation);
+static Gindex _LinearSearchP( G_Array const * const a, Gp const * const value, Gb const findLocation);
 
 /******************************************************************************
 global:
 function:
+******************************************************************************/
+/******************************************************************************
+func: g_ArrayAdd
 ******************************************************************************/
 grlAPI Gb g_ArrayAdd(G_Array * const a, Gp const * const value)
 {
@@ -79,6 +84,45 @@ grlAPI Gb g_ArrayAdd(G_Array * const a, Gp const * const value)
 
    // if the array is not sorted or no longer sorted then just append.
    result = g_ArrayAddEnd(a, value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayAddP
+
+This should only be used for collections of pointers of values that equal to 
+the size of a pointer.
+
+value is the pointer/value to be stored not the pointer to the pointer/value.
+******************************************************************************/
+grlAPI Gb g_ArrayAddP(G_Array * const a, Gp const * const value)
+{
+   Gindex index;
+   Gb     result;
+
+   genter;
+
+   greturnFalseIf(
+      !a ||
+      !value);
+
+   if (a->isSorted)
+   {
+      // Find the location to put the new value in.
+      index  = _BinarySearchP(a, value, gbTRUE);
+      
+      result = g_ArrayAddAtP(a, gABS(index), value);
+      
+      // AddAt turns this off but sort order has not been
+      // violated so turn it back on.
+      a->isSorted = gbTRUE; //lint !e641
+      
+      greturn result;
+   }
+
+   // if the array is not sorted or no longer sorted then just append.
+   result = g_ArrayAddEndP(a, value);
 
    greturn result;
 }
@@ -131,6 +175,51 @@ grlAPI Gb g_ArrayAddAt(G_Array * const a, Gindex const index, Gp const * const v
 }
 
 /******************************************************************************
+func: g_ArrayAddAtP
+
+This should only be used for collections of pointers of values that equal to 
+the size of a pointer.
+
+value is the pointer/value to be stored not the pointer to the pointer/value.
+******************************************************************************/
+grlAPI Gb g_ArrayAddAtP(G_Array * const a, Gindex const index, Gp const * const value)
+{
+   Gsize  size;
+   Gn1   *ps,
+         *pd;
+
+   genter;
+
+   greturnFalseIf(
+      !a ||
+      index < 0);
+
+   if (!g_ArraySetCount(a, gMAX(index, a->count) + 1))
+   {
+      debugHalt("g_ArraySetCount failed");
+      greturn gbFALSE;
+   }
+
+   // Use of this function marks the array as unsorted.
+   a->isSorted = gbFALSE; //lint !e641
+
+   size = a->typeSize;
+   ps   = &(a->p[index * size]);
+   // if the index is somewhere inside the array then move the other elements
+   // out of the way.
+   if (index < a->count - 1)
+   {
+      pd = &(a->p[(index + 1) * size]);
+
+      greturnFalseIf(!gmemCopyOver(ps, size * ((a->count - index) - 1), pd)); 
+   }
+
+   greturnFalseIf(!gmemCopyOver(&value, size, ps)); //lint !e960 !e9005
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
 func: g_ArrayAddBegin
 ******************************************************************************/
 grlAPI Gb g_ArrayAddBegin(G_Array * const a, Gp const * const value)
@@ -145,6 +234,25 @@ grlAPI Gb g_ArrayAddBegin(G_Array * const a, Gp const * const value)
 }
 
 /******************************************************************************
+func: g_ArrayAddBeginP
+
+This should only be used for collections of pointers of values that equal to 
+the size of a pointer.
+
+value is the pointer/value to be stored not the pointer to the pointer/value.
+******************************************************************************/
+grlAPI Gb g_ArrayAddBeginP(G_Array * const a, Gp const * const value)
+{
+   Gb result;
+   
+   genter;
+   
+   result = g_ArrayAddAtP(a, 0, value);
+
+   greturn result;
+}
+
+/******************************************************************************
 func: g_ArrayAddEnd
 ******************************************************************************/
 grlAPI Gb g_ArrayAddEnd(G_Array * const a, Gp const * const value)
@@ -154,6 +262,25 @@ grlAPI Gb g_ArrayAddEnd(G_Array * const a, Gp const * const value)
    genter;
    
    result = g_ArrayAddAt(a, g_ArrayGetCount(a), value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayAddEndP
+
+This should only be used for collections of pointers of values that equal to 
+the size of a pointer.
+
+value is the pointer/value to be stored not the pointer to the pointer/value.
+******************************************************************************/
+grlAPI Gb g_ArrayAddEndP(G_Array * const a, Gp const * const value)
+{
+   Gb result;
+
+   genter;
+   
+   result = g_ArrayAddAtP(a, g_ArrayGetCount(a), value);
 
    greturn result;
 }
@@ -419,6 +546,32 @@ grlAPI Gb g_ArrayErase(G_Array * const a, Gp const * const value)
 }
 
 /******************************************************************************
+func: g_ArrayEraseP
+
+This should only be used for collections of pointers of values that equal to 
+the size of a pointer.
+
+value is the pointer/value to be stored not the pointer to the pointer/value.
+******************************************************************************/
+grlAPI Gb g_ArrayEraseP(G_Array * const a, Gp const * const value)
+{
+   Gb     result;
+   Gindex index;
+
+   genter;
+
+   index = g_ArrayFindP(a, value);
+   if (index != GindexERROR)
+   {
+      result = g_ArrayEraseAt(a, 1, index);
+
+      greturn result;
+   }
+
+   greturn gbFALSE;
+}
+
+/******************************************************************************
 func: g_ArrayEraseAt
 ******************************************************************************/
 grlAPI Gb g_ArrayEraseAt(G_Array * const a, Gcount const count, Gindex const index)
@@ -524,6 +677,34 @@ grlAPI Gindex g_ArrayFind(G_Array const * const a, Gp const * const value)
 }
 
 /******************************************************************************
+func: g_ArrayFindP
+******************************************************************************/
+grlAPI Gindex g_ArrayFindP(G_Array const * const a, Gp const * const value)
+{
+   Gindex result;
+
+   genter;
+
+   greturnIf(
+         !a              ||
+         !a->compareFunc ||
+         a->count == 0   ||
+         !value,
+      GindexERROR);
+
+   if (a->isSorted)
+   {
+      result = _BinarySearchP(a, value, gbFALSE);
+
+      greturn result;
+   }
+
+   result = _LinearSearchP(a, value, gbFALSE);
+
+   greturn result;
+}
+
+/******************************************************************************
 func: g_ArrayFlush
 ******************************************************************************/
 grlAPI void g_ArrayFlush(G_Array * const a)
@@ -564,6 +745,27 @@ grlAPI Gb g_ArrayForEach(G_Array const * const a, GrlForEachFunc const func)
 }
 
 /******************************************************************************
+func: g_ArrayForEachP
+******************************************************************************/
+grlAPI Gb g_ArrayForEachP(G_Array const * const a, GrlForEachFunc const func)
+{
+   Gi4 index;
+
+   genter;
+
+   greturnFalseIf(
+      !a ||
+      !func);
+
+   forCount(index, a->count)
+   {
+      func(*((Gp **) &(a->p[index * a->typeSize])));
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
 func: g_ArrayGet
 ******************************************************************************/
 grlAPI Gp *g_ArrayGet(G_Array const * const a)
@@ -590,6 +792,20 @@ grlAPI Gp *g_ArrayGetAt(G_Array const * const a, Gindex const index)
 }
 
 /******************************************************************************
+func: g_ArrayGetAtP
+******************************************************************************/
+grlAPI Gp *g_ArrayGetAtP(G_Array const * const a, Gindex const index)
+{
+   genter;
+
+   greturnNullIf(
+      !a        ||
+      index < 0 || a->count <= index);
+
+   greturn *((Gp**) &(a->p[index * a->typeSize]));
+}
+
+/******************************************************************************
 func: g_ArrayGetBegin
 ******************************************************************************/
 grlAPI Gp *g_ArrayGetBegin(G_Array const * const a)
@@ -599,6 +815,20 @@ grlAPI Gp *g_ArrayGetBegin(G_Array const * const a)
    genter;
    
    result = g_ArrayGetAt(a, 0);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayGetBeginP
+******************************************************************************/
+grlAPI Gp *g_ArrayGetBeginP(G_Array const * const a)
+{
+   Gp *result;
+
+   genter;
+   
+   result = g_ArrayGetAtP(a, 0);
 
    greturn result;
 }
@@ -616,18 +846,6 @@ grlAPI Gcount g_ArrayGetCount(G_Array const * const a)
 }
 
 /******************************************************************************
-func: g_ArrayGetSize
-******************************************************************************/
-grlAPI Gsize g_ArrayGetSize(G_Array const * const a)
-{
-   genter;
-
-   greturnIf(!a, 0);
-
-   greturn a->typeSize;
-}
-
-/******************************************************************************
 func: g_ArrayGetEnd
 ******************************************************************************/
 grlAPI Gp *g_ArrayGetEnd(G_Array const * const a)
@@ -639,6 +857,32 @@ grlAPI Gp *g_ArrayGetEnd(G_Array const * const a)
    result = g_ArrayGetAt(a, a->count - 1);
 
    greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayGetEndP
+******************************************************************************/
+grlAPI Gp *g_ArrayGetEndP(G_Array const * const a)
+{
+   Gp *result;
+
+   genter;
+   
+   result = g_ArrayGetAtP(a, a->count - 1);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: g_ArrayGetSize
+******************************************************************************/
+grlAPI Gsize g_ArrayGetSize(G_Array const * const a)
+{
+   genter;
+
+   greturnIf(!a, 0);
+
+   greturn a->typeSize;
 }
 
 /******************************************************************************
@@ -766,6 +1010,31 @@ grlAPI Gb g_ArrayUpdateAt(G_Array * const a, Gindex const index, Gp const * cons
 }
 
 /******************************************************************************
+func: g_ArrayUpdateAtP
+******************************************************************************/
+grlAPI Gb g_ArrayUpdateAtP(G_Array * const a, Gindex const index, Gp const * const value)
+{
+   Gsize  size;
+   Gn1   *p;
+
+   genter;
+
+   greturnFalseIf(
+      !a        ||
+      index < 0 || a->count <= index);
+
+      // Use of this function marks the array as unsorted.
+   a->isSorted = gbFALSE; //lint !e641
+
+   size = a->typeSize;
+
+   p = &(a->p[index * size]);
+   greturnFalseIf(!gmemCopyOver(&value, size, p)); //lint !e960 !e9005
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
 local:
 function:
 ******************************************************************************/
@@ -827,6 +1096,63 @@ static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb 
 }
 
 /******************************************************************************
+func: _BinarySearchP
+
+Binary search for the item or location where the item should be inserted.
+******************************************************************************/
+static Gindex _BinarySearchP(G_Array const * const a, Gp const * const value, Gb const findLocation)
+{
+   Gindex    hi,
+             lo,
+             index;
+   Gp const *data;
+   Gcompare  compare;
+
+   genter;
+
+   if (a->count == 0)
+   {
+      greturnIf(findLocation, 0);
+      greturn -1;
+   }
+
+   hi = a->count - 1;
+   lo = 0;
+   loop
+   {
+      // Find the mid point.
+      index = (hi + lo) / 2;
+
+      // Compare.  If equal then return the index.
+      data = g_ArrayGetAtP(a, index);
+
+      compare = a->compareFunc(value, data);
+      greturnIf(compare == gcompareEQUAL, index);
+
+      // Hi and lo are the same.  We are done.
+      breakIf(hi == lo);
+
+      // Find the next item to compare with.
+      if (compare == gcompareLESS_THAN)
+      {
+         hi = gMAX(lo, index - 1);
+      }
+      else
+      {
+         lo = gMIN(hi, index + 1);
+      }
+   }
+
+   if (findLocation)
+   {
+      greturnIf(compare == gcompareLESS_THAN, -index)
+      greturn -(index + 1);
+   }
+   
+   greturn -1;
+}
+
+/******************************************************************************
 func: _LinearSearch
 ******************************************************************************/
 static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb const findLocation)
@@ -850,6 +1176,45 @@ static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb 
    forCount(index, a->count)
    {
       data = g_ArrayGetAt(a, index);
+
+      compare = a->compareFunc(value, data);
+      greturnIf(compare == gcompareEQUAL, index);
+
+      greturnIf(
+            findLocation &&
+            compare == gcompareGREATER_THAN,
+         -(index - 1));
+   }
+
+   greturnIf(findLocation, -(a->count));
+
+   greturn -1;
+}
+
+/******************************************************************************
+func: _LinearSearchP
+******************************************************************************/
+static Gindex _LinearSearchP(G_Array const * const a, Gp const * const value, Gb const findLocation)
+{
+   Gindex    index;
+   Gp const *data;
+   Gcompare  compare;
+
+   genter;
+
+   // If we are findind a location and there isn't a compare function then 
+   // return the last index.
+   if (a->count       == 0 ||
+       a->compareFunc == NULL)
+   {
+      greturnIf(findLocation, -(a->count));
+      greturn -1;
+   }
+
+   // Linear search for the item.
+   forCount(index, a->count)
+   {
+      data = g_ArrayGetAtP(a, index);
 
       compare = a->compareFunc(value, data);
       greturnIf(compare == gcompareEQUAL, index);
