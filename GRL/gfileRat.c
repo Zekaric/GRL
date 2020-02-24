@@ -398,10 +398,10 @@ func: gfileRatColDestroy
 ******************************************************************************/
 grlAPI Gb gfileRatColDestroy(GfileRat * const rat, Gindex const colIndex)
 {
-   Gindex    index;
-   Gb        result;
-   GfileRatCol    col;
-   GfileRatRow   *row;
+   Gindex       index;
+   Gb           result;
+   GfileRatCol  col;
+   GfileRatRow *row;
 
    genter;
 

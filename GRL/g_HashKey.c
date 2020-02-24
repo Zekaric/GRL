@@ -87,7 +87,7 @@ grlAPI Gb g_HashKeyAdd(G_HashKey * const hash, Gkey const * const key, Gp const 
 func: g_HashKeyCreate_
 ******************************************************************************/
 grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const typeName, 
-   Char const * const typeNameSub, GhashSize const hashSize)
+   Char const * const typeNameSub, Gb const isPointerType, GhashSize const hashSize)
 {
    G_HashKey *hash;
 
@@ -107,6 +107,7 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
          typeSize,
          typeName,
          typeNameSub,
+         isPointerType,
          hashSize))
    {
       g_HashKeyDestroy(hash);
@@ -121,19 +122,20 @@ func: g_HashKeyCreateContent
 ******************************************************************************/
 grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub, 
-   GhashSize const hashSize)
+   Gb const isPointerType, GhashSize const hashSize)
 {
    Gindex index;
 
    genter;
 
    // Initialize
-   hash->baseName    = "G_HashKey";
-   hash->typeName    = typeName;
-   hash->typeNameSub = typeNameSub;
-   hash->typeSize    = typeSize;
-   hash->binArray    = gmemCreateTypeArray(G_ListKey *, (Gcount) hashSize); //lint !e930
-   hash->binCount    = hashSize;
+   hash->baseName      = "G_HashKey";
+   hash->typeName      = typeName;
+   hash->typeNameSub   = typeNameSub;
+   hash->typeSize      = typeSize;
+   hash->isPointerType = (isPointerType) ? gbTRUE : gbFALSE;
+   hash->binArray      = gmemCreateTypeArray(G_ListKey *, (Gcount) hashSize); //lint !e930
+   hash->binCount      = hashSize;
    if (!hash->binArray)
    {
       gmemDestroy(hash);
@@ -148,6 +150,7 @@ grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize,
          typeSize,
          "G_HashKeyBinList",
          typeNameSub,
+         isPointerType,
          gpCompare);
 
       breakIf(index == 0);

@@ -111,6 +111,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GFRATH)
 #define      GFRATH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 constant:
 ******************************************************************************/
@@ -158,6 +164,9 @@ typedef struct
    GvpArray                *value;
 } GfileRatRow;
 
+/******************************************************************************
+GfileRatRow containers.
+******************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -171,6 +180,35 @@ typedef struct
    GfileRatRow            **p;
 } GfileRatRowArray;
 
+#define gfileRatRowArrayAdd(                ARRAY,        VALUE)                                                      g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatRowArrayAddAt(              ARRAY, INDEX, VALUE)                                                      g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gfileRatRowArrayAddBegin(           ARRAY,        VALUE)                                                      g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatRowArrayAddEnd(             ARRAY,        VALUE)                                                      g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatRowArrayClear(              ARRAY, COUNT, INDEX)                                                      g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
+#define gfileRatRowArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
+#define gfileRatRowArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gfileRatRowArrayCreate(                  )                                             (GfileRatRowArray *)   g_ArrayCreate(                                GfileRatRowArray, GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gfileRatRowArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatRowArray, GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gfileRatRowArrayDestroy(            ARRAY)                                                                    g_ArrayDestroy(            (G_Array *) ARRAY) 
+#define gfileRatRowArrayDestroyContent(     ARRAY)                                                                    g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gfileRatRowArrayErase(              ARRAY, VALUE)                                                             g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gfileRatRowArrayEraseAt(            ARRAY, COUNT, INDEX)                                                      g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
+#define gfileRatRowArrayEraseBegin(         ARRAY)                                                                    g_ArrayEraseBegin(         (G_Array *) ARRAY) 
+#define gfileRatRowArrayEraseEnd(           ARRAY)                                                                    g_ArrayEraseEnd(           (G_Array *) ARRAY) 
+#define gfileRatRowArrayFind(               ARRAY, VALUE)                                                             g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gfileRatRowArrayFlush(              ARRAY)                                                                    g_ArrayFlush(              (G_Array *) ARRAY) 
+#define gfileRatRowArrayForEach(            ARRAY, FUNC)                                                              g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gfileRatRowArrayGet(                ARRAY)                                            ((GfileRatRow **)       g_ArrayGet(                (G_Array *) ARRAY))
+#define gfileRatRowArrayGetAt(              ARRAY, INDEX)                                     ((GfileRatRow *)        g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
+#define gfileRatRowArrayGetBegin(           ARRAY)                                            ((GfileRatRow *)        g_ArrayGetBegin(           (G_Array *) ARRAY))
+#define gfileRatRowArrayGetCount(           ARRAY)                                                                    g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define gfileRatRowArrayGetEnd(             ARRAY)                                            ((GfileRatRow *)        g_ArrayGetEnd(             (G_Array *) ARRAY))
+#define gfileRatRowArrayGetSize(            ARRAY)                                                                    g_ArrayGetSize(            (G_Array *) ARRAY) 
+#define gfileRatRowArraySetCount(           ARRAY, COUNT)                                                             g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
+#define gfileRatRowArraySort(               ARRAY)                                                                    g_ArraySort(               (G_Array *) ARRAY) 
+#define gfileRatRowArraySwap(               ARRAY, INDEXA, INDEXB)                                                    g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
+#define gfileRatRowArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                      g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+
 typedef struct
 {
    Gs                      *name;
@@ -178,6 +216,9 @@ typedef struct
    Gcount                   byteCount;
 } GfileRatCol;
 
+/******************************************************************************
+GfileRatCol containers.
+******************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -190,6 +231,35 @@ typedef struct
    GrlCompareFunc           compareFunc;
    GfileRatCol             *p;
 } GfileRatColArray;
+
+#define gfileRatColArrayAdd(                ARRAY,        VALUE)                                                      g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatColArrayAddAt(              ARRAY, INDEX, VALUE)                                                      g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gfileRatColArrayAddBegin(           ARRAY,        VALUE)                                                      g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatColArrayAddEnd(             ARRAY,        VALUE)                                                      g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gfileRatColArrayClear(              ARRAY, COUNT, INDEX)                                                      g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
+#define gfileRatColArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
+#define gfileRatColArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gfileRatColArrayCreate(                  )                                             (GfileRatColArray *)   g_ArrayCreate(                                GfileRatColArray, GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
+#define gfileRatColArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatColArray, GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
+#define gfileRatColArrayDestroy(            ARRAY)                                                                    g_ArrayDestroy(            (G_Array *) ARRAY) 
+#define gfileRatColArrayDestroyContent(     ARRAY)                                                                    g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gfileRatColArrayErase(              ARRAY, VALUE)                                                             g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gfileRatColArrayEraseAt(            ARRAY, COUNT, INDEX)                                                      g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
+#define gfileRatColArrayEraseBegin(         ARRAY)                                                                    g_ArrayEraseBegin(         (G_Array *) ARRAY) 
+#define gfileRatColArrayEraseEnd(           ARRAY)                                                                    g_ArrayEraseEnd(           (G_Array *) ARRAY) 
+#define gfileRatColArrayFind(               ARRAY, VALUE)                                                             g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gfileRatColArrayFlush(              ARRAY)                                                                    g_ArrayFlush(              (G_Array *) ARRAY) 
+#define gfileRatColArrayForEach(            ARRAY, FUNC)                                                              g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gfileRatColArrayGet(                ARRAY)                                            ((GfileRatCol *)        g_ArrayGet(                (G_Array *) ARRAY))
+#define gfileRatColArrayGetAt(              ARRAY, INDEX)                                     ((GfileRatCol *)        g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
+#define gfileRatColArrayGetBegin(           ARRAY)                                            ((GfileRatCol *)        g_ArrayGetBegin(           (G_Array *) ARRAY))
+#define gfileRatColArrayGetCount(           ARRAY)                                                                    g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define gfileRatColArrayGetEnd(             ARRAY)                                            ((GfileRatCol *)        g_ArrayGetEnd(             (G_Array *) ARRAY))
+#define gfileRatColArrayGetSize(            ARRAY)                                                                    g_ArrayGetSize(            (G_Array *) ARRAY) 
+#define gfileRatColArraySetCount(           ARRAY, COUNT)                                                             g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
+#define gfileRatColArraySort(               ARRAY)                                                                    g_ArraySort(               (G_Array *) ARRAY) 
+#define gfileRatColArraySwap(               ARRAY, INDEXA, INDEXB)                                                    g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
+#define gfileRatColArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                      g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
 
 typedef struct
 {
@@ -247,62 +317,10 @@ grlAPI Gb             gfileRatRowSetValue(     GfileRat       * const rat, Ginde
 
 #define gfileRatCreate(PATH, ISBINARY, MODE)  (GfileRat *) gleakCreate((void *) gfileRatCreate_(PATH, ISBINARY, MODE), gsizeof(GfileRat))
 
-#define gfileRatColArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatColArrayAddAt(              ARRAY, INDEX, VALUE)                                                       g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gfileRatColArrayAddBegin(           ARRAY,        VALUE)                                                       g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatColArrayAddEnd(             ARRAY,        VALUE)                                                       g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatColArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
-#define gfileRatColArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gfileRatColArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gfileRatColArrayCreate(                  )                                             (GfileRatColArray *)    g_ArrayCreate(                                GfileRatColArray, GfileRatCol, NULL, gbFALSE, gbFALSE)
-#define gfileRatColArrayCreateContent(      ARRAY)                                                                     g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatColArray, GfileRatCol, NULL, gbFALSE, gbFALSE)
-#define gfileRatColArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gfileRatColArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
-#define gfileRatColArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gfileRatColArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
-#define gfileRatColArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
-#define gfileRatColArrayEraseEnd(           ARRAY)                                                                     g_ArrayEraseEnd(           (G_Array *) ARRAY) 
-#define gfileRatColArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gfileRatColArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
-#define gfileRatColArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
-#define gfileRatColArrayGet(                ARRAY)                                             (GfileRatCol *)         g_ArrayGet(                (G_Array *) ARRAY) 
-#define gfileRatColArrayGetAt(              ARRAY, INDEX)                                      (GfileRatCol *)         g_ArrayGetAt(              (G_Array *) ARRAY, INDEX) 
-#define gfileRatColArrayGetBegin(           ARRAY)                                             (GfileRatCol *)         g_ArrayGetBegin(           (G_Array *) ARRAY) 
-#define gfileRatColArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
-#define gfileRatColArrayGetEnd(             ARRAY)                                             (GfileRatCol *)         g_ArrayGetEnd(             (G_Array *) ARRAY) 
-#define gfileRatColArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
-#define gfileRatColArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
-#define gfileRatColArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
-#define gfileRatColArraySwap(               ARRAY, INDEXA, INDEXB)                                                     g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define gfileRatColArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                       g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-
-#define gfileRatRowArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAddP(               (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatRowArrayAddAt(              ARRAY, INDEX, VALUE)                                                       g_ArrayAddAtP(             (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gfileRatRowArrayAddBegin(           ARRAY,        VALUE)                                                       g_ArrayAddBeginP(          (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatRowArrayAddEnd(             ARRAY,        VALUE)                                                       g_ArrayAddEndP(            (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gfileRatRowArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
-#define gfileRatRowArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gfileRatRowArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gfileRatRowArrayCreate(                  )                                             (GfileRatRowArray *)    g_ArrayCreate(                                GfileRatRowArray, GfileRatRow *, NULL, gbTRUE, gbFALSE)
-#define gfileRatRowArrayCreateContent(      ARRAY)                                                                     g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatRowArray, GfileRatRow *, NULL, gbTRUE, gbFALSE)
-#define gfileRatRowArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gfileRatRowArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
-#define gfileRatRowArrayErase(              ARRAY, VALUE)                                                              g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gfileRatRowArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
-#define gfileRatRowArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
-#define gfileRatRowArrayEraseEnd(           ARRAY)                                                                     g_ArrayEraseEnd(           (G_Array *) ARRAY) 
-#define gfileRatRowArrayFind(               ARRAY, VALUE)                                                              g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gfileRatRowArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
-#define gfileRatRowArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
-#define gfileRatRowArrayGet(                ARRAY)                                             (GfileRatRow *)         g_ArrayGet(                (G_Array *) ARRAY) 
-#define gfileRatRowArrayGetAt(              ARRAY, INDEX)                                      (GfileRatRow *)         g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX)
-#define gfileRatRowArrayGetBegin(           ARRAY)                                             (GfileRatRow *)         g_ArrayGetBeginP(          (G_Array *) ARRAY)
-#define gfileRatRowArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
-#define gfileRatRowArrayGetEnd(             ARRAY)                                             (GfileRatRow *)         g_ArrayGetEndP(            (G_Array *) ARRAY)
-#define gfileRatRowArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
-#define gfileRatRowArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
-#define gfileRatRowArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
-#define gfileRatRowArraySwap(               ARRAY, INDEXA, INDEXB)                                                     g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define gfileRatRowArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                       g_ArrayUpdateAtP(          (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

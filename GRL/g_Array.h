@@ -63,48 +63,38 @@ typedef struct G_Array
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayCreate(              TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(              gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
-#define g_ArrayCreateContent(ARRAY, TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING)                                g_ArrayCreateContent_(ARRAY, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING))
+#define g_ArrayCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(              gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
+#define g_ArrayCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING)                                g_ArrayCreateContent_(ARRAY, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING))
 //lint -restore
 
 grlAPI Gb          g_ArrayAdd(            G_Array       * const a,                     Gp const * const value);
-grlAPI Gb          g_ArrayAddP(           G_Array       * const a,                     Gp const * const value);
 grlAPI Gb          g_ArrayAddAt(          G_Array       * const a, Gindex const index, Gp const * const value);
-grlAPI Gb          g_ArrayAddAtP(         G_Array       * const a, Gindex const index, Gp const * const value);
 grlAPI Gb          g_ArrayAddBegin(       G_Array       * const a,                     Gp const * const value);
-grlAPI Gb          g_ArrayAddBeginP(      G_Array       * const a,                     Gp const * const value);
 grlAPI Gb          g_ArrayAddEnd(         G_Array       * const a,                     Gp const * const value);
-grlAPI Gb          g_ArrayAddEndP(        G_Array       * const a,                     Gp const * const value);
 
 grlAPI Gb          g_ArrayClear(          G_Array       * const a, Gcount const count, Gindex const index);
 grlAPI Gb          g_ArrayCopy(           G_Array       * const a, Gcount const count, Gindex const indexSrc, Gindex const indexDst);
 grlAPI Gb          g_ArrayCopyFrom(       G_Array       * const aDst, Gindex const indexDst, G_Array const * const aSrc, Gcount const count, Gindex const indexSrc);
-grlAPI G_Array    *g_ArrayCreate_(                                 Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
-grlAPI Gb          g_ArrayCreateContent_( G_Array       * const a, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
+grlAPI G_Array    *g_ArrayCreate_(                                 Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
+grlAPI Gb          g_ArrayCreateContent_( G_Array       * const a, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing, Gb const isNullEnding);
 
 grlAPI void        g_ArrayDestroy(        G_Array       * const a);
 grlAPI void        g_ArrayDestroyContent( G_Array const * const a);
 
 grlAPI Gb          g_ArrayErase(          G_Array       * const a, Gp const * const value);
-grlAPI Gb          g_ArrayEraseP(         G_Array       * const a, Gp const * const value);
 grlAPI Gb          g_ArrayEraseAt(        G_Array       * const a, Gcount const count, Gindex const index);
 grlAPI void        g_ArrayEraseBegin(     G_Array       * const a);
 grlAPI void        g_ArrayEraseEnd(       G_Array       * const a);
 
 grlAPI Gindex      g_ArrayFind(           G_Array const * const a, Gp const * const value);
-grlAPI Gindex      g_ArrayFindP(          G_Array const * const a, Gp const * const value);
 grlAPI void        g_ArrayFlush(          G_Array       * const a);
 grlAPI Gb          g_ArrayForEach(        G_Array const * const a, GrlForEachFunc const func);
-grlAPI Gb          g_ArrayForEachP(       G_Array const * const a, GrlForEachFunc const func);
 
 grlAPI Gp         *g_ArrayGet(            G_Array const * const a);
 grlAPI Gp         *g_ArrayGetAt(          G_Array const * const a, Gindex const index);
-grlAPI Gp         *g_ArrayGetAtP(         G_Array const * const a, Gindex const index);
 grlAPI Gp         *g_ArrayGetBegin(       G_Array const * const a);
-grlAPI Gp         *g_ArrayGetBeginP(      G_Array const * const a);
 grlAPI Gcount      g_ArrayGetCount(       G_Array const * const a);
 grlAPI Gp         *g_ArrayGetEnd(         G_Array const * const a);
-grlAPI Gp         *g_ArrayGetEndP(        G_Array const * const a);
 grlAPI Gsize       g_ArrayGetSize(        G_Array const * const a);
 
 grlAPI Gb          g_ArraySetCount(       G_Array       * const a, Gcount const value);
@@ -112,7 +102,6 @@ grlAPI Gb          g_ArraySort(           G_Array       * const a);
 grlAPI Gb          g_ArraySwap(           G_Array       * const a, Gindex const indexA, Gindex const indexB);
 
 grlAPI Gb          g_ArrayUpdateAt(       G_Array       * const a, Gindex const index, Gp const * const value);
-grlAPI Gb          g_ArrayUpdateAtP(      G_Array       * const a, Gindex const index, Gp const * const value);
 
        Gcount      g_ArrayVectorSize(     Gb const isVectorSizing, Gcount const size);
 

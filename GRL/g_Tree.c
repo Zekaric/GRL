@@ -142,7 +142,8 @@ grlAPI G_TreeItem *g_TreeAdd(G_Tree * const tree, Gp const * const value)
 func: g_TreeCreate_
 ******************************************************************************/
 grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, GrlCompareFunc const compareFunc)
+   Char const * const typeNameSub, Gb const isPointerType, 
+   GrlCompareFunc const compareFunc)
 {
    G_Tree *tree;
 
@@ -151,7 +152,13 @@ grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
    tree = gmemCreateType(G_Tree);
    greturnNullIf(!tree);
 
-   if (!g_TreeCreateContent_(tree, typeSize, typeName, typeNameSub, compareFunc))
+   if (!g_TreeCreateContent_(
+         tree, 
+         typeSize, 
+         typeName, 
+         typeNameSub, 
+         isPointerType,
+         compareFunc))
    {
       g_TreeDestroy(tree);
       greturn NULL;
@@ -165,7 +172,7 @@ func: g_TreeCreateContent
 ******************************************************************************/
 grlAPI Gb g_TreeCreateContent_(G_Tree * const tree, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub,
-   GrlCompareFunc const compareFunc)
+   Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
 
@@ -178,10 +185,11 @@ grlAPI Gb g_TreeCreateContent_(G_Tree * const tree, Gsize const typeSize,
 
    gmemClearType(tree, G_Tree);
 
-   tree->baseName    = "G_Tree"; //lint !e916 !e64
-   tree->typeName    = typeName;
-   tree->typeNameSub = typeNameSub;
-   tree->compareFunc = compareFunc;
+   tree->baseName      = "G_Tree"; //lint !e916 !e64
+   tree->typeName      = typeName;
+   tree->typeNameSub   = typeNameSub;
+   tree->isPointerType = isPointerType;
+   tree->compareFunc   = compareFunc;
 
    greturn gbTRUE;
 }

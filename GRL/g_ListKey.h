@@ -64,16 +64,16 @@ struct G_ListKey
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ListKeyCreate(             TYPE, TYPE_SUB, COMPARE_FUNC) ((G_ListKey *) gleakCreate((Gp *) g_ListKeyCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC)), gsizeof(G_ListKey)))
-#define g_ListKeyCreateContent(LIST, TYPE, TYPE_SUB, COMPARE_FUNC)                                   g_ListKeyCreateContent_(LIST, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (COMPARE_FUNC))
+#define g_ListKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) ((G_ListKey *) gleakCreate((Gp *) g_ListKeyCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_ListKey)))
+#define g_ListKeyCreateContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                   g_ListKeyCreateContent_(LIST, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_ListKeyItem *g_ListKeyAdd(             G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 grlAPI G_ListKeyItem *g_ListKeyAddBegin(        G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 grlAPI G_ListKeyItem *g_ListKeyAddEnd(          G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 
-grlAPI G_ListKey     *g_ListKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
-grlAPI Gb             g_ListKeyCreateContent_(  G_ListKey       * const list, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
+grlAPI G_ListKey     *g_ListKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI Gb             g_ListKeyCreateContent_(  G_ListKey       * const list, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
 
 grlAPI void           g_ListKeyDestroy(         G_ListKey       * const list);
 grlAPI void           g_ListKeyDestroyContent(  G_ListKey       * const list);

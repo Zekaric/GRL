@@ -51,6 +51,9 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const value
 global:
 function:
 ******************************************************************************/
+/******************************************************************************
+func: g_ArrayKeyAdd
+******************************************************************************/
 grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
 {
    Gindex index;
@@ -59,7 +62,8 @@ grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const *
    genter;
 
    greturnFalseIf(
-      !a ||
+      !a   ||
+      !key ||
       !value);
 
    if (a->isSorted)
@@ -85,7 +89,7 @@ grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const *
 /******************************************************************************
 func: g_ArrayKeyAddAt
 ******************************************************************************/
-grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const * const key, 
+grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const * const key,
    Gp const * const value)
 {
    Gsize  size;
@@ -95,7 +99,8 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
    genter;
 
    greturnFalseIf(
-      !a ||
+      !a   ||
+      !key ||
       index < 0);
 
    if (!g_ArrayKeySetCount(a, gMAX(index, a->count) + 1))
@@ -118,14 +123,21 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
       greturnFalseIf(!gmemCopyOver(ps, size * ((a->count - index) - 1), pd)); 
    }
 
-   if (value)
+   greturnFalseIf(!gmemCopyOver(key, sizeof(Gkey *), ps));
+   if (a->isPointerType)
    {
-      greturnFalseIf(!gmemCopyOver(key,   sizeof(Gkey *), ps));
-      greturnFalseIf(!gmemCopyOver(value, size,           ps + gsizeof(Gkey *))); 
+      greturnFalseIf(!gmemCopyOver(&value, size, ps + gsizeof(Gkey *))); 
    }
    else
    {
-      gmemClear(ps, size);
+      if (value)
+      {
+         greturnFalseIf(!gmemCopyOver(value, size, ps + gsizeof(Gkey *))); 
+      }
+      else
+      {
+         gmemClear(ps, size);
+      }
    }
 
    greturn gbTRUE;
@@ -134,7 +146,8 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
 /******************************************************************************
 func: g_ArrayKeyAddBegin
 ******************************************************************************/
-grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
+grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key, 
+   Gp const * const value)
 {
    Gb result;
    
@@ -148,7 +161,8 @@ grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key, Gp co
 /******************************************************************************
 func: g_ArrayKeyAddEnd
 ******************************************************************************/
-grlAPI Gb g_ArrayKeyAddEnd(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
+grlAPI Gb g_ArrayKeyAddEnd(G_ArrayKey * const a, Gkey const * const key, 
+   Gp const * const value)
 {
    Gb result;
 
@@ -284,8 +298,8 @@ grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
 func: g_ArrayKeyCreate_
 ******************************************************************************/
 grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, GrlCompareFunc const compareFunc,
-   Gb const isVectorSizing)
+   Char const * const typeNameSub, Gb const isPointerType, 
+   GrlCompareFunc const compareFunc, Gb const isVectorSizing)
 {
    G_ArrayKey *a;
 
@@ -304,6 +318,7 @@ grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const ty
          typeSize,
          typeName,
          typeNameSub,
+         isPointerType,
          compareFunc,
          isVectorSizing))
    {
@@ -319,7 +334,8 @@ func: g_ArrayKeyCreateContent
 ******************************************************************************/
 grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize, 
    Char const * const typeName, Char const * const typeNameSub, 
-   GrlCompareFunc const compareFunc, Gb const isVectorSizing)
+   Gb const isPointerType, GrlCompareFunc const compareFunc, 
+   Gb const isVectorSizing)
 {
    genter;
 
@@ -333,6 +349,7 @@ grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize,
    a->typeName       = typeName;
    a->typeNameSub    = typeNameSub;
    a->compareFunc    = compareFunc;
+   a->isPointerType  = (isPointerType)  ? gbTRUE : gbFALSE;
    a->isVectorSizing = (isVectorSizing) ? gbTRUE : gbFALSE;
    a->typeSize       = typeSize;
    a->count          = 0;
@@ -553,7 +570,14 @@ grlAPI Gb g_ArrayKeyForEach(G_ArrayKey const * const a, GrlForEachKeyFunc const 
    forCount(index, a->count)
    {
       key   = (Gkey const *) &(a->p[index * size]);
-      value = (Gp *) &(a->p[index * size + gsizeof(Gkey *)]);
+      if (a->isPointerType)
+      {
+         value = *((Gp **) &(a->p[index * size + gsizeof(Gkey *)]));
+      }
+      else
+      {      
+         value =   (Gp *)  &(a->p[index * size + gsizeof(Gkey *)]);
+      }
       func(key, value);
    }
 
@@ -577,13 +601,24 @@ func: g_ArrayKeyGetAt
 ******************************************************************************/
 grlAPI Gp *g_ArrayKeyGetAt(G_ArrayKey const * const a, Gindex const index)
 {
+   Gp *result;
+
    genter;
 
    greturnNullIf(
       !a        ||
       index < 0 || a->count <= index);
 
-   greturn &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
+   if (a->isPointerType)
+   {
+      result = *((Gp **) &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]));
+   }
+   else 
+   {
+      result =   (Gp *)  &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
+   }
+
+   greturn result;
 }
 
 /******************************************************************************

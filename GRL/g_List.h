@@ -63,16 +63,16 @@ struct G_List
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ListCreate(             TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC) ((G_List *) gleakCreate((Gp *) g_ListCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC)), gsizeof(G_List)))
-#define g_ListCreateContent(LIST, TYPE, TYPE_SUB, OPTIONAL_COMPARE_FUNC)                                g_ListCreateContent_(LIST, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, (OPTIONAL_COMPARE_FUNC))
+#define g_ListCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC) ((G_List *) gleakCreate((Gp *) g_ListCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC)), gsizeof(G_List)))
+#define g_ListCreateContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC)                                g_ListCreateContent_(LIST, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_ListItem *g_ListAdd(             G_List       * const list, Gp const * const value);
 grlAPI G_ListItem *g_ListAddBegin(        G_List       * const list, Gp const * const value);
 grlAPI G_ListItem *g_ListAddEnd(          G_List       * const list, Gp const * const value);
 
-grlAPI G_List     *g_ListCreate_(                                    Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
-grlAPI Gb          g_ListCreateContent_(  G_List       * const list, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, GrlCompareFunc const compareFunc);
+grlAPI G_List     *g_ListCreate_(                                    Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI Gb          g_ListCreateContent_(  G_List       * const list, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
 
 grlAPI void        g_ListDestroy(         G_List       * const list);
 grlAPI void        g_ListDestroyContent(  G_List       * const list);

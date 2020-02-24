@@ -131,7 +131,7 @@ grlAPI G_ListKeyItem *g_ListKeyAddEnd(G_ListKey * const list, Gkey const * const
 func: g_ListKeyCreate_
 ******************************************************************************/
 grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, GrlCompareFunc const compareFunc)
+   Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_ListKey *list;
 
@@ -150,6 +150,7 @@ grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const type
          typeSize,
          typeName,
          typeNameSub,
+         isPointerType,
          compareFunc))
    {
       g_ListKeyDestroy(list);
@@ -164,7 +165,7 @@ func: g_ListKeyCreateContent
 ******************************************************************************/
 grlAPI Gb g_ListKeyCreateContent_(G_ListKey * const list, Gsize const typeSize,
    Char const * const typeName, Char const * const typeNameSub, 
-   GrlCompareFunc const compareFunc)
+   Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
 
@@ -173,10 +174,11 @@ grlAPI Gb g_ListKeyCreateContent_(G_ListKey * const list, Gsize const typeSize,
       !typeName     ||
       !typeNameSub);
 
-   list->typeName    = typeName;
-   list->typeNameSub = typeNameSub;
-   list->typeSize    = typeSize;
-   list->compareFunc = compareFunc;
+   list->typeName      = typeName;
+   list->typeNameSub   = typeNameSub;
+   list->typeSize      = typeSize;
+   list->isPointerType = isPointerType;
+   list->compareFunc   = compareFunc;
 
    if (list->compareFunc)
    {

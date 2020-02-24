@@ -123,7 +123,8 @@ grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
 func: g_ListCreate_
 ******************************************************************************/
 grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, GrlCompareFunc const compareFunc)
+   Char const * const typeNameSub, Gb const isPointerType, 
+   GrlCompareFunc const compareFunc)
 {
    G_List *list;
 
@@ -138,7 +139,13 @@ grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
    list = gmemCreateType(G_List);
    greturnIf(!list, NULL);
 
-   if (!g_ListCreateContent_(list, typeSize, typeName, typeNameSub, compareFunc))
+   if (!g_ListCreateContent_(
+         list, 
+         typeSize, 
+         typeName, 
+         typeNameSub, 
+         isPointerType, 
+         compareFunc))
    {
       g_ListDestroy(list);
       greturn NULL;
@@ -151,8 +158,8 @@ grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
 func: g_ListCreateContent_
 ******************************************************************************/
 grlAPI Gb g_ListCreateContent_(G_List * const list, Gsize const typeSize,
-   Char const * const typeName, Char const * const typeNameSub,
-   GrlCompareFunc const compareFunc)
+   Char const * const typeName, Char const * const typeNameSub, 
+   Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
 
@@ -162,10 +169,11 @@ grlAPI Gb g_ListCreateContent_(G_List * const list, Gsize const typeSize,
          !typeNameSub,
       gbFALSE);
 
-   list->typeName    = typeName;
-   list->typeNameSub = typeNameSub;
-   list->typeSize    = typeSize;
-   list->compareFunc = compareFunc;
+   list->typeName      = typeName;
+   list->typeNameSub   = typeNameSub;
+   list->typeSize      = typeSize;
+   list->isPointerType = (isPointerType) ? gbTRUE : gbFALSE;
+   list->compareFunc   = compareFunc;
 
    if (list->compareFunc)
    {
