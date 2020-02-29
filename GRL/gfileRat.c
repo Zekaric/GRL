@@ -1058,6 +1058,8 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
       case 0xe: n[index * 2 + 1] = 'E'; break;
       case 0xf: n[index * 2 + 1] = 'F'; break;
       }
+
+      nindex--;
    }
 
    greturn;
@@ -1272,11 +1274,11 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       // Add the separator.
       if (index != gfileRatColArrayGetCount(rat->colArray) - 1)
       {
-         gsAppendC(line, '|');
+         gsAppendC(line, L'|');
       }
    }
    // Add the new line.
-   gsAppendC(line, '\n');
+   gsAppendC(line, L'\n');
    
    // Write the line.
    gfileSetS(file, gcTypeU1, line, NULL);
@@ -1311,7 +1313,7 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       case gfileRatTypeR4: gsAppendA(type, "r4"); byteCount += (rat->isBinary) ? 4 :  8; break;
       case gfileRatTypeR8: gsAppendA(type, "r8"); byteCount += (rat->isBinary) ? 8 : 16; break;
       case gfileRatTypeS:  
-         gsAppendC(type, 's');  
+         gsAppendC(type, L's');  
          gsAppendN(type, col->byteCount);
 
          byteCount += col->byteCount; 
@@ -1324,14 +1326,14 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       // Add the separator.
       if (index != gfileRatColArrayGetCount(rat->colArray) - 1)
       {
-         gsAppendC(type, '|');
+         gsAppendC(type, L'|');
       }
 
       // Append the type.
       gsAppend(line, type);
    }
    // Add the line.
-   gsAppendC(line, '\n');
+   gsAppendC(line, L'\n');
 
    // Write the line.
    gfileSetS(file, gcTypeU1, line, NULL);
@@ -1389,7 +1391,7 @@ static void _StoreHeader(GfileRat * const rat, Gfile * const file)
    rat->versionData++;
    _FileN1FromN(version, 4, rat->versionData);
    gsAppendA(line, (Char *) version);
-   gsAppendC(line, '\n');
+   gsAppendC(line, L'\n');
 
    // Set to the start of the file.
    gfileSetPosition(file, gpositionSTART, 0);

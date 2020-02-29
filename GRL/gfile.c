@@ -619,7 +619,7 @@ grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArr
       }
 
       // Append to the lines.
-      if (!gsArrayAddEnd(strArray, &stemp))
+      if (!gsArrayAddEnd(strArray, stemp))
       {
          debugHalt("gsArrayAddLast failed");
          break;
@@ -770,8 +770,8 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
 
    genter;
 
-   debugHaltIf(   !gpathIsPath(path), "Passing in path is not a Gpath.");
-   greturnIf(!gpathIsPath(path), NULL);
+   debugHaltIf(!gpathIsPath(path), "Passing in path is not a Gpath.");
+   greturnIf(  !gpathIsPath(path), NULL);
 
    // Initialize
    file = gmemCreateType(Gfile);
@@ -1204,7 +1204,7 @@ grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line
    Gc1    ascii,
           c1[4];
    Gc2    c2[2];
-   Gc     c4;
+   Gc2   *c2p;
 
    genter;
 
@@ -1228,31 +1228,34 @@ grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line
 
    forCount(a, gsGetCount(line))
    {
+      //ZEKARICTODO This hasn't been updated since I changed Gs to wchar_t.
+
       // End of the line
-      c4 = *gsGetAt(line, a); //lint !e571 !e732
-      breakIf(!c4);
+      c2p = gsGetAt(line, a);
+      breakIf(!c2p);
 
       // Write out to file.
       switch (type)
       {
       case gcTypeA:
-         ascii  = (Gc1) c4;
+         ascii  = (Gc1) *c2p;
          result = gfileSet(file, gsizeof(Gc1), &ascii, &wc);
          break;
 
       case gcTypeU1:
-         count  = gcToU1(c4, &c1[0], &c1[1], &c1[2], &c1[3]);
+         count  = gcToU1(*c2p, &c1[0], &c1[1], &c1[2], &c1[3]);
          result = gfileSet(file, gsizeof(Gc1) * count, c1, &wc);
          break;
 
       case gcTypeU2:
-         count  = gcToU2(c4, &c2[0], &c2[1]);
+         count  = gcToU2(*c2p, &c2[0], &c2[1]);
          result = gfileSet(file, gsizeof(Gc2) * count, c2, &wc);
          break;
 
       case gcTypeU4:
-         result = gfileSet(file, gsizeof(Gc4), &c4, &wc);
-      } //lint !e787
+         debugHaltIf(TRUE, "This code is not up to date.");
+         //result = gfileSet(file, gsizeof(Gc4), &c4, &wc);
+      }
 
       if (writeCount) 
       {
@@ -1278,9 +1281,9 @@ int
 ******************************************************************************/
 grlAPI Gcount gfileSetSArray(Gfile * const file, GcType const type, GsArray const * const lines)
 {
-   Gindex     index;
-   Gcount     count;
-   Gs  const *str;
+   Gindex    index;
+   Gcount    count;
+   Gs       *str;
 
    genter;
 
