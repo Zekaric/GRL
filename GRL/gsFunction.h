@@ -260,7 +260,7 @@ grlAPI Gs            *gsTrimRightU2(        Gs       * const str, Gc2  const * c
 #define gsSetLengthU2(STR, COUNT, PAD)     gsSetLength(STR, COUNT, gcFromU2((Gc2 *) PAD))
 #endif
 
-grlAPI void           gvDestroyS(          Gv * const value);
+grlAPI void           gvDataDestroyS(       GvData * const value);
 
 /*****************************************************************************/
 #ifdef __cplusplus

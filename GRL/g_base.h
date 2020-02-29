@@ -507,17 +507,17 @@ typedef struct Gs       Gpath;
 // Generic value type.
 typedef enum
 {
-   gvTypeNONE,
+   gvDataTypeNONE,
 
-   gvTypeI,
-   gvTypeN,
-   gvTypeP,
-   gvTypeR,
+   gvDataTypeI,
+   gvDataTypeN,
+   gvDataTypeP,
+   gvDataTypeR,
 
-   gvTypeS,
+   gvDataTypeS,
 
-   gvTypeCOUNT
-} GvType;
+   gvDataTypeCOUNT
+} GvDataType;
 
 // Generic data structure for any of the base data types.
 typedef union
@@ -529,6 +529,17 @@ typedef union
    Gs                      *s;
    Gp                      *p;
 } Gvp;
+
+// The largest values for all types.
+typedef union
+{
+   Gb                       b;
+   Gi8                      i;
+   Gn8                      n;
+   Gr8                      r;
+   Gs                      *s;
+   Gp                      *p;
+} Gv;
 
 typedef union
 {
@@ -559,16 +570,9 @@ typedef union
 // container that the stored type might be.
 typedef struct
 {
-   GvType                   type;
-   union
-   {
-      Gip                   i;
-      Gnp                   n;
-      Gp                   *p;
-      Grp                   r;
-      Gs                   *s;
-   }            value;
-} Gv; //lint !e960 !e9018
+   GvDataType               type;
+   Gv                       value;
+} GvData;
 
 // Common callback function patterns.
 typedef Gcompare   (*GrlCompareFunc)(        Gp const   * const valueA, Gp const * const valueB);

@@ -20,21 +20,14 @@
     <Filter Include="Thread">
       <UniqueIdentifier>{edd0c8d8-580a-47a1-986e-20333cd44b2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Other">
       <UniqueIdentifier>{1502f1ad-320b-4beb-b5e2-1f890d0609e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{e812d575-a224-433a-92af-faa27c09bf0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="precompiled.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="grl.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="g_Array.h">
       <Filter>Type Container</Filter>
     </ClInclude>
@@ -61,9 +54,6 @@
     </ClInclude>
     <ClInclude Include="g_TreeKey.h">
       <Filter>Type Container</Filter>
-    </ClInclude>
-    <ClInclude Include="g_config.h">
-      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="g_base.h">
       <Filter>Type Base</Filter>
@@ -96,9 +86,6 @@
       <Filter>Type Base</Filter>
     </ClInclude>
     <ClInclude Include="gsFunction.h">
-      <Filter>Type Base</Filter>
-    </ClInclude>
-    <ClInclude Include="gv.h">
       <Filter>Type Base</Filter>
     </ClInclude>
     <ClInclude Include="gvp.h">
@@ -161,6 +148,18 @@
     <ClInclude Include="gprofile.h">
       <Filter>Other</Filter>
     </ClInclude>
+    <ClInclude Include="gvData.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
+    <ClInclude Include="precompiled.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="g_config.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="grl.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -199,9 +198,6 @@
     <ClCompile Include="gsFunction.c">
       <Filter>Type Base</Filter>
     </ClCompile>
-    <ClCompile Include="gv.c">
-      <Filter>Type Base</Filter>
-    </ClCompile>
     <ClCompile Include="gleak.c">
       <Filter>Memory</Filter>
     </ClCompile>
@@ -229,12 +225,6 @@
     <ClCompile Include="glock.c">
       <Filter>Thread</Filter>
     </ClCompile>
-    <ClCompile Include="precompiled.c">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="GRL.c">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="gtime.c">
       <Filter>Other</Filter>
     </ClCompile>
@@ -261,6 +251,15 @@
     </ClCompile>
     <ClCompile Include="grandom.c">
       <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="gvData.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GRL.c">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="precompiled.c">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

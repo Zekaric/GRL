@@ -3484,15 +3484,15 @@ grlAPI Gs *gsTrimRightU2(Gs * const str, Gc2 const * const letters)
 }
 
 /******************************************************************************
-func: gvDestroyS
+func: gvDataDestroyS
 
 Used with the containers that store a gv for pointers.
 ******************************************************************************/
-grlAPI void gvDestroyS(Gv * const value)
+grlAPI void gvDataDestroyS(GvData * const value)
 {
    genter;
 
-   gsDestroy((Gs *) gvGetP(value));
+   gsDestroy(gvDataGetS(value));
 
    greturn;
 }

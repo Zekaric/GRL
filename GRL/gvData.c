@@ -1,6 +1,6 @@
 /******************************************************************************
 
-file:          gv
+file:          gvData
 author:        Robbert de Groot
 company:       
 copyright:     2015, Robbert de Groot
@@ -48,9 +48,9 @@ grlAPI Gcompare gpCompare(Gp const * const valueA, Gp const * const valueB)
 }
 
 /******************************************************************************
-func: gvCompare
+func: gvDataCompare
 ******************************************************************************/
-grlAPI Gcompare gvCompareI(Gv const * const valueA, Gv const * const valueB)
+grlAPI Gcompare gvDataCompareI(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
@@ -59,7 +59,7 @@ grlAPI Gcompare gvCompareI(Gv const * const valueA, Gv const * const valueB)
    greturn                                      gcompareEQUAL;
 }
 
-grlAPI Gcompare gvCompareN(Gv const * const valueA, Gv const * const valueB)
+grlAPI Gcompare gvDataCompareN(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
@@ -68,7 +68,7 @@ grlAPI Gcompare gvCompareN(Gv const * const valueA, Gv const * const valueB)
    greturn                                      gcompareEQUAL;
 }
 
-grlAPI Gcompare gvCompareP(Gv const * const valueA, Gv const * const valueB)
+grlAPI Gcompare gvDataCompareP(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
@@ -77,7 +77,7 @@ grlAPI Gcompare gvCompareP(Gv const * const valueA, Gv const * const valueB)
    greturn                                                  gcompareEQUAL;
 }
 
-grlAPI Gcompare gvCompareR(Gv const * const valueA, Gv const * const valueB)
+grlAPI Gcompare gvDataCompareR(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
@@ -87,18 +87,18 @@ grlAPI Gcompare gvCompareR(Gv const * const valueA, Gv const * const valueB)
 }
 
 /******************************************************************************
-func: gvCreate
+func: gvDataCreate
 ******************************************************************************/
-grlAPI Gv *gvCreate(void)
+grlAPI GvData *gvDataCreate(void)
 {
-   Gv *v;
+   GvData *v;
 
    genter;
 
-   v = gmemCreateType(Gv);
+   v = gmemCreateType(GvData);
    greturnNullIf(!v);
 
-   if (!gvCreateContent(v))
+   if (!gvDataCreateContent(v))
    {
       gmemDestroy(v);
    }
@@ -107,186 +107,186 @@ grlAPI Gv *gvCreate(void)
 }
 
 /******************************************************************************
-func: gvCreateContent
+func: gvDataCreateContent
 ******************************************************************************/
-grlAPI Gb gvCreateContent(Gv * const v)
+grlAPI Gb gvDataCreateContent(GvData * const v)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   gmemClearType(v, Gv);
+   gmemClearType(v, GvData);
 
    greturn gbTRUE;
 }
 
 /******************************************************************************
-func: gvDestroy
+func: gvDataDestroy
 ******************************************************************************/
-grlAPI void gvDestroy(Gv * const v)
+grlAPI void gvDataDestroy(GvData * const v)
 {
    genter;
 
-   gvDestroyContent(v);
+   gvDataDestroyContent(v);
    gmemDestroy(v);
 
    greturn;
 }
 
 /******************************************************************************
-func: gvDestroyContent
+func: gvDataDestroyContent
 ******************************************************************************/
-grlAPI void gvDestroyContent(Gv * const v)
+grlAPI void gvDataDestroyContent(GvData * const v)
 {
    genter;
 
-   gmemClearType(v, Gv);
+   gmemClearType(v, GvData);
 
    greturn;
 }
 
 /******************************************************************************
-func: gvFrom
+func: gvDataFrom
 ******************************************************************************/
-grlAPI Gv gvFromI(Gip const value)
+grlAPI GvData gvDataFromI(Gi const value)
 {
-   Gv vtemp;
+   GvData vtemp;
 
-   vtemp.type     = gvTypeI;
+   vtemp.type     = gvDataTypeI;
    vtemp.value.i  = value;
 
    return vtemp;
 }
 
-grlAPI Gv gvFromN(Gnp const value)
+grlAPI GvData gvDataFromN(Gn const value)
 {
-   Gv vtemp;
+   GvData vtemp;
 
-   vtemp.type     = gvTypeN;
+   vtemp.type     = gvDataTypeN;
    vtemp.value.n  = value;
 
    return vtemp;
 }
 
-grlAPI Gv gvFromP(Gp * const value)
+grlAPI GvData gvDataFromP(Gp * const value)
 {
-   Gv vtemp;
+   GvData vtemp;
 
-   vtemp.type     = gvTypeP;
+   vtemp.type     = gvDataTypeP;
    vtemp.value.p  = value;
 
    return vtemp;
 }
 
-grlAPI Gv gvFromR(Grp const value)
+grlAPI GvData gvDataFromR(Gr const value)
 {
-   Gv vtemp;
+   GvData vtemp;
 
-   vtemp.type     = gvTypeR;
+   vtemp.type     = gvDataTypeR;
    vtemp.value.r  = value;
 
    return vtemp;
 }
 
-grlAPI Gv gvFromS(Gs * const value)
+grlAPI GvData gvDataFromS(Gs * const value)
 {
-   Gv vtemp;
+   GvData vtemp;
 
-   vtemp.type     = gvTypeS;
+   vtemp.type     = gvDataTypeS;
    vtemp.value.s  = value;
 
    return vtemp;
 }
 
 /******************************************************************************
-func: gvGet
+func: gvDataGet
 ******************************************************************************/
-grlAPI Gip gvGetI(Gv const * const v)
+grlAPI Gi gvDataGetI(GvData const * const v)
 {
    genter;
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvTypeI,       v->value.i);
-   greturnIf(v->type == gvTypeN, (Gip) v->value.n);
-   greturnIf(v->type == gvTypeR, (Gip) v->value.r);
-//RDG   greturnIf(v->type == gvTypeS, (Gip) gsGetI(v->value.s));
+   greturnIf(v->type == gvDataTypeI,      v->value.i);
+   greturnIf(v->type == gvDataTypeN, (Gi) v->value.n);
+   greturnIf(v->type == gvDataTypeR, (Gi) v->value.r);
+//RDG   greturnIf(v->type == gvDataTypeS, (Gi) gsGetI(v->value.s));
 
    greturn 0;
 }
 
-grlAPI Gnp gvGetN(Gv const * const v)
+grlAPI Gn gvDataGetN(GvData const * const v)
 {
    genter;
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvTypeN,       v->value.n);
-   greturnIf(v->type == gvTypeI, (Gnp) v->value.i);
-   greturnIf(v->type == gvTypeR, (Gnp) v->value.r);
-//RDG   greturnIf(v->type == gvTypeS, (Gnp) gsGetN(v->value.s));
+   greturnIf(v->type == gvDataTypeN,      v->value.n);
+   greturnIf(v->type == gvDataTypeI, (Gn) v->value.i);
+   greturnIf(v->type == gvDataTypeR, (Gn) v->value.r);
+//RDG   greturnIf(v->type == gvDataTypeS, (Gn) gsGetN(v->value.s));
 
    greturn 0;
 }
 
-grlAPI Gp *gvGetP(Gv const * const v)
+grlAPI Gp *gvDataGetP(GvData const * const v)
 {
    genter;
 
    greturnNullIf(!v);
 
    greturnIf(
-         v->type == gvTypeP ||
-         v->type == gvTypeS,
+         v->type == gvDataTypeP ||
+         v->type == gvDataTypeS,
       v->value.p);
 
    greturn 0;
 }
 
-grlAPI Grp gvGetR(Gv const * const v)
+grlAPI Gr gvDataGetR(GvData const * const v)
 {
    genter;
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvTypeR,       v->value.r);
-   greturnIf(v->type == gvTypeI, (Grp) v->value.i);
-   greturnIf(v->type == gvTypeN, (Grp) v->value.n);
-//RDG   greturnIf(v->type == gvTypeS, (Grp) gsGetR(v->value.s));
+   greturnIf(v->type == gvDataTypeR,      v->value.r);
+   greturnIf(v->type == gvDataTypeI, (Gr) v->value.i);
+   greturnIf(v->type == gvDataTypeN, (Gr) v->value.n);
+//RDG   greturnIf(v->type == gvDataTypeS, (Gr) gsGetR(v->value.s));
 
    greturn 0;
 }
 
-grlAPI Gs *gvGetS(Gv const * const v)
+grlAPI Gs *gvDataGetS(GvData const * const v)
 {
    genter;
 
    greturnNullIf(!v);
 
-   greturnIf(v->type == gvTypeS, v->value.s);
+   greturnIf(v->type == gvDataTypeS, v->value.s);
 
    greturn NULL;
 }
 
 /******************************************************************************
-func: gvHash
+func: gvDataHash
 ******************************************************************************/
-grlAPI GhashN gvHash(Gv const * const value)
+grlAPI GhashN gvDataHash(GvData const * const value)
 {
    genter;
 
    greturnIf(
-         value->type == gvTypeP ||
-         value->type == gvTypeS,
+         value->type == gvDataTypeP ||
+         value->type == gvDataTypeS,
       (GhashN) (value->value.n / 4));
 
    greturn (GhashN) value->value.n;
 }
 
 /******************************************************************************
-func: gvHashS
+func: gvDataHashS
 ******************************************************************************/
-grlAPI GhashN gvHashS(Gv const * const value)
+grlAPI GhashN gvDataHashS(GvData const * const value)
 {
    GhashN result = 0;
 
@@ -300,63 +300,63 @@ grlAPI GhashN gvHashS(Gv const * const value)
 }
 
 /******************************************************************************
-func: gvSet
+func: gvDataSet
 ******************************************************************************/
-grlAPI Gb gvSetI(Gv * const v, Gip const value)
+grlAPI Gb gvDataSetI(GvData * const v, Gi const value)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   v->type    = gvTypeI;
+   v->type    = gvDataTypeI;
    v->value.i = value;
 
    greturn gbTRUE;
 }
 
-grlAPI Gb gvSetN(Gv * const v, Gnp const value)
+grlAPI Gb gvDataSetN(GvData * const v, Gn const value)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   v->type    = gvTypeN;
+   v->type    = gvDataTypeN;
    v->value.n = value;
 
    greturn gbTRUE;
 }
 
-grlAPI Gb gvSetP(Gv * const v, Gp * const value)
+grlAPI Gb gvDataSetP(GvData * const v, Gp * const value)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   v->type    = gvTypeP;
+   v->type    = gvDataTypeP;
    v->value.p = value;
 
    greturn gbTRUE;
 }
 
-grlAPI Gb gvSetR(Gv * const v, Grp const value)
+grlAPI Gb gvDataSetR(GvData * const v, Gr const value)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   v->type    = gvTypeR;
+   v->type    = gvDataTypeR;
    v->value.r = value;
 
    greturn gbTRUE;
 }
 
-grlAPI Gb gvSetS(Gv * const v, Gs * const value)
+grlAPI Gb gvDataSetS(GvData * const v, Gs * const value)
 {
    genter;
 
    greturnFalseIf(!v);
 
-   v->type    = gvTypeS;
+   v->type    = gvDataTypeS;
    v->value.s = value;
 
    greturn gbTRUE;

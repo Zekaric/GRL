@@ -191,7 +191,7 @@
     <ClInclude Include="gthread.h" />
     <ClInclude Include="gtime.h" />
     <ClInclude Include="gtrace.h" />
-    <ClInclude Include="gv.h" />
+    <ClInclude Include="gvData.h" />
     <ClInclude Include="gvp.h" />
     <ClInclude Include="g_Array.h" />
     <ClInclude Include="g_ArrayKey.h" />
@@ -230,7 +230,7 @@
     <ClCompile Include="gtemp.c" />
     <ClCompile Include="gtime.c" />
     <ClCompile Include="gtrace.c" />
-    <ClCompile Include="gv.c" />
+    <ClCompile Include="gvData.c" />
     <ClCompile Include="g_Array.c" />
     <ClCompile Include="g_ArrayKey.c" />
     <ClCompile Include="g_Hash.c" />

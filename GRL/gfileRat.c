@@ -65,12 +65,12 @@ static Gb             _LoadConfig(        GfileRat       * const rat, Gfile * co
 static Gb             _LoadHeader(        GfileRat       * const rat, Gfile * const file);
 static Gb             _LoadRow(           GfileRat       * const rat, Gfile * const file, Gindex const index);
 
-static Gnp            _NFromHex(          Gn1      const * const n);
-static Gnp            _N1FromFileN1Hex(   Gn1      const * const n);
+static Gn             _NFromHex(          Gn1      const * const n);
+static Gn             _N1FromFileN1Hex(   Gn1      const * const n);
 static void           _FileN1FromN(       Gn1            * const n, Gcount const byteCount, Gn const value);
-static Gnp            _N2FromFileN1Hex(   Gn1      const * const n);
-static Gnp            _N4FromFileN1Hex(   Gn1      const * const n);
-static Gnp            _N8FromFileN1Hex(   Gn1      const * const n);
+static Gn             _N2FromFileN1Hex(   Gn1      const * const n);
+static Gn             _N4FromFileN1Hex(   Gn1      const * const n);
+static Gn             _N8FromFileN1Hex(   Gn1      const * const n);
 
 static GfileRatRow   *_RowCreate(         GfileRat const * const rat);
 static void           _RowDestroy(        GfileRat const * const rat, GfileRatRow * const row);
@@ -865,11 +865,11 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
    Gindex             index,
                       bufferIndex;          
    GfileSetPosition   positionResult;
-   Gvp                value;
+   Gv                 value;
    Gv2                v2;
    Gv4                v4;
-   GfileRatCol          *col;
-   GfileRatRow          *row;
+   GfileRatCol       *col;
+   GfileRatRow       *row;
    
    genter;
 
@@ -953,7 +953,7 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
 /******************************************************************************
 func: _NFromHex
 ******************************************************************************/
-static Gnp _NFromHex(Gn1 const * const n)
+static Gn _NFromHex(Gn1 const * const n)
 {
    genter;
 
@@ -987,9 +987,9 @@ static Gnp _NFromHex(Gn1 const * const n)
 /******************************************************************************
 func: _N1FromFileN1Hex
 ******************************************************************************/
-static Gnp _N1FromFileN1Hex(Gn1 const * const n)
+static Gn _N1FromFileN1Hex(Gn1 const * const n)
 {
-   Gnp v;
+   Gn v;
 
    genter;
    
@@ -1066,9 +1066,9 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
 /******************************************************************************
 func: _N2FromFileN1Hex
 ******************************************************************************/
-static Gnp _N2FromFileN1Hex(Gn1 const * const n)
+static Gn _N2FromFileN1Hex(Gn1 const * const n)
 {
-   Gnp v;
+   Gn v;
 
    genter;
    
@@ -1084,9 +1084,9 @@ static Gnp _N2FromFileN1Hex(Gn1 const * const n)
 /******************************************************************************
 func: _N4FromFileN1Hex
 ******************************************************************************/
-static Gnp _N4FromFileN1Hex(Gn1 const * const n)
+static Gn _N4FromFileN1Hex(Gn1 const * const n)
 {
-   Gnp v;
+   Gn v;
 
    genter;
    
@@ -1106,9 +1106,9 @@ static Gnp _N4FromFileN1Hex(Gn1 const * const n)
 /******************************************************************************
 func: _N8FromFileN1Hex
 ******************************************************************************/
-static Gnp _N8FromFileN1Hex(Gn1 const * const n)
+static Gn _N8FromFileN1Hex(Gn1 const * const n)
 {
-   Gnp v;
+   Gn v;
 
    genter;
    
