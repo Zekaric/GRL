@@ -1015,7 +1015,7 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
    nindex = byteCount - 1;
    for (index = 0; index < byteCount; index++)
    {
-      nvalue = ((value >> shift[nindex]) >> 4) & 0xF;
+      nvalue = ((value >> (shift[nindex]) + 4)) & 0xF;
 
       switch(nvalue)      
       {
@@ -1037,7 +1037,7 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
       case 0xf: n[index * 2 + 0] = 'F'; break;
       }
 
-      nvalue = ((value >> shift[nindex]) >> 0) & 0xF;
+      nvalue = ((value >> shift[nindex])) & 0xF;
 
       switch(nvalue)      
       {
