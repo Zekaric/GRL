@@ -696,7 +696,7 @@ grlAPI Gb g_ArraySetCount(G_Array * const a, Gcount const value)
       a->isSorted = gbFALSE; //lint !e641
    }
 
-   countTotal = g_ArrayVectorSize((Gb) a->isVectorSizing, value);
+   countTotal = g_ArrayVectorSize((Gb) a->isVectorSizing, value + a->isNullEnding);
 
    result = gbTRUE;
    if (countTotal != a->countTotal)
@@ -707,6 +707,13 @@ grlAPI Gb g_ArraySetCount(G_Array * const a, Gcount const value)
 
       gmemDestroy(a->p);
       a->p = (Gn1 *) p;
+   }
+
+   // Ensure the value is null terminated.
+   if (a->isNullEnding)
+   {
+      // Null out the last element.
+      gmemSet(a->p + value * a->typeSize, a->typeSize, 0);
    }
 
    a->count      = value;

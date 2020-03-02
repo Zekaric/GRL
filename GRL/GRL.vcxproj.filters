@@ -160,6 +160,9 @@
     <ClInclude Include="grl.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="gv.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">

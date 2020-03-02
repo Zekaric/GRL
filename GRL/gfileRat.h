@@ -30,7 +30,7 @@ Version numbers:
 All version numbers use 8 bytes written using ASCII hex '0' - '9', 'A' - 'F'. 
 
 Line 1: is the format line.  If the file is ASCII it will start with GRAFT_AF.
-If the file is Binary it will start with GRAFT_BF.  We have three version 
+If the file is Binary it will start with GFRAT_BF.  We have three version 
 numbers.  
 
 First version number is for the version of GfileRat being used.  Currently version 1.
@@ -161,7 +161,7 @@ typedef struct
    Gb                       isDeleted;
    GfileOffset              fileOffset;
    Gversion                 version;
-   GvpArray                *value;
+   GvArray                 *value;
 } GfileRatRow;
 
 /******************************************************************************
@@ -307,13 +307,13 @@ grlAPI GfileRatType   gfileRatColGetType(      GfileRat const * const rat, Ginde
 grlAPI Gcount         gfileRatColGetByteCount( GfileRat const * const rat, Gindex const colIndex);
 
 // Row functions //////////////////////////////////////////////////////////////
-grlAPI Gvp            gfileRatRowGetValue(     GfileRat const * const rat, Gindex const rowIndex, Gindex const colIndex);
+grlAPI Gv             gfileRatRowGetValue(     GfileRat const * const rat, Gindex const rowIndex, Gindex const colIndex);
 
 grlAPI Gb             gfileRatRowDestroy(      GfileRat       * const rat, Gindex const rowIndex);
 
 grlAPI Gb             gfileRatRowIsExisting(   GfileRat const * const rat, Gindex const rowIndex);
 
-grlAPI Gb             gfileRatRowSetValue(     GfileRat       * const rat, Gindex const rowIndex, Gindex const colIndex, Gvp const value);
+grlAPI Gb             gfileRatRowSetValue(     GfileRat       * const rat, Gindex const rowIndex, Gindex const colIndex, Gv const value);
 
 #define gfileRatCreate(PATH, ISBINARY, MODE)  (GfileRat *) gleakCreate((void *) gfileRatCreate_(PATH, ISBINARY, MODE), gsizeof(GfileRat))
 

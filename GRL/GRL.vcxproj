@@ -191,6 +191,7 @@
     <ClInclude Include="gthread.h" />
     <ClInclude Include="gtime.h" />
     <ClInclude Include="gtrace.h" />
+    <ClInclude Include="gv.h" />
     <ClInclude Include="gvData.h" />
     <ClInclude Include="gvp.h" />
     <ClInclude Include="g_Array.h" />

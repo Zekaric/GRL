@@ -2388,7 +2388,7 @@ grlAPI Gn gsGetNHex(Gs const * const str)
       case L'F': ntemp = (ntemp << 4) | 0xf; break;
 
       default:
-         goto STOP;
+         stop();
          break;
       }
    }
@@ -2712,6 +2712,21 @@ grlAPI Gs *gsReverse(Gs * const str)
 }
 
 /******************************************************************************
+func: gsPadHead
+******************************************************************************/
+grlAPI Gs *gsPadHead(Gs * const str, Gcount const length, Gc2 const letter)
+{
+   genter;
+
+   for (; gsGetCount(str) < length;)
+   {
+      greturnNullIf(!gsAddBegin(str, &letter));
+   }
+
+   greturn str;
+}
+
+/******************************************************************************
 func: gsPadTail
 ******************************************************************************/
 grlAPI Gs *gsPadTail(Gs * const str, Gcount const length, Gc2 const letter)
@@ -2720,7 +2735,7 @@ grlAPI Gs *gsPadTail(Gs * const str, Gcount const length, Gc2 const letter)
 
    for (; gsGetCount(str) < length;)
    {
-      greturnNullIf(!gsAppendC(str, letter));
+      greturnNullIf(!gsAddEnd(str, &letter));
    }
 
    greturn str;
@@ -2815,7 +2830,7 @@ grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
 
          greturnNullIf(!gsAppendC(substr, *gsGetAt(str, index)));
       }
-      greturnNullIf(!gsArrayAddEnd(slist, &substr));
+      greturnNullIf(!gsArrayAddEnd(slist, substr));
    }
 
    greturn slist; //lint !e850
@@ -2939,31 +2954,30 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
    {
       for (a = gsGetCount(str) - 1; ; a--)
       {
+         breakIf(a == -1);
+
          // move the null terminator up.
          if (gcIsWhiteSpace(*gsGetAt(str,a))) //lint !e732
          {
-            breakIf(!gsSetCount(str, gsGetCount(str) - 1));
-
             // An escaped blank is still a trailing blank.
             if (a &&
                 *gsGetAt(str, a - 1) == backslash)
             {
                a = a - 1;
-
-               breakIf(!gsSetCount(str, gsGetCount(str) - 1));
             }
          }
          else
          {
             break;
          }
-
-         breakIf(a == 0);
       }
+
+      // Set the new length.
+      gsSetCount(str, a + 1);
    } //lint !e850
 
-   /* Pass 2. Take care of white space (leading and all) and
-   escape characters. */
+   // Pass 2. Take care of white space (leading and all) and
+   // escape characters.
    b = 0;
    forCount(a, gsGetCount(str))
    {
@@ -3418,11 +3432,11 @@ grlAPI Gs *gsTrimRight(Gs * const str, Gs const * const letters)
          !letters,
       str);
 
-   idx = gsFindLastNotOf(str, gsGetCount(str), letters);
+   idx = gsFindLastNotOf(str, 0, letters);
 
    if (idx != gsFIND_FAIL)
    {
-      result = gsEraseSub(str, idx, gsGetCount(str));
+      result = gsEraseSub(str, idx + 1, gsGetCount(str));
 
       greturn result;
    }

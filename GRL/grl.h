@@ -143,6 +143,7 @@ include:
 #include "gi.h"
 #include "gr.h"
 #include "gp.h"
+#include "gv.h"
 #include "gvp.h"
 #include "gvData.h"
 

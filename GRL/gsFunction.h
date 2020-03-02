@@ -206,6 +206,7 @@ grlAPI Gb             gsIsMultiline(        Gs const * const str);
 
 grlAPI Gs            *gsReverse(            Gs       * const str);
 
+grlAPI Gs            *gsPadHead(            Gs       * const str, Gcount const length, Gc2 const letter);
 grlAPI Gs            *gsPadTail(            Gs       * const str, Gindex const length, Gc2 const letter);
 
 /*lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026 */
