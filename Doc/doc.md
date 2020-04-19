@@ -4,127 +4,127 @@
 This doc is in development so it will change quite a lot from update to update.  I am using Visual Studio for editing the doc.  Tabs are 4 but indents are 1 and spaces instead of tabs.
 
 # Table Of Contenst:
-**About G.R.L.**
- Description
- History
- License
- Goals
-**How to compile GRL library**
- g_config.h
-  GCHECK_MEMORY_IS_ON
-  GMEM_INCLUDES_TYPE_STRING
-  GTRACE_IS_ON
-**How to compile with GRL library**
-**How to use GRL library**
-**Style**
-**Macroes**
- breakIf()
- continueIf()
- debugHalt*()
- debugCheckMemory()
- debugPrint()
- for*(), loop*()
- gotoIf(), stopIf()
- return*()
- genter, greturn
- greturn*()
- gsizeof()
- gpHash", "gpHash()
-**API**
-**Grl**
- Function
-**Char, Uchar**
- Type
-**Galignment**
- Type
-**Gb (Boolean)**
- Type
-**Gbit**
- Type
- Function
-**gbitArray**
- Function
-**Gcompare**
- Type
-**Gcount**
- Type
- Constant
- Function
-**Gguid**
- Type
- Function
-**GhashN**
- Type
-**GheapN**
- Type
-**Gi (Integer)**
- Type
- Constant
-**Gid**
- Type
- Function
-**Gindex**
- Type
- Constant
- Function
-**Gkey**
- Type
-**GkeyP**
- Type
-**Gleak**
- Function
-**Glock**
- Type
- Function
-**Gmem**
- Function
-**Gn (Natural and 0)**
- Type
- Constant
-**Goffset**
- Type
- Constant
-**Gosversion**
- Constant
- Function
-**Gp (void)**
- Type
-**Gposition**
- Type
-**Gprofile**
-**Gr (Real)**
- Type
- Constant
-**Grandom**
- Type
- Function
-**Gsize**
- Type
- Constant
- Function
-**Gsize**
- Function
-**Gtime**
- Type
- Function
-**Gtrace**
- Constant
- Function
-**Gv, GvType**
- Type
- Function
-**Gvp**
- Type
-**G*Func**
- Type
+**1 -About G.R.L.**
+ 1.1 -Description
+ 1.2 -History
+ 1.3 -License
+ 1.4 -Goals
+**2 -How to compile GRL library**
+ 2.1 -g_config.h
+  2.1.1 - GCHECK_MEMORY_IS_ON
+  2.1.2 - GMEM_INCLUDES_TYPE_STRING
+  2.1.3 - GTRACE_IS_ON
+**3 -How to compile with GRL library**
+**4 -How to use GRL library**
+**5 -Style**
+**6 -Macroes**
+ 6.1 -breakIf()
+ 6.2 -continueIf()
+ 6.3 -debugHalt*()
+ 6.4 -debugCheckMemory()
+ 6.5 -debugPrint()
+ 6.6 -for*(), loop*()
+ 6.7 -gotoIf(), stopIf()
+ 6.8 -return*()
+ 6.9 -genter, greturn
+ 6.10 -greturn*()
+ 6.11 -gsizeof()
+ 6.12 -gpHash()
+**7 -API**
+**8 -Grl**
+ 8.1 -Function
+**9 -Char, Uchar**
+ 9.1 -Type
+**10 -Galignment**
+ 10.1 -Type
+**11 -Gb (Boolean)**
+ 11.1 -Type
+**12 -Gbit**
+ 12.1 -Type
+ 12.2 -Function
+**13 -gbitArray**
+ 13.1 -Function
+**14 -Gcompare**
+ 14.1 -Type
+**15 -Gcount**
+ 15.1 -Type
+ 15.2 -Constant
+ 15.3 -Function
+**16 -Gguid**
+ 16.1 -Type
+ 16.2 -Function
+**17 -GhashN**
+ 17.1 -Type
+**18 -GheapN**
+ 18.1 -Type
+**19 -Gi (Integer)**
+ 19.1 -Type
+ 19.2 -Constant
+**20 -Gid**
+ 20.1 -Type
+ 20.2 -Function
+**21 -Gindex**
+ 21.1 -Type
+ 21.2 -Constant
+ 21.3 -Function
+**22 -Gkey**
+ 22.1 -Type
+**23 -GkeyP**
+ 23.1 -Type
+**24 -Gleak**
+ 24.1 -Function
+**25 -Glock**
+ 25.1 -Type
+ 25.2 -Function
+**26 -Gmem**
+ 26.1 -Function
+**27 -Gn (Natural and 0)**
+ 27.1 -Type
+ 27.2 -Constant
+**28 -Goffset**
+ 28.1 -Type
+ 28.2 -Constant
+**29 -Gosversion**
+ 29.1 -Constant
+ 29.2 -Function
+**30 -Gp (void)**
+ 30.1 -Type
+**31 -Gposition**
+ 31.1 -Type
+**32 -Gprofile**
+**33 -Gr (Real)**
+ 33.1 -Type
+ 33.2 -Constant
+**34 -Grandom**
+ 34.1 -Type
+ 34.2 -Function
+**35 -Gsize**
+ 35.1 -Type
+ 35.2 -Constant
+ 35.3 -Function
+**36 -Gsize**
+ 36.1 -Function
+**37 -Gtime**
+ 37.1 -Type
+ 37.2 -Function
+**38 -Gtrace**
+ 38.1 -Constant
+ 38.2 -Function
+**39 -Gv, GvType**
+ 39.1 -Type
+ 39.2 -Function
+**40 -Gvp**
+ 40.1 -Type
+**41 -G*Func**
+ 41.1 -Type
 
-# About G.R.L.
+# 1 -About G.R.L.
 
-## Description
+## 1.1 -Description
 
 G.R.L. (Girl) is a C kitchen sink library to make development easier.
 
-## History
+## 1.2 -History
 
 I joined a company back in 1995 that created software for Sun OS, Sun Solaris, SGI Irix, and Window NT 3.XX. In order for them to do that they used a cross platform library called Galaxy which was owned by a company called Visix. A little time after Java came on to the scene and a Visix thought that was going to be the future of cross platform development. They let Galaxy stagnate and focused on a Java product they developed. Moving on a few years the Java product did not sell well (I believe, no facts to back it up) and their bread and butter clients using Galaxy were moving on as their products were becoming stagnant because Galaxy was not keeping up with the times. Visix just decided to pack up and quit.
 
@@ -138,7 +138,7 @@ Why not just wrap C++ stdlib for this work instead of writing everything again i
 
 Initially GRL stood for "Galaxy Replacement Library" but since it was not going to be doing that in reality, I just decided to rebrand it (de) "Groot's Runtime Library".  For the longest time I wanted to hopefully make money of this code but in my opinion that time has long since past.  So I decided to make it free for use.
 
-## License
+## 1.3 -License
 
 ```
 BSD 2-Clause License
@@ -168,7 +168,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-## Goals
+## 1.4 -Goals
 
 * Kitchen sink library.  It should do 'almost' everything you need for development.
 
@@ -179,7 +179,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Performance.  The library should not really slow you down in terms of coding or in terms of run time.  There are always going to be some compromises but for the most part it should be out of the way and not causing grief.
 
 
-# How to compile GRL library
+# 2 -How to compile GRL library
 
 I do not use helpers like CMake.  Mainly because I have not found one that is not annoying to me on some way.  So with this project there will be a...
 
@@ -203,25 +203,25 @@ When you build the library you will need to provide some compile time defines.
 * <strong>grlSWAP</strong>, needs to be defined on little endian machines.
 
 
-## g_config.h
+## 2.1 -g_config.h
 
 In the source file g_config.h there are some flags at the top that you may wish to set for different code to be compiled in.
 
-### GCHECK_MEMORY_IS_ON
+### 2.1.1 - GCHECK_MEMORY_IS_ON
 
 Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call a check on the sanity of the heap to be done.  On Windows this is a CRT function call.
 
 You would use this if you are experiencing heap corruption and wanting to find out who might be corrupting the heap or at least narrow it down to when the Heap was good to when it became bad in an effort to narrow down your search.
 
-### GMEM_INCLUDES_TYPE_STRING
+### 2.1.2 - GMEM_INCLUDES_TYPE_STRING
 
 Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is stored with the dynamic memory in debug by default.  Sometimes this comes in handy when you are dealing with baffling dynamic memory pointer issues.
 
-### GTRACE_IS_ON
+### 2.1.3 - GTRACE_IS_ON
 
 Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all of the functions that were called assuming genter and greturn* were used in the code.
 
-# How to compile with GRL library
+# 3 -How to compile with GRL library
 
 When you build your project and you intend to use this library, you will need to provide some compile time defines.
 
@@ -234,7 +234,7 @@ When you build your project and you intend to use this library, you will need to
 
 Add the grl.lib and grl include path to your build.
 
-# How to use GRL library
+# 4 -How to use GRL library
 
 Add to your source file(s) the grl include...
 
@@ -261,7 +261,7 @@ grlStop();
 
 grlStop() will display debug information like a leak report if you are doing leak checking with GRL.  It is not strictly necessary to call but it would be a wise thing to do in my opinion.
 
-# Style
+# 5 -Style
 
 I use a particular style with GRL and my own coding.  With this style is makes identifying what something is fairly easily.
 
@@ -305,11 +305,11 @@ Code is paragraphed.
 
 etc.
 
-# Macroes
+# 6 -Macroes
 
 You may find some or all of these macroes curious or infuriating.  I use them for the reason of better code readability (subjective I know) and better coding experience, reducing tired programmer mistakes and related.  You do not have to use any of these but I use them a lot in my own coding.
 
-## breakIf()
+## 6.1 -breakIf()
 
 ```
 #define breakIf(C)         if ((C)) { break; }
@@ -317,7 +317,7 @@ You may find some or all of these macroes curious or infuriating.  I use them fo
 
 Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and slightly less typing.
 
-## continueIf()
+## 6.2 -continueIf()
 
 ```
 #define continueIf(C)      if ((C)) { continue; }
@@ -325,7 +325,7 @@ Loop control wrappers for common patterns.  Makes for easier to read code in my 
 
 Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and slightly less typing.
 
-## debugHalt*()
+## 6.3 -debugHalt*()
 
 ```
 #define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
@@ -334,7 +334,7 @@ Loop control wrappers for common patterns.  Makes for easier to read code in my 
 
 Halt is calling assert().  I just find it easier to read than using the assert() function call.
 
-## debugCheckMemory()
+## 6.4 -debugCheckMemory()
 
 ```
 #define debugCheckMemory()    _CrtCheckMemory();
@@ -342,7 +342,7 @@ Halt is calling assert().  I just find it easier to read than using the assert()
 
 CheckMemory will test the dynamic heap for corruption.  This can be handy when trying to find memory corruption.  Sprinkle these functions around your code where you think the corruption may be happening.
 
-## debugPrint()
+## 6.5 -debugPrint()
 
 ```
 #define debugPrint(WSTR)            OutputDebugString(WSTR)
@@ -350,7 +350,7 @@ CheckMemory will test the dynamic heap for corruption.  This can be handy when t
 
 Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.  Nothing specific for OSX and Linux yet.
 
-## for*(), loop*()
+## 6.6 -for*(), loop*()
 
 ```
 #define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
@@ -362,7 +362,7 @@ Print will print a wchar_t * string to the output window in case of Visual Studi
 
 Wrappers for loops.  You may find these curious but I find these save me some headaches as they reduce errors like bad increment and such.  Plus I find they are easier to read.
 
-## gotoIf(), stopIf()
+## 6.7 -gotoIf(), stopIf()
 
 ```
 #define gotoIf(C,G)        if ((C)) { goto G; }
@@ -371,7 +371,7 @@ Wrappers for loops.  You may find these curious but I find these save me some he
 
 Wrappers for goto calls.  If you need to use these, use them sparingly and only forward jumps to a equal or higher level scope.  Do not jump into another scope.  Sometimes it is useful for simple exception like handling.  Stop if will jump to the label STOP.
 
-## return*()
+## 6.8 -return*()
 
 ```
 #define returnIf(C,V)      if ((C)) { return (V); }
@@ -385,7 +385,7 @@ Wrappers for goto calls.  If you need to use these, use them sparingly and only 
 
 Basic return equivalents to greturn.  These do not call greturn and so are not paired with genter.
 
-## genter, greturn
+## 6.9 -genter, greturn
 
 ```
 #if 0 // kept in case I need to revisit.
@@ -464,7 +464,7 @@ Things I have tried:
 
 Those are some of the reasons I was using genter and greturn.  I keep them around just in case another need arrises.
 
-## greturn*()
+## 6.10 -greturn*()
 
 ```
 #define greturnIf(C,V)     if ((C)) { greturn (V); }
@@ -478,7 +478,7 @@ Those are some of the reasons I was using genter and greturn.  I keep them aroun
 
 Wrappers for common greturn cases.  Makes for easier to read code in my opinion and slightly less typing.  These call greturn while matches genter.
 
-## gsizeof()
+## 6.11 -gsizeof()
 
 ```
 #define gsizeof(V)         ((Gsize) sizeof(V))
@@ -486,7 +486,7 @@ Wrappers for common greturn cases.  Makes for easier to read code in my opinion 
 
 Wrapper for sizeof function.
 
-## gpHash", "gpHash()
+## 6.12 -gpHash()
 
 ```
 #define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
@@ -494,7 +494,7 @@ Wrapper for sizeof function.
 
 A basic function for hashing a pointer.  This is assuming pointers are 4 byte aligned.
 
-# API
+# 7 -API
 
 Like a lot of C libraries I have defined my own types just to address the problem that C's base integer types are not strictly of a certain size.  Or there are missing types like boolean.
 
@@ -502,11 +502,11 @@ Granted newer updates to C have tried to rectify the situation but maybe a littl
 
 Also other API that do not include a specific type but more a module for some purpose.
 
-# Grl
+# 8 -Grl
 
 Library level calls.  Mainly to set up the library before use.
 
-## Function
+## 8.1 -Function
 
 ```
 grlAPI Gpath   *grlGetExePath(   void);
@@ -538,11 +538,11 @@ grlAPI void     grlStop(         void);
 
 Stop the grl library.
 
-# Char, Uchar
+# 9 -Char, Uchar
 
 I define these because I am using PCLint program to keep the code somewhat clean of issues.  One of the things with PCLint is that it warns about using char and unsigned char so I have these defined to avoid the warning/error.
 
-## Type
+## 9.1 -Type
 
 ```
 typedef signed char        Char;
@@ -551,11 +551,11 @@ typedef unsigned char      Uchar;
 
 Not usually types I use.  However I define these because I am using PCLint program to keep the code somewhat clean of issues.  One of the things with PCLint is that it warns about using char and unsigned char so I have these defined to avoid the issue.
 
-# Galignment
+# 10 -Galignment
 
 Various functions require defining an alignment in the horizontal and vertical directions.  Trying to define one type to cover them all.
 
-## Type
+## 10.1 -Type
 
 ```
 typedef enum
@@ -579,11 +579,11 @@ typedef enum
 
 Various functions require defining an alignment in the horizontal and vertical directions.  Trying to define one type to cover them all.
 
-# Gb (Boolean)
+# 11 -Gb (Boolean)
 
 Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  Otherwise assume it is not a possibility.
 
-## Type
+## 11.1 -Type
 
 ```
 typedef enum
@@ -596,9 +596,9 @@ typedef enum
 
 Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  Otherwise assume it is not a possibility.
 
-# Gbit
+# 12 -Gbit
 
-## Type
+## 12.1 -Type
 
 ```
 typedef unsigned int       Gbit;
@@ -606,7 +606,7 @@ typedef unsigned int       Gbit;
 
 This is specific to bit fields in a struct.  Because every time using standard C types, I forget the "unsigned" keyword.
 
-## Function
+## 12.2 -Function
 
 ```
 grlAPI Gn4      gbitGet(          Gn4 const data, Gindex const bit, Gcount const count);
@@ -620,11 +620,11 @@ grlAPI Gn4      gbitSet(          Gn4 const data, Gindex const bit, Gcount const
 
 Set the value of bits in a simple 4 byte natural.
 
-# gbitArray
+# 13 -gbitArray
 
 Simple functions for setting bits in an array of Gn4 values.  Values can span over Gn4 boundaries.
 
-## Function
+## 13.1 -Function
 
 ```
 grlAPI Gn4      gbitArrayGet(     Gn4 const * const data, Gindex const bit, Gcount const count);
@@ -644,11 +644,11 @@ grlAPI Gb       gbitArraySet(     Gn4       * const data, Gindex const bit, Gcou
 
 Get the value of the bits at a given bit range in the Gn4 array.
 
-# Gcompare
+# 14 -Gcompare
 
 Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should be made very clear.  I may remove it in the future.
 
-## Type
+## 14.1 -Type
 
 ```
 typedef enum
@@ -662,19 +662,19 @@ typedef enum
 
 Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should be made very clear.  I may remove it in the future.
 
-# Gcount
+# 15 -Gcount
 
 A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
 
 Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
-## Type
+## 15.1 -Type
 
 ```
 typedef Gi4                Gcount;
 ```
 
-## Constant
+## 15.2 -Constant
 
 ```
 #define GcountMAX             Gi4MAX
@@ -682,7 +682,7 @@ typedef Gi4                Gcount;
 
 The limit constants for these types.
 
-## Function
+## 15.3 -Function
 
 ```
 #define gcountIsGood(C)    (0 <= (C))
@@ -690,11 +690,11 @@ The limit constants for these types.
 
 IsGood check for a gcount.
 
-# Gguid
+# 16 -Gguid
 
 GUID type wrapper.  Using system calls to handle GUIDs.
 
-## Type
+## 16.1 -Type
 
 ```
 typedef struct
@@ -704,7 +704,7 @@ typedef struct
 } Gguid;
 ```
 
-## Function
+## 16.2 -Function
 
 ```
 grlAPI void     gguidCreateContent(       Gguid * const guid);
@@ -724,11 +724,11 @@ grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
 
 Test two guids for equality.
 
-# GhashN
+# 17 -GhashN
 
 The data type that all hash functions will return.
 
-## Type
+## 17.1 -Type
 
 ```
 typedef Gn4                GhashN;
@@ -736,21 +736,21 @@ typedef Gn4                GhashN;
 
 The data type that all hash functions will return.
 
-# GheapN
+# 18 -GheapN
 
 The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree implementation.
 
-## Type
+## 18.1 -Type
 
 ```
 typedef Gn4                GheapN;
 ```
 
-# Gi (Integer)
+# 19 -Gi (Integer)
 
 Integer type.
 
-## Type
+## 19.1 -Type
 
 ```
 typedef int8_t             Gi1;
@@ -779,7 +779,7 @@ typedef Gi4                Gih;
 
 Half size versions for the platform.
 
-## Constant
+## 19.2 -Constant
 
 ```
 #define GiMAX                 Gi8MAX
@@ -798,11 +798,11 @@ Half size versions for the platform.
 
 The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.
 
-# Gid
+# 20 -Gid
 
 Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
 
-## Type
+## 20.1 -Type
 
 ```
 typedef Gn4                Gid;
@@ -810,7 +810,7 @@ typedef Gn4                Gid;
 
 Simpler than a Gguid.  The uniqueness of an id is left to the programmer.
 
-## Function
+## 20.2 -Function
 
 ```
 #define gidGetN(ID)        ((Gn4) ID)
@@ -878,19 +878,19 @@ Check if the id is valid.
 
 Check if the is set to something.
 
-# Gindex
+# 21 -Gindex
 
 A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
 
 Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
-## Type
+## 21.1 -Type
 
 ```
 typedef Gi4                Gindex;
 ```
 
-## Constant
+## 21.2 -Constant
 
 ```
 #define GindexERROR           Gi4MIN
@@ -899,7 +899,7 @@ typedef Gi4                Gindex;
 
 The limit constants for these types.
 
-## Function
+## 21.3 -Function
 
 ```
 #define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
@@ -907,21 +907,21 @@ The limit constants for these types.
 
 IsGood checks for a gindex.
 
-# Gkey
+# 22 -Gkey
 
 The general idea of a key for use in key value pais for the data containers.  A key will always be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.
 
-## Type
+## 22.1 -Type
 
 ```
 typedef Gp                 Gkey;
 ```
 
-# GkeyP
+# 23 -GkeyP
 
 The basis of a key value pair.  A const pointer for the key and some generic data pointer for the value.
 
-## Type
+## 23.1 -Type
 
 ```
 typedef struct
@@ -933,7 +933,7 @@ typedef struct
 
 The basis of a key value pair.  A const pointer for the key and some generic data pointer for the value.
 
-# Gleak
+# 24 -Gleak
 
 No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is used by gmem for dynamic memory leak tracking.
 
@@ -941,7 +941,7 @@ Internally gleak code maintains a hash table of leak records.  The hash table is
 
 gleak is completely disabled in release builds.
 
-## Function
+## 24.1 -Function
 
 ```
 #define gleakCreate(P,S) gleakCreate_((P), (S), __FILE__, __LINE__)
@@ -966,7 +966,7 @@ grlAPI Gb   gleakLockExit(  void);
 
 If you have a lot of gleakCreate() calls in rapid succession you may want to call wrap them in between a LockEnter and LockExit so that the lock only happens once and the speed of the enclosed code will be uninterrupted and fast.
 
-# Glock
+# 25 -Glock
 
 Critical Section lock routines.
 
@@ -1003,7 +1003,7 @@ static Glock _lock;
 
 ```
 
-## Type
+## 25.1 -Type
 
 ```
 #if grlWINDOWS == 1
@@ -1014,7 +1014,7 @@ typedef CRITICAL_SECTION Glock;
 
 Currently only Windows defined.  I haven't started on any other platforms.
 
-## Function
+## 25.2 -Function
 
 ```
 grlAPI void       glockCreateContent(    Glock * const lock);
@@ -1042,7 +1042,7 @@ grlAPI void       glockExit(             Glock * const lock);
 
 Exit a critical section.
 
-# Gmem
+# 26 -Gmem
 
 Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.
 
@@ -1052,7 +1052,7 @@ Why are we doing this?  Dynamic memory creation and destruction can be slow.  Of
 
 Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool flushing but for now this is the responsibility of the programmer.
 
-## Function
+## 26.1 -Function
 
 ```
 #define memCreate(               BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
@@ -1147,11 +1147,11 @@ grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
 
 Set the values of the bytes in a buffer.  Defaced will set the values to things like 0xFEEDFACE, 0xDEADBEEF, etc.
 
-# Gn (Natural and 0)
+# 27 -Gn (Natural and 0)
 
 Natural numbers including 0, or in other words, unsigned integers.
 
-## Type
+## 27.1 -Type
 
 ```
 typedef uint8_t            Gn1;
@@ -1182,7 +1182,7 @@ typedef Gn4                Gnh;
 
 Half size versions for the platform.
 
-## Constant
+## 27.2 -Constant
 
 ```
 #define GnMAX                 Gn8MAX
@@ -1197,19 +1197,19 @@ Half size versions for the platform.
 
 The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.
 
-# Goffset
+# 28 -Goffset
 
 A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
 
 Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
-## Type
+## 28.1 -Type
 
 ```
 typedef Gi4                Goffset;
 ```
 
-## Constant
+## 28.2 -Constant
 
 ```
 #define GoffsetMAX            Gi4MAX
@@ -1218,9 +1218,9 @@ typedef Gi4                Goffset;
 
 The limit constants for these types.
 
-# Gosversion
+# 29 -Gosversion
 
-## Constant
+## 29.1 -Constant
 
 ```
 typedef enum
@@ -1254,7 +1254,7 @@ typedef enum
 } Gosversion;
 ```
 
-## Function
+## 29.2 -Function
 
 ```
 grlAPI Gosversion gosversionGet(void);
@@ -1262,11 +1262,11 @@ grlAPI Gosversion gosversionGet(void);
 
 Get the os the program is running on.
 
-# Gp (void)
+# 30 -Gp (void)
 
 Why not just use void?  I do use void in places like empty function paramerters, but seeing as I have basically redefined everything else, might as well redefine this one as well.  Usually never used alone, always used with '*' for a void pointer.
 
-## Type
+## 30.1 -Type
 
 ```
 typedef void               Gp;
@@ -1274,11 +1274,11 @@ typedef void               Gp;
 
 Why not just use void?  I do use void in places like empty function paramerters, but seeing as I have basically redefined everything else, might as well redefine this one as well.  Usually never used alone, always used with '*' for a void pointer.
 
-# Gposition
+# 31 -Gposition
 
 A lot of functions need an anchor location for offsetting from.  Using this type to handle those situations.
 
-## Type
+## 31.1 -Type
 
 ```
 typedef enum
@@ -1291,17 +1291,17 @@ typedef enum
 
 A lot of functions need an anchor location for offsetting from.  Using this type to handle those situations.
 
-# Gprofile
+# 32 -Gprofile
 
 Code to profile your program.  Unfortunately this code is not thread safe and you probably are better off using an actual profiler.
 
 To use, you only need to set the compiler flag GPROFILE_IS_ON to 1 and recompile.  The program will print out a report on the function times when the program exits.  If the program crashes then no report is written out.
 
-# Gr (Real)
+# 33 -Gr (Real)
 
 Real numbers or floating point numbers.
 
-## Type
+## 33.1 -Type
 
 ```
 typedef float              Gr4;
@@ -1322,7 +1322,7 @@ typedef Gr8                Grp;
 
 Pointer sized versions of integer and natural.
 
-## Constant
+## 33.2 -Constant
 
 ```
 #define GrMAX                 Gr8MAX
@@ -1337,7 +1337,7 @@ Pointer sized versions of integer and natural.
 
 The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.
 
-# Grandom
+# 34 -Grandom
 
 Random number generator.  This is not my code but found on the internet.  Not cryptographically random.
 
@@ -1396,7 +1396,7 @@ Random number generator.  This is not my code but found on the internet.  Not cr
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove spaces)
 ```
 
-## Type
+## 34.1 -Type
 
 ```
 typedef struct
@@ -1407,7 +1407,7 @@ typedef struct
 } Grandom;
 ```
 
-## Function
+## 34.2 -Function
 
 ```
 void grandomCreateContent(Grandom * const r, Gn8 const seed);
@@ -1451,19 +1451,19 @@ Gr grandomGetROpen(Grandom * const r);
 
 Get a real random number between (0, 1).
 
-# Gsize
+# 35 -Gsize
 
 A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
 
 Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
-## Type
+## 35.1 -Type
 
 ```
 typedef Gi4                Gsize;
 ```
 
-## Constant
+## 35.2 -Constant
 
 ```
 #define GsizeMAX              Gi4MAX
@@ -1471,7 +1471,7 @@ typedef Gi4                Gsize;
 
 The limit constants for these types.
 
-## Function
+## 35.3 -Function
 
 ```
 #define gsizeIsGood(S)     (0 <= (S))
@@ -1479,9 +1479,9 @@ The limit constants for these types.
 
 IsGood check for a gsize.
 
-# Gsize
+# 36 -Gsize
 
-## Function
+## 36.1 -Function
 
 ```
 grlAPI Gp *gswap2(Gp *value);
@@ -1491,9 +1491,9 @@ grlAPI Gp *gswap8(Gp *value);
 
 Byte swapping from Big Endian to Little Endian or vice versa for 2, 4, or 8 Byte values.
 
-# Gtime
+# 37 -Gtime
 
-## Type
+## 37.1 -Type
 
 ```
 #define Gtime time_t
@@ -1501,7 +1501,7 @@ Byte swapping from Big Endian to Little Endian or vice versa for 2, 4, or 8 Byte
 
 Using built in 64 bit time routines.
 
-## Function
+## 37.2 -Function
 
 ```
 grlAPI Gtime gtimeGet(         void);
@@ -1521,11 +1521,11 @@ grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightS
 
 Get the GMT time value from the time structure.
 
-# Gtrace
+# 38 -Gtrace
 
 Code for recording the program execution to a file.  This code is thread safe.
 
-## Constant
+## 38.1 -Constant
 
 ```
 typedef enum
@@ -1541,7 +1541,7 @@ typedef enum
 
 The level of verbosity you want to record to the trace file.  The more you write out the slower your program will perform.
 
-## Function
+## 38.2 -Function
 
 ```
 grlAPI Gb      gtraceEnter(     void);
@@ -1568,11 +1568,11 @@ grlAPI void    gtraceStop(      void);
 
 Should be called at the end of the program execution.
 
-# Gv, GvType
+# 39 -Gv, GvType
 
 Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.
 
-## Type
+## 39.1 -Type
 
 ```
 typedef enum
@@ -1605,7 +1605,7 @@ typedef struct
 
 Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.
 
-## Function
+## 39.2 -Function
 
 ```
 grlAPI Gcompare    gpCompare(       Gp const * const valueA, Gp const * const valueB);
@@ -1668,11 +1668,11 @@ grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
 
 Set the value of a Gv structure.
 
-# Gvp
+# 40 -Gvp
 
 Generic value structure.  This is assuming, when you use this structure you know what is stored inside.
 
-## Type
+## 40.1 -Type
 
 ```
 typedef union
@@ -1686,11 +1686,11 @@ typedef union
 
 Generic value structure.  This is assuming, when you use this structure you know what is stored inside.
 
-# G*Func
+# 41 -G*Func
 
 Various function types for callbacks.
 
-## Type
+## 41.1 -Type
 
 ```
 typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);

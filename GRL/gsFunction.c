@@ -385,8 +385,9 @@ grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const star
    greturnNullIf(
       !str        ||
       !value      ||
-      start > end ||
-      end   == 0);
+      start > end);
+
+   greturnIf(end == 0, str);
 
    // fix bad input.
    startTemp = gMIN(gsGetCount(value), start);//lint !e666
