@@ -937,7 +937,7 @@ grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
 <pre class="zdoc">
 grlAPI void  gmemDestroy(     Gp        * const p);
 </pre>
-<p class="zdoc">Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with memCreate, malloc, or calloc calls.</p>
+<p class="zdoc">Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with  memCreate, malloc, or calloc calls.</p>
 <pre class="zdoc">
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
 #define gmemIsEqualType(         PA, PB, TYPE)                                   (memcmp((PA), (PB), sizeof(TYPE))      == 0)
@@ -1276,12 +1276,12 @@ grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightS
 <pre class="zdoc">
 typedef enum
 {
-	gtraceLevelNONE       = 0x00000000,
-	gtraceLevelALL        = 0xffffffffU,
-	gtraceLevelENTER_EXIT = 0x10000000,
-	gtraceLevelNOTICE     = 0x20000000,
-	gtraceLevelWARNING    = 0x40000000,
-	gtraceLevelERROR      = 0x80000000U
+   gtraceLevelNONE       = 0x00000000,
+   gtraceLevelALL        = 0xffffffffU,
+   gtraceLevelENTER_EXIT = 0x10000000,
+   gtraceLevelNOTICE     = 0x20000000,
+   gtraceLevelWARNING    = 0x40000000,
+   gtraceLevelERROR      = 0x80000000U
 } GtraceLevel;
 </pre>
 <p class="zdoc">The level of verbosity you want to record to the trace file.  The more you write out the slower your program will perform.</p>
@@ -1313,29 +1313,29 @@ grlAPI void    gtraceStop(      void);
 <pre class="zdoc">
 typedef enum
 {
-	gvTypeNONE,
+   gvTypeNONE,
 
-	gvTypeI,
-	gvTypeN,
-	gvTypeP,
-	gvTypeR,
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
 
-	gvTypeS,
+   gvTypeS,
 
-	gvTypeCOUNT
+   gvTypeCOUNT
 } GvType;
 
 typedef struct
 {
-	GvType       type;
-	union
-	{
-	   Gip          i;
-	   Gnp          n;
-	   Gp          *p;
-	   Grp          r;
-	   Gs          *s;
-	}            value;
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
 } Gv; //lint !e960 !e9018
 </pre>
 <p class="zdoc">Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.</p>
@@ -1397,10 +1397,10 @@ grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
 <pre class="zdoc">
 typedef union
 {
-	Gip             i;
-	Gnp             n;
-	Gp             *p;
-	Grp             r;
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
 } Gvp;
 </pre>
 <p class="zdoc">Generic value structure.  This is assuming, when you use this structure you know what is stored inside.</p>

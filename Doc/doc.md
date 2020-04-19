@@ -1124,7 +1124,7 @@ gleak tracking is only done in debug builds.
 grlAPI void  gmemDestroy(     Gp        * const p);
 ```
 
-Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with memCreate, malloc, or calloc calls.
+Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with  memCreate, malloc, or calloc calls.
 
 ```
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
@@ -1530,12 +1530,12 @@ Code for recording the program execution to a file.  This code is thread safe.
 ```
 typedef enum
 {
-	gtraceLevelNONE       = 0x00000000,
-	gtraceLevelALL        = 0xffffffffU,
-	gtraceLevelENTER_EXIT = 0x10000000,
-	gtraceLevelNOTICE     = 0x20000000,
-	gtraceLevelWARNING    = 0x40000000,
-	gtraceLevelERROR      = 0x80000000U
+   gtraceLevelNONE       = 0x00000000,
+   gtraceLevelALL        = 0xffffffffU,
+   gtraceLevelENTER_EXIT = 0x10000000,
+   gtraceLevelNOTICE     = 0x20000000,
+   gtraceLevelWARNING    = 0x40000000,
+   gtraceLevelERROR      = 0x80000000U
 } GtraceLevel;
 ```
 
@@ -1577,29 +1577,29 @@ Gv is more involved than Gvp.  I was using this as variable storage in a scripti
 ```
 typedef enum
 {
-	gvTypeNONE,
+   gvTypeNONE,
 
-	gvTypeI,
-	gvTypeN,
-	gvTypeP,
-	gvTypeR,
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
 
-	gvTypeS,
+   gvTypeS,
 
-	gvTypeCOUNT
+   gvTypeCOUNT
 } GvType;
 
 typedef struct
 {
-	GvType       type;
-	union
-	{
-	   Gip          i;
-	   Gnp          n;
-	   Gp          *p;
-	   Grp          r;
-	   Gs          *s;
-	}            value;
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
 } Gv; //lint !e960 !e9018
 ```
 
@@ -1677,10 +1677,10 @@ Generic value structure.  This is assuming, when you use this structure you know
 ```
 typedef union
 {
-	Gip             i;
-	Gnp             n;
-	Gp             *p;
-	Grp             r;
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
 } Gvp;
 ```
 

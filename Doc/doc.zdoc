@@ -15,15 +15,10 @@ toc
 **	History
 
 	I joined a company back in 1995 that created software for Sun OS, Sun Solaris, SGI Irix, and Window NT 3.XX. In order for them to do that they used a cross platform library called Galaxy which was owned by a company called Visix. A little time after Java came on to the scene and a Visix thought that was going to be the future of cross platform development. They let Galaxy stagnate and focused on a Java product they developed. Moving on a few years the Java product did not sell well (I believe, no facts to back it up) and their bread and butter clients using Galaxy were moving on as their products were becoming stagnant because Galaxy was not keeping up with the times. Visix just decided to pack up and quit.
-
 	Galaxy is now owned by a Brazilian company called Ambiencia which appeared to have no interest in supporting any of the existing clients (without the clients to pay for yet another round of licensing to them even though a lot already paid a lot to Visix) and so essentially killed any  chance for Galaxy to move on. It is still around but no one should use it anymore in my opinion.  QT, Microsoft's WPF, Xamarin, and others have surpassed Galaxy.
-
 	QT did exist at the same time when the company was looking for a cross platform library but it was very small back then and not as complete as Galaxy was. Plus C++ compilers back then were not the same quality from platform to platform. Also the developers the company had already, mostly FORTRAN programmers, would have a harder jump to C++ than to C.  Or at least that was the feeling at the time.
-
 	This left us in a bit of a lurch. So on a whim, back in and around 2000, I started to make a kitchen sink library to replace Galaxy on my own time at home, in the hopes it would be adopted by the company. It never was.  They opted to move to C++ and its standard library instead. However, I use this library in my hobby coding so I still continue with the development of the library.  This library has gone through a couple of iterations as I was playing with a few ideas which some just did not work out.
-
 	Why not just wrap C++ stdlib for this work instead of writing everything again in C?  That is also an option when doing something like this.  I did not do it that way because I am not a big fan of C++.  I also like control.  I want to be able to tweak the implementation and not leave it in someone else's hands.  Yeah, yeah, reinventing the wheel.  But sometimes it is necessary to be happy.
-
 	Initially GRL stood for "Galaxy Replacement Library" but since it was not going to be doing that in reality, I just decided to rebrand it (de) "Groot's Runtime Library".  For the longest time I wanted to hopefully make money of this code but in my opinion that time has long since past.  So I decided to make it free for use.
 
 **	License
@@ -78,7 +73,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	Find the appropriate solution for you and compile.
 
 	The library compiles to a static library instead of a DLL or shared library.  If you want a DLL or shared libary then you will have to do the work yourself.  I like to keep my life simple and just use static libraries as there is less pain involved when it comes time to release.
-
 	When you build the library you will need to provide some compile time defines.
 
 =[
@@ -94,7 +88,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***	 GCHECK_MEMORY_IS_ON
 
 	Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call a check on the sanity of the heap to be done.  On Windows this is a CRT function call.
-
 	You would use this if you are experiencing heap corruption and wanting to find out who might be corrupting the heap or at least narrow it down to when the Heap was good to when it became bad in an effort to narrow down your search.
 
 ***	 GMEM_INCLUDES_TYPE_STRING
@@ -133,7 +126,6 @@ if (!grlStart())
 ]]
 
 	grlStart() will set up internal states of the library.  Failure to do this will cause problems.
-
 	At your program exit you should call...
 
 [	grlStop();
@@ -143,7 +135,6 @@ if (!grlStart())
 *	Style
 
 	I use a particular style with GRL and my own coding.  With this style is makes identifying what something is fairly easily.
-
 	Naming convention being used.
 
 [[
@@ -165,23 +156,14 @@ Varaible:        variableName
 ]]
 
 	prefix being a string that identifies what part of the code it belongs to.  like glist for linked lists for example.
-
 	The capitalization is important.  I dislike the use of '_' because I find it annoying to type so I heavily use CamelCasing to differentiate the words in a name. Starting letter may or may not be capitalized and it is specific to usage.
-
 	The idea is that by just by looking at a name of something you should be able to tell the scope of what you are looking at without having to find our where it was actually defined.
-
 	Also on a little of the OCD side, I organize the C files so that I have sections, in order, includes, constants, types, variables, local function prototypes, global function definitions, local function definitions.  Simlar H files are ordered, includes (if needed), constants, types, and glocal function prototypes.
-
 	Indents are 3.
-
 	I line up =, logic ops, parameters on mulitple lines, etc.
-
 	I never have an assignment in a conditional, which means I write x == 0 instead of 0 == x.
-
 	Logic statements have the logic op at the end (not at the beginning) using reverse indentation.
-
 	Code is paragraphed.
-
 	etc.
 
 
@@ -328,7 +310,6 @@ Varaible:        variableName
 ]]
 
 	I have always wanted a way to add common code to the entry of the function and to the exit of a function.  Unfortunately there is no nice way to do this.  So all the higher level code that I write includes a genter and greturn macroes.  This way I can do what I want on entry and exit.
-
 	Things I have tried:
 
 =[
@@ -369,13 +350,11 @@ Varaible:        variableName
 *	API
 
 	Like a lot of C libraries I have defined my own types just to address the problem that C's base integer types are not strictly of a certain size.  Or there are missing types like boolean.
-
 	Granted newer updates to C have tried to rectify the situation but maybe a little too late.  Plus I dislike typeing '_' but will use it only for constants for historical reasons.  So all the new types like wchar_t, int16_t, etc.  God I hate that '_'.  It slows down typing in my opinion and does not really improve readability in my opinion.
-
 	Also other API that do not include a specific type but more a module for some purpose.
 
 *	Grl
-	
+
 	Library level calls.  Mainly to set up the library before use.
 
 **	Function
@@ -514,7 +493,6 @@ typedef enum
 *	Gcount
 
 	A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
-
 	Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
 **	Type
@@ -695,7 +673,6 @@ typedef int64_t            Gi8;
 *	Gindex
 
 	A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
-
 	Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
 **	Type
@@ -744,9 +721,7 @@ typedef struct
 *	Gleak
 
 	No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is used by gmem for dynamic memory leak tracking.
-
 	Internally gleak code maintains a hash table of leak records.  The hash table is organized as bins of linked lists of leak records.  This is reasonably fast in debug.  If not, you may need to tweak the hash table size to reduce linked list lengths.
-
 	gleak is completely disabled in release builds.
 
 **	Function
@@ -757,7 +732,6 @@ grlAPI Gp  *gleakCreate_(   Gp * const p, Gsize const size, Char const * const f
 ]]
 
 	You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite any previous leak record.
-  
 	Create a leak record.  If this leak record is not destroyed it will be reported at grlStop().  A leak record includes the file and location in the file where the leak occurred.  You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite any previous leak record.
 
 [[
@@ -777,7 +751,6 @@ grlAPI Gb   gleakLockExit(  void);
 *	Glock
 
 	Critical Section lock routines.
-
 	<strong>Example Use:</strong>
 
 [[
@@ -835,7 +808,6 @@ typedef CRITICAL_SECTION Glock;
 [	grlAPI void       glockEnter(            Glock * const lock);
 
 	Enter a critical section.
-
 	Code will stop here until the lock is obtained.
 
 [	grlAPI void       glockExit(             Glock * const lock);
@@ -845,11 +817,8 @@ typedef CRITICAL_SECTION Glock;
 *	Gmem
 
 	Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.
-
 	In both debug and release, dynamic memory buffers that are 'small' are pooled.  Meaning, if you create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when 'destroyed' will just be kept around in a pool of buffers that are 80 bytes in size.  When the next time the program asks for an 80 byte buffer, the first available buffer from the pool is used.
-
 	Why are we doing this?  Dynamic memory creation and destruction can be slow.  Often causing a kernel call which basically locks the system down in order to perform the operation.  If we can avoid these calls as much as possible then the speed of the program will be greatly improved.  At the cost of using some more memory that is.  Reusing a previously allocated buffer is a lot quicker than having to free it and then recreate it.
-
 	Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool flushing but for now this is the responsibility of the programmer.
 
 **	Function
@@ -861,7 +830,6 @@ typedef CRITICAL_SECTION Glock;
 ]]
 
 	Simple wrappers around standard C dynamic memory creation functions.  Not gleak tracked.
-
 	CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors when writing out dynamic memory creation calls.
 
 [	#define memDestroy(              P)                                              free((Gp *) (P))
@@ -879,11 +847,8 @@ grlAPI void  gmemClearAt(     Gp         * const p,    Gcount const byteCount, G
 ]]
 
 	Given a pointer to a buffer, zero out its memroy.
-
 	<strong>Type</strong> will specify the size of memory to zero out.
-
 	<strong>At</strong> will indicate where inside an array of types to zero out.
-
 	<strong>Array</strong> will indicate we will be zeroing out an array of types.
 
 [	#define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
@@ -911,15 +876,12 @@ grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
 ]]
 
 	Create a new dynamic memory buffer.
-
 	CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors when writing out dynamic memory creation calls.
-
 	gleak tracking is only done in debug builds.
 
 [	grlAPI void  gmemDestroy(     Gp        * const p);
 
-	Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with
-  memCreate, malloc, or calloc calls.
+	Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with  memCreate, malloc, or calloc calls.
 
 [[
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
@@ -938,8 +900,7 @@ grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
 grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
 ]]
 
-	Set the values of the bytes in a buffer.  Defaced will set the values to things like 
-  0xFEEDFACE, 0xDEADBEEF, etc.
+	Set the values of the bytes in a buffer.  Defaced will set the values to things like 0xFEEDFACE, 0xDEADBEEF, etc.
 
 *	Gn (Natural and 0)
 
@@ -955,7 +916,6 @@ typedef uint64_t           Gn8;
 ]]
 
 	Or in other words, unsigned integers.
-
 	As you can see I am using the stdint types.  I believe when I was starting out with GRL it was not really common yet and I was using standard C types.  I could be wrong.  But like any other library, I define my own types based on memory size.  Instead of bits I use byte count.
 
 [	typedef Gn8                Gn;
@@ -988,7 +948,6 @@ typedef uint64_t           Gn8;
 *	Goffset
 
 	A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
-
 	Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
 **	Type
@@ -1076,7 +1035,6 @@ typedef enum
 *	Gprofile
 
 	Code to profile your program.  Unfortunately this code is not thread safe and you probably are better off using an actual profiler.
-
 	To use, you only need to set the compiler flag GPROFILE_IS_ON to 1 and recompile.  The program will print out a report on the function times when the program exits.  If the program crashes then no report is written out.
 
 *	Gr (Real)
@@ -1218,7 +1176,6 @@ typedef struct
 *	Gsize
 
 	A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.
-
 	Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.
 
 **	Type
@@ -1280,12 +1237,12 @@ grlAPI Gp *gswap8(Gp *value);
 [[
 typedef enum
 {
-	gtraceLevelNONE       = 0x00000000,
-	gtraceLevelALL        = 0xffffffffU,
-	gtraceLevelENTER_EXIT = 0x10000000,
-	gtraceLevelNOTICE     = 0x20000000,
-	gtraceLevelWARNING    = 0x40000000,
-	gtraceLevelERROR      = 0x80000000U
+   gtraceLevelNONE       = 0x00000000,
+   gtraceLevelALL        = 0xffffffffU,
+   gtraceLevelENTER_EXIT = 0x10000000,
+   gtraceLevelNOTICE     = 0x20000000,
+   gtraceLevelWARNING    = 0x40000000,
+   gtraceLevelERROR      = 0x80000000U
 } GtraceLevel;
 ]]
 
@@ -1321,29 +1278,29 @@ grlAPI void    gtraceExit(      void);
 [[
 typedef enum
 {
-	gvTypeNONE,
+   gvTypeNONE,
 
-	gvTypeI,
-	gvTypeN,
-	gvTypeP,
-	gvTypeR,
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
 
-	gvTypeS,
+   gvTypeS,
 
-	gvTypeCOUNT
+   gvTypeCOUNT
 } GvType;
 
 typedef struct
 {
-	GvType       type;
-	union
-	{
-	   Gip          i;
-	   Gnp          n;
-	   Gp          *p;
-	   Grp          r;
-	   Gs          *s;
-	}            value;
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
 } Gv; //lint !e960 !e9018
 ]]
 
@@ -1421,10 +1378,10 @@ grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
 [[
 typedef union
 {
-	Gip             i;
-	Gnp             n;
-	Gp             *p;
-	Grp             r;
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
 } Gvp;
 ]]
 
