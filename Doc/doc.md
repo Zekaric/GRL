@@ -4,119 +4,119 @@
 This doc is in development so it will change quite a lot from update to update.  I am using Visual Studio for editing the doc.  Tabs are 4 but indents are 1 and spaces instead of tabs.
 
 # Table Of Contenst:
-**1 -About G.R.L.**
- 1.1 -Description
- 1.2 -History
- 1.3 -License
- 1.4 -Goals
-**2 -How to compile GRL library**
- 2.1 -g_config.h
-  2.1.1 - GCHECK_MEMORY_IS_ON
-  2.1.2 - GMEM_INCLUDES_TYPE_STRING
-  2.1.3 - GTRACE_IS_ON
-**3 -How to compile with GRL library**
-**4 -How to use GRL library**
-**5 -Style**
-**6 -Macroes**
- 6.1 -breakIf()
- 6.2 -continueIf()
- 6.3 -debugHalt*()
- 6.4 -debugCheckMemory()
- 6.5 -debugPrint()
- 6.6 -for*(), loop*()
- 6.7 -gotoIf(), stopIf()
- 6.8 -return*()
- 6.9 -genter, greturn
- 6.10 -greturn*()
- 6.11 -gsizeof()
- 6.12 -gpHash()
-**7 -API**
-**8 -Grl**
- 8.1 -Function
-**9 -Char, Uchar**
- 9.1 -Type
-**10 -Galignment**
- 10.1 -Type
-**11 -Gb (Boolean)**
- 11.1 -Type
-**12 -Gbit**
- 12.1 -Type
- 12.2 -Function
-**13 -gbitArray**
- 13.1 -Function
-**14 -Gcompare**
- 14.1 -Type
-**15 -Gcount**
- 15.1 -Type
- 15.2 -Constant
- 15.3 -Function
-**16 -Gguid**
- 16.1 -Type
- 16.2 -Function
-**17 -GhashN**
- 17.1 -Type
-**18 -GheapN**
- 18.1 -Type
-**19 -Gi (Integer)**
- 19.1 -Type
- 19.2 -Constant
-**20 -Gid**
- 20.1 -Type
- 20.2 -Function
-**21 -Gindex**
- 21.1 -Type
- 21.2 -Constant
- 21.3 -Function
-**22 -Gkey**
- 22.1 -Type
-**23 -GkeyP**
- 23.1 -Type
-**24 -Gleak**
- 24.1 -Function
-**25 -Glock**
- 25.1 -Type
- 25.2 -Function
-**26 -Gmem**
- 26.1 -Function
-**27 -Gn (Natural and 0)**
- 27.1 -Type
- 27.2 -Constant
-**28 -Goffset**
- 28.1 -Type
- 28.2 -Constant
-**29 -Gosversion**
- 29.1 -Constant
- 29.2 -Function
-**30 -Gp (void)**
- 30.1 -Type
-**31 -Gposition**
- 31.1 -Type
-**32 -Gprofile**
-**33 -Gr (Real)**
- 33.1 -Type
- 33.2 -Constant
-**34 -Grandom**
- 34.1 -Type
- 34.2 -Function
-**35 -Gsize**
- 35.1 -Type
- 35.2 -Constant
- 35.3 -Function
-**36 -Gsize**
- 36.1 -Function
-**37 -Gtime**
- 37.1 -Type
- 37.2 -Function
-**38 -Gtrace**
- 38.1 -Constant
- 38.2 -Function
-**39 -Gv, GvType**
- 39.1 -Type
- 39.2 -Function
-**40 -Gvp**
- 40.1 -Type
-**41 -G*Func**
- 41.1 -Type
+**1 -About G.R.L.**<br />
+ 1.1 -Description<br />
+ 1.2 -History<br />
+ 1.3 -License<br />
+ 1.4 -Goals<br />
+**2 -How to compile GRL library**<br />
+ 2.1 -g_config.h<br />
+  2.1.1 - GCHECK_MEMORY_IS_ON<br />
+  2.1.2 - GMEM_INCLUDES_TYPE_STRING<br />
+  2.1.3 - GTRACE_IS_ON<br />
+**3 -How to compile with GRL library**<br />
+**4 -How to use GRL library**<br />
+**5 -Style**<br />
+**6 -Macroes**<br />
+ 6.1 -breakIf()<br />
+ 6.2 -continueIf()<br />
+ 6.3 -debugHalt*()<br />
+ 6.4 -debugCheckMemory()<br />
+ 6.5 -debugPrint()<br />
+ 6.6 -for*(), loop*()<br />
+ 6.7 -gotoIf(), stopIf()<br />
+ 6.8 -return*()<br />
+ 6.9 -genter, greturn<br />
+ 6.10 -greturn*()<br />
+ 6.11 -gsizeof()<br />
+ 6.12 -gpHash()<br />
+**7 -API**<br />
+**8 -Grl**<br />
+ 8.1 -Function<br />
+**9 -Char, Uchar**<br />
+ 9.1 -Type<br />
+**10 -Galignment**<br />
+ 10.1 -Type<br />
+**11 -Gb (Boolean)**<br />
+ 11.1 -Type<br />
+**12 -Gbit**<br />
+ 12.1 -Type<br />
+ 12.2 -Function<br />
+**13 -gbitArray**<br />
+ 13.1 -Function<br />
+**14 -Gcompare**<br />
+ 14.1 -Type<br />
+**15 -Gcount**<br />
+ 15.1 -Type<br />
+ 15.2 -Constant<br />
+ 15.3 -Function<br />
+**16 -Gguid**<br />
+ 16.1 -Type<br />
+ 16.2 -Function<br />
+**17 -GhashN**<br />
+ 17.1 -Type<br />
+**18 -GheapN**<br />
+ 18.1 -Type<br />
+**19 -Gi (Integer)**<br />
+ 19.1 -Type<br />
+ 19.2 -Constant<br />
+**20 -Gid**<br />
+ 20.1 -Type<br />
+ 20.2 -Function<br />
+**21 -Gindex**<br />
+ 21.1 -Type<br />
+ 21.2 -Constant<br />
+ 21.3 -Function<br />
+**22 -Gkey**<br />
+ 22.1 -Type<br />
+**23 -GkeyP**<br />
+ 23.1 -Type<br />
+**24 -Gleak**<br />
+ 24.1 -Function<br />
+**25 -Glock**<br />
+ 25.1 -Type<br />
+ 25.2 -Function<br />
+**26 -Gmem**<br />
+ 26.1 -Function<br />
+**27 -Gn (Natural and 0)**<br />
+ 27.1 -Type<br />
+ 27.2 -Constant<br />
+**28 -Goffset**<br />
+ 28.1 -Type<br />
+ 28.2 -Constant<br />
+**29 -Gosversion**<br />
+ 29.1 -Constant<br />
+ 29.2 -Function<br />
+**30 -Gp (void)**<br />
+ 30.1 -Type<br />
+**31 -Gposition**<br />
+ 31.1 -Type<br />
+**32 -Gprofile**<br />
+**33 -Gr (Real)**<br />
+ 33.1 -Type<br />
+ 33.2 -Constant<br />
+**34 -Grandom**<br />
+ 34.1 -Type<br />
+ 34.2 -Function<br />
+**35 -Gsize**<br />
+ 35.1 -Type<br />
+ 35.2 -Constant<br />
+ 35.3 -Function<br />
+**36 -Gsize**<br />
+ 36.1 -Function<br />
+**37 -Gtime**<br />
+ 37.1 -Type<br />
+ 37.2 -Function<br />
+**38 -Gtrace**<br />
+ 38.1 -Constant<br />
+ 38.2 -Function<br />
+**39 -Gv, GvType**<br />
+ 39.1 -Type<br />
+ 39.2 -Function<br />
+**40 -Gvp**<br />
+ 40.1 -Type<br />
+**41 -G*Func**<br />
+ 41.1 -Type<br />
 
 # 1 -About G.R.L.
 
