@@ -118,6 +118,7 @@
 <p class="zdoc_toc2"><a href="#38_1">Function</a></p>
 <p class="zdoc_toc1"><a href="#39">Gtime</a></p>
 <p class="zdoc_toc2"><a href="#39_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#39_2">Function</a></p>
 <p class="zdoc_toc1"><a href="#40">Gtrace</a></p>
 <p class="zdoc_toc2"><a href="#40_1">Constant</a></p>
 <p class="zdoc_toc2"><a href="#40_2">Function</a></p>
@@ -859,10 +860,22 @@ typedef CRITICAL_SECTION Glock;
 <p class="zdoc">Currently only Windows defined.  I haven't started on any other platforms.</p>
 
 <h2 class="zdoc"><a name="27_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI void       glockCreateContent(    Glock * const lock);
+</pre>
 <p class="zdoc">Initializes a lock.</p>
+<pre class="zdoc">
+grlAPI void       glockDestroyContent(   Glock * const lock);
+</pre>
 <p class="zdoc">Clean up a lock.</p>
+<pre class="zdoc">
+grlAPI void       glockEnter(            Glock * const lock);
+</pre>
 <p class="zdoc">Enter a critical section.</p>
 <p class="zdoc">Code will stop here until the lock is obtained.</p>
+<pre class="zdoc">
+grlAPI void       glockExit(             Glock * const lock);
+</pre>
 <p class="zdoc">Exit a critical section.</p>
 
 
@@ -1240,7 +1253,8 @@ grlAPI Gp *gswap8(Gp *value);
 #define Gtime time_t
 </pre>
 <p class="zdoc">Using built in 64 bit time routines.</p>
-<p class="zdoc">**	Function</p>
+
+<h2 class="zdoc"><a name="39_2">Function</a></h2>
 <pre class="zdoc">
 grlAPI Gtime gtimeGet(         void);
 </pre>
@@ -1262,12 +1276,12 @@ grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightS
 <pre class="zdoc">
 typedef enum
 {
-   gtraceLevelNONE       = 0x00000000,
-   gtraceLevelALL        = 0xffffffffU,
-   gtraceLevelENTER_EXIT = 0x10000000,
-   gtraceLevelNOTICE     = 0x20000000,
-   gtraceLevelWARNING    = 0x40000000,
-   gtraceLevelERROR      = 0x80000000U
+	gtraceLevelNONE       = 0x00000000,
+	gtraceLevelALL        = 0xffffffffU,
+	gtraceLevelENTER_EXIT = 0x10000000,
+	gtraceLevelNOTICE     = 0x20000000,
+	gtraceLevelWARNING    = 0x40000000,
+	gtraceLevelERROR      = 0x80000000U
 } GtraceLevel;
 </pre>
 <p class="zdoc">The level of verbosity you want to record to the trace file.  The more you write out the slower your program will perform.</p>
@@ -1299,29 +1313,29 @@ grlAPI void    gtraceStop(      void);
 <pre class="zdoc">
 typedef enum
 {
-   gvTypeNONE,
+	gvTypeNONE,
 
-   gvTypeI,
-   gvTypeN,
-   gvTypeP,
-   gvTypeR,
+	gvTypeI,
+	gvTypeN,
+	gvTypeP,
+	gvTypeR,
 
-   gvTypeS,
+	gvTypeS,
 
-   gvTypeCOUNT
+	gvTypeCOUNT
 } GvType;
 
 typedef struct
 {
-   GvType       type;
-   union
-   {
-      Gip          i;
-      Gnp          n;
-      Gp          *p;
-      Grp          r;
-      Gs          *s;
-   }            value;
+	GvType       type;
+	union
+	{
+	   Gip          i;
+	   Gnp          n;
+	   Gp          *p;
+	   Grp          r;
+	   Gs          *s;
+	}            value;
 } Gv; //lint !e960 !e9018
 </pre>
 <p class="zdoc">Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.</p>
@@ -1383,10 +1397,10 @@ grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
 <pre class="zdoc">
 typedef union
 {
-   Gip             i;
-   Gnp             n;
-   Gp             *p;
-   Grp             r;
+	Gip             i;
+	Gnp             n;
+	Gp             *p;
+	Grp             r;
 } Gvp;
 </pre>
 <p class="zdoc">Generic value structure.  This is assuming, when you use this structure you know what is stored inside.</p>

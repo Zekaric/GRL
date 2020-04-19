@@ -106,6 +106,7 @@ This doc is in development so it will change quite a lot from update to update. 
  Function
 **Gtime**
  Type
+ Function
 **Gtrace**
  Constant
  Function
@@ -1015,13 +1016,29 @@ Currently only Windows defined.  I haven't started on any other platforms.
 
 ## Function
 
+```
+grlAPI void       glockCreateContent(    Glock * const lock);
+```
+
 Initializes a lock.
 
+```
+grlAPI void       glockDestroyContent(   Glock * const lock);
+```
+
 Clean up a lock.
+
+```
+grlAPI void       glockEnter(            Glock * const lock);
+```
 
 Enter a critical section.
 
 Code will stop here until the lock is obtained.
+
+```
+grlAPI void       glockExit(             Glock * const lock);
+```
 
 Exit a critical section.
 
@@ -1484,7 +1501,7 @@ Byte swapping from Big Endian to Little Endian or vice versa for 2, 4, or 8 Byte
 
 Using built in 64 bit time routines.
 
-**	Function
+## Function
 
 ```
 grlAPI Gtime gtimeGet(         void);
@@ -1513,12 +1530,12 @@ Code for recording the program execution to a file.  This code is thread safe.
 ```
 typedef enum
 {
-   gtraceLevelNONE       = 0x00000000,
-   gtraceLevelALL        = 0xffffffffU,
-   gtraceLevelENTER_EXIT = 0x10000000,
-   gtraceLevelNOTICE     = 0x20000000,
-   gtraceLevelWARNING    = 0x40000000,
-   gtraceLevelERROR      = 0x80000000U
+	gtraceLevelNONE       = 0x00000000,
+	gtraceLevelALL        = 0xffffffffU,
+	gtraceLevelENTER_EXIT = 0x10000000,
+	gtraceLevelNOTICE     = 0x20000000,
+	gtraceLevelWARNING    = 0x40000000,
+	gtraceLevelERROR      = 0x80000000U
 } GtraceLevel;
 ```
 
@@ -1560,29 +1577,29 @@ Gv is more involved than Gvp.  I was using this as variable storage in a scripti
 ```
 typedef enum
 {
-   gvTypeNONE,
+	gvTypeNONE,
 
-   gvTypeI,
-   gvTypeN,
-   gvTypeP,
-   gvTypeR,
+	gvTypeI,
+	gvTypeN,
+	gvTypeP,
+	gvTypeR,
 
-   gvTypeS,
+	gvTypeS,
 
-   gvTypeCOUNT
+	gvTypeCOUNT
 } GvType;
 
 typedef struct
 {
-   GvType       type;
-   union
-   {
-      Gip          i;
-      Gnp          n;
-      Gp          *p;
-      Grp          r;
-      Gs          *s;
-   }            value;
+	GvType       type;
+	union
+	{
+	   Gip          i;
+	   Gnp          n;
+	   Gp          *p;
+	   Grp          r;
+	   Gs          *s;
+	}            value;
 } Gv; //lint !e960 !e9018
 ```
 
@@ -1660,10 +1677,10 @@ Generic value structure.  This is assuming, when you use this structure you know
 ```
 typedef union
 {
-   Gip             i;
-   Gnp             n;
-   Gp             *p;
-   Grp             r;
+	Gip             i;
+	Gnp             n;
+	Gp             *p;
+	Grp             r;
 } Gvp;
 ```
 
