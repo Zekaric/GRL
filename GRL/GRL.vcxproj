@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gfilePref.h" />
     <ClInclude Include="gfileRat.h" />
     <ClInclude Include="gb.h" />
     <ClInclude Include="gbit.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="precompiled.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gfilePref.c" />
     <ClCompile Include="gfileRat.c" />
     <ClCompile Include="gbit.c" />
     <ClCompile Include="gc.c" />

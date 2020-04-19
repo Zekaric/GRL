@@ -919,6 +919,13 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
    // Get the isDeleted flag.
    row->isDeleted = rat->rowBuffer[rat->dataByteCount] == 'T';
 
+   // If the row is deleted then no point in reading the rest of the row.
+   if (row->isDeleted)
+   {
+      gindexArrayAddEnd(rat->isDeletedRowArray, &rowIndex);
+      greturn gbTRUE;
+   }
+
    // Get the data version.
    row->version = _VersionFromN1(&(rat->rowBuffer[rat->dataByteCount + 1]));
 

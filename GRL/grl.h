@@ -175,7 +175,8 @@ include:
 #include "gdir.h"             // depends on gpath
 #include "gfile.h"            // depends on gc gs gpath
 
-#include "gfilerat.h"         // depends on gpath, gfile
+#include "gfilePref.h"        // depends on gfile
+#include "gfileRat.h"         // depends on gfile
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //

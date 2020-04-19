@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+ <head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="style_reset.css">
+  <link rel="stylesheet" type="text/css" href="style_zdoc.css">
+  <title>G.R.L.: Groot's Runtime Library</title>
+ </head>
+
+ <body class="zdoc">
+
+
+<h1 class="zdoc">G.R.L.: Groot's Runtime Library</h1>
+<p class="zdoc">This doc is in development so it will change quite a lot from update to update.  I am using Visual Studio for editing the doc.  Tabs are 4 but indents are 1 and spaces instead of tabs.</p>
+
+
+<h1 class="zdoc">Table Of Contenst:</h1>
+<p class="zdoc_toc1"><a href="#3">About G.R.L.</a></p>
+<p class="zdoc_toc2"><a href="#3_1">Description</a></p>
+<p class="zdoc_toc2"><a href="#3_2">History</a></p>
+<p class="zdoc_toc2"><a href="#3_3">License</a></p>
+<p class="zdoc_toc2"><a href="#3_4">Goals</a></p>
+<p class="zdoc_toc1"><a href="#4">How to compile GRL library</a></p>
+<p class="zdoc_toc2"><a href="#4_1">g_config.h</a></p>
+<p class="zdoc_toc3"><a href="#4_1_1">GCHECK_MEMORY_IS_ON</a></p>
+<p class="zdoc_toc3"><a href="#4_1_2">GMEM_INCLUDES_TYPE_STRING</a></p>
+<p class="zdoc_toc3"><a href="#4_1_3">GTRACE_IS_ON</a></p>
+<p class="zdoc_toc1"><a href="#5">How to compile with GRL library</a></p>
+<p class="zdoc_toc1"><a href="#6">How to use GRL library</a></p>
+<p class="zdoc_toc1"><a href="#7">Style</a></p>
+<p class="zdoc_toc1"><a href="#8">Macroes</a></p>
+<p class="zdoc_toc2"><a href="#8_1">breakIf()</a></p>
+<p class="zdoc_toc2"><a href="#8_2">continueIf()</a></p>
+<p class="zdoc_toc2"><a href="#8_3">debugHalt*()</a></p>
+<p class="zdoc_toc2"><a href="#8_4">debugCheckMemory()</a></p>
+<p class="zdoc_toc2"><a href="#8_5">debugPrint()</a></p>
+<p class="zdoc_toc2"><a href="#8_6">for*(), loop*()</a></p>
+<p class="zdoc_toc2"><a href="#8_7">gotoIf(), stopIf()</a></p>
+<p class="zdoc_toc2"><a href="#8_8">return*()</a></p>
+<p class="zdoc_toc2"><a href="#8_9">genter, greturn</a></p>
+<p class="zdoc_toc2"><a href="#8_10">greturn*()</a></p>
+<p class="zdoc_toc2"><a href="#8_11">gsizeof()</a></p>
+<p class="zdoc_toc2"><a href="#8_12">gpHash", "gpHash()</a></p>
+<p class="zdoc_toc1"><a href="#9">API</a></p>
+<p class="zdoc_toc1"><a href="#10">Grl</a></p>
+<p class="zdoc_toc2"><a href="#10_1">Function</a></p>
+<p class="zdoc_toc1"><a href="#11">Char, Uchar</a></p>
+<p class="zdoc_toc2"><a href="#11_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#12">Galignment</a></p>
+<p class="zdoc_toc2"><a href="#12_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#13">Gb (Boolean)</a></p>
+<p class="zdoc_toc2"><a href="#13_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#14">Gbit</a></p>
+<p class="zdoc_toc2"><a href="#14_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#14_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#15">gbitArray</a></p>
+<p class="zdoc_toc2"><a href="#15_1">Function</a></p>
+<p class="zdoc_toc1"><a href="#16">Gcompare</a></p>
+<p class="zdoc_toc2"><a href="#16_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#17">Gcount</a></p>
+<p class="zdoc_toc2"><a href="#17_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#17_2">Constant</a></p>
+<p class="zdoc_toc2"><a href="#17_3">Function</a></p>
+<p class="zdoc_toc1"><a href="#18">Gguid</a></p>
+<p class="zdoc_toc2"><a href="#18_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#18_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#19">GhashN</a></p>
+<p class="zdoc_toc2"><a href="#19_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#20">GheapN</a></p>
+<p class="zdoc_toc2"><a href="#20_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#21">Gi (Integer)</a></p>
+<p class="zdoc_toc2"><a href="#21_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#21_2">Constant</a></p>
+<p class="zdoc_toc1"><a href="#22">Gid</a></p>
+<p class="zdoc_toc2"><a href="#22_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#22_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#23">Gindex</a></p>
+<p class="zdoc_toc2"><a href="#23_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#23_2">Constant</a></p>
+<p class="zdoc_toc2"><a href="#23_3">Function</a></p>
+<p class="zdoc_toc1"><a href="#24">Gkey</a></p>
+<p class="zdoc_toc2"><a href="#24_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#25">GkeyP</a></p>
+<p class="zdoc_toc2"><a href="#25_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#26">Gleak</a></p>
+<p class="zdoc_toc2"><a href="#26_1">Function</a></p>
+<p class="zdoc_toc1"><a href="#27">Glock</a></p>
+<p class="zdoc_toc2"><a href="#27_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#27_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#28">Gmem</a></p>
+<p class="zdoc_toc2"><a href="#28_1">Function</a></p>
+<p class="zdoc_toc1"><a href="#29">Gn (Natural and 0)</a></p>
+<p class="zdoc_toc2"><a href="#29_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#29_2">Constant</a></p>
+<p class="zdoc_toc1"><a href="#30">Goffset</a></p>
+<p class="zdoc_toc2"><a href="#30_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#30_2">Constant</a></p>
+<p class="zdoc_toc1"><a href="#31">Gosversion</a></p>
+<p class="zdoc_toc2"><a href="#31_1">Constant</a></p>
+<p class="zdoc_toc2"><a href="#31_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#32">Gp (void)</a></p>
+<p class="zdoc_toc2"><a href="#32_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#33">Gposition</a></p>
+<p class="zdoc_toc2"><a href="#33_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#34">Gprofile</a></p>
+<p class="zdoc_toc1"><a href="#35">Gr (Real)</a></p>
+<p class="zdoc_toc2"><a href="#35_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#35_2">Constant</a></p>
+<p class="zdoc_toc1"><a href="#36">Grandom</a></p>
+<p class="zdoc_toc2"><a href="#36_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#36_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#37">Gsize</a></p>
+<p class="zdoc_toc2"><a href="#37_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#37_2">Constant</a></p>
+<p class="zdoc_toc2"><a href="#37_3">Function</a></p>
+<p class="zdoc_toc1"><a href="#38">Gsize</a></p>
+<p class="zdoc_toc2"><a href="#38_1">Function</a></p>
+<p class="zdoc_toc1"><a href="#39">Gtime</a></p>
+<p class="zdoc_toc2"><a href="#39_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#40">Gtrace</a></p>
+<p class="zdoc_toc2"><a href="#40_1">Constant</a></p>
+<p class="zdoc_toc2"><a href="#40_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#41">Gv, GvType</a></p>
+<p class="zdoc_toc2"><a href="#41_1">Type</a></p>
+<p class="zdoc_toc2"><a href="#41_2">Function</a></p>
+<p class="zdoc_toc1"><a href="#42">Gvp</a></p>
+<p class="zdoc_toc2"><a href="#42_1">Type</a></p>
+<p class="zdoc_toc1"><a href="#43">G*Func</a></p>
+<p class="zdoc_toc2"><a href="#43_1">Type</a></p>
+
+
+<h1 class="zdoc"><a name="3">About G.R.L.</a></h1>
+
+<h2 class="zdoc"><a name="3_1">Description</a></h2>
+<p class="zdoc">G.R.L. (Girl) is a C kitchen sink library to make development easier.</p>
+
+<h2 class="zdoc"><a name="3_2">History</a></h2>
+<p class="zdoc">I joined a company back in 1995 that created software for Sun OS, Sun Solaris, SGI Irix, and Window NT 3.XX. In order for them to do that they used a cross platform library called Galaxy which was owned by a company called Visix. A little time after Java came on to the scene and a Visix thought that was going to be the future of cross platform development. They let Galaxy stagnate and focused on a Java product they developed. Moving on a few years the Java product did not sell well (I believe, no facts to back it up) and their bread and butter clients using Galaxy were moving on as their products were becoming stagnant because Galaxy was not keeping up with the times. Visix just decided to pack up and quit.</p>
+<p class="zdoc">Galaxy is now owned by a Brazilian company called Ambiencia which appeared to have no interest in supporting any of the existing clients (without the clients to pay for yet another round of licensing to them even though a lot already paid a lot to Visix) and so essentially killed any  chance for Galaxy to move on. It is still around but no one should use it anymore in my opinion.  QT, Microsoft's WPF, Xamarin, and others have surpassed Galaxy.</p>
+<p class="zdoc">QT did exist at the same time when the company was looking for a cross platform library but it was very small back then and not as complete as Galaxy was. Plus C++ compilers back then were not the same quality from platform to platform. Also the developers the company had already, mostly FORTRAN programmers, would have a harder jump to C++ than to C.  Or at least that was the feeling at the time.</p>
+<p class="zdoc">This left us in a bit of a lurch. So on a whim, back in and around 2000, I started to make a kitchen sink library to replace Galaxy on my own time at home, in the hopes it would be adopted by the company. It never was.  They opted to move to C++ and its standard library instead. However, I use this library in my hobby coding so I still continue with the development of the library.  This library has gone through a couple of iterations as I was playing with a few ideas which some just did not work out.</p>
+<p class="zdoc">Why not just wrap C++ stdlib for this work instead of writing everything again in C?  That is also an option when doing something like this.  I did not do it that way because I am not a big fan of C++.  I also like control.  I want to be able to tweak the implementation and not leave it in someone else's hands.  Yeah, yeah, reinventing the wheel.  But sometimes it is necessary to be happy.</p>
+<p class="zdoc">Initially GRL stood for "Galaxy Replacement Library" but since it was not going to be doing that in reality, I just decided to rebrand it (de) "Groot's Runtime Library".  For the longest time I wanted to hopefully make money of this code but in my opinion that time has long since past.  So I decided to make it free for use.</p>
+
+<h2 class="zdoc"><a name="3_3">License</a></h2>
+<pre class="zdoc">
+BSD 2-Clause License
+
+Copyright (c) 2000, Robbert de Groot
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</pre>
+
+<h2 class="zdoc"><a name="3_4">Goals</a></h2>
+<ul class="zdoc">
+<li class="zdoc">Kitchen sink library.  It should do 'almost' everything you need for development.</li>
+<li class="zdoc">Simplify API.  Some tasks networking with socket IO I find has an odd API or unknown gotchas that you will only find out once you hit them or have carefully read the fine detail in the documentation.  I would like to get rid of as much of those gotchas as possible.</li>
+<li class="zdoc">Cross platform.  Currently failing here because I am only adding to the library when the need arrises.  OSX and *NIX OSes will eventually come but currently, I spend most of my life in  WINDOWS.</li>
+<li class="zdoc">Performance.  The library should not really slow you down in terms of coding or in terms of run time.  There are always going to be some compromises but for the most part it should be out of the way and not causing grief.</li>
+</ul>
+
+
+<h1 class="zdoc"><a name="4">How to compile GRL library</a></h1>
+<p class="zdoc">I do not use helpers like CMake.  Mainly because I have not found one that is not annoying to me on some way.  So with this project there will be a...</p>
+<ul class="zdoc">
+<li class="zdoc">Visual Studio project(s) for a Windows compile.</li>
+<li class="zdoc">XCode project for OSX compiles (once done)</li>
+<li class="zdoc">Make file(s) or whatever for *NIX compiles (once done)</li>
+</ul>
+<p class="zdoc">Find the appropriate solution for you and compile.</p>
+<p class="zdoc">The library compiles to a static library instead of a DLL or shared library.  If you want a DLL or shared libary then you will have to do the work yourself.  I like to keep my life simple and just use static libraries as there is less pain involved when it comes time to release.</p>
+<p class="zdoc">When you build the library you will need to provide some compile time defines.</p>
+<ul class="zdoc">
+<li class="zdoc"><strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform code is compiled for the libary.</li>
+<li class="zdoc"><strong>grl32 or grl64</strong>, needs to be defined so that the proper architecture code is compiled for the library.</li>
+<li class="zdoc"><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
+</ul>
+
+<h2 class="zdoc"><a name="4_1">g_config.h</a></h2>
+<p class="zdoc">In the source file g_config.h there are some flags at the top that you may wish to set for different code to be compiled in.</p>
+
+<h3 class="zdoc"><a name="4_1_1">GCHECK_MEMORY_IS_ON</a></h3>
+<p class="zdoc">Set this to 1 if you want at every dynamic memory (gmemCreate and gmemDestroy and related) call a check on the sanity of the heap to be done.  On Windows this is a CRT function call.</p>
+<p class="zdoc">You would use this if you are experiencing heap corruption and wanting to find out who might be corrupting the heap or at least narrow it down to when the Heap was good to when it became bad in an effort to narrow down your search.</p>
+
+<h3 class="zdoc"><a name="4_1_2">GMEM_INCLUDES_TYPE_STRING</a></h3>
+<p class="zdoc">Dynamic memory creations (gmemCreate* calls) often include a 'type' string.  This string is stored with the dynamic memory in debug by default.  Sometimes this comes in handy when you are dealing with baffling dynamic memory pointer issues.</p>
+
+<h3 class="zdoc"><a name="4_1_3">GTRACE_IS_ON</a></h3>
+<p class="zdoc">Function tracing.  This is mean to dump to a file the code flow.  The file will hold almost all of the functions that were called assuming genter and greturn* were used in the code.</p>
+
+
+<h1 class="zdoc"><a name="5">How to compile with GRL library</a></h1>
+<p class="zdoc">When you build your project and you intend to use this library, you will need to provide some compile time defines.</p>
+<ul class="zdoc">
+<li class="zdoc"><strong>grlWINDOWS, grlOSX, or glrUNIX</strong>, needs to be defined so that proper platform code is compiled for the libary.</li>
+<li class="zdoc"><strong>grl32 or grl64</strong>, needs to be defined so that the proper architecture code is compiled for the library.</li>
+<li class="zdoc"><strong>grlSWAP</strong>, needs to be defined on little endian machines.</li>
+</ul>
+<p class="zdoc">Add the grl.lib and grl include path to your build.</p>
+
+
+<h1 class="zdoc"><a name="6">How to use GRL library</a></h1>
+<p class="zdoc">Add to your source file(s) the grl include...</p>
+<pre class="zdoc">
+#include "grl.h"
+</pre>
+<p class="zdoc">At your program start you need to call...</p>
+<pre class="zdoc">
+if (!grlStart())
+{
+   // Failed to start GRL.  Shutdown.
+}
+</pre>
+<p class="zdoc">grlStart() will set up internal states of the library.  Failure to do this will cause problems.</p>
+<p class="zdoc">At your program exit you should call...</p>
+<pre class="zdoc">
+grlStop();
+</pre>
+<p class="zdoc">grlStop() will display debug information like a leak report if you are doing leak checking with GRL.  It is not strictly necessary to call but it would be a wise thing to do in my opinion.</p>
+
+
+<h1 class="zdoc"><a name="7">Style</a></h1>
+<p class="zdoc">I use a particular style with GRL and my own coding.  With this style is makes identifying what something is fairly easily.</p>
+<p class="zdoc">Naming convention being used.</p>
+<pre class="zdoc">
+Program Global:
+Constant:        prefixTypeNameCONSTANT_VALUE
+Type:            PrefixTypeName
+Variable:        [There are none.  Use a module global and a function to manipulate it.]
+Function:        prefixFuncionName()
+
+Libary Global:
+Function:        _prefixFunctionName
+
+Module Global:
+Variable:        static ... _variableName
+Function:        static ... _FunctionName
+
+Function Levle:
+Varaible:        variableName
+</pre>
+<p class="zdoc">prefix being a string that identifies what part of the code it belongs to.  like glist for linked lists for example.</p>
+<p class="zdoc">The capitalization is important.  I dislike the use of '_' because I find it annoying to type so I heavily use CamelCasing to differentiate the words in a name. Starting letter may or may not be capitalized and it is specific to usage.</p>
+<p class="zdoc">The idea is that by just by looking at a name of something you should be able to tell the scope of what you are looking at without having to find our where it was actually defined.</p>
+<p class="zdoc">Also on a little of the OCD side, I organize the C files so that I have sections, in order, includes, constants, types, variables, local function prototypes, global function definitions, local function definitions.  Simlar H files are ordered, includes (if needed), constants, types, and glocal function prototypes.</p>
+<p class="zdoc">Indents are 3.</p>
+<p class="zdoc">I line up =, logic ops, parameters on mulitple lines, etc.</p>
+<p class="zdoc">I never have an assignment in a conditional, which means I write x == 0 instead of 0 == x.</p>
+<p class="zdoc">Logic statements have the logic op at the end (not at the beginning) using reverse indentation.</p>
+<p class="zdoc">Code is paragraphed.</p>
+<p class="zdoc">etc.</p>
+
+
+<h1 class="zdoc"><a name="8">Macroes</a></h1>
+<p class="zdoc">You may find some or all of these macroes curious or infuriating.  I use them for the reason of better code readability (subjective I know) and better coding experience, reducing tired programmer mistakes and related.  You do not have to use any of these but I use them a lot in my own coding.</p>
+
+<h2 class="zdoc"><a name="8_1">breakIf()</a></h2>
+<pre class="zdoc">
+#define breakIf(C)         if ((C)) { break; }
+</pre>
+<p class="zdoc">Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and slightly less typing.</p>
+
+<h2 class="zdoc"><a name="8_2">continueIf()</a></h2>
+<pre class="zdoc">
+#define continueIf(C)      if ((C)) { continue; }
+</pre>
+<p class="zdoc">Loop control wrappers for common patterns.  Makes for easier to read code in my opinion and slightly less typing.</p>
+
+<h2 class="zdoc"><a name="8_3">debugHalt*()</a></h2>
+<pre class="zdoc">
+#define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
+#define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
+</pre>
+<p class="zdoc">Halt is calling assert().  I just find it easier to read than using the assert() function call.</p>
+
+<h2 class="zdoc"><a name="8_4">debugCheckMemory()</a></h2>
+<pre class="zdoc">
+#define debugCheckMemory()    _CrtCheckMemory();
+</pre>
+<p class="zdoc">CheckMemory will test the dynamic heap for corruption.  This can be handy when trying to find memory corruption.  Sprinkle these functions around your code where you think the corruption may be happening.</p>
+
+<h2 class="zdoc"><a name="8_5">debugPrint()</a></h2>
+<pre class="zdoc">
+#define debugPrint(WSTR)            OutputDebugString(WSTR)
+</pre>
+<p class="zdoc">Print will print a wchar_t * string to the output window in case of Visual Studio on Windows.  Nothing specific for OSX and Linux yet.</p>
+
+<h2 class="zdoc"><a name="8_6">for*(), loop*()</a></h2>
+<pre class="zdoc">
+#define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
+#define forCountDown(INDEX, COUNT)  for ((INDEX) = (COUNT) - 1; (INDEX) >= (COUNT); (INDEX) -= 1)
+#define loop                        for (;;)
+#define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
+#define loopOnce                    for (int __index__ = 0; __index__ < 1; __index__++)
+</pre>
+<p class="zdoc">Wrappers for loops.  You may find these curious but I find these save me some headaches as they reduce errors like bad increment and such.  Plus I find they are easier to read.</p>
+
+<h2 class="zdoc"><a name="8_7">gotoIf(), stopIf()</a></h2>
+<pre class="zdoc">
+#define gotoIf(C,G)        if ((C)) { goto G; }
+#define stopIf(C)          if ((C)) { goto STOP; }
+</pre>
+<p class="zdoc">Wrappers for goto calls.  If you need to use these, use them sparingly and only forward jumps to a equal or higher level scope.  Do not jump into another scope.  Sometimes it is useful for simple exception like handling.  Stop if will jump to the label STOP.</p>
+
+<h2 class="zdoc"><a name="8_8">return*()</a></h2>
+<pre class="zdoc">
+#define returnIf(C,V)      if ((C)) { return (V); }
+#define return0If(C)       if ((C)) { return 0; }
+#define return1If(C)       if ((C)) { return 1; }
+#define returnVoidIf(C)    if ((C)) { return; }
+#define returnNullIf(C)    if ((C)) { return NULL; }
+#define returnTrueIf(C)    if ((C)) { return gbTRUE; }
+#define returnFalseIf(C)   if ((C)) { return gbFALSE; }
+</pre>
+<p class="zdoc">Basic return equivalents to greturn.  These do not call greturn and so are not paired with genter.</p>
+
+<h2 class="zdoc"><a name="8_9">genter, greturn</a></h2>
+<pre class="zdoc">
+#if 0 // kept in case I need to revisit.
+#if   (GPROFILE_IS_ON == 1) && (GTRACE_IS_ON == 1)
+
+#define genter
+   static Gindex ___profIndex___ = -1;
+   Gtime         ___profTime___  = gprofileEnter(&___profIndex___, __FILE__, __FUNCTION__);
+   gtraceEnter();
+
+#elif GPROFILE_IS_ON == 1
+
+#define genter
+   static Gindex ___profIndex___ = -1;
+   Gtime         ___profTime___  = gprofileEnter(&___profIndex___, __FILE__, __FUNCTION__);
+
+#elif GTRACE_IS_ON == 1
+#endif
+#endif
+
+#if GTRACE_IS_ON == 1
+
+#define genter
+   gtraceEnter()
+
+#else
+
+#define genter
+
+#endif
+
+// Return macroes
+// Complements the enter macroes and is called on exit of a function.
+#if 0
+#if   (GPROFILE_IS_ON == 1) && (GTRACE_IS_ON == 1)
+
+#define greturn
+   gtraceExit();
+   gprofileExit(___profIndex___, ___profTime___);
+   return
+
+#elif GPROFILE_IS_ON == 1
+
+#define greturn
+   gprofileExit(___profIndex___, ___profTime___);
+   return
+
+#elif GTRACE_IS_ON == 1
+#endif
+#endif
+
+#if GTRACE_IS_ON == 1
+
+#define greturn
+   gtraceExit();
+   return
+
+#else
+
+#define greturn
+   return
+
+#endif
+</pre>
+<p class="zdoc">I have always wanted a way to add common code to the entry of the function and to the exit of a function.  Unfortunately there is no nice way to do this.  So all the higher level code that I write includes a genter and greturn macroes.  This way I can do what I want on entry and exit.</p>
+<p class="zdoc">Things I have tried:</p>
+<ul class="zdoc">
+<li class="zdoc">Profiler code - For a time there was not any free profilers so I added some code to do that. Unfortunately it was not threadable but for the times I needed it it was useful.  Fortunately there are a few good free ones available now like, MicroProfiler, Sleepy, etc. so my code is no longer necessary.</li>
+<li class="zdoc">Tempory data cleanup - At one point I played with the idea of keeping track temporary dynamically allocated data that would automatically cleanup at function exit.  Unfortunately it was not that clean and added a bit more code smell so I felt it was not really worth it.</li>
+<li class="zdoc">I still have include function tracing.  Which unfortunately does not work well in a multi-threaded environment.  Works well in a single threaded program and what happens is that every function entry will be recorded in a trace file.</li>
+</ul>
+<p class="zdoc">Those are some of the reasons I was using genter and greturn.  I keep them around just in case another need arrises.</p>
+
+<h2 class="zdoc"><a name="8_10">greturn*()</a></h2>
+<pre class="zdoc">
+#define greturnIf(C,V)     if ((C)) { greturn (V); }
+#define greturn0If(C)      if ((C)) { greturn 0; }
+#define greturn1If(C)      if ((C)) { greturn 1; }
+#define greturnVoidIf(C)   if ((C)) { greturn; }
+#define greturnNullIf(C)   if ((C)) { greturn NULL; }
+#define greturnTrueIf(C)   if ((C)) { greturn gbTRUE; }
+#define greturnFalseIf(C)  if ((C)) { greturn gbFALSE; }
+</pre>
+<p class="zdoc">Wrappers for common greturn cases.  Makes for easier to read code in my opinion and slightly less typing.  These call greturn while matches genter.</p>
+
+<h2 class="zdoc"><a name="8_11">gsizeof()</a></h2>
+<pre class="zdoc">
+#define gsizeof(V)         ((Gsize) sizeof(V))
+</pre>
+<p class="zdoc">Wrapper for sizeof function.</p>
+
+<h2 class="zdoc"><a name="8_12">gpHash", "gpHash()</a></h2>
+<pre class="zdoc">
+#define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
+</pre>
+<p class="zdoc">A basic function for hashing a pointer.  This is assuming pointers are 4 byte aligned.</p>
+
+
+<h1 class="zdoc"><a name="9">API</a></h1>
+<p class="zdoc">Like a lot of C libraries I have defined my own types just to address the problem that C's base integer types are not strictly of a certain size.  Or there are missing types like boolean.</p>
+<p class="zdoc">Granted newer updates to C have tried to rectify the situation but maybe a little too late.  Plus I dislike typeing '_' but will use it only for constants for historical reasons.  So all the new types like wchar_t, int16_t, etc.  God I hate that '_'.  It slows down typing in my opinion and does not really improve readability in my opinion.</p>
+<p class="zdoc">Also other API that do not include a specific type but more a module for some purpose.</p>
+
+
+<h1 class="zdoc"><a name="10">Grl</a></h1>
+<p class="zdoc">Library level calls.  Mainly to set up the library before use.</p>
+
+<h2 class="zdoc"><a name="10_1">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gpath   *grlGetExePath(   void);
+</pre>
+<p class="zdoc">Get the path to the exe file.</p>
+<pre class="zdoc">
+grlAPI Gb       grlIsStarted(    void);
+</pre>
+<p class="zdoc">Is the grl library initialized and ready.</p>
+<pre class="zdoc">
+grlAPI Gb       grlSetExePath(   Gpath * const path);
+</pre>
+<p class="zdoc">Set the exe file path.  Not usually called by you.  The exe path is set on program start.</p>
+<pre class="zdoc">
+grlAPI Gb       grlStart(        void);
+</pre>
+<p class="zdoc">Start the grl library.</p>
+<pre class="zdoc">
+grlAPI void     grlStop(         void);
+</pre>
+<p class="zdoc">Stop the grl library.</p>
+
+
+<h1 class="zdoc"><a name="11">Char, Uchar</a></h1>
+<p class="zdoc">I define these because I am using PCLint program to keep the code somewhat clean of issues.  One of the things with PCLint is that it warns about using char and unsigned char so I have these defined to avoid the warning/error.</p>
+
+<h2 class="zdoc"><a name="11_1">Type</a></h2>
+<pre class="zdoc">
+typedef signed char        Char;
+typedef unsigned char      Uchar;
+</pre>
+<p class="zdoc">Not usually types I use.  However I define these because I am using PCLint program to keep the code somewhat clean of issues.  One of the things with PCLint is that it warns about using char and unsigned char so I have these defined to avoid the issue.</p>
+
+
+<h1 class="zdoc"><a name="12">Galignment</a></h1>
+<p class="zdoc">Various functions require defining an alignment in the horizontal and vertical directions.  Trying to define one type to cover them all.</p>
+
+<h2 class="zdoc"><a name="12_1">Type</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   galignmentDEFAULT    = 0,
+
+   galignmentH_LEFT     = 0x10000000,
+   galignmentH_CENTER   = 0x01000000,
+   galignmentH_FILL     = 0x00100000,
+   galignmentH_RIGHT    = 0x00010000,
+
+   galignmentV_TOP      = 0x00001000,
+   galignmentV_CENTER   = 0x00000100,
+   galignmentV_FILL     = 0x00000010,
+   galignmentV_BOTTOM   = 0x00000001,
+
+   galignmentH_MASK     = 0xFFFF0000u,
+   galignmentV_MASK     = 0x0000FFFF
+} Galignment;
+</pre>
+<p class="zdoc">Various functions require defining an alignment in the horizontal and vertical directions.  Trying to define one type to cover them all.</p>
+
+
+<h1 class="zdoc"><a name="13">Gb (Boolean)</a></h1>
+<p class="zdoc">Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  Otherwise assume it is not a possibility.</p>
+
+<h2 class="zdoc"><a name="13_1">Type</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gbFALSE              =  0,
+   gbTRUE               =  1,
+   gbUNDEFINED          = -1
+} Gb;
+</pre>
+<p class="zdoc">Yes stdbool.h is a thing now for C but this was predating that.  GRL uses the above for boolean results.  UNDEFINED is rarely used and whatever uses UNDEFINED should explicitely say so.  Otherwise assume it is not a possibility.</p>
+
+
+<h1 class="zdoc"><a name="14">Gbit</a></h1>
+
+<h2 class="zdoc"><a name="14_1">Type</a></h2>
+<pre class="zdoc">
+typedef unsigned int       Gbit;
+</pre>
+<p class="zdoc">This is specific to bit fields in a struct.  Because every time using standard C types, I forget the "unsigned" keyword.</p>
+
+<h2 class="zdoc"><a name="14_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gn4      gbitGet(          Gn4 const data, Gindex const bit, Gcount const count);
+</pre>
+<p class="zdoc">Find the value of bits in a simple 4 byte natural.</p>
+<pre class="zdoc">
+grlAPI Gn4      gbitSet(          Gn4 const data, Gindex const bit, Gcount const count, Gn4 const value);
+</pre>
+<p class="zdoc">Set the value of bits in a simple 4 byte natural.</p>
+
+
+<h1 class="zdoc"><a name="15">gbitArray</a></h1>
+<p class="zdoc">Simple functions for setting bits in an array of Gn4 values.  Values can span over Gn4 boundaries.</p>
+
+<h2 class="zdoc"><a name="15_1">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gn4      gbitArrayGet(     Gn4 const * const data, Gindex const bit, Gcount const count);
+</pre>
+<p class="zdoc">Get the value of a bit range in the Gn4 array.</p>
+<pre class="zdoc">
+grlAPI Gsize    gbitArrayGetSize( Gcount const count);
+</pre>
+<p class="zdoc">Calculation on how many Gn4 values are required to store count bits.</p>
+<pre class="zdoc">
+grlAPI Gb       gbitArraySet(     Gn4       * const data, Gindex const bit, Gcount const count, Gn4 const value);
+</pre>
+<p class="zdoc">Get the value of the bits at a given bit range in the Gn4 array.</p>
+
+
+<h1 class="zdoc"><a name="16">Gcompare</a></h1>
+<p class="zdoc">Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should be made very clear.  I may remove it in the future.</p>
+
+<h2 class="zdoc"><a name="16_1">Type</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gcompareLESS_THAN    = -1,
+   gcompareEQUAL        =  0,
+   gcompareGREATER_THAN =  1,
+   gcompareUNKNOWN      =  2
+} Gcompare;
+</pre>
+<p class="zdoc">Defining the result for all compare functions.  I do not remember why I have UNKNOWN and for the most part it is never used.  But like Gb and UNDEFINED, if a function returns UNKNOWN it should be made very clear.  I may remove it in the future.</p>
+
+
+<h1 class="zdoc"><a name="17">Gcount</a></h1>
+<p class="zdoc">A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.</p>
+<p class="zdoc">Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.</p>
+
+<h2 class="zdoc"><a name="17_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gi4                Gcount;
+</pre>
+
+<h2 class="zdoc"><a name="17_2">Constant</a></h2>
+<pre class="zdoc">
+#define GcountMAX             Gi4MAX
+</pre>
+<p class="zdoc">The limit constants for these types.</p>
+
+<h2 class="zdoc"><a name="17_3">Function</a></h2>
+<pre class="zdoc">
+#define gcountIsGood(C)    (0 <= (C))
+</pre>
+<p class="zdoc">IsGood check for a gcount.</p>
+
+
+<h1 class="zdoc"><a name="18">Gguid</a></h1>
+<p class="zdoc">GUID type wrapper.  Using system calls to handle GUIDs.</p>
+
+<h2 class="zdoc"><a name="18_1">Type</a></h2>
+<pre class="zdoc">
+typedef struct
+{
+   Gn8             n[2];
+   Gn1             b[16];
+} Gguid;
+</pre>
+
+<h2 class="zdoc"><a name="18_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI void     gguidCreateContent(       Gguid * const guid);
+</pre>
+<p class="zdoc">Wrapper of OS routines for Initializing the contents of a GUID with a new unique GUID value.</p>
+<pre class="zdoc">
+grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
+</pre>
+<p class="zdoc">Initialize a Gguid from a char string representation of a GUID.</p>
+<pre class="zdoc">
+grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
+</pre>
+<p class="zdoc">Test two guids for equality.</p>
+
+
+<h1 class="zdoc"><a name="19">GhashN</a></h1>
+<p class="zdoc">The data type that all hash functions will return.</p>
+
+<h2 class="zdoc"><a name="19_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gn4                GhashN;
+</pre>
+<p class="zdoc">The data type that all hash functions will return.</p>
+
+
+<h1 class="zdoc"><a name="20">GheapN</a></h1>
+<p class="zdoc">The data type that all heaps will use.  Currently only the Gtree uses this.  See Gtree implementation.</p>
+
+<h2 class="zdoc"><a name="20_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gn4                GheapN;
+</pre>
+
+
+<h1 class="zdoc"><a name="21">Gi (Integer)</a></h1>
+<p class="zdoc">Integer type.</p>
+
+<h2 class="zdoc"><a name="21_1">Type</a></h2>
+<pre class="zdoc">
+typedef int8_t             Gi1;
+typedef int16_t            Gi2;
+typedef int32_t            Gi4;
+typedef int64_t            Gi8;
+</pre>
+<p class="zdoc">As you can see I am using the stdint types.  I believe when I was starting out with GRL it was not really common yet and I was using standard C types.  I could be wrong.  But like any other library, I define my own types based on memory size.  Instead of bits I use byte count.</p>
+<pre class="zdoc">
+typedef Gi8                Gi;
+</pre>
+<p class="zdoc">Same as the above but the numberless versions represent the largest possible representation of the type for the platform.  Which may not be the most efficient form for the types.</p>
+<pre class="zdoc">
+typedef intptr_t           Gip;
+</pre>
+<p class="zdoc">Pointer sized versions of integer and natural.</p>
+<pre class="zdoc">
+typedef Gi4                Gih;
+</pre>
+<p class="zdoc">Half size versions for the platform.</p>
+
+<h2 class="zdoc"><a name="21_2">Constant</a></h2>
+<pre class="zdoc">
+#define GiMAX                 Gi8MAX
+
+#define Gi1MAX                INT8_MAX
+#define Gi1MIN                INT8_MIN
+#define Gi2MAX                INT16_MAX
+#define Gi2MIN                INT16_MIN
+#define Gi4MAX                INT32_MAX
+#define Gi4MIN                INT32_MIN
+#define Gi8MAX                INT64_MAX
+#define Gi8MIN                INT64_MIN
+
+#define GipMAX                INTPTR_MAX
+</pre>
+<p class="zdoc">The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.</p>
+
+
+<h1 class="zdoc"><a name="22">Gid</a></h1>
+<p class="zdoc">Simpler than a Gguid.  The uniqueness of an id is left to the programmer.</p>
+
+<h2 class="zdoc"><a name="22_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gn4                Gid;
+</pre>
+<p class="zdoc">Simpler than a Gguid.  The uniqueness of an id is left to the programmer.</p>
+
+<h2 class="zdoc"><a name="22_2">Function</a></h2>
+<pre class="zdoc">
+#define gidGetN(ID)        ((Gn4) ID)
+</pre>
+<p class="zdoc">Return the natural value of the id.</p>
+<pre class="zdoc">
+#define gidGetFromN(VALUE) ((Gid) VALUE)
+</pre>
+<p class="zdoc">Convert a natrual value to an id.</p>
+<pre class="zdoc">
+#if defined(grlSWAP)
+#define gidGetC(ID, CHAR4)
+   (CHAR4[3] = (Char) (((ID) & 0xff000000) >> 24),
+    CHAR4[2] = (Char) (((ID) & 0x00ff0000) >> 16),
+    CHAR4[1] = (Char) (((ID) & 0x0000ff00) >>  8),
+    CHAR4[0] = (Char) (((ID) & 0x000000ff)))
+#else
+#define gidGetC(ID, CHAR4)
+   (CHAR4[0] = (Char) (((ID) & 0xff000000) >> 24),
+    CHAR4[1] = (Char) (((ID) & 0x00ff0000) >> 16),
+    CHAR4[2] = (Char) (((ID) & 0x0000ff00) >>  8),
+    CHAR4[3] = (Char) (((ID) & 0x000000ff)))
+#endif
+</pre>
+<p class="zdoc">Convert an id to a 4 character char string, not NULL terminated.</p>
+<pre class="zdoc">
+#if defined(grlSWAP)
+#define gidGetFromC(CHAR4)
+   ((CHAR4[3] << 24) |
+    (CHAR4[2] << 16) |
+    (CHAR4[1] <<  8) |
+    (CHAR4[0]))
+#else
+#define gidGetFromC(VALUE)
+   ((CHAR4[0] << 24) |
+    (CHAR4[1] << 16) |
+    (CHAR4[2] <<  8) |
+    (CHAR4[3]))
+#endif
+</pre>
+<p class="zdoc">Convert a 4 character char string, not NULL terminated, to an id.</p>
+<pre class="zdoc">
+#define gidIsEqual(A,B)    ((A) == (B))
+</pre>
+<p class="zdoc">Compare two ids for equality.</p>
+<pre class="zdoc">
+#define gidIsGood(I)       (0 < (I))
+</pre>
+<p class="zdoc">Check if the id is valid.</p>
+<pre class="zdoc">
+#define gidIsUndefined(ID) ((ID) == Gn4MAX)
+</pre>
+<p class="zdoc">Check if the is set to something.</p>
+
+
+<h1 class="zdoc"><a name="23">Gindex</a></h1>
+<p class="zdoc">A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.</p>
+<p class="zdoc">Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.</p>
+
+<h2 class="zdoc"><a name="23_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gi4                Gindex;
+</pre>
+
+<h2 class="zdoc"><a name="23_2">Constant</a></h2>
+<pre class="zdoc">
+#define GindexERROR           Gi4MIN
+#define GindexMAX             Gi4MAX
+</pre>
+<p class="zdoc">The limit constants for these types.</p>
+
+<h2 class="zdoc"><a name="23_3">Function</a></h2>
+<pre class="zdoc">
+#define gindexIsGood(I,C)  (0 <= (I) && (I) < (C))
+</pre>
+<p class="zdoc">IsGood checks for a gindex.</p>
+
+
+<h1 class="zdoc"><a name="24">Gkey</a></h1>
+<p class="zdoc">The general idea of a key for use in key value pais for the data containers.  A key will always be a const pointer.  So uniqueness is the pointer and not necessarily the contents of the pointer.</p>
+
+<h2 class="zdoc"><a name="24_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gp                 Gkey;
+</pre>
+
+
+<h1 class="zdoc"><a name="25">GkeyP</a></h1>
+<p class="zdoc">The basis of a key value pair.  A const pointer for the key and some generic data pointer for the value.</p>
+
+<h2 class="zdoc"><a name="25_1">Type</a></h2>
+<pre class="zdoc">
+typedef struct
+{
+   Gkey const              *key;
+   Gp                      *value;
+} GkeyP;
+</pre>
+<p class="zdoc">The basis of a key value pair.  A const pointer for the key and some generic data pointer for the value.</p>
+
+
+<h1 class="zdoc"><a name="26">Gleak</a></h1>
+<p class="zdoc">No types.  Just an API for tracking resource leaks.  Not specifically for memory leaks but is used by gmem for dynamic memory leak tracking.</p>
+<p class="zdoc">Internally gleak code maintains a hash table of leak records.  The hash table is organized as bins of linked lists of leak records.  This is reasonably fast in debug.  If not, you may need to tweak the hash table size to reduce linked list lengths.</p>
+<p class="zdoc">gleak is completely disabled in release builds.</p>
+
+<h2 class="zdoc"><a name="26_1">Function</a></h2>
+<pre class="zdoc">
+#define gleakCreate(P,S) gleakCreate_((P), (S), __FILE__, __LINE__)
+grlAPI Gp  *gleakCreate_(   Gp * const p, Gsize const size, Char const * const file, Gindex const line);
+</pre>
+<p class="zdoc">You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite any previous leak record.</p>
+<p class="zdoc">Create a leak record.  If this leak record is not destroyed it will be reported at grlStop().  A leak record includes the file and location in the file where the leak occurred.  You would not use gleakCreate_() directly, just gleakCreate() macro.  You should call gleakCreate() on the same pointer up the call stack.  The last gleakCreate() call will overwrite any previous leak record.</p>
+<pre class="zdoc">
+#define gleakDestroy(P)  gleakDestroy_((P))
+grlAPI Gp  *gleakDestroy_(  Gp *p);
+</pre>
+<p class="zdoc">Destroy a leak record.  This is done when the resource was properly closed, destroyed, or whatever needed to happen to it.</p>
+<pre class="zdoc">
+grlAPI Gb   gleakLockEnter( void);
+grlAPI Gb   gleakLockExit(  void);
+</pre>
+<p class="zdoc">If you have a lot of gleakCreate() calls in rapid succession you may want to call wrap them in between a LockEnter and LockExit so that the lock only happens once and the speed of the enclosed code will be uninterrupted and fast.</p>
+
+
+<h1 class="zdoc"><a name="27">Glock</a></h1>
+<p class="zdoc">Critical Section lock routines.</p>
+<p class="zdoc"><strong>Example Use:</strong></p>
+<pre class="zdoc">
+// Define the lock.
+static Glock _lock;
+
+...
+
+// Somewhere on startup.
+{
+   // Initialize the lock
+   glockCreateContent(&_lock);
+}
+
+// Somewhere on shutdown.
+{
+   // Clean up
+   glockDestroyContent(&_lock);
+}
+
+// Somewhere threaded.
+{
+   // Entering the critical section.  The thread will halt here if another thread has the lock.
+   glockEnter(&_lock);
+
+   // If the thread is executing here then it is the only one executing here.
+
+   // We are done, release the lock.
+   glockExit(&_lock);
+}
+
+</pre>
+
+<h2 class="zdoc"><a name="27_1">Type</a></h2>
+<pre class="zdoc">
+#if grlWINDOWS == 1
+typedef CRITICAL_SECTION Glock;
+#else
+#endif
+</pre>
+<p class="zdoc">Currently only Windows defined.  I haven't started on any other platforms.</p>
+
+<h2 class="zdoc"><a name="27_2">Function</a></h2>
+<p class="zdoc">Initializes a lock.</p>
+<p class="zdoc">Clean up a lock.</p>
+<p class="zdoc">Enter a critical section.</p>
+<p class="zdoc">Code will stop here until the lock is obtained.</p>
+<p class="zdoc">Exit a critical section.</p>
+
+
+<h1 class="zdoc"><a name="28">Gmem</a></h1>
+<p class="zdoc">Dynamic memory functions.  In debug these will make use of gleak for memory leak tracking.</p>
+<p class="zdoc">In both debug and release, dynamic memory buffers that are 'small' are pooled.  Meaning, if you create a bunch of small buffers like the size of 80 bytes.  Then all those buffers when 'destroyed' will just be kept around in a pool of buffers that are 80 bytes in size.  When the next time the program asks for an 80 byte buffer, the first available buffer from the pool is used.</p>
+<p class="zdoc">Why are we doing this?  Dynamic memory creation and destruction can be slow.  Often causing a kernel call which basically locks the system down in order to perform the operation.  If we can avoid these calls as much as possible then the speed of the program will be greatly improved.  At the cost of using some more memory that is.  Reusing a previously allocated buffer is a lot quicker than having to free it and then recreate it.</p>
+<p class="zdoc">Use gmemFlushPools() to reclaim the memory.  Eventually I may add a thread to do the pool flushing but for now this is the responsibility of the programmer.</p>
+
+<h2 class="zdoc"><a name="28_1">Function</a></h2>
+<pre class="zdoc">
+#define memCreate(               BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
+#define memCreateType(           TYPE)                                  (TYPE *) memCreate(gsizeof(TYPE))
+#define memCreateTypeArray(      TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
+</pre>
+<p class="zdoc">Simple wrappers around standard C dynamic memory creation functions.  Not gleak tracked.</p>
+<p class="zdoc">CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors when writing out dynamic memory creation calls.</p>
+<pre class="zdoc">
+#define memDestroy(              P)                                              free((Gp *) (P))
+</pre>
+<p class="zdoc">Freeing the dynamic memory using standart C functions.</p>
+<pre class="zdoc">
+#define gmemClear(               P, BYTECOUNT)                                   gmemClearAt(   (P),     (BYTECOUNT),               0)
+#define gmemClearType(           P, TYPE)                                        gmemClearAt(   (P),     gsizeof(TYPE),             0)
+#define gmemClearTypeAt(         P, TYPE, INDEX)                                 gmemClearAt(   (P),     gsizeof(TYPE),             gsizeof(TYPE) * (INDEX))
+#define gmemClearTypeArray(      P, TYPE, COUNT)                                 gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   0)
+#define gmemClearTypeArrayAt(    P, TYPE, COUNT, INDEX)                          gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX))
+
+grlAPI void  gmemClearAt(     Gp         * const p,    Gcount const byteCount, Gindex const byteIndex);
+</pre>
+<p class="zdoc">Given a pointer to a buffer, zero out its memroy.</p>
+<p class="zdoc"><strong>Type</strong> will specify the size of memory to zero out.</p>
+<p class="zdoc"><strong>At</strong> will indicate where inside an array of types to zero out.</p>
+<p class="zdoc"><strong>Array</strong> will indicate we will be zeroing out an array of types.</p>
+<pre class="zdoc">
+#define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
+</pre>
+<p class="zdoc">Copying a subset of an array of types, onto itself at a new location.</p>
+<pre class="zdoc">
+#define gmemCopyOver(            PSRC, BYTECOUNT,              PDST)             gmemCopyOverAt((PSRC),  (BYTECOUNT),               0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverType(        PSRC, TYPE,                   PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE),             0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArray(   PSRC, TYPE, COUNT,            PDST)             gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   0,                       (PDST),  (Gi) 0)
+#define gmemCopyOverTypeArrayAt( PSRC, TYPE, COUNT, INDEX_SRC, PDST, INDEX_DST)  gmemCopyOverAt((PSRC),  gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  (PDST),  gsizeof(TYPE) * (INDEX_DST))
+
+grlAPI Gb    gmemCopy(        Gp         * const p,    Gcount const byteCount, Gindex const byteIndexSrc,                  Gindex const byteIndexDst);
+grlAPI Gb    gmemCopyOverAt(  Gp   const * const pSrc, Gcount const byteCount, Gindex const byteIndexSrc, Gp * const pDst, Gindex const byteIndexDst);
+</pre>
+<p class="zdoc">Copying part of a buffer onto another buffer.  Non-overlapping.  Use gmemCopyTypeArray() if copying into the same buffer.</p>
+<pre class="zdoc">
+#define gmemCreate(              TYPE_CHAR,  BYTECOUNT)                          gleakCreate((Gp *) gmemCreate_((TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
+#define gmemCreateType(          TYPE)                                  (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
+#define gmemCreateTypeArray(     TYPE,       COUNT)                     (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
+
+grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
+</pre>
+<p class="zdoc">Create a new dynamic memory buffer.</p>
+<p class="zdoc">CreateType, and CreateTypeArray are convenience functions for making a buffer of a size of a type or a buffer of a size of an array of type.  I use these to reduce tired programmer errors when writing out dynamic memory creation calls.</p>
+<p class="zdoc">gleak tracking is only done in debug builds.</p>
+<pre class="zdoc">
+grlAPI void  gmemDestroy(     Gp        * const p);
+</pre>
+<p class="zdoc">Clean up dynamic memory created by using the gmemCreate*() functions above.  Do not use with memCreate, malloc, or calloc calls.</p>
+<pre class="zdoc">
+#define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
+#define gmemIsEqualType(         PA, PB, TYPE)                                   (memcmp((PA), (PB), sizeof(TYPE))      == 0)
+</pre>
+<p class="zdoc">wrapper to memcmp functions.</p>
+<pre class="zdoc">
+grlAPI void  gmemFlushPools(  void);
+</pre>
+<p class="zdoc">Trim the memory pools.  See description for more information.</p>
+<pre class="zdoc">
+#define gmemSet(                 P,    BYTECOUNT, BYTEVALUE)                     memset((P), (BYTEVALUE), (size_t) (BYTECOUNT))
+
+grlAPI void  gmemSetDefaced(  Gp        * const p,    Gcount const byteCount);
+</pre>
+<p class="zdoc">Set the values of the bytes in a buffer.  Defaced will set the values to things like 0xFEEDFACE, 0xDEADBEEF, etc.</p>
+
+
+<h1 class="zdoc"><a name="29">Gn (Natural and 0)</a></h1>
+<p class="zdoc">Natural numbers including 0, or in other words, unsigned integers.</p>
+
+<h2 class="zdoc"><a name="29_1">Type</a></h2>
+<pre class="zdoc">
+typedef uint8_t            Gn1;
+typedef uint16_t           Gn2;
+typedef uint32_t           Gn4;
+typedef uint64_t           Gn8;
+</pre>
+<p class="zdoc">Or in other words, unsigned integers.</p>
+<p class="zdoc">As you can see I am using the stdint types.  I believe when I was starting out with GRL it was not really common yet and I was using standard C types.  I could be wrong.  But like any other library, I define my own types based on memory size.  Instead of bits I use byte count.</p>
+<pre class="zdoc">
+typedef Gn8                Gn;
+</pre>
+<p class="zdoc">Same as the above but the numberless versions represent the largest possible representation of the type for the platform.  Which may not be the most efficient form for the types.</p>
+<pre class="zdoc">
+typedef uintptr_t          Gnp;
+</pre>
+<p class="zdoc">Pointer sized versions of integer and natural.</p>
+<pre class="zdoc">
+typedef Gn4                Gnh;
+</pre>
+<p class="zdoc">Half size versions for the platform.</p>
+
+<h2 class="zdoc"><a name="29_2">Constant</a></h2>
+<pre class="zdoc">
+#define GnMAX                 Gn8MAX
+
+#define Gn1MAX                UINT8_MAX
+#define Gn2MAX                UINT16_MAX
+#define Gn4MAX                UINT32_MAX
+#define Gn8MAX                UINT64_MAX
+
+#define GnpMAX                UINTPTR_MAX
+</pre>
+<p class="zdoc">The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.</p>
+
+
+<h1 class="zdoc"><a name="30">Goffset</a></h1>
+<p class="zdoc">A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.</p>
+<p class="zdoc">Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.</p>
+
+<h2 class="zdoc"><a name="30_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gi4                Goffset;
+</pre>
+
+<h2 class="zdoc"><a name="30_2">Constant</a></h2>
+<pre class="zdoc">
+#define GoffsetMAX            Gi4MAX
+#define GoffsetMIN            Gi4MIN
+</pre>
+<p class="zdoc">The limit constants for these types.</p>
+
+
+<h1 class="zdoc"><a name="31">Gosversion</a></h1>
+
+<h2 class="zdoc"><a name="31_1">Constant</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gosversionNA,
+
+   gosversionWIN32S,
+   gosversionWIN95,
+   gosversionWIN98,
+   gosversionWINME,
+
+   gosversionWINNT351,
+   gosversionWINNT4,
+   gosversionWIN2K,
+   gosversionWINXP,
+   gosversionWINXPSP1,
+   gosversionWINXPSP2,
+   gosversionWINXPSP3,
+   gosversionWINVISTA,
+   gosversionWINVISTASP1,
+   gosversionWINVISTASP2,
+   gosversionWIN7,
+   gosversionWIN7SP1,
+   gosversionWIN8,
+   gosversionWIN8_1,
+   gosversionWIN10,
+   gosversionWINSERVER,
+
+   gosversionMACCLASSIC,
+   gosversionMACOSX
+} Gosversion;
+</pre>
+
+<h2 class="zdoc"><a name="31_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gosversion gosversionGet(void);
+</pre>
+<p class="zdoc">Get the os the program is running on.</p>
+
+
+<h1 class="zdoc"><a name="32">Gp (void)</a></h1>
+<p class="zdoc">Why not just use void?  I do use void in places like empty function paramerters, but seeing as I have basically redefined everything else, might as well redefine this one as well.  Usually never used alone, always used with '*' for a void pointer.</p>
+
+<h2 class="zdoc"><a name="32_1">Type</a></h2>
+<pre class="zdoc">
+typedef void               Gp;
+</pre>
+<p class="zdoc">Why not just use void?  I do use void in places like empty function paramerters, but seeing as I have basically redefined everything else, might as well redefine this one as well.  Usually never used alone, always used with '*' for a void pointer.</p>
+
+
+<h1 class="zdoc"><a name="33">Gposition</a></h1>
+<p class="zdoc">A lot of functions need an anchor location for offsetting from.  Using this type to handle those situations.</p>
+
+<h2 class="zdoc"><a name="33_1">Type</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gpositionSTART   = SEEK_SET,
+   gpositionEND     = SEEK_END,
+   gpositionCURRENT = SEEK_CUR
+} Gposition;
+</pre>
+<p class="zdoc">A lot of functions need an anchor location for offsetting from.  Using this type to handle those situations.</p>
+
+
+<h1 class="zdoc"><a name="34">Gprofile</a></h1>
+<p class="zdoc">Code to profile your program.  Unfortunately this code is not thread safe and you probably are better off using an actual profiler.</p>
+<p class="zdoc">To use, you only need to set the compiler flag GPROFILE_IS_ON to 1 and recompile.  The program will print out a report on the function times when the program exits.  If the program crashes then no report is written out.</p>
+
+
+<h1 class="zdoc"><a name="35">Gr (Real)</a></h1>
+<p class="zdoc">Real numbers or floating point numbers.</p>
+
+<h2 class="zdoc"><a name="35_1">Type</a></h2>
+<pre class="zdoc">
+typedef float              Gr4;
+typedef double             Gr8;
+</pre>
+<p class="zdoc">Different names for standard types just to be complete.</p>
+<pre class="zdoc">
+typedef Gr8                Gr;
+</pre>
+<p class="zdoc">Same as the above but the numberless versions represent the largest possible representation of the type for the platform.  Which may not be the most efficient form for the types.  I'm ignoring long double since it only allows for higher exponents and not higher precision.</p>
+<pre class="zdoc">
+typedef Gr8                Grp;
+</pre>
+<p class="zdoc">Pointer sized versions of integer and natural.</p>
+
+<h2 class="zdoc"><a name="35_2">Constant</a></h2>
+<pre class="zdoc">
+#define GrMAX                 Gr8MAX
+
+#define GrMIN                 Gr8MIN
+
+#define Gr4MAX                FLT_MAX
+#define Gr4MIN                FLT_MIN
+#define Gr8MAX                DBL_MAX
+#define Gr8MIN                DBL_MIN
+</pre>
+<p class="zdoc">The limit constants for these types.  Not complete when it comes to Reals but I have not needed the other constants just yet.</p>
+
+
+<h1 class="zdoc"><a name="36">Grandom</a></h1>
+<p class="zdoc">Random number generator.  This is not my code but found on the internet.  Not cryptographically random.</p>
+<pre class="zdoc">
+   A C-program for MT19937-64 (2004/9/29 version).
+   Coded by Takuji Nishimura and Makoto Matsumoto.
+
+   This is a 64-bit version of Mersenne Twister pseudorandom number
+   generator.
+
+   Before using, initialize the state by using init_genrand64(seed)
+   or init_by_array64(init_key, key_length).
+
+   Copyright (C) 2004, Makoto Matsumoto and Takuji Nishimura,
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
+
+     1. Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+
+     2. Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+
+     3. The names of its contributors may not be used to endorse or promote
+        products derived from this software without specific prior written
+        permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+   A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+   PROFITS; OR BUSINESS Gn4ERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   References:
+   T. Nishimura, ``Tables of 64-bit Mersenne Twisters''
+     ACM Transactions on Modeling and
+     Computer Simulation 10. (2000) 348--357.
+   M. Matsumoto and T. Nishimura,
+     ``Mersenne Twister: a 623-dimensionally equidistributed
+       uniform pseudorandom number generator''
+     ACM Transactions on Modeling and
+     Computer Simulation 8. (Jan. 1998) 3--30.
+
+   Any feedback is very welcome.
+   http://www.math.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+   email: m-mat @ math.sci.hiroshima-u.ac.jp (remove spaces)
+</pre>
+
+<h2 class="zdoc"><a name="36_1">Type</a></h2>
+<pre class="zdoc">
+typedef struct
+{
+   Gb  isInit;
+   Gn8 mt[NN];
+   Gn4 mti;
+} Grandom;
+</pre>
+
+<h2 class="zdoc"><a name="36_2">Function</a></h2>
+<pre class="zdoc">
+void grandomCreateContent(Grandom * const r, Gn8 const seed);
+</pre>
+<p class="zdoc">Initializes a Grandom structure with a seed.</p>
+<pre class="zdoc">
+void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 const * const keyList);
+</pre>
+<p class="zdoc">Initializes a Grandom structure with an array of values.</p>
+<pre class="zdoc">
+Gn grandomGetN(Grandom * const r);
+</pre>
+<p class="zdoc">Get a natural random number between [0, GnMAX].</p>
+<pre class="zdoc">
+Gi grandomGetI(Grandom * const r);
+</pre>
+<p class="zdoc">Get an integer random number between [0, GiMAX].</p>
+<pre class="zdoc">
+Gr grandomGetR(Grandom * const r);
+</pre>
+<p class="zdoc">Get a real random number between [0, 1].</p>
+<pre class="zdoc">
+Gr grandomGetROpen1(Grandom * const r);
+</pre>
+<p class="zdoc">Get a real random number between [0, 1).</p>
+<pre class="zdoc">
+Gr grandomGetROpen(Grandom * const r);
+</pre>
+<p class="zdoc">Get a real random number between (0, 1).</p>
+
+
+<h1 class="zdoc"><a name="37">Gsize</a></h1>
+<p class="zdoc">A common integer/natural type used in a lot of places.  This will be the most efficient size for the platform and currently is an integer and not a natural.  I initially tried a natural but for some things, you need negative numbers.  For simplicity I kept it an integer.  If you end up in a situation where the efficient size integer is not enough range then you will have to do something else.</p>
+<p class="zdoc">Why not just use the raw integer type?  Well, sometimes the type adds to the description of the variable/parameter.  In this case, if I have a function that expects an offset then it is clear what that variable intends to do.  You may not need to even look at the name of the variable.  So I use it as a form of making the code more clear.</p>
+
+<h2 class="zdoc"><a name="37_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gi4                Gsize;
+</pre>
+
+<h2 class="zdoc"><a name="37_2">Constant</a></h2>
+<pre class="zdoc">
+#define GsizeMAX              Gi4MAX
+</pre>
+<p class="zdoc">The limit constants for these types.</p>
+
+<h2 class="zdoc"><a name="37_3">Function</a></h2>
+<pre class="zdoc">
+#define gsizeIsGood(S)     (0 <= (S))
+</pre>
+<p class="zdoc">IsGood check for a gsize.</p>
+
+
+<h1 class="zdoc"><a name="38">Gsize</a></h1>
+
+<h2 class="zdoc"><a name="38_1">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gp *gswap2(Gp *value);
+grlAPI Gp *gswap4(Gp *value);
+grlAPI Gp *gswap8(Gp *value);
+</pre>
+<p class="zdoc">Byte swapping from Big Endian to Little Endian or vice versa for 2, 4, or 8 Byte values.</p>
+
+
+<h1 class="zdoc"><a name="39">Gtime</a></h1>
+
+<h2 class="zdoc"><a name="39_1">Type</a></h2>
+<pre class="zdoc">
+#define Gtime time_t
+</pre>
+<p class="zdoc">Using built in 64 bit time routines.</p>
+<p class="zdoc">**	Function</p>
+<pre class="zdoc">
+grlAPI Gtime gtimeGet(         void);
+</pre>
+<p class="zdoc">Get the current time for the computer.</p>
+<pre class="zdoc">
+grlAPI Gb    gtimeGetTimeLocal(Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+</pre>
+<p class="zdoc">Get the local time values from the time structure.</p>
+<pre class="zdoc">
+grlAPI Gb    gtimeGetTime(     Gtime const timeValue, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
+</pre>
+<p class="zdoc">Get the GMT time value from the time structure.</p>
+
+
+<h1 class="zdoc"><a name="40">Gtrace</a></h1>
+<p class="zdoc">Code for recording the program execution to a file.  This code is thread safe.</p>
+
+<h2 class="zdoc"><a name="40_1">Constant</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gtraceLevelNONE       = 0x00000000,
+   gtraceLevelALL        = 0xffffffffU,
+   gtraceLevelENTER_EXIT = 0x10000000,
+   gtraceLevelNOTICE     = 0x20000000,
+   gtraceLevelWARNING    = 0x40000000,
+   gtraceLevelERROR      = 0x80000000U
+} GtraceLevel;
+</pre>
+<p class="zdoc">The level of verbosity you want to record to the trace file.  The more you write out the slower your program will perform.</p>
+
+<h2 class="zdoc"><a name="40_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gb      gtraceEnter(     void);
+grlAPI void    gtraceExit(      void);
+</pre>
+<p class="zdoc">Used by genter and greturn macroes.</p>
+<pre class="zdoc">
+grlAPI void    gtraceMessage(   GtraceLevel level, char *message);
+</pre>
+<p class="zdoc">Sends a trace message to the trace file.</p>
+<pre class="zdoc">
+grlAPI Gb      gtraceStart(     GtraceLevel level, char *filename);
+</pre>
+<p class="zdoc">Should be called at the start of the program.  You provide the file to write to and the level of messaging you want to record.</p>
+<pre class="zdoc">
+grlAPI void    gtraceStop(      void);
+</pre>
+<p class="zdoc">Should be called at the end of the program execution.</p>
+
+
+<h1 class="zdoc"><a name="41">Gv, GvType</a></h1>
+<p class="zdoc">Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.</p>
+
+<h2 class="zdoc"><a name="41_1">Type</a></h2>
+<pre class="zdoc">
+typedef enum
+{
+   gvTypeNONE,
+
+   gvTypeI,
+   gvTypeN,
+   gvTypeP,
+   gvTypeR,
+
+   gvTypeS,
+
+   gvTypeCOUNT
+} GvType;
+
+typedef struct
+{
+   GvType       type;
+   union
+   {
+      Gip          i;
+      Gnp          n;
+      Gp          *p;
+      Grp          r;
+      Gs          *s;
+   }            value;
+} Gv; //lint !e960 !e9018
+</pre>
+<p class="zdoc">Gv is more involved than Gvp.  I was using this as variable storage in a scripting language that I wrote up.  The type is to identify what actual value is stored in the generic value structure.</p>
+
+<h2 class="zdoc"><a name="41_2">Function</a></h2>
+<pre class="zdoc">
+grlAPI Gcompare    gpCompare(       Gp const * const valueA, Gp const * const valueB);
+grlAPI Gcompare    gvCompareI(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareN(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareP(      Gv const * const valueA, Gv const * const valueB);
+grlAPI Gcompare    gvCompareR(      Gv const * const valueA, Gv const * const valueB);
+</pre>
+<p class="zdoc">Compare two Gv structures.</p>
+<pre class="zdoc">
+grlAPI Gv         *gvCreate(        void);
+grlAPI Gb          gvCreateContent( Gv       * const v);
+</pre>
+<p class="zdoc">Create a dynamic Gv structure or intialize a Gv structure.</p>
+<pre class="zdoc">
+grlAPI void        gvDestroy(       Gv       * const v);
+grlAPI void        gvDestroyContent(Gv       * const v);
+</pre>
+<p class="zdoc">Destroy a dynamic Gv structure or deinitialize a Gv structure.</p>
+<pre class="zdoc">
+grlAPI Gv          gvFromI(         Gip  const value);
+grlAPI Gv          gvFromN(         Gnp  const value);
+grlAPI Gv          gvFromP(         Gp * const value);
+grlAPI Gv          gvFromR(         Grp  const value);
+grlAPI Gv          gvFromS(         Gs * const value);
+</pre>
+<p class="zdoc">Get a Gv structure from a specific value type.</p>
+<pre class="zdoc">
+grlAPI Gip         gvGetI(          Gv const * const v);
+grlAPI Gnp         gvGetN(          Gv const * const v);
+grlAPI Gp         *gvGetP(          Gv const * const v);
+grlAPI Grp         gvGetR(          Gv const * const v);
+grlAPI Gs         *gvGetS(          Gv const * const v);
+</pre>
+<p class="zdoc">Get a specific value from a Gv structure.</p>
+<pre class="zdoc">
+grlAPI GhashN      gvHash(          Gv const * const value);
+grlAPI GhashN      gvHashS(         Gv const * const value);
+</pre>
+<p class="zdoc">Hash a Gv structure.</p>
+<pre class="zdoc">
+grlAPI Gb          gvSetI(          Gv       * const v, Gip  const value);
+grlAPI Gb          gvSetN(          Gv       * const v, Gnp  const value);
+grlAPI Gb          gvSetP(          Gv       * const v, Gp * const value);
+grlAPI Gb          gvSetR(          Gv       * const v, Grp  const value);
+grlAPI Gb          gvSetS(          Gv       * const v, Gs * const value);
+</pre>
+<p class="zdoc">Set the value of a Gv structure.</p>
+
+
+<h1 class="zdoc"><a name="42">Gvp</a></h1>
+<p class="zdoc">Generic value structure.  This is assuming, when you use this structure you know what is stored inside.</p>
+
+<h2 class="zdoc"><a name="42_1">Type</a></h2>
+<pre class="zdoc">
+typedef union
+{
+   Gip             i;
+   Gnp             n;
+   Gp             *p;
+   Grp             r;
+} Gvp;
+</pre>
+<p class="zdoc">Generic value structure.  This is assuming, when you use this structure you know what is stored inside.</p>
+
+
+<h1 class="zdoc"><a name="43">G*Func</a></h1>
+<p class="zdoc">Various function types for callbacks.</p>
+
+<h2 class="zdoc"><a name="43_1">Type</a></h2>
+<pre class="zdoc">
+typedef Gcompare   (*GrlCompareFunc)(        Gp const * const valueA, Gp const * const valueB);
+</pre>
+<p class="zdoc">Comparing to items together.</p>
+<pre class="zdoc">
+typedef void       (*GrlDestroyFunc)(        Gp       * const value);
+</pre>
+<p class="zdoc">Clean up dynamic memory.</p>
+<pre class="zdoc">
+typedef void       (*GrlForEachFunc)(        Gp       * const value);
+</pre>
+<p class="zdoc">Used in a ForEach function call to perform an action on each item.</p>
+<pre class="zdoc">
+typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
+</pre>
+<p class="zdoc">Used on a ForEach function with a key value container.</p>
+<pre class="zdoc">
+typedef Gp        *(*GrlForEachProcessFunc)( Gp       * const value);
+</pre>
+<p class="zdoc">-</p>
+<pre class="zdoc">
+typedef void       (*GrlForEachAltFunc)(     Gp       * const value, GrlForEachFunc func);
+</pre>
+<p class="zdoc">-</p>
+<pre class="zdoc">
+typedef Gp const  *(*GrlGetFunc)(            Gp const * const mem, Gi4 const index);
+</pre>
+<p class="zdoc">A form of array/buffer access function.</p>
+<pre class="zdoc">
+typedef GhashN     (*GrlHashFunc)(           Gp const * const value);
+</pre>
+<p class="zdoc">Obtain a hash value of something.</p>
+<pre class="zdoc">
+typedef void       (*GrlSwapFunc)(           Gp       * const mem, Gi4 const indexA, Gi4 const indexB);
+</pre>
+<p class="zdoc">Swap two values in a form of array/buffer.</p>
+ </body>
+
+</html>

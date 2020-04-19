@@ -163,6 +163,9 @@
     <ClInclude Include="gv.h">
       <Filter>Type Base</Filter>
     </ClInclude>
+    <ClInclude Include="gfilePref.h">
+      <Filter>File System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -263,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="precompiled.c">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gfilePref.c">
+      <Filter>File System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
