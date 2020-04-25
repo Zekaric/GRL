@@ -1,0 +1,717 @@
+/******************************************************************************
+file:       gfilePref
+author:     Robbert de Groot
+copyright:  2003-2011, Robbert de Groot
+
+description:
+A library to read and write a preference file.
+******************************************************************************/
+
+/******************************************************************************
+BSD 2-Clause License
+
+Copyright (c) 2000, Robbert de Groot
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+******************************************************************************/
+
+/******************************************************************************
+include
+******************************************************************************/
+#include "precompiled.h"
+
+/******************************************************************************
+local:
+function:
+******************************************************************************/
+static Gb _GetLine(GfilePref * const pref, Gs * const line);
+
+/******************************************************************************
+global:
+function:
+******************************************************************************/
+/******************************************************************************
+func: gfilePrefCreate
+******************************************************************************/
+grlAPI GfilePref *gfilePrefCreate_(const GfilePrefMode mode, Gp * const value)
+{
+   GfilePref *pref;
+
+   genter;
+
+   greturnIf(
+         mode == gfilePrefModeNONE ||
+         !value,
+      NULL);
+
+   // Create the buffer.
+   pref = gmemCreateType(GfilePref);
+   greturnNullIf(!pref);
+
+   if (!gfilePrefCreateContent(pref, mode, value))
+   {
+      gfilePrefDestroy(pref);
+      greturn NULL;
+   }
+
+   greturn pref;
+}
+
+/******************************************************************************
+func: gfilePrefCreateContent
+******************************************************************************/
+grlAPI Gb gfilePrefCreateContent(GfilePref * const pref, const GfilePrefMode mode, Gp * const value)
+{
+   genter;
+
+   greturnIf(
+         !pref                 ||
+         mode == gfilePrefModeNONE ||
+         !value,
+      gbFALSE);
+
+   if (mode == gfilePrefModeFILE)
+   {
+      pref->file   = (Gfile *) value;
+   }
+   else
+   {
+      pref->buffer = (Gs *) value;
+   }
+
+   pref->key   = gsCreate();
+   pref->value = gsCreate();
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gfilePrefDestroy
+******************************************************************************/
+grlAPI void gfilePrefDestroy(GfilePref * const pref)
+{
+   genter;
+
+   greturnVoidIf(!pref);
+
+   gfilePrefDestroyContent(pref);
+   gmemDestroy(pref);
+
+   greturn;
+}
+
+/******************************************************************************
+func: gfilePrefDestroyContent
+******************************************************************************/
+grlAPI void gfilePrefDestroyContent(GfilePref * const pref)
+{
+   genter;
+
+   greturnVoidIf(!pref);
+
+   gsDestroy(pref->key);
+   gsDestroy(pref->value);
+
+   gmemClearType(pref, GfilePref);
+
+   greturn;
+}
+
+/******************************************************************************
+func: gfilePrefGet
+
+Read the next record.
+******************************************************************************/
+grlAPI Gb gfilePrefGet(GfilePref * const pref)
+{
+   Gs    *line,
+         *begin,
+         *end;
+   Gb     result;
+   Gindex index;
+
+   genter;
+
+   greturnIf(!pref, gbFALSE);
+
+   result = gbTRUE;
+   line   = gsCreate();
+   begin  = NULL;
+   end    = NULL;
+
+   gsFlush(pref->key);
+   gsFlush(pref->value);
+
+   loop
+   {
+      gsDestroy(begin);
+
+      // Get the line.
+      if (!_GetLine(pref, line))
+      {
+         result = gbFALSE;
+         break;
+      }
+
+      // Get rid of the white space in front.
+      begin = gsCreateFrom(line);
+      gsStrip(
+         begin,
+         gcStripWHITE_SPACE_LEADING | gcStripWHITE_SPACE_TRAILING);//lint !e534
+      gsStrip(line, gcStripWHITE_SPACE_LEADING); //lint !e534
+
+      // Ignore comments.
+      continueIf(
+         *gsGetBegin(line) != L'-' &&
+         *gsGetBegin(line) != L'=');
+
+      // Get the key.
+      // Skip white space.
+      for (index = 1; ; index++)
+      {
+         breakIf(index >= gsGetCount(line));
+         continueIf(gcIsWhiteSpace((Gc) *gsGetAt(line, index)));//lint !e571
+         break;
+      }
+
+      // Read the key.
+      for (;; index++)
+      {
+         breakIf(index >= gsGetCount(line));
+         breakIf(gcIsWhiteSpace((Gc) *gsGetAt(line, index)));//lint !e571
+         if (!gsAppendC(pref->key, *gsGetAt(line, index)))
+         {
+            result = gbFALSE;
+            break;
+         }
+      }
+
+      if (*gsGetBegin(line) == L'-')
+      {
+         // Get the value.
+         // Skip white space.
+         for (;; index++)
+         {
+            breakIf(index >= gsGetCount(line));
+            continueIf(gcIsWhiteSpace((Gc) *gsGetAt(line, index)));//lint !e571
+            break;
+         }
+
+         // Read the value.
+         if (!gsAppendSub(pref->value, line, index, gsSubStrINDEX_END))
+         {
+            result = gbFALSE;
+            break;
+         }
+
+         // Single line values should be shortened to remove all leading 
+         // and trailing white space.
+         gsStrip(
+            pref->value,
+            gcStripWHITE_SPACE_LEADING | gcStripWHITE_SPACE_TRAILING); //lint !e534
+      }
+      else
+      {
+         loop
+         {
+            // Get the line.
+            breakIf(!_GetLine(pref, line));
+
+            // End of the key value pair.
+            end = gsCreateFrom(line);
+            gsStrip(
+               end,
+               gcStripWHITE_SPACE_LEADING | gcStripWHITE_SPACE_TRAILING); //lint !e534
+            breakIf(gsIsEqual(begin, end));
+            gsDestroy(end);
+            end = NULL;
+
+            // Append the line.
+            // from [1] because the first character is padding.
+            if (!gsAppend(pref->value, line))
+            {
+               result = gbFALSE;
+               break;
+            }
+         }
+
+         // Cursor returns and line feeds may be important to the value so leave
+         // them untouched.
+      }
+
+      break;
+   }
+
+   gsDestroy(begin);
+   gsDestroy(end);
+   gsDestroy(line);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gfilePrefGetKey
+******************************************************************************/
+grlAPI Gs *gfilePrefGetKey(const GfilePref * const pref)
+{
+   genter;
+
+   greturnIf(!pref, NULL);
+
+   greturn pref->key;
+}
+
+/******************************************************************************
+func: gfilePrefGetValue
+******************************************************************************/
+grlAPI Gs *gfilePrefGetValue(const GfilePref * const pref)
+{
+   genter;
+
+   greturnIf(!pref, NULL);
+
+   greturn pref->value;
+}
+
+#if 0
+/******************************************************************************
+func: gfilePrefLoadStrKeyValueArray
+******************************************************************************/
+grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray * const strKeyValueArray)
+{
+   gsKeyValue *kv;
+
+   genter;
+
+   greturnIf(
+         !pref ||
+         !strKeyValueArray,
+      gbFALSE);
+
+   // Populate the article with the key values.
+   while (gfilePrefGet(pref))
+   {
+      kv = gsKeyValueCreate();
+
+      gsKeyValueSetKey(  kv, gfilePrefGetKey(  pref));
+      gsKeyValueSetValue(kv, gfilePrefGetValue(pref));
+
+      greturnIf(!gsKeyValueArrayAddEnd(strKeyValueArray, kv), gbFALSE);
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gfilePrefLoadStrTable
+
+Populate a name table.
+******************************************************************************/
+grlAPI Gb gfilePrefLoadStrTable(GfilePref * const pref, GsTable * const strTable)
+{
+   genter;
+
+   greturnIf(
+         !pref ||
+         !strTable,
+      gbFALSE);
+
+   // Populate the article with the key values.
+   while (gfilePrefGet(pref))
+   {
+      greturnIf(
+            !gnameSet(
+               strTable,
+               gfilePrefGetKey(pref),
+               (Gp *) gsCreateFrom(gfilePrefGetValue(pref))),
+         gbFALSE);
+   }
+
+   greturn gbTRUE;
+}
+#endif
+
+/******************************************************************************
+func: gfilePrefSet
+
+Write to the preference file.
+******************************************************************************/
+grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const Gs * const value)
+{
+   Gs *random;
+
+   genter;
+
+   greturnIf(
+         !pref ||
+         !value,
+      gbFALSE);
+
+   //lint -save -e534
+   // Write to the file.
+   if (pref->file)
+   {
+      if (gsIsMultiline(value))
+      {
+         random = gsCreateFromI(grandomGetI(NULL)); //lint !e960
+
+         gfileSetC(pref->file, gcTypeU1, '=');
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, key, NULL);
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, random, NULL);
+         gfileSetC(pref->file, gcTypeU1, '\n');
+
+         gfileSetS(pref->file, gcTypeU1, value, NULL);
+         gfileSetC(pref->file, gcTypeU1, '\n');
+
+         gfileSetC(pref->file, gcTypeU1, '=');
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, key, NULL);
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, random, NULL);
+         gfileSetC(pref->file, gcTypeU1, '\n');
+
+         gsDestroy(random);
+      }
+      else
+      {
+         gfileSetC(pref->file, gcTypeU1, '-');
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, key, NULL);
+         gfileSetC(pref->file, gcTypeU1, ' ');
+         gfileSetS(pref->file, gcTypeU1, value, NULL);
+         gfileSetC(pref->file, gcTypeU1, '\n');
+      }
+   }
+   else
+   {
+      if (gsIsMultiline(value))
+      {
+         random = gsCreateFromI(grandomGetI(NULL)); //lint !e960
+
+         gsAppendA(pref->buffer, "= ");
+         gsAppend( pref->buffer, key);
+         gsAppendA(pref->buffer, " ");
+         gsAppend( pref->buffer, random);
+         gsAppendA(pref->buffer, "\n");
+
+         gsAppend( pref->buffer, value);
+         gsAppendA(pref->buffer, "\n");
+
+         gsAppendA(pref->buffer, "= ");
+         gsAppend( pref->buffer, key);
+         gsAppendA(pref->buffer, " ");
+         gsAppend( pref->buffer, random);
+         gsAppendA(pref->buffer, "\n");
+
+         gsDestroy(random);
+      }
+      else
+      {
+         gsAppendA(pref->buffer, "- ");
+         gsAppend( pref->buffer, key);
+         gsAppendA(pref->buffer, " ");
+         gsAppend( pref->buffer, value);
+         gsAppendA(pref->buffer, "\n");
+      }
+   }
+   //lint -restore
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gfilePrefSetCharStr
+******************************************************************************/
+grlAPI Gb gfilePrefSetCharStr(const GfilePref * const pref, const Char * const key, const Char * const value)
+{
+   Gb    result;
+   Gs *ntemp,
+        *vtemp;
+
+   genter;
+
+   result = gbFALSE;
+
+   ntemp = gsCreateFromA(key);
+   vtemp = gsCreateFromA(value);
+
+   if (ntemp &&
+       vtemp)
+   {
+      result = gfilePrefSet(pref, ntemp, vtemp);
+   }
+
+   gsDestroy(ntemp);
+   gsDestroy(vtemp);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gfilePrefSetComment
+
+Write a comment to the pref file.
+
+param:
+pref
+   GfilePref *
+   in
+   the pref.
+
+string
+   Gs *
+   in
+   the string that is the comment.  Can be multiline.  Use only \n
+   not \r\n.
+
+return:
+int
+******************************************************************************/
+grlAPI Gb gfilePrefSetComment(const GfilePref * const pref, const Gs * const value)
+{
+   Gindex a;
+
+   genter;
+
+   greturnIf(
+         !pref  ||
+         !value ||
+         !gsGetCount(value),
+      gbFALSE);
+
+   //lint -save -e534
+   // Write to the file.
+   if (pref->file)
+   {
+      // We don't need to prefix with a # but I just
+      // don't want to spend the effort to check if the
+      // first character in a line is a - or =.  This
+      // ensures the line is a comment.
+      greturnIf(!gfileSetC(pref->file, gcTypeU1, '#'), gbFALSE);
+      greturnIf(!gfileSetC(pref->file, gcTypeU1, ' '), gbFALSE);
+
+      forCount(a, gsGetCount(value))
+      {
+         if (*gsGetAt(value, a) == L'\n')
+         {
+            greturnIf(!gfileSetC(pref->file, gcTypeU1, '\n'), gbFALSE);
+            greturnIf(!gfileSetC(pref->file, gcTypeU1, '#'), gbFALSE);
+            greturnIf(!gfileSetC(pref->file, gcTypeU1, ' '), gbFALSE);
+         }
+         else
+         {
+            greturnIf(!gfileSetC(pref->file, gcTypeU1, (Gc) *gsGetAt(value, a)), gbFALSE);//lint !e571
+         }
+      }
+
+      greturnIf(!gfileSetC(pref->file, gcTypeU1, '\n'), gbFALSE);
+   }
+   else
+   {
+      greturnIf(!gsAppendC(pref->buffer, '#'), gbFALSE);
+      greturnIf(!gsAppendC(pref->buffer, ' '), gbFALSE);
+
+      forCount(a, gsGetCount(value))
+      {
+         if (*gsGetAt(value, a) == L'\n')
+         {
+            greturnIf(!gsAppendC(pref->buffer, '\n'), gbFALSE);
+            greturnIf(!gsAppendC(pref->buffer, '#'), gbFALSE);
+            greturnIf(!gsAppendC(pref->buffer, ' '), gbFALSE);
+         }
+         else
+         {
+            greturnIf(!gsAppendC(pref->buffer, *gsGetAt(value, a)), gbFALSE);
+         }
+      }
+
+      greturnIf(!gsAppendC(pref->buffer, '\n'), gbFALSE);
+   }
+   //lint -restore
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gfilePrefSetCommentCharStr
+
+Write a comment to the pref file.
+
+param:
+pref
+   GfilePref *
+   in
+   the pref.
+
+string
+   char *
+   in
+   the string that is the comment.  Can be multiline.  Use only \n
+   not \r\n.
+
+return:
+int
+******************************************************************************/
+grlAPI Gb gfilePrefSetCommentA(const GfilePref * const pref, const Char * const value)
+{
+   Gb    result;
+   Gs *stemp;
+
+   genter;
+
+   stemp = gsCreateFromA(value);
+
+   result = gfilePrefSetComment(pref, stemp);
+
+   gsDestroy(stemp);
+
+   greturn result;
+}
+
+#if 0
+/******************************************************************************
+func: gsKeyValueArrayCreateLoad
+******************************************************************************/
+grlAPI gsKeyValueArray *gsKeyValueArrayCreateLoad(const Gpath * const fileName)
+{
+   gsKeyValueArray *skvArray;
+
+   genter;
+
+   skvArray = gsKeyValueArrayCreate();
+   if (!gsKeyValueArrayLoad(skvArray, fileName))
+   {
+      gsKeyValueArrayDestroy(skvArray);
+      greturn NULL;
+   }
+
+   greturn skvArray;
+}
+
+/******************************************************************************
+func: gsKeyValueArrayLoad
+******************************************************************************/
+grlAPI Gb gsKeyValueArrayLoad(gsKeyValueArray * const strKeyValueArray, const Gpath * const fileName)
+{
+   Gb     result;
+   Gfile *file;
+   GfilePref *pref;
+
+   genter;
+
+   greturnIf(
+         !strKeyValueArray ||
+         !fileName,
+      gbFALSE);
+
+   // open the file
+   file = gfileOpen(fileName, gfileOpenREAD);
+   // start the pref parser.
+   pref = gfilePrefCreate(gfilePrefModeGFILE, file);
+
+   // load the gname.
+   result = gfilePrefLoadStrKeyValueArray(pref, strKeyValueArray);
+
+   // clean up
+   gfilePrefDestroy(pref);
+   gfileClose(file);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gssHashLoad
+******************************************************************************/
+grlAPI Gb gssHashLoad(GsTable * const strTable, const Gpath * const filename)
+{
+   Gb     result;
+   Gfile *file;
+   GfilePref *pref;
+
+   genter;
+
+   greturnIf(
+         !strTable ||
+         !filename,
+      gbFALSE);
+
+   // open the file
+   file = gfileOpen(filename, gfileOpenREAD);
+   // start the pref parser.
+   pref = gfilePrefCreate(gfilePrefModeGFILE, file);
+
+   // load the gname.
+   result = gfilePrefLoadStrTable(pref, strTable);
+
+   // clean up
+   gfilePrefDestroy(pref);
+   gfileClose(file);
+
+   greturn result;
+}
+#endif
+
+/******************************************************************************
+LOCAL: Functions
+******************************************************************************/
+/******************************************************************************
+func: _GetLine
+
+Get the next line.
+******************************************************************************/
+static Gb _GetLine(GfilePref * const pref, Gs * const line)
+{
+   Gc2 letter;
+
+   genter;
+
+   gsFlush(line);
+
+   // Reading from a file.
+   if (pref->file)
+   {
+      // Get the line.
+      greturnFalseIf(!gfileGetS(pref->file, gcTypeU1, line));
+   }
+   else
+   {
+      // Copy over the next line in the string.
+      for (;
+           pref->bposition < gsGetCount(pref->buffer);
+           pref->bposition++)
+      {
+         letter = *gsGetAt(pref->buffer, pref->bposition);
+         greturnIf(!gsAppendC(line, letter), gbFALSE);
+
+         breakIf(letter == (Gc2) '\n');
+      }
+      pref->bposition++;
+
+      // Nothing more to read.
+      greturnIf(!gsGetCount(line), gbFALSE);
+   }
+
+   greturn gbTRUE;
+}
