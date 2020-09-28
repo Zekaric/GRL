@@ -1479,6 +1479,8 @@ grlAPI Gs *gsEraseSub(Gs * const str, Gindex const start, Gindex const end)
 
    greturnNullIf(start > end);
 
+   greturnIf(start == end, str);
+
    // fix start and end.
    startTemp = gMIN(gsGetCount(str), start);//lint !e666
    endTemp   = gMIN(gsGetCount(str), end);//lint !e666
