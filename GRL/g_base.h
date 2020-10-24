@@ -129,16 +129,18 @@ macro:
 ******************************************************************************/
 
 // Helper to convert a non quoted string to a quoted string for the pre-processor
-#define CHAR_FROM_INT_(X) #X
-#define CHAR_FROM_INT(X) CHAR_FROM_INT_(X)
+#define CHAR_FROM_INT_(X)           #X
+#define CHAR_FROM_INT(X)            CHAR_FROM_INT_(X)
 
 // Wrapping sizeof to case to Gsize
-#define gsizeof(V)         ((Gsize) sizeof(V))
+#define gsizeof(V)                  ((Gsize) sizeof(V))
 
 // Abs macro
-#define gABS(V)            (((V) <    0) ? -(V) : (V))
-#define gMAX(A, B)         (((A) >= (B)) ?  (A) : (B))
-#define gMIN(A, B)         (((A) >= (B)) ?  (B) : (A))
+#define gABS(V)                     (((V) <    0) ? -(V) : (V))
+#define gMAX(A, B)                  (((A) >= (B)) ?  (A) : (B))
+#define gMIN(A, B)                  (((A) >= (B)) ?  (B) : (A))
+#define gIS_IN_RANGE(V, MIN, MAX)   ((MIN) <= (V) && (V) <= (MAX))
+#define gIS_IN_BETWEEN(V, MIN, MAX) ((MIN) <  (V) && (V) <  (MAX))
 
 // Loop macroes.  
 // I know some will hate these but I find they help prevent typo mistakes and 
@@ -192,6 +194,12 @@ macro:
 #define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
 #define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
 #define debugPrint(WSTR)            OutputDebugString(WSTR)
+#define debugPrintMsg(FMT, ...)     \
+{\
+   wchar_t __debug_str[1024];\
+   swprintf_s(__debug_str, 1024, FMT, __VA_ARGS__);\
+   debugPrint(__debug_str);\
+}
 
 #if grlWINDOWS == 1
 #define debugCheckMemory()    _CrtCheckMemory();

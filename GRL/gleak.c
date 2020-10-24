@@ -242,7 +242,7 @@ void gleakStop(void)
    OutputDebugString(L"*** Leak Report ***\n");
 #endif
 
-   // Clean up.
+   // CSV output
    forCount(a, gleakHASH_COUNT)
    {
       l = _leak[a];
@@ -266,9 +266,10 @@ void gleakStop(void)
          swprintf(
             debug,
             (size_t) 1024,
-            L"%S(%d) : alloc: size %d\n", //lint !e816
+            L"%S\t%d\t%I64u\t%d\n", //lint !e816
             l->file,
             l->line,
+            l->index,
             l->size); //lint !e534
 #if defined(grlWINDOWS)
          OutputDebugString(debug);
@@ -282,6 +283,57 @@ void gleakStop(void)
             fprintf(f, "\n");
          }
 #endif
+
+         // Next leak item
+         l = l->next;
+      }
+   }
+
+   OutputDebugString(L"*** === ***\n");
+
+   // Debug window output and Clean up.
+   forCount(a, gleakHASH_COUNT)
+   {
+      l = _leak[a];
+      loop
+      {
+         breakIf(!l);
+         if (!l->p)
+         {
+            ltemp = l->next;
+            free(l); //lint !e586
+            l = ltemp;
+         }
+
+#if gleakFILE_OUTPUT == 1
+         if (f)
+         {
+            fprintf(f, "LEAK: size %d\n", l->size);
+         }
+#endif
+
+         swprintf(
+            debug,
+            (size_t) 1024,
+            L"%S(%d) : alloc: index %7I64u   size %d\n", //lint !e816
+            l->file,
+            l->line,
+            l->index,
+            l->size); //lint !e534
+#if defined(grlWINDOWS)
+         OutputDebugString(debug);
+#endif
+
+#if gleakFILE_OUTPUT == 1
+         if (f)
+         {
+            fprintf(f, "   %10x LINE: %10d  FILE: ", (unsigned int) (p), l->line);
+            fprintf(f, l->file);
+            fprintf(f, "\n");
+         }
+#endif
+
+         // Next leak item
          p = l;
          l = l->next;
          free(p); //lint !e586
