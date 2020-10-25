@@ -289,7 +289,7 @@ void gleakStop(void)
       }
    }
 
-   OutputDebugString(L"*** === ***\n");
+   OutputDebugString(L"*** =========== ***\n");
 
    // Debug window output and Clean up.
    forCount(a, gleakHASH_COUNT)
