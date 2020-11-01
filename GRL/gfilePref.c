@@ -182,8 +182,9 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
 
       // Ignore comments.
       continueIf(
-         *gsGetBegin(line) != L'-' &&
-         *gsGetBegin(line) != L'=');
+         gsIsEmpty(line)               ||
+         (*gsGetBegin(line) != L'-' &&
+          *gsGetBegin(line) != L'='));
 
       // Get the key.
       // Skip white space.

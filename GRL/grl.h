@@ -107,6 +107,7 @@ include:
 #include <sys/stat.h>
 #include <time.h>
 #include <wchar.h>
+#include <math.h>
 //lint -restore
 
 // includes are in order of dependence.  

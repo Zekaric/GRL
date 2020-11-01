@@ -79,6 +79,90 @@ constant:
 #define GiMAX                 Gi8MAX
 #define GrMAX                 Gr8MAX
 #define GrMIN                 Gr8MIN
+#define GrPI                  M_PI
+#define GrE                   M_E        // e
+#define GrLOG2E               M_LOG2E    // log2(e)
+#define GrLOG10E              M_LOG10E   // log10(e)
+#define GrLN2                 M_LN2      // ln(2)
+#define GrLN10                M_LN10     // ln(10)
+#define GrPI                  M_PI       // pi
+#define GrPI_OVER_2           M_PI_2     // pi/2
+#define GrPI_OVER_4           M_PI_4     // pi/4
+#define Gr1_OVER_PI           M_1_PI     // 1/pi
+#define Gr2_OVER_PI           M_2_PI     // 2/pi
+#define Gr2_OVER_SQROOT_PI    M_2_SQRTPI // 2/sqrt(pi)
+#define GrSQROOT_2            M_SQRT2    // sqrt(2)
+#define Gr1_OVER_SQROOT_2     M_SQRT1_2  // 1/sqrt(2)
+#define GrM_PER_C                    10.000000000000
+#define GrC_PER__                   100.000000000000
+#define GrM_PER__                 1_000.000000000000
+#define Gr__PER_K                 1_000.000000000000
+#define GrM_PER_K             1_000_000.000000000000
+#define GrINCH_PER_FOOT              12.000000000000
+#define GrINCH_PER_MILE          63_360.000000000000
+#define GrINCH_PER_NMILE         72_913.390000000000
+#define GrINCH_PER_MM                 0.039370080000
+#define GrINCH_PER_CM                 0.393700800000
+#define GrINCH_PER_M                 39.370080000000
+#define GrINCH_PER_KM            39_370.080000000000
+#define GrFOOT_PER_INCH       (1 / GrINCH_PER_FOOT)
+#define GrFOOT_PER_YARD               3.000000000000
+#define GrFOOT_PER_MILE           5_280.000000000000
+#define GrFOOT_PER_NMILE          6_076.115000000000
+#define GrFOOT_PER_MM                 0.003280840000
+#define GrFOOT_PER_CM                 0.032808400000
+#define GrFOOT_PER_M                  3.280840000000
+#define GrFOOT_PER_KM             3_280.840000000000
+#define GrYARD_PER_INCH       (1 / GrINCH_PER_YARD)
+#define GrYARD_PER_FOOT       (1 / GrFOOT_PER_YARD)
+#define GrYARD_PER_MILE           1_760.000000000000
+#define GrYARD_PER_NMILE          2_025.372000000000
+#define GrYARD_PER_MM                 0.001093613000
+#define GrYARD_PER_CM                 0.010936130000
+#define GrYARD_PER_M                  1.093061300000
+#define GrYARD_PER_KM             1_093.613000000000
+#define GrMILE_PER_INCH       (1 / GrINCH_PER_MILE)
+#define GrMILE_PER_FOOT       (1 / GrFOOT_PER_MILE)
+#define GrMILE_PER_YARD       (1 / GrYARD_PER_MILE)
+#define GrMILE_PER_NMILE              1.150779000000
+#define GrMILE_PER_MM                 0.000000621371
+#define GrMILE_PER_CM                 0.000006213710
+#define GrMILE_PER_M                  0.000621371000
+#define GrMILE_PER_KM                 0.621371000000
+#define GrNMILE_PER_INCH      (1 / GrINCH_PER_NMILE)
+#define GrNMILE_PER_FOOT      (1 / GrFOOT_PER_NMILE)
+#define GrNMILE_PER_YARD      (1 / GrYARD_PER_NMILE)
+#define GrNMILE_PER_MILE      (1 / GrMILE_PER_NMILE)
+#define GrNMILE_PER_MM                0.000000539957
+#define GrNMILE_PER_CM                0.000005399570
+#define GrNMILE_PER_M                 0.000539957000
+#define GrNMILE_PER_KM                0.539957000000
+#define GrMM_PER_INCH                25.400000000000
+#define GrMM_PER_FOOT               304.800000000000
+#define GrMM_PER_YARD               914.400000000000
+#define GrMM_PER_MILE         1_609_344.000000000000
+#define GrMM_PER_NMILE        1_852_000.000000000000
+#define GrCM_PER_INCH                 2.540000000000
+#define GrCM_PER_FOOT                30.480000000000
+#define GrCM_PER_YARD                91.440000000000
+#define GrCM_PER_MILE           160_934.400000000000
+#define GrCM_PER_NMILE          185_200.000000000000
+#define GrM_PER_INCH                  0.025400000000
+#define GrM_PER_FOOT                  0.304800000000
+#define GrM_PER_YARD                  0.914400000000
+#define GrM_PER_MILE              1_609.344000000000
+#define GrM_PER_NMILE             1_852.000000000000
+#define GrKM_PER_INCH                 0.000025400000
+#define GrKM_PER_FOOT                 0.000304800000
+#define GrKM_PER_YARD                 0.000914400000
+#define GrKM_PER_MILE                 1.609344000000
+#define GrKM_PER_NMILE                1.852000000000
+#define GrPOINT_PER_INCH             72.000000000000
+#define GrPOINT_PER_MM        (GrPOINT_PER_INCH * GrINCH_PER_MM)
+#define GrTWIP_PER_INCH            1440.000000000000
+#define GrTWIP_PER_MM         (GrTWIP_PER_INCH * GrINCH_PER_MM)
+#define GrTWIP_PER_POINT             20.000000000000
+
 
 #define Gi1MAX                INT8_MAX
 #define Gi1MIN                INT8_MIN
