@@ -22,6 +22,16 @@ constant:
 /******************************************************************************
 type:
 ******************************************************************************/
+typedef enum
+{
+   gsFormattedTypeA,
+   gsFormattedTypeU1,
+   gsFormattedTypeU2,
+   gsFormattedTypeS,
+   gsFormattedTypeI,
+   gsFormattedTypeN,
+   gsFormattedTypeR
+} GsFormattedType;
 
 /******************************************************************************
 prototype:
@@ -51,7 +61,7 @@ grlAPI Gs            *gsAppendSub(           Gs       * const str, Gs const * co
 grlAPI Gs            *gsAppendSubFormat(     Gs       * const str, Gs const * const value, Gindex const start, Gindex const end, Gc2 const * const format);
 // MISRA rule on ellipsis.  Do not use if you are not permitted.
 //lint -save -e960 -e1916
-grlAPI Gs            *gsAppendFormated(      Gs       * const str, Gc2 const * const format, ...);
+grlAPI Gs            *gsAppendFormatted(     Gs       * const str, Gc2 const * const format, ...);
 grlAPI Gs            *gsAppendParams(        Gs       * const str, ...);
 grlAPI Gs            *gsAppendRandom(        Gs       * const str);
 //lint -restore
@@ -100,7 +110,7 @@ grlAPI Gcompare       gsCompareCountU2(     Gs const * const a,  Gc2  const * co
 #define gsCreateFromFormatA(S, FMT)                ((Gs *)  gleakCreate(gsAppendFormatA(     gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
 #define gsCreateFromFormatU1(S, FMT)               ((Gs *)  gleakCreate(gsAppendFormatU1(    gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
 #define gsCreateFromFormatU2(S, FMT)               ((Gs *)  gleakCreate(gsAppendFormatU2(    gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormated(FMT, ...)             ((Gs *)  gleakCreate(gsAppendFormated(    gsCreate(), (FMT), __VA_ARGS__),   gsizeof(Gs)))
+#define gsCreateFromFormatted(FMT, ...)            ((Gs *)  gleakCreate(gsAppendFormatted(   gsCreate(), (FMT), __VA_ARGS__),   gsizeof(Gs)))
 #define gsCreateFromParam(...)                     ((Gs *)  gleakCreate(gsAppendParams(      gsCreate(), __VA_ARGS__),                gsizeof(Gs)))
 #define gsCreateFromSub(S, START, END)             ((Gs *)  gleakCreate(gsAppendSub(         gsCreate(), (S), (START), (END)),        gsizeof(Gs)))
 #define gsCreateFromSubFormat(S, START, END, FMT)  ((Gs *)  gleakCreate(gsAppendSubFormat(   gsCreate(), (S), (START), (END), (FMT)), gsizeof(Gs)))
@@ -224,7 +234,7 @@ grlAPI Gs            *gsPadTail(            Gs       * const str, Gindex const l
 #define gsSetFormatA(     S, VALS, FMT)             /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendFormatA(   S, VALS, FMT))                /*lint -restore */
 #define gsSetFormatU1(    S, VALS, FMT)             /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendFormatU1(  S, VALS, FMT))                /*lint -restore */
 #define gsSetFormatU2(    S, VALS, FMT)             /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendFormatU2(  S, VALS, FMT))                /*lint -restore */
-#define gsSetFormated(    S, FMT, ...)              /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendFormated(  S, FMT, __VA_ARGS__))         /*lint -restore */
+#define gsSetFormatted(   S, FMT, ...)              /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendFormatted( S, FMT, __VA_ARGS__))         /*lint -restore */
 #define gsSetParams(      S, ...)                   /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendParams(    S, __VA_ARGS__))              /*lint -restore */
 #define gsSetSub(         S, VALS, START, END)      /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendSub(       S, VALS, START, END))         /*lint -restore */
 #define gsSetSubFormat(   S, VALS, START, END, FMT) /*lint -save -esym( 960, 12.10 ) -e9008 */ (gsFlush(S), gsAppendSubFormat( S, VALS, START, END, FMT))    /*lint -restore */

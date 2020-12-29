@@ -162,6 +162,7 @@ constant:
 #define GrTWIP_PER_INCH            1440.000000000000
 #define GrTWIP_PER_MM         (GrTWIP_PER_INCH * GrINCH_PER_MM)
 #define GrTWIP_PER_POINT             20.000000000000
+#define GrHALF_POINT_PER_POINT        2.000000000000
 
 
 #define Gi1MAX                INT8_MAX
@@ -297,6 +298,7 @@ macro:
 #define debugHalt(STRING)
 #define debugPrint(WSTR)
 #define debugCheckMemory()
+#define debugPrintMsg(FMT, ...)
 
 #endif
 

@@ -642,32 +642,43 @@ grlAPI Gs *gsAppendFormatU2(Gs * const str, Gc2 const * const cstr, Gc2 const * 
 }
 
 /******************************************************************************
-func: gsAppendFormated
+func: gsAppendFormatted
 
-After format, you have pairs of variables.
+After format, you have key value pairs of variables.
 
-Gc2 const * const key,
-Gc2 const type, 
+Gc2 const * const Key, GsAppendFormatedType Type, Gc2 const * const Value,
+
 Depending on type above value is one of the following.
 
-type 
-"a" - ascii    key, value
-"u" - UTF8     key, value
-"U" - UTF16    key, value
-"s" - Gs *     key, value
-"i" - integer  value
-"n" - natural  value
-"r" - real     value
+Type (Gc2)                             Value
+gsFormattedTypeA  - ascii        Char *
+gsFormattedTypeU1 - UTF8         Gc1  *
+gsFormattedTypeU2 - UTF16        Gc2  *
+gsFormattedTypeS  - Gs           Gs   *
+gsFormattedTypeI  - integer      Gi 
+gsFormattedTypeN  - natural      Gn 
+gsFormattedTypeR  - real         Gr 
+
+Terminate with a NULL value for Key.
+
+Example:
+
+gsAppendFormated(
+   stemp, 
+   L"This is a %KEY% to replace with No Key! %KEY% will also be replaced.  $(OTHER) will be something else.", 
+   L"%KEY%",   gsFormattedTypeA, (Char *) "Hokey", 
+   L"$(OTHER), gsFormattedTypeI, (Gi)     1024,
+   NULL);
 ******************************************************************************/
-grlAPI Gs *gsAppendFormated(Gs * const str, Gc2 const * const format, ...)//lint !e1916 !e960
+grlAPI Gs *gsAppendFormatted(Gs * const str, Gc2 const * const format, ...)//lint !e1916 !e960
 {
-   Gs  const   *search,
-               *replace;
-   Gs          *stemp,
-               *result;
-   Gc2          typeTemp;
-   va_list      args;
-   GtempScope  *tempScope;
+   Gs  const            *search,
+                        *replace;
+   Gs                   *stemp,
+                        *result;
+   GsFormattedType typeTemp;
+   va_list               args;
+   GtempScope           *tempScope;
 
    genter;
 
@@ -691,34 +702,34 @@ grlAPI Gs *gsAppendFormated(Gs * const str, Gc2 const * const format, ...)//lint
       search = gtempGs(tempScope, gsCreateFromU2(va_arg(args, Gc2 *))); //lint !e960
       breakIf(search == NULL);
 
-      typeTemp = va_arg(args, Gc2);
+      typeTemp = va_arg(args, GsFormattedType);
       switch (typeTemp)
       {
-      case 'a':
+      case gsFormattedTypeA:
          replace = gtempGs(tempScope, gsCreateFromA(va_arg(args, Char *))); //lint !e960
          break;
 
-      case 'u':
+      case gsFormattedTypeU1:
          replace = gtempGs(tempScope, gsCreateFromU1(va_arg(args, Gc1 *))); //lint !e960
          break;
 
-      case 'U':
+      case gsFormattedTypeU2:
          replace = gtempGs(tempScope, gsCreateFromU2(va_arg(args, Gc2 *))); //lint !e960
          break;
 
-      case 's':
+      case gsFormattedTypeS:
          replace = va_arg(args, Gs *);
          break;
 
-      case 'i':
+      case gsFormattedTypeI:
          replace = gtempGs(tempScope, gsCreateFromI(va_arg(args, Gi)));
          break;
 
-      case 'n':
+      case gsFormattedTypeN:
          replace = gtempGs(tempScope, gsCreateFromN(va_arg(args, Gn)));
          break;
 
-      case 'r':
+      case gsFormattedTypeR:
          replace = gtempGs(tempScope, gsCreateFromR(va_arg(args, Gr)));
          break;
       }//lint !e787
