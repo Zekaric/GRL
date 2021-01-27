@@ -190,8 +190,8 @@ grlAPI Gc gcFromU1(Gc1 const * const str)
    if ((str[0] & 0xe0) == 0xc0)
    {
       letter =
-          (str[0] & 0x3f)        +
-         ((str[1] & 0x1f) << 6);
+         ((str[0] & 0x1f) << 6) |
+          (str[1] & 0x3f);
 
       greturn letter;
    }
@@ -200,19 +200,19 @@ grlAPI Gc gcFromU1(Gc1 const * const str)
    if ((str[0] & 0xf0) == 0xe0)
    {
       letter =
-          (((Gn4) str[0]) & 0x3f)        +
+         ((((Gn4) str[0]) & 0x0f) << 12);
          ((((Gn4) str[1]) & 0x3f) <<  6) +
-         ((((Gn4) str[2]) & 0x0f) << 12);
+          (((Gn4) str[2]) & 0x3f)        +
 
       greturn letter;
    }
 
    // four byte.
    letter =
-       (((Gn4) str[0]) & 0x3f)        +
-      ((((Gn4) str[1]) & 0x3f) <<  6) +
-      ((((Gn4) str[2]) & 0x3f) << 12) +
-      ((((Gn4) str[3]) & 0x07) << 18);
+      ((((Gn4) str[0]) & 0x07) << 18);
+      ((((Gn4) str[1]) & 0x3f) << 12) +
+      ((((Gn4) str[2]) & 0x3f) <<  6) +
+       (((Gn4) str[3]) & 0x3f)        +
 
    greturn letter;
 }
@@ -796,7 +796,7 @@ grlAPI Gcount gcToU1(Gc const letter, Gc1 * const a, Gc1 * const b, Gc1 * const 
       *d = 0;
       *c = (Gc1) (0x80 |  (letter        & 0x3f));
       *b = (Gc1) (0x80 | ((letter >>  6) & 0x3f));
-      *a = (Gc1) (0xe0 | ((letter >> 12) & 0x3f));
+      *a = (Gc1) (0xe0 | ((letter >> 12) & 0x0f));
       greturn 3;
    }
 
@@ -804,7 +804,7 @@ grlAPI Gcount gcToU1(Gc const letter, Gc1 * const a, Gc1 * const b, Gc1 * const 
    *d = (Gc1) (0x80 |  (letter        & 0x3f));
    *c = (Gc1) (0x80 | ((letter >>  6) & 0x3f));
    *b = (Gc1) (0x80 | ((letter >> 12) & 0x3f));
-   *c = (Gc1) (0xf0 | ((letter >> 16) & 0x03));
+   *c = (Gc1) (0xf0 | ((letter >> 18) & 0x07));
    greturn 4;
 }
 
