@@ -200,19 +200,19 @@ grlAPI Gc gcFromU1(Gc1 const * const str)
    if ((str[0] & 0xf0) == 0xe0)
    {
       letter =
-         ((((Gn4) str[0]) & 0x0f) << 12);
-         ((((Gn4) str[1]) & 0x3f) <<  6) +
-          (((Gn4) str[2]) & 0x3f)        +
+         ((((Gn4) str[0]) & 0x0f) << 12) |
+         ((((Gn4) str[1]) & 0x3f) <<  6) |
+          (((Gn4) str[2]) & 0x3f);
 
       greturn letter;
    }
 
    // four byte.
    letter =
-      ((((Gn4) str[0]) & 0x07) << 18);
-      ((((Gn4) str[1]) & 0x3f) << 12) +
-      ((((Gn4) str[2]) & 0x3f) <<  6) +
-       (((Gn4) str[3]) & 0x3f)        +
+      ((((Gn4) str[0]) & 0x07) << 18) |
+      ((((Gn4) str[1]) & 0x3f) << 12) |
+      ((((Gn4) str[2]) & 0x3f) <<  6) |
+       (((Gn4) str[3]) & 0x3f);
 
    greturn letter;
 }
