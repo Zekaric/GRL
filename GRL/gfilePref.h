@@ -119,6 +119,8 @@ type:
 ******************************************************************************/
 typedef struct
 {
+   GTYPE_VAR
+
    Goffset   bposition;
    Gfile    *file;
    Gs       *buffer,

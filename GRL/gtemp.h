@@ -18,6 +18,8 @@ typedef struct GtempScope GtempScope;
 
 struct GtempData
 {
+   GTYPE_VAR
+
    GtempData      *next;
    Gp             *data;
    GrlDestroyFunc  destroy;
@@ -25,6 +27,8 @@ struct GtempData
 
 struct GtempScope
 {
+   GTYPE_VAR
+
    GtempData      *data;
 };
 

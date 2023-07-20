@@ -41,7 +41,7 @@ Gn containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -60,7 +60,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -80,7 +80,7 @@ struct GnListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -100,7 +100,7 @@ struct GnListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -111,7 +111,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
@@ -122,7 +122,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GnListKey         **binArray;
    GhashSize               binCount;
@@ -143,7 +143,7 @@ struct GnTreeItem
 
 struct GnTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GnTreeItem          *root;
@@ -165,7 +165,7 @@ struct GnTreeKeyItem
 
 struct GnTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GnTreeKeyItem       *root;
@@ -178,8 +178,8 @@ struct GnTreeKey
 #define gnArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gnArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gnArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gnArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GnArray *)         g_ArrayCreate(                                GnArray, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gnArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, GnArray, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gnArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GnArray *)             g_ArrayCreate(                                "GnArray", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gnArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GnArray", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define gnArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gnArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gnArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -189,11 +189,11 @@ struct GnTreeKey
 #define gnArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gnArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gnArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
-#define gnArrayGet(                ARRAY)                                            ((Gn *)              g_ArrayGet(                (G_Array *) ARRAY))
-#define gnArrayGetAt(              ARRAY, INDEX)                                     ((Gn *)              g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
-#define gnArrayGetBegin(           ARRAY)                                            ((Gn *)              g_ArrayGetBegin(           (G_Array *) ARRAY))
+#define gnArrayGet(                ARRAY)                                            ((Gn *)                  g_ArrayGet(                (G_Array *) ARRAY))
+#define gnArrayGetAt(              ARRAY, INDEX)                                     ((Gn *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
+#define gnArrayGetBegin(           ARRAY)                                            ((Gn *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))
 #define gnArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
-#define gnArrayGetEnd(             ARRAY)                                            ((Gn *)              g_ArrayGetEnd(             (G_Array *) ARRAY))
+#define gnArrayGetEnd(             ARRAY)                                            ((Gn *)                  g_ArrayGetEnd(             (G_Array *) ARRAY))
 #define gnArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
 #define gnArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
 #define gnArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
@@ -207,8 +207,8 @@ struct GnTreeKey
 #define gnArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gnArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gnArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gnArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GnArray *)         g_ArrayKeyCreate(                                GnArray, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gnArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GnArray, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gnArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GnArray *)             g_ArrayKeyCreate(                                "GnArrayKey", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gnArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GnArrayKey", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define gnArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define gnArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define gnArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -218,12 +218,12 @@ struct GnTreeKey
 #define gnArrayKeyFind(            ARRAY, KEY)                                                                g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY) 
 #define gnArrayKeyFlush(           ARRAY)                                                                     g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY) 
 #define gnArrayKeyForEach(         ARRAY, FUNC)                                                               g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC) 
-#define gnArrayKeyGetAt(           ARRAY, INDEX)                                     ((Gn *)              g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
+#define gnArrayKeyGetAt(           ARRAY, INDEX)                                     ((Gn *)                  g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
 #define gnArrayKeyGetAtKey(        ARRAY, INDEX)                                                              g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX)
-#define gnArrayKeyGetBegin(        ARRAY)                                            ((Gn *)              g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
+#define gnArrayKeyGetBegin(        ARRAY)                                            ((Gn *)                  g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
 #define gnArrayKeyGetBeginKey(     ARRAY)                                                                     g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY) 
 #define gnArrayKeyGetCount(        ARRAY)                                                                     g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY) 
-#define gnArrayKeyGetEnd(          ARRAY)                                            ((Gn *)              g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
+#define gnArrayKeyGetEnd(          ARRAY)                                            ((Gn *)                  g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
 #define gnArrayKeyGetEndKey(       ARRAY)                                                                     g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY) 
 #define gnArrayKeyGetSize(         ARRAY)                                                                     g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY) 
 #define gnArrayKeySetCount(        ARRAY, COUNT)                                                              g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT) 
@@ -232,116 +232,116 @@ struct GnTreeKey
 #define gnArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                       g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE) 
 #define gnArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                         g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY) 
 
-#define gnListAdd(                 LIST, VALUE)                                       (GnListItem *)      g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
-#define gnListAddBegin(            LIST, VALUE)                                       (GnListItem *)      g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
-#define gnListAddEnd(              LIST, VALUE)                                       (GnListItem *)      g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gnListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GnList *)          g_ListCreate(                               GnList, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define gnListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, GnList, Gn, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gnListAdd(                 LIST, VALUE)                                       (GnListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
+#define gnListAddBegin(            LIST, VALUE)                                       (GnListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
+#define gnListAddEnd(              LIST, VALUE)                                       (GnListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
+#define gnListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GnList *)              g_ListCreate(                               "GnList", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gnListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GnList", Gn, gbFALSE, OPTIONAL_COMPARE_FUNC)
 #define gnListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
 #define gnListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
 #define gnListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gnListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define gnListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
-#define gnListFind(                LIST, VALUE)                                       (GnListItem *)      g_ListFind(                (G_List *) LIST, (Gp *) VALUE)
+#define gnListFind(                LIST, VALUE)                                       (GnListItem *)          g_ListFind(                (G_List *) LIST, (Gp *) VALUE)
 #define gnListFlush(               LIST)                                                                      g_ListFlush(               (G_List *) LIST)
 #define gnListForEach(             LIST, FUNC)                                                                g_ListForEach(             (G_List *) LIST, FUNC)
-#define gnListGetBegin(            LIST)                                              (GnListItem *)      g_ListGetBegin(            (G_List *) LIST)
+#define gnListGetBegin(            LIST)                                              (GnListItem *)          g_ListGetBegin(            (G_List *) LIST)
 #define gnListGetCount(            LIST)                                                                      g_ListGetCount(            (G_List *) LIST)
-#define gnListGetEnd(              LIST)                                              (GnListItem *)      g_ListGetEnd(              (G_List *) LIST)
-#define gnListItemAdd(             LIST, LITEM, VALUE)                                (GnListItem *)      g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
+#define gnListGetEnd(              LIST)                                              (GnListItem *)          g_ListGetEnd(              (G_List *) LIST)
+#define gnListItemAdd(             LIST, LITEM, VALUE)                                (GnListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gnListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gnListItemGet(                   LITEM)                                      ((Gn *)              g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
-#define gnListItemGetNext(               LITEM)                                       (GnListItem *)      g_ListItemGetNext(                          (G_ListItem *) LITEM)
-#define gnListItemGetPrev(               LITEM)                                       (GnListItem *)      g_ListItemGetPrev(                          (G_ListItem *) LITEM)
+#define gnListItemGet(                   LITEM)                                      ((Gn *)                  g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gnListItemGetNext(               LITEM)                                       (GnListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
+#define gnListItemGetPrev(               LITEM)                                       (GnListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gnListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 
-#define gnListKeyAdd(              LIST, KEY, VALUE)                                  (GnListKeyItem *)   g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gnListKeyAddBegin(         LIST, KEY, VALUE)                                  (GnListKeyItem *)   g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gnListKeyAddEnd(           LIST, KEY, VALUE)                                  (GnListKeyItem *)   g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gnListKeyCreate(                 COMPARE_FUNC)                                (GnList *)          g_ListKeyCreate(                               GnListKey, Gn, gbFALSE, COMPARE_FUNC)
-#define gnListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, GnListKey, Gn, gbFALSE, COMPARE_FUNC)
+#define gnListKeyAdd(              LIST, KEY, VALUE)                                  (GnListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gnListKeyAddBegin(         LIST, KEY, VALUE)                                  (GnListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gnListKeyAddEnd(           LIST, KEY, VALUE)                                  (GnListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gnListKeyCreate(                 COMPARE_FUNC)                                (GnList *)              g_ListKeyCreate(                               "GnListKey", Gn, gbFALSE, COMPARE_FUNC)
+#define gnListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GnListKey", Gn, gbFALSE, COMPARE_FUNC)
 #define gnListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define gnListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define gnListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gnListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gnListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
-#define gnListKeyFind(             LIST, KEY)                                         (GnListKeyItem *)   g_ListKeyFind(             (G_ListKey *) LIST, KEY)
+#define gnListKeyFind(             LIST, KEY)                                         (GnListKeyItem *)       g_ListKeyFind(             (G_ListKey *) LIST, KEY)
 #define gnListKeyFlush(            LIST)                                                                      g_ListKeyFlush(            (G_ListKey *) LIST)
 #define gnListKeyForEach(          LIST, FUNC)                                                                g_ListKeyForEach(          (G_ListKey *) LIST, FUNC)
-#define gnListKeyGetBegin(         LIST)                                              (GnListKeyItem *)   g_ListKeyGetBegin(         (G_ListKey *) LIST)
+#define gnListKeyGetBegin(         LIST)                                              (GnListKeyItem *)       g_ListKeyGetBegin(         (G_ListKey *) LIST)
 #define gnListKeyGetCount(         LIST)                                                                      g_ListKeyGetCount(         (G_ListKey *) LIST)
-#define gnListKeyGetEnd(           LIST)                                              (GnListKeyItem *)   g_ListKeyGetEnd(           (G_ListKey *) LIST)
-#define gnListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GnListKeyItem *)   g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
+#define gnListKeyGetEnd(           LIST)                                              (GnListKeyItem *)       g_ListKeyGetEnd(           (G_ListKey *) LIST)
+#define gnListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GnListKeyItem *)       g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
 #define gnListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define gnListKeyItemGet(                LITEM)                                      ((Gn *)              g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
+#define gnListKeyItemGet(                LITEM)                                      ((Gn *)                  g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
 #define gnListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
-#define gnListKeyItemGetNext(            LITEM)                                       (GnListKeyItem *)   g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
-#define gnListKeyItemGetPrev(            LITEM)                                       (GnListKeyItem *)   g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
+#define gnListKeyItemGetPrev(            LITEM)                                       (GnListKeyItem *)       g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
+#define gnListKeyItemGetNext(            LITEM)                                       (GnListKeyItem *)       g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
 #define gnListKeyItemUpdate(       LIST, LITEM, VALUE)                                                        g_ListKeyItemUpdate(       (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, (Gp *) VALUE)
 #define gnListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gnHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gnHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GnHash *)          g_HashCreate(                               GnHash, Gn, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gnHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, GnHash, Gn, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gnHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GnHash *)              g_HashCreate(                               "GnHash", Gn, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gnHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GnHash", Gn, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define gnHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
 #define gnHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
 #define gnHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
-#define gnHashFind(                HASH, VALUE)                                      ((Gn *)              g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
+#define gnHashFind(                HASH, VALUE)                                      ((Gn *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define gnHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
 #define gnHashForEach(             HASH, FUNC)                                                                g_HashForEach(             (G_Hash *) HASH, FUNC)
 #define gnHashGetCount(            HASH)                                                                      g_HashGetCount(            (G_Hash *) HASH)
 #define gnHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gnHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gnHashKeyCreate(                 HASHSIZE)                                    (GnHashKey *)       g_HashKeyCreate(                               GnHashKey, Gn, gbFALSE, HASHSIZE)
-#define gnHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, GnHashKey, Gn, gbFALSE, HASHSIZE)
+#define gnHashKeyCreate(                 HASHSIZE)                                    (GnHashKey *)           g_HashKeyCreate(                               "GnHashKey", Gn, gbFALSE, HASHSIZE)
+#define gnHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GnHashKey", Gn, gbFALSE, HASHSIZE)
 #define gnHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define gnHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define gnHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
-#define gnHashKeyFind(             HASH, KEY)                                        ((Gn *)              g_HashKeyFind(             (G_HashKey *) HASH, KEY))
+#define gnHashKeyFind(             HASH, KEY)                                        ((Gn *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define gnHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
 #define gnHashKeyForEach(          HASH, FUNC)                                                                g_HashKeyForEach(          (G_HashKey *) HASH, FUNC)
 #define gnHashKeyGetCount(         HASH)                                                                      g_HashKeyGetCount(         (G_HashKey *) HASH)
 #define gnHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
-#define gnTreeAdd(                 TREE, VALUE)                                       (GnTreeItem *)      g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gnTreeCreate(                    COMPARE_FUNC)                                (GnTree *)          g_TreeCreate(                               GnTree, Gn, gbFALSE, COMPARE_FUNC)
-#define gnTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, GnTree, Gn, gbFALSE, COMPARE_FUNC)
+#define gnTreeAdd(                 TREE, VALUE)                                       (GnTreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
+#define gnTreeCreate(                    COMPARE_FUNC)                                (GnTree *)              g_TreeCreate(                               "GnTree", Gn, gbFALSE, COMPARE_FUNC)
+#define gnTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GnTree", Gn, gbFALSE, COMPARE_FUNC)
 #define gnTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
 #define gnTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
 #define gnTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gnTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gnTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
-#define gnTreeFind(                TREE, VALUE)                                       (GnTreeItem *)      g_TreeFind(                (G_Tree *) TREE, (Gp *) VALUE)
+#define gnTreeFind(                TREE, VALUE)                                       (GnTreeItem *)          g_TreeFind(                (G_Tree *) TREE, (Gp *) VALUE)
 #define gnTreeFlush(               TREE)                                                                      g_TreeFlush(               (G_Tree *) TREE)
 #define gnTreeForEach(             TREE, FUNC)                                                                g_TreeForEach(             (G_Tree *) TREE, FUNC)
-#define gnTreeGetBegin(            TREE)                                              (GnTreeItem *)      g_TreeGetBegin(            (G_Tree *) TREE)
+#define gnTreeGetBegin(            TREE)                                              (GnTreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
 #define gnTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
-#define gnTreeGetEnd(              TREE)                                              (GnTreeItem *)      g_TreeGetEnd(              (G_Tree *) TREE)
+#define gnTreeGetEnd(              TREE)                                              (GnTreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
 #define gnTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
-#define gnTreeItemGet(                   TITEM)                                      ((Gn *)              g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
-#define gnTreeItemGetNext(               TITEM)                                       (GnTreeItem *)      g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
-#define gnTreeItemGetPrev(               TITEM)                                       (GnTreeItem *)      g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
+#define gnTreeItemGet(                   TITEM)                                      ((Gn *)                  g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
+#define gnTreeItemGetNext(               TITEM)                                       (GnTreeItem *)          g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
+#define gnTreeItemGetPrev(               TITEM)                                       (GnTreeItem *)          g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
 #define gnTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
-#define gnTreeKeyAdd(              TREE, KEY, VALUE)                                  (GnTreeKeyItem *)   g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gnTreeKeyCreate(                 COMPARE_FUNC)                                (GnTreeKey *)       g_TreeKeyCreate(                               GnTreeKey, Gn, gbFALSE, COMPARE_FUNC)
-#define gnTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GnTreeKey, Gn, gbFALSE, COMPARE_FUNC)
+#define gnTreeKeyAdd(              TREE, KEY, VALUE)                                  (GnTreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
+#define gnTreeKeyCreate(                 COMPARE_FUNC)                                (GnTreeKey *)           g_TreeKeyCreate(                               "GnTreeKey", Gn, gbFALSE, COMPARE_FUNC)
+#define gnTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GnTreeKey", Gn, gbFALSE, COMPARE_FUNC)
 #define gnTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define gnTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define gnTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gnTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gnTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
-#define gnTreeKeyFind(             TREE, KEY)                                         (GnTreeKeyItem *)   g_TreeKeyFind(             (G_TreeKey *) TREE, KEY)
+#define gnTreeKeyFind(             TREE, KEY)                                         (GnTreeKeyItem *)       g_TreeKeyFind(             (G_TreeKey *) TREE, KEY)
 #define gnTreeKeyFlush(            TREE)                                                                      g_TreeKeyFlush(            (G_TreeKey *) TREE)
 #define gnTreeKeyForEach(          TREE, FUNC)                                                                g_TreeKeyForEach(          (G_TreeKey *) TREE, FUNC)
-#define gnTreeKeyGetBegin(         TREE)                                              (GnTreeKeyItem *)   g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
+#define gnTreeKeyGetBegin(         TREE)                                              (GnTreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gnTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
-#define gnTreeKeyGetEnd(           TREE)                                              (GnTreeKeyItem *)   g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
+#define gnTreeKeyGetEnd(           TREE)                                              (GnTreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
 #define gnTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
-#define gnTreeKeyItemGet(                TITEM)                                      ((Gn *)              g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
-#define gnTreeKeyItemGetNext(            TITEM)                                       (GnTreeKeyItem *)   g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
-#define gnTreeKeyItemGetPrev(            TITEM)                                       (GnTreeKeyItem *)   g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
+#define gnTreeKeyItemGet(                TITEM)                                      ((Gn *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
+#define gnTreeKeyItemGetNext(            TITEM)                                       (GnTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
+#define gnTreeKeyItemGetPrev(            TITEM)                                       (GnTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gnTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
 
 #endif

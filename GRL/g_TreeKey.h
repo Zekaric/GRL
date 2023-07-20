@@ -66,7 +66,7 @@ struct G_TreeKeyItem
 
 struct G_TreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc        compareFunc;
    G_TreeKeyItem        *root;
@@ -76,14 +76,14 @@ struct G_TreeKey
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_TreeKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (g_TreeKey *) gleakCreate((Gp *) g_TreeKeyCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(g_TreeKey)) 
-#define g_TreeKeyCreateContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                  g_TreeKeyCreateContent_(TREE, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (COMPARE_FUNC))
+#define g_TreeKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (g_TreeKey *) gleakCreate((Gp *) g_TreeKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(g_TreeKey)) 
+#define g_TreeKeyCreateContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                  g_TreeKeyCreateContent_(TREE, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_TreeKeyItem *g_TreeKeyAdd(             G_TreeKey       * const tree, Gkey const * const key, Gp const * const value);
 
-grlAPI G_TreeKey     *g_TreeKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
-grlAPI Gb             g_TreeKeyCreateContent_(  G_TreeKey       * const tree, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI G_TreeKey     *g_TreeKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI Gb             g_TreeKeyCreateContent_(  G_TreeKey       * const tree, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
                     
 grlAPI void           g_TreeKeyDestroy(         G_TreeKey       * const tree);
 grlAPI void           g_TreeKeyDestroyContent(  G_TreeKey       * const tree);

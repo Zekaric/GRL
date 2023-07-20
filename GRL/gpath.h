@@ -179,7 +179,7 @@ Gpath containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -198,7 +198,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -218,7 +218,7 @@ struct GpathListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -238,7 +238,7 @@ struct GpathListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -249,7 +249,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc              hashFunc;
    GrlCompareFunc           compareFunc;
@@ -260,7 +260,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GpathListKey           **binArray;
    GhashSize                binCount;
@@ -281,7 +281,7 @@ struct GpathTreeItem
 
 struct GpathTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GpathTreeItem           *root;
@@ -303,7 +303,7 @@ struct GpathTreeKeyItem
 
 struct GpathTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GpathTreeKeyItem        *root;
@@ -316,8 +316,8 @@ struct GpathTreeKey
 #define gpathArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gpathArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gpathArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpathArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayCreate(                                GpathArray, Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gpathArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, GpathArray, Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpathArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayCreate(                                "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpathArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define gpathArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gpathArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gpathArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -345,8 +345,8 @@ struct GpathTreeKey
 #define gpathArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gpathArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gpathArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpathArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayKeyCreate(                                GpathArray, Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gpathArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GpathArray, Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpathArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayKeyCreate(                                "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpathArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define gpathArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define gpathArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define gpathArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -373,8 +373,8 @@ struct GpathTreeKey
 #define gpathListAdd(                 LIST, VALUE)                                       (GpathListItem *)     g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gpathListAddBegin(            LIST, VALUE)                                       (GpathListItem *)     g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gpathListAddEnd(              LIST, VALUE)                                       (GpathListItem *)     g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gpathListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GpathList *)         g_ListCreate(                               GpathList, Gpath *, OPTIONAL_COMPARE_FUNC)
-#define gpathListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, GpathList, Gpath *, OPTIONAL_COMPARE_FUNC)
+#define gpathListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GpathList *)         g_ListCreate(                               "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
+#define gpathListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
 #define gpathListDestroy(             LIST)                                                                    g_ListDestroy(             (G_List *) LIST)
 #define gpathListDestroyContent(      LIST)                                                                    g_ListDestroyContent(      (G_List *) LIST)
 #define gpathListErase(               LIST, VALUE)                                                             g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
@@ -396,8 +396,8 @@ struct GpathTreeKey
 #define gpathListKeyAdd(              LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpathListKeyAddBegin(         LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpathListKeyAddEnd(           LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gpathListKeyCreate(                 COMPARE_FUNC)                                (GpathList *)         g_ListKeyCreate(                 GpathListKey, Gpath *, COMPARE_FUNC)
-#define gpathListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, GpathListKey, Gpath *, COMPARE_FUNC)
+#define gpathListKeyCreate(                 COMPARE_FUNC)                                (GpathList *)         g_ListKeyCreate(                               "GpathListKey", Gpath *, COMPARE_FUNC)
+#define gpathListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, "GpathListKey", Gpath *, COMPARE_FUNC)
 #define gpathListKeyDestroy(          LIST)                                                                    g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define gpathListKeyDestroyContent(   LIST)                                                                    g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define gpathListKeyErase(            LIST, KEY)                                                               g_ListKeyErase(            (G_ListKey *) LIST, KEY)
@@ -419,8 +419,8 @@ struct GpathTreeKey
 #define gpathListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                        g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gpathHashAdd(                 HASH, VALUE)                                                             g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gpathHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpathHash *)         g_HashCreate(                               GpathHash, Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gpathHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, GpathHash, Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpathHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpathHash *)         g_HashCreate(                               "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpathHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define gpathHashDestroy(             HASH)                                                                    g_HashDestroy(             (G_Hash *) HASH)
 #define gpathHashDestroyContent(      HASH)                                                                    g_HashDestroyContent(      (G_Hash *) HASH)
 #define gpathHashErase(               HASH, VALUE)                                                             g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
@@ -431,8 +431,8 @@ struct GpathTreeKey
 #define gpathHashUpdate(              HASH, VALUE)                                                             g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gpathHashKeyAdd(              HASH, KEY, VALUE)                                                        g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gpathHashKeyCreate(                 HASHSIZE)                                    (GpathHashKey *)      g_HashKeyCreate(                               GpathHashKey, Gpath *, HASHSIZE)
-#define gpathHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, GpathHashKey, Gpath *, HASHSIZE)
+#define gpathHashKeyCreate(                 HASHSIZE)                                    (GpathHashKey *)      g_HashKeyCreate(                               "GpathHashKey", Gpath *, HASHSIZE)
+#define gpathHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, "GpathHashKey", Gpath *, HASHSIZE)
 #define gpathHashKeyDestroy(          HASH)                                                                    g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define gpathHashKeyDestroyContent(   HASH)                                                                    g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define gpathHashKeyErase(            HASH, KEY)                                                               g_HashKeyErase(            (G_HashKey *) HASH, KEY)
@@ -443,8 +443,8 @@ struct GpathTreeKey
 #define gpathHashKeyUpdate(           HASH, KEY, VALUE)                                                        g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gpathTreeAdd(                 TREE, VALUE)                                       (GpathTreeItem *)     g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gpathTreeCreate(                    COMPARE_FUNC)                                (GpathTree *)         g_TreeCreate(                    GpathTree, Gpath *, COMPARE_FUNC)
-#define gpathTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, GpathTree, Gpath *, COMPARE_FUNC)
+#define gpathTreeCreate(                    COMPARE_FUNC)                                (GpathTree *)         g_TreeCreate(                               "GpathTree", Gpath *, COMPARE_FUNC)
+#define gpathTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, "GpathTree", Gpath *, COMPARE_FUNC)
 #define gpathTreeDestroy(             TREE)                                                                    g_TreeDestroy(             (G_Tree *) TREE)
 #define gpathTreeDestroyContent(      TREE)                                                                    g_TreeDestroyContent(      (G_Tree *) TREE)
 #define gpathTreeErase(               TREE, VALUE)                                                             g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
@@ -463,8 +463,8 @@ struct GpathTreeKey
 #define gpathTreeItemUpdate(          TREE, TITEM, VALUE)                                                      g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define gpathTreeKeyAdd(              TREE, KEY, VALUE)                                  (GpathTreeKeyItem *)  g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gpathTreeKeyCreate(                 COMPARE_FUNC)                                (GpathTreeKey *)      g_TreeKeyCreate(                               GpathTreeKey, Gpath *, COMPARE_FUNC)
-#define gpathTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GpathTreeKey, Gpath *, COMPARE_FUNC)
+#define gpathTreeKeyCreate(                 COMPARE_FUNC)                                (GpathTreeKey *)      g_TreeKeyCreate(                               "GpathTreeKey", Gpath *, COMPARE_FUNC)
+#define gpathTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GpathTreeKey", Gpath *, COMPARE_FUNC)
 #define gpathTreeKeyDestroy(          TREE)                                                                    g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define gpathTreeKeyDestroyContent(   TREE)                                                                    g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define gpathTreeKeyErase(            TREE, KEY)                                                               g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)

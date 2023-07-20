@@ -87,8 +87,7 @@ grlAPI Gb g_HashAdd(G_Hash * const hash, Gp const * const value)
 func: g_HashCreate_
 ******************************************************************************/
 grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName, 
-   Char const * const typeNameSub, Gb const isPointerType, 
-   GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, 
+   Gb const isPointerType, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, 
    GhashSize const hashSize)
 {
    G_Hash *hash;
@@ -98,8 +97,6 @@ grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName,
    greturnNullIf(
       !hashFunc    ||
       !compareFunc ||
-      !typeName    ||
-      !typeNameSub ||
       typeSize < 0);
 
    // Create the hash table.
@@ -110,7 +107,6 @@ grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName,
          hash,
          typeSize,
          typeName,
-         typeNameSub,
          isPointerType,
          compareFunc,
          hashFunc,
@@ -127,20 +123,23 @@ grlAPI G_Hash *g_HashCreate_(Gsize const typeSize, Char const * const typeName,
 func: g_HashCreateContent
 ******************************************************************************/
 grlAPI Gb g_HashCreateContent_(G_Hash * const hash, Gsize const typeSize, 
-   Char const * const typeName, Char const * const typeNameSub, 
-   Gb const isPointerType, GrlCompareFunc const compareFunc,
+   Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc,
    GrlHashFunc const hashFunc, GhashSize const hashSize)
 {
    Gindex index;
 
    genter;
 
+   greturnFalseIf(
+      !hash || 
+      typeSize <= 0);
+
    // Initialize
-   hash->baseName      = "G_Hash";
-   hash->typeName      = typeName;
-   hash->typeNameSub   = typeNameSub;
+   typeName;
+   GTYPE_SET(hash, typeName);
+
    hash->typeSize      = typeSize;
-   hash->isPointerType = (isPointerType) ? gbTRUE : gbFALSE;
+   hash->isPointerType = isPointerType;
    hash->hashFunc      = hashFunc;
    hash->compareFunc   = compareFunc;
    hash->binArray      = gmemCreateTypeArray(G_List *, (Gcount) hashSize); //lint !e930
@@ -157,8 +156,7 @@ grlAPI Gb g_HashCreateContent_(G_Hash * const hash, Gsize const typeSize,
    {
       hash->binArray[index] = g_ListCreate_(
          typeSize,
-         "G_HashBinList",
-         typeNameSub,
+         "GHashBinList",
          isPointerType,
          compareFunc);
 

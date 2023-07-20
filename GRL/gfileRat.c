@@ -128,6 +128,8 @@ grlAPI Gb gfileRatCreateContent(GfileRat * const rat, Gpath const * const path, 
 
    result = gbFALSE;
 
+   GTYPE_SET(rat, "GfileRat");
+
    rat->isBinary          = isBinary;
    rat->versionFile       = 0;
    rat->versionData       = 0;
@@ -1186,6 +1188,8 @@ static GfileRatRow *_RowCreate(GfileRat const * const rat)
 
    row = gmemCreateType(GfileRatRow);
    greturnNullIf(!row);
+
+   GTYPE_SET(row, "GfileRatRow");
 
    row->value = gvArrayCreate(NULL, gbFALSE);
    if (!row->value)

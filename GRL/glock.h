@@ -83,7 +83,7 @@ Glock containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -102,7 +102,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -122,7 +122,7 @@ struct GlockListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -142,7 +142,7 @@ struct GlockListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -153,7 +153,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc              hashFunc;
    GrlCompareFunc           compareFunc;
@@ -164,7 +164,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GlockListKey           **binArray;
    GhashSize                binCount;
@@ -185,7 +185,7 @@ struct GlockTreeItem
 
 struct GlockTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GlockTreeItem           *root;
@@ -207,7 +207,7 @@ struct GlockTreeKeyItem
 
 struct GlockTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GlockTreeKeyItem        *root;
@@ -220,8 +220,8 @@ struct GlockTreeKey
 #define glockArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define glockArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define glockArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define glockArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayCreate(                                GlockArray, Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define glockArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, GlockArray, Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define glockArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayCreate(                                "GlockArray", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define glockArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, "GlockArray", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define glockArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define glockArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define glockArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -249,8 +249,8 @@ struct GlockTreeKey
 #define glockArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define glockArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define glockArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define glockArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayKeyCreate(                                GlockArray, Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define glockArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GlockArray, Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define glockArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayKeyCreate(                                "GlockArrayKey", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define glockArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GlockArrayKey", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define glockArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define glockArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define glockArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -277,8 +277,8 @@ struct GlockTreeKey
 #define glockListAdd(                 LIST, VALUE)                                       (GlockListItem *)     g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define glockListAddBegin(            LIST, VALUE)                                       (GlockListItem *)     g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define glockListAddEnd(              LIST, VALUE)                                       (GlockListItem *)     g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define glockListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GlockList *)         g_ListCreate(                               GlockList, Glock *, OPTIONAL_COMPARE_FUNC)
-#define glockListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, GlockList, Glock *, OPTIONAL_COMPARE_FUNC)
+#define glockListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GlockList *)         g_ListCreate(                               "GlockList", Glock *, OPTIONAL_COMPARE_FUNC)
+#define glockListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, "GlockList", Glock *, OPTIONAL_COMPARE_FUNC)
 #define glockListDestroy(             LIST)                                                                    g_ListDestroy(             (G_List *) LIST)
 #define glockListDestroyContent(      LIST)                                                                    g_ListDestroyContent(      (G_List *) LIST)
 #define glockListErase(               LIST, VALUE)                                                             g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
@@ -300,8 +300,8 @@ struct GlockTreeKey
 #define glockListKeyAdd(              LIST, KEY, VALUE)                                  (GlockListKeyItem *)  g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define glockListKeyAddBegin(         LIST, KEY, VALUE)                                  (GlockListKeyItem *)  g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define glockListKeyAddEnd(           LIST, KEY, VALUE)                                  (GlockListKeyItem *)  g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define glockListKeyCreate(                 COMPARE_FUNC)                                (GlockList *)         g_ListKeyCreate(                 GlockListKey, Glock *, COMPARE_FUNC)
-#define glockListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, GlockListKey, Glock *, COMPARE_FUNC)
+#define glockListKeyCreate(                 COMPARE_FUNC)                                (GlockList *)         g_ListKeyCreate(                               "GlockListKey", Glock *, COMPARE_FUNC)
+#define glockListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, "GlockListKey", Glock *, COMPARE_FUNC)
 #define glockListKeyDestroy(          LIST)                                                                    g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define glockListKeyDestroyContent(   LIST)                                                                    g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define glockListKeyErase(            LIST, KEY)                                                               g_ListKeyErase(            (G_ListKey *) LIST, KEY)
@@ -323,8 +323,8 @@ struct GlockTreeKey
 #define glockListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                        g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define glockHashAdd(                 HASH, VALUE)                                                             g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define glockHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GlockHash *)         g_HashCreate(                               GlockHash, Glock *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define glockHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, GlockHash, Glock *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define glockHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GlockHash *)         g_HashCreate(                               "GlockHash", Glock *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define glockHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, "GlockHash", Glock *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define glockHashDestroy(             HASH)                                                                    g_HashDestroy(             (G_Hash *) HASH)
 #define glockHashDestroyContent(      HASH)                                                                    g_HashDestroyContent(      (G_Hash *) HASH)
 #define glockHashErase(               HASH, VALUE)                                                             g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
@@ -335,8 +335,8 @@ struct GlockTreeKey
 #define glockHashUpdate(              HASH, VALUE)                                                             g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define glockHashKeyAdd(              HASH, KEY, VALUE)                                                        g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define glockHashKeyCreate(                 HASHSIZE)                                    (GlockHashKey *)      g_HashKeyCreate(                               GlockHashKey, Glock *, HASHSIZE)
-#define glockHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, GlockHashKey, Glock *, HASHSIZE)
+#define glockHashKeyCreate(                 HASHSIZE)                                    (GlockHashKey *)      g_HashKeyCreate(                               "GlockHashKey", Glock *, HASHSIZE)
+#define glockHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, "GlockHashKey", Glock *, HASHSIZE)
 #define glockHashKeyDestroy(          HASH)                                                                    g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define glockHashKeyDestroyContent(   HASH)                                                                    g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define glockHashKeyErase(            HASH, KEY)                                                               g_HashKeyErase(            (G_HashKey *) HASH, KEY)
@@ -347,8 +347,8 @@ struct GlockTreeKey
 #define glockHashKeyUpdate(           HASH, KEY, VALUE)                                                        g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define glockTreeAdd(                 TREE, VALUE)                                       (GlockTreeItem *)     g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define glockTreeCreate(                    COMPARE_FUNC)                                (GlockTree *)         g_TreeCreate(                    GlockTree, Glock *, COMPARE_FUNC)
-#define glockTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, GlockTree, Glock *, COMPARE_FUNC)
+#define glockTreeCreate(                    COMPARE_FUNC)                                (GlockTree *)         g_TreeCreate(                               "GlockTree", Glock *, COMPARE_FUNC)
+#define glockTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, "GlockTree", Glock *, COMPARE_FUNC)
 #define glockTreeDestroy(             TREE)                                                                    g_TreeDestroy(             (G_Tree *) TREE)
 #define glockTreeDestroyContent(      TREE)                                                                    g_TreeDestroyContent(      (G_Tree *) TREE)
 #define glockTreeErase(               TREE, VALUE)                                                             g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
@@ -367,8 +367,8 @@ struct GlockTreeKey
 #define glockTreeItemUpdate(          TREE, TITEM, VALUE)                                                      g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define glockTreeKeyAdd(              TREE, KEY, VALUE)                                  (GlockTreeKeyItem *)  g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define glockTreeKeyCreate(                 COMPARE_FUNC)                                (GlockTreeKey *)      g_TreeKeyCreate(                               GlockTreeKey, Glock *, COMPARE_FUNC)
-#define glockTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GlockTreeKey, Glock *, COMPARE_FUNC)
+#define glockTreeKeyCreate(                 COMPARE_FUNC)                                (GlockTreeKey *)      g_TreeKeyCreate(                               "GlockTreeKey", Glock *, COMPARE_FUNC)
+#define glockTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GlockTreeKey", Glock *, COMPARE_FUNC)
 #define glockTreeKeyDestroy(          TREE)                                                                    g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define glockTreeKeyDestroyContent(   TREE)                                                                    g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define glockTreeKeyErase(            TREE, KEY)                                                               g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)

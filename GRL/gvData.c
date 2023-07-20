@@ -117,6 +117,8 @@ grlAPI Gb gvDataCreateContent(GvData * const v)
 
    gmemClearType(v, GvData);
 
+   GTYPE_SET(v, "Gv");
+
    greturn gbTRUE;
 }
 

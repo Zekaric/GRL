@@ -49,7 +49,7 @@ type:
 ******************************************************************************/
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -62,8 +62,8 @@ typedef struct
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayKeyCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCreate((Gp *) g_ArrayKeyCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
-#define g_ArrayKeyCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                   g_ArrayKeyCreateContent(ARRAY, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
+#define g_ArrayKeyCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCreate((Gp *) g_ArrayKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
+#define g_ArrayKeyCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                   g_ArrayKeyCreateContent(ARRAY, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
 //lint -restore
 
 grlAPI Gb          g_ArrayKeyAdd(            G_ArrayKey       * const a,                     Gkey const * const key, Gp const * const value);
@@ -74,8 +74,8 @@ grlAPI Gb          g_ArrayKeyAddEnd(         G_ArrayKey       * const a,        
 grlAPI Gb          g_ArrayKeyClear(          G_ArrayKey       * const a, Gcount const count, Gindex const index);
 grlAPI Gb          g_ArrayKeyCopy(           G_ArrayKey       * const a, Gcount const count, Gindex const indexSrc, Gindex const indexDst);
 grlAPI Gb          g_ArrayKeyCopyFrom(       G_ArrayKey       * const aDst, Gindex const indexDst, G_ArrayKey const * const aSrc, Gcount const count, Gindex const indexSrc);
-grlAPI G_ArrayKey *g_ArrayKeyCreate_(                                    Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
-grlAPI Gb          g_ArrayKeyCreateContent_( G_ArrayKey       * const a, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
+grlAPI G_ArrayKey *g_ArrayKeyCreate_(                                    Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
+grlAPI Gb          g_ArrayKeyCreateContent_( G_ArrayKey       * const a, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
 
 grlAPI void        g_ArrayKeyDestroy(        G_ArrayKey       * const a);
 grlAPI void        g_ArrayKeyDestroyContent( G_ArrayKey const * const a);

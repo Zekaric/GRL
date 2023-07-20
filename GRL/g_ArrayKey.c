@@ -298,17 +298,13 @@ grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
 func: g_ArrayKeyCreate_
 ******************************************************************************/
 grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, Gb const isPointerType, 
-   GrlCompareFunc const compareFunc, Gb const isVectorSizing)
+   Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing)
 {
    G_ArrayKey *a;
 
    genter;
 
-   greturnNullIf(
-      !typeName    ||
-      !typeNameSub ||
-      typeSize <= 0);
+   greturnNullIf(typeSize <= 0);
 
    a = gmemCreateType(G_ArrayKey);
    greturnNullIf(!a);
@@ -317,7 +313,6 @@ grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const ty
          a,
          typeSize,
          typeName,
-         typeNameSub,
          isPointerType,
          compareFunc,
          isVectorSizing))
@@ -333,21 +328,17 @@ grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const ty
 func: g_ArrayKeyCreateContent
 ******************************************************************************/
 grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize, 
-   Char const * const typeName, Char const * const typeNameSub, 
-   Gb const isPointerType, GrlCompareFunc const compareFunc, 
+   Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, 
    Gb const isVectorSizing)
 {
    genter;
 
    greturnFalseIf(
-      !a           ||
-      !typeName    ||
-      !typeNameSub ||
+      !a ||
       typeSize <= 0);
 
-   a->baseName       = "G_ArrayKey"; //lint !e916 !e64
-   a->typeName       = typeName;
-   a->typeNameSub    = typeNameSub;
+   GTYPE_SET(a, typeName);
+
    a->compareFunc    = compareFunc;
    a->isPointerType  = (isPointerType)  ? gbTRUE : gbFALSE;
    a->isVectorSizing = (isVectorSizing) ? gbTRUE : gbFALSE;
@@ -743,7 +734,7 @@ grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
    result = gbTRUE;
    if (countTotal != a->countTotal)
    {
-      p      = gmemCreate(a->typeName, countTotal * size);
+      p      = gmemCreate(GTYPE_GET(a), countTotal * size);
 
       result = gmemCopyOver(a->p, gMIN(value, a->count) * size, p);
 

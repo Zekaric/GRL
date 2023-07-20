@@ -51,15 +51,13 @@ type:
 // to see what the container actually is.
 typedef struct
 {
-#define GCONTAINER_VAR                    \
-   Char const              *baseName,     \
-                           *typeName,     \
-                           *typeNameSub;  \
-   Gb                       isPointerType;\
-   Gsize                    typeSize;     \
-   Gcount                   count
+#define GCONTAINER_VAR                       \
+   GTYPE_VAR                                 \
+   Gb                       isPointerType;   \
+   Gsize                    typeSize;        \
+   Gcount                   count;
    
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 } G_Container;
 
 /*****************************************************************************/

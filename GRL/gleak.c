@@ -66,6 +66,8 @@ type:
 typedef struct Leak Leak;
 struct Leak
 {
+   GTYPE_VAR
+
    // Leak pointer
    Gp          *p;
 
@@ -136,6 +138,7 @@ grlAPI Gp *gleakCreate_(Gp * const p, Gsize const size, Char const * const file,
       returnIf(!l, p);
 
       // Fill in the structure.
+      GTYPE_SET(l, "Gleak Leak");
       l->p     = p;
       l->size  = size;
       l->index = _index++;

@@ -123,18 +123,13 @@ grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
 func: g_ListCreate_
 ******************************************************************************/
 grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
-   Char const * const typeNameSub, Gb const isPointerType, 
-   GrlCompareFunc const compareFunc)
+   Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_List *list;
 
    genter;
 
-   greturnIf(
-         typeSize <= 0 ||
-         !typeName     ||
-         !typeNameSub,
-      NULL);
+   greturnNullIf(typeSize <= 0);
 
    list = gmemCreateType(G_List);
    greturnIf(!list, NULL);
@@ -143,7 +138,6 @@ grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
          list, 
          typeSize, 
          typeName, 
-         typeNameSub, 
          isPointerType, 
          compareFunc))
    {
@@ -158,21 +152,19 @@ grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
 func: g_ListCreateContent_
 ******************************************************************************/
 grlAPI Gb g_ListCreateContent_(G_List * const list, Gsize const typeSize,
-   Char const * const typeName, Char const * const typeNameSub, 
-   Gb const isPointerType, GrlCompareFunc const compareFunc)
+   Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
 
-   greturnIf(
-         typeSize <= 0 ||
-         !typeName     ||
-         !typeNameSub,
-      gbFALSE);
+   greturnFalseIf(
+      !list ||
+      typeSize <= 0);
 
-   list->typeName      = typeName;
-   list->typeNameSub   = typeNameSub;
+   typeName;
+   GTYPE_SET(list, typeName);
+
    list->typeSize      = typeSize;
-   list->isPointerType = (isPointerType) ? gbTRUE : gbFALSE;
+   list->isPointerType = isPointerType;
    list->compareFunc   = compareFunc;
 
    if (list->compareFunc)

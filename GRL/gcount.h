@@ -41,7 +41,7 @@ Gcount containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -60,7 +60,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -80,7 +80,7 @@ struct GcountListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -100,7 +100,7 @@ struct GcountListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -111,7 +111,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
@@ -122,7 +122,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GcountListKey         **binArray;
    GhashSize               binCount;
@@ -143,7 +143,7 @@ struct GcountTreeItem
 
 struct GcountTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GcountTreeItem          *root;
@@ -165,7 +165,7 @@ struct GcountTreeKeyItem
 
 struct GcountTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GcountTreeKeyItem       *root;
@@ -178,8 +178,8 @@ struct GcountTreeKey
 #define gcountArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gcountArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gcountArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gcountArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GcountArray *)         g_ArrayCreate(                                GcountArray, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gcountArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, GcountArray, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gcountArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GcountArray *)         g_ArrayCreate(                                "GcountArray", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gcountArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GcountArray", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define gcountArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gcountArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gcountArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -207,8 +207,8 @@ struct GcountTreeKey
 #define gcountArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gcountArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gcountArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gcountArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GcountArray *)         g_ArrayKeyCreate(                                GcountArray, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gcountArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GcountArray, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gcountArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GcountArray *)         g_ArrayKeyCreate(                                "GcountArrayKey", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gcountArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GcountArrayKey", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define gcountArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define gcountArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define gcountArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -235,8 +235,8 @@ struct GcountTreeKey
 #define gcountListAdd(                 LIST, VALUE)                                       (GcountListItem *)      g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gcountListAddBegin(            LIST, VALUE)                                       (GcountListItem *)      g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gcountListAddEnd(              LIST, VALUE)                                       (GcountListItem *)      g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gcountListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GcountList *)          g_ListCreate(                               GcountList, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define gcountListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, GcountList, Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gcountListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GcountList *)          g_ListCreate(                               "GcountList", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gcountListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GcountList", Gcount, gbFALSE, OPTIONAL_COMPARE_FUNC)
 #define gcountListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
 #define gcountListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
 #define gcountListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
@@ -258,8 +258,8 @@ struct GcountTreeKey
 #define gcountListKeyAdd(              LIST, KEY, VALUE)                                  (GcountListKeyItem *)   g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gcountListKeyAddBegin(         LIST, KEY, VALUE)                                  (GcountListKeyItem *)   g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gcountListKeyAddEnd(           LIST, KEY, VALUE)                                  (GcountListKeyItem *)   g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gcountListKeyCreate(                 COMPARE_FUNC)                                (GcountList *)          g_ListKeyCreate(                               GcountListKey, Gcount, gbFALSE, COMPARE_FUNC)
-#define gcountListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, GcountListKey, Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountListKeyCreate(                 COMPARE_FUNC)                                (GcountList *)          g_ListKeyCreate(                               "GcountListKey", Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GcountListKey", Gcount, gbFALSE, COMPARE_FUNC)
 #define gcountListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define gcountListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define gcountListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
@@ -281,8 +281,8 @@ struct GcountTreeKey
 #define gcountListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gcountHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gcountHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GcountHash *)          g_HashCreate(                               GcountHash, Gcount, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gcountHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, GcountHash, Gcount, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gcountHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GcountHash *)          g_HashCreate(                               "GcountHash", Gcount, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gcountHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GcountHash", Gcount, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define gcountHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
 #define gcountHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
 #define gcountHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
@@ -293,8 +293,8 @@ struct GcountTreeKey
 #define gcountHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gcountHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gcountHashKeyCreate(                 HASHSIZE)                                    (GcountHashKey *)       g_HashKeyCreate(                               GcountHashKey, Gcount, gbFALSE, HASHSIZE)
-#define gcountHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, GcountHashKey, Gcount, gbFALSE, HASHSIZE)
+#define gcountHashKeyCreate(                 HASHSIZE)                                    (GcountHashKey *)       g_HashKeyCreate(                               "GcountHashKey", Gcount, gbFALSE, HASHSIZE)
+#define gcountHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GcountHashKey", Gcount, gbFALSE, HASHSIZE)
 #define gcountHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define gcountHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define gcountHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
@@ -305,8 +305,8 @@ struct GcountTreeKey
 #define gcountHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gcountTreeAdd(                 TREE, VALUE)                                       (GcountTreeItem *)      g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gcountTreeCreate(                    COMPARE_FUNC)                                (GcountTree *)          g_TreeCreate(                               GcountTree, Gcount, gbFALSE, COMPARE_FUNC)
-#define gcountTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, GcountTree, Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountTreeCreate(                    COMPARE_FUNC)                                (GcountTree *)          g_TreeCreate(                               "GcountTree", Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GcountTree", Gcount, gbFALSE, COMPARE_FUNC)
 #define gcountTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
 #define gcountTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
 #define gcountTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
@@ -325,8 +325,8 @@ struct GcountTreeKey
 #define gcountTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define gcountTreeKeyAdd(              TREE, KEY, VALUE)                                  (GcountTreeKeyItem *)   g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gcountTreeKeyCreate(                 COMPARE_FUNC)                                (GcountTreeKey *)       g_TreeKeyCreate(                               GcountTreeKey, Gcount, gbFALSE, COMPARE_FUNC)
-#define gcountTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GcountTreeKey, Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountTreeKeyCreate(                 COMPARE_FUNC)                                (GcountTreeKey *)       g_TreeKeyCreate(                               "GcountTreeKey", Gcount, gbFALSE, COMPARE_FUNC)
+#define gcountTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GcountTreeKey", Gcount, gbFALSE, COMPARE_FUNC)
 #define gcountTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define gcountTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define gcountTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)

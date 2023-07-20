@@ -87,16 +87,13 @@ grlAPI Gb g_HashKeyAdd(G_HashKey * const hash, Gkey const * const key, Gp const 
 func: g_HashKeyCreate_
 ******************************************************************************/
 grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const typeName, 
-   Char const * const typeNameSub, Gb const isPointerType, GhashSize const hashSize)
+   Gb const isPointerType, GhashSize const hashSize)
 {
    G_HashKey *hash;
 
    genter;
 
-   greturnNullIf(
-      !typeName    ||
-      !typeNameSub ||
-      typeSize < 0);
+   greturnNullIf(typeSize < 0);
 
    // Create the hash table.
    hash = gmemCreateType(G_HashKey);
@@ -106,7 +103,6 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
          hash,
          typeSize,
          typeName,
-         typeNameSub,
          isPointerType,
          hashSize))
    {
@@ -121,19 +117,22 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
 func: g_HashKeyCreateContent
 ******************************************************************************/
 grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize, 
-   Char const * const typeName, Char const * const typeNameSub, 
-   Gb const isPointerType, GhashSize const hashSize)
+   Char const * const typeName, Gb const isPointerType, GhashSize const hashSize)
 {
    Gindex index;
 
    genter;
 
+   greturnFalseIf(
+      !hash ||
+      typeSize <= 0);
+
    // Initialize
-   hash->baseName      = "G_HashKey";
-   hash->typeName      = typeName;
-   hash->typeNameSub   = typeNameSub;
+   typeName;
+   GTYPE_SET(hash, typeName);
+
    hash->typeSize      = typeSize;
-   hash->isPointerType = (isPointerType) ? gbTRUE : gbFALSE;
+   hash->isPointerType = isPointerType;
    hash->binArray      = gmemCreateTypeArray(G_ListKey *, (Gcount) hashSize); //lint !e930
    hash->binCount      = hashSize;
    if (!hash->binArray)
@@ -149,7 +148,6 @@ grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize,
       hash->binArray[index] = g_ListKeyCreate_(
          typeSize,
          "G_HashKeyBinList",
-         typeNameSub,
          isPointerType,
          gpCompare);
 

@@ -777,6 +777,8 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
    file = gmemCreateType(Gfile);
    greturnNullIf(!file);
 
+   GTYPE_SET(file, "Gfile");
+
    stemp = gsCreateFrom(path);
    gpathSetToSystem(stemp); //lint !e534
 #if grlWINDOWS == 1

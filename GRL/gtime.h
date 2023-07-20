@@ -84,7 +84,7 @@ Gtime containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -103,7 +103,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -123,7 +123,7 @@ struct GtimeListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -143,7 +143,7 @@ struct GtimeListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -154,7 +154,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
@@ -165,7 +165,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GtimeListKey          **binArray;
    GhashSize               binCount;
@@ -186,7 +186,7 @@ struct GtimeTreeItem
 
 struct GtimeTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GtimeTreeItem           *root;
@@ -208,7 +208,7 @@ struct GtimeTreeKeyItem
 
 struct GtimeTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GtimeTreeKeyItem        *root;
@@ -221,8 +221,8 @@ struct GtimeTreeKey
 #define gtimeArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gtimeArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gtimeArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gtimeArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GtimeArray *)        g_ArrayCreate(                                GtimeArray, Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gtimeArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, GtimeArray, Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gtimeArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GtimeArray *)        g_ArrayCreate(                                "GtimeArray", Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gtimeArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, "GtimeArray", Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define gtimeArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gtimeArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gtimeArrayErase(              ARRAY, VALUE)                                                            g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -250,8 +250,8 @@ struct GtimeTreeKey
 #define gtimeArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gtimeArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gtimeArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gtimeArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GtimeArray *)        g_ArrayKeyCreate(                 GtimeArray, Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gtimeArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GtimeArray, Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gtimeArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GtimeArray *)        g_ArrayKeyCreate(                                "GtimeArrayKey", Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gtimeArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GtimeArrayKey", Gtime, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define gtimeArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define gtimeArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define gtimeArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -278,8 +278,8 @@ struct GtimeTreeKey
 #define gtimeListAdd(                 LIST, VALUE)                                       (GtimeListItem *)     g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gtimeListAddBegin(            LIST, VALUE)                                       (GtimeListItem *)     g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gtimeListAddEnd(              LIST, VALUE)                                       (GtimeListItem *)     g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gtimeListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GtimeList *)         g_ListCreate(                               GtimeList, Gtime, OPTIONAL_COMPARE_FUNC)
-#define gtimeListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, GtimeList, Gtime, OPTIONAL_COMPARE_FUNC)
+#define gtimeListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GtimeList *)         g_ListCreate(                               "GtimeList", Gtime, OPTIONAL_COMPARE_FUNC)
+#define gtimeListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, "GtimeList", Gtime, OPTIONAL_COMPARE_FUNC)
 #define gtimeListDestroy(             LIST)                                                                    g_ListDestroy(             (G_List *) LIST)
 #define gtimeListDestroyContent(      LIST)                                                                    g_ListDestroyContent(      (G_List *) LIST)
 #define gtimeListErase(               LIST, VALUE)                                                             g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
@@ -301,8 +301,8 @@ struct GtimeTreeKey
 #define gtimeListKeyAdd(              LIST, KEY, VALUE)                                  (GtimeListKeyItem *)  g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gtimeListKeyAddBegin(         LIST, KEY, VALUE)                                  (GtimeListKeyItem *)  g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gtimeListKeyAddEnd(           LIST, KEY, VALUE)                                  (GtimeListKeyItem *)  g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gtimeListKeyCreate(                 COMPARE_FUNC)                                (GtimeList *)         g_ListKeyCreate(                               GtimeListKey, Gtime, COMPARE_FUNC)
-#define gtimeListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, GtimeListKey, Gtime, COMPARE_FUNC)
+#define gtimeListKeyCreate(                 COMPARE_FUNC)                                (GtimeList *)         g_ListKeyCreate(                               "GtimeListKey", Gtime, COMPARE_FUNC)
+#define gtimeListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, "GtimeListKey", Gtime, COMPARE_FUNC)
 #define gtimeListKeyDestroy(          LIST)                                                                    g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define gtimeListKeyDestroyContent(   LIST)                                                                    g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define gtimeListKeyErase(            LIST, KEY)                                                               g_ListKeyErase(            (G_ListKey *) LIST, KEY)
@@ -324,8 +324,8 @@ struct GtimeTreeKey
 #define gtimeListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                        g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gtimeHashAdd(                 HASH, VALUE)                                                             g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gtimeHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GtimeHash *)         g_HashCreate(                               GtimeHash, Gtime, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gtimeHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, GtimeHash, Gtime, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gtimeHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GtimeHash *)         g_HashCreate(                               "GtimeHash", Gtime, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gtimeHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, "GtimeHash", Gtime, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define gtimeHashDestroy(             HASH)                                                                    g_HashDestroy(             (G_Hash *) HASH)
 #define gtimeHashDestroyContent(      HASH)                                                                    g_HashDestroyContent(      (G_Hash *) HASH)
 #define gtimeHashErase(               HASH, VALUE)                                                             g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
@@ -336,8 +336,8 @@ struct GtimeTreeKey
 #define gtimeHashUpdate(              HASH, VALUE)                                                             g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gtimeHashKeyAdd(              HASH, KEY, VALUE)                                                        g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gtimeHashKeyCreate(                 HASHSIZE)                                    (GtimeHashKey *)      g_HashKeyCreate(                               GtimeHashKey, Gtime, HASHSIZE)
-#define gtimeHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, GtimeHashKey, Gtime, HASHSIZE)
+#define gtimeHashKeyCreate(                 HASHSIZE)                                    (GtimeHashKey *)      g_HashKeyCreate(                               "GtimeHashKey", Gtime, HASHSIZE)
+#define gtimeHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, "GtimeHashKey", Gtime, HASHSIZE)
 #define gtimeHashKeyDestroy(          HASH)                                                                    g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define gtimeHashKeyDestroyContent(   HASH)                                                                    g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define gtimeHashKeyErase(            HASH, KEY)                                                               g_HashKeyErase(            (G_HashKey *) HASH, KEY)
@@ -348,8 +348,8 @@ struct GtimeTreeKey
 #define gtimeHashKeyUpdate(           HASH, KEY, VALUE)                                                        g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gtimeTreeAdd(                 TREE, VALUE)                                       (GtimeTreeItem *)     g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gtimeTreeCreate(                    COMPARE_FUNC)                                (GtimeTree *)         g_TreeCreate(                    GtimeTree, Gtime, COMPARE_FUNC)
-#define gtimeTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, GtimeTree, Gtime, COMPARE_FUNC)
+#define gtimeTreeCreate(                    COMPARE_FUNC)                                (GtimeTree *)         g_TreeCreate(                               "GtimeTree", Gtime, COMPARE_FUNC)
+#define gtimeTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, "GtimeTree", Gtime, COMPARE_FUNC)
 #define gtimeTreeDestroy(             TREE)                                                                    g_TreeDestroy(             (G_Tree *) TREE)
 #define gtimeTreeDestroyContent(      TREE)                                                                    g_TreeDestroyContent(      (G_Tree *) TREE)
 #define gtimeTreeErase(               TREE, VALUE)                                                             g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
@@ -368,8 +368,8 @@ struct GtimeTreeKey
 #define gtimeTreeItemUpdate(          TREE, TITEM, VALUE)                                                      g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define gtimeTreeKeyAdd(              TREE, KEY, VALUE)                                  (GtimeTreeKeyItem *)  g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gtimeTreeKeyCreate(                 COMPARE_FUNC)                                (GtimeTreeKey *)      g_TreeKeyCreate(                 GtimeTreeKey, Gtime, COMPARE_FUNC)
-#define gtimeTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GtimeTreeKey, Gtime, COMPARE_FUNC)
+#define gtimeTreeKeyCreate(                 COMPARE_FUNC)                                (GtimeTreeKey *)      g_TreeKeyCreate(                               "GtimeTreeKey", Gtime, COMPARE_FUNC)
+#define gtimeTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GtimeTreeKey", Gtime, COMPARE_FUNC)
 #define gtimeTreeKeyDestroy(          TREE)                                                                    g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define gtimeTreeKeyDestroyContent(   TREE)                                                                    g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define gtimeTreeKeyErase(            TREE, KEY)                                                               g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)

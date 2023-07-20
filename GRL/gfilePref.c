@@ -85,10 +85,12 @@ grlAPI Gb gfilePrefCreateContent(GfilePref * const pref, const GfilePrefMode mod
    genter;
 
    greturnIf(
-         !pref                 ||
+         !pref                     ||
          mode == gfilePrefModeNONE ||
          !value,
       gbFALSE);
+
+   GTYPE_SET(pref, "GPref");
 
    if (mode == gfilePrefModeFILE)
    {

@@ -81,6 +81,8 @@ typedef enum
 typedef struct Gfile Gfile;
 struct Gfile
 {
+   GTYPE_VAR
+
    GfileOpStatus   opStatus;
    Gb              isAtEnd;
 #if grlWINDOWS == 1

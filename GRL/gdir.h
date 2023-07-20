@@ -58,6 +58,8 @@ typedef enum
 
 typedef struct
 {
+   GTYPE_VAR
+
    Gs                      *name;
    Gpath                   *path;
    GdirType                 type;
@@ -73,7 +75,7 @@ Gdir containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -90,8 +92,8 @@ typedef struct
 #define gdirArrayClear(              ARRAY, COUNT, INDEX)                                             g_ArrayClear(         (G_Array *) ARRAY, COUNT, INDEX) 
 #define gdirArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                g_ArrayCopy(          (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gdirArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                   g_ArrayCopyFrom(      (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gdirArrayCreate(                  )                                             (GdirArray *) g_ArrayCreate(                           GdirArray, Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
-#define gdirArrayCreateContent(      ARRAY)                                                           g_ArrayCreateContent( (G_Array *) ARRAY, GdirArray, Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gdirArrayCreate(             )                                                  (GdirArray *) g_ArrayCreate(                           "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gdirArrayCreateContent(      ARRAY)                                                           g_ArrayCreateContent( (G_Array *) ARRAY, "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
 #define gdirArrayDestroy(            ARRAY)                                                           g_ArrayDestroy(       (G_Array *) ARRAY) 
 #define gdirArrayDestroyContent(     ARRAY)                                                           g_ArrayDestroyContent((G_Array *) ARRAY) 
 #define gdirArrayErase(              ARRAY, VALUE)                                                    g_ArrayErase(         (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -115,7 +117,7 @@ typedef struct
 /******************************************************************************
 function:
 ******************************************************************************/
-#define gdirCreate()                   (Gdir *)      gleakCreate((void *) gdirCreate_(), gsizeof(Gdir));
+#define gdirCreate()                   (Gdir *)      gleakCreate((void *) gdirCreate_(),                    gsizeof(Gdir));
 #define gdirArrayCreateFromPath(PATH)  (GdirArray *) gleakCreate((void *) gdirArrayCreateFromPath_((PATH)), gsizeof(GdirArray))
 #define gdirArrayCreateFromMask(PATH)  (GdirArray *) gleakCreate((void *) gdirArrayCreateFromMask_((PATH)), gsizeof(GdirArray))
 

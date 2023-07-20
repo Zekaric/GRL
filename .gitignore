@@ -11,3 +11,10 @@ Releasex64
 /Debug64
 /Release32
 /Release64
+/GRL_Test/Debug
+/GRL_Test/Debug32
+/GRL_Test/Debug64
+/GRL_Test/Release
+/GRL_Test/Release32
+/GRL_Test/Release64
+/GRL_Test/x64/Debug

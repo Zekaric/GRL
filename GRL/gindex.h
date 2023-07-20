@@ -46,7 +46,7 @@ Gindex containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -65,7 +65,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -85,7 +85,7 @@ struct GindexListItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -105,7 +105,7 @@ struct GindexListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -116,7 +116,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
@@ -127,7 +127,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GindexListKey         **binArray;
    GhashSize               binCount;
@@ -148,7 +148,7 @@ struct GindexTreeItem
 
 struct GindexTree
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GindexTreeItem          *root;
@@ -170,7 +170,7 @@ struct GindexTreeKeyItem
 
 struct GindexTreeKey
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
    GindexTreeKeyItem       *root;
@@ -183,8 +183,8 @@ struct GindexTreeKey
 #define gindexArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gindexArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gindexArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gindexArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GindexArray *)         g_ArrayCreate(                                GindexArray, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gindexArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, GindexArray, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gindexArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GindexArray *)         g_ArrayCreate(                                "GindexArray", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gindexArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GindexArray", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define gindexArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gindexArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gindexArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -212,8 +212,8 @@ struct GindexTreeKey
 #define gindexArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gindexArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gindexArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gindexArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GindexArray *)         g_ArrayKeyCreate(                                GindexArray, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gindexArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, GindexArray, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gindexArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GindexArray *)         g_ArrayKeyCreate(                                "GindexArrayKey", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gindexArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GindexArrayKey", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define gindexArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
 #define gindexArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
 #define gindexArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
@@ -240,8 +240,8 @@ struct GindexTreeKey
 #define gindexListAdd(                 LIST, VALUE)                                       (GindexListItem *)      g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gindexListAddBegin(            LIST, VALUE)                                       (GindexListItem *)      g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gindexListAddEnd(              LIST, VALUE)                                       (GindexListItem *)      g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gindexListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GindexList *)          g_ListCreate(                               GindexList, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define gindexListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, GindexList, Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gindexListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GindexList *)          g_ListCreate(                               "GindexList", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gindexListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GindexList", Gindex, gbFALSE, OPTIONAL_COMPARE_FUNC)
 #define gindexListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
 #define gindexListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
 #define gindexListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
@@ -263,8 +263,8 @@ struct GindexTreeKey
 #define gindexListKeyAdd(              LIST, KEY, VALUE)                                  (GindexListKeyItem *)   g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gindexListKeyAddBegin(         LIST, KEY, VALUE)                                  (GindexListKeyItem *)   g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gindexListKeyAddEnd(           LIST, KEY, VALUE)                                  (GindexListKeyItem *)   g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gindexListKeyCreate(                 COMPARE_FUNC)                                (GindexList *)          g_ListKeyCreate(                               GindexListKey, Gindex, gbFALSE, COMPARE_FUNC)
-#define gindexListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, GindexListKey, Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexListKeyCreate(                 COMPARE_FUNC)                                (GindexList *)          g_ListKeyCreate(                               "GindexListKey", Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GindexListKey", Gindex, gbFALSE, COMPARE_FUNC)
 #define gindexListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
 #define gindexListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
 #define gindexListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
@@ -286,8 +286,8 @@ struct GindexTreeKey
 #define gindexListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gindexHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gindexHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GindexHash *)          g_HashCreate(                               GindexHash, Gindex, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gindexHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, GindexHash, Gindex, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gindexHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GindexHash *)          g_HashCreate(                               "GindexHash", Gindex, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gindexHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GindexHash", Gindex, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
 #define gindexHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
 #define gindexHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
 #define gindexHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
@@ -298,8 +298,8 @@ struct GindexTreeKey
 #define gindexHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gindexHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gindexHashKeyCreate(                 HASHSIZE)                                    (GindexHashKey *)       g_HashKeyCreate(                               GindexHashKey, Gindex, gbFALSE, HASHSIZE)
-#define gindexHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, GindexHashKey, Gindex, gbFALSE, HASHSIZE)
+#define gindexHashKeyCreate(                 HASHSIZE)                                    (GindexHashKey *)       g_HashKeyCreate(                               "GindexHashKey", Gindex, gbFALSE, HASHSIZE)
+#define gindexHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GindexHashKey", Gindex, gbFALSE, HASHSIZE)
 #define gindexHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
 #define gindexHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
 #define gindexHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
@@ -310,8 +310,8 @@ struct GindexTreeKey
 #define gindexHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gindexTreeAdd(                 TREE, VALUE)                                       (GindexTreeItem *)      g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gindexTreeCreate(                    COMPARE_FUNC)                                (GindexTree *)          g_TreeCreate(                               GindexTree, Gindex, gbFALSE, COMPARE_FUNC)
-#define gindexTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, GindexTree, Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexTreeCreate(                    COMPARE_FUNC)                                (GindexTree *)          g_TreeCreate(                               "GindexTree", Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GindexTree", Gindex, gbFALSE, COMPARE_FUNC)
 #define gindexTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
 #define gindexTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
 #define gindexTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
@@ -330,8 +330,8 @@ struct GindexTreeKey
 #define gindexTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define gindexTreeKeyAdd(              TREE, KEY, VALUE)                                  (GindexTreeKeyItem *)   g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gindexTreeKeyCreate(                 COMPARE_FUNC)                                (GindexTreeKey *)       g_TreeKeyCreate(                               GindexTreeKey, Gindex, gbFALSE, COMPARE_FUNC)
-#define gindexTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, GindexTreeKey, Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexTreeKeyCreate(                 COMPARE_FUNC)                                (GindexTreeKey *)       g_TreeKeyCreate(                               "GindexTreeKey", Gindex, gbFALSE, COMPARE_FUNC)
+#define gindexTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GindexTreeKey", Gindex, gbFALSE, COMPARE_FUNC)
 #define gindexTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
 #define gindexTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
 #define gindexTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)

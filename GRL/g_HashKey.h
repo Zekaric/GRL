@@ -43,7 +43,7 @@ type:
 ******************************************************************************/
 typedef struct
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    G_ListKey        **binArray;
    GhashSize          binCount;
@@ -53,14 +53,14 @@ typedef struct
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCreate((Gp *) g_HashKeyCreate_(             gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
-#define g_HashKeyCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                    g_HashKeyCreateContent_(HASH, gsizeof(TYPE_SUB), #TYPE, #TYPE_SUB, IS_POINTER_TYPE, (HASHSIZE))
+#define g_HashKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCreate((Gp *) g_HashKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
+#define g_HashKeyCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                    g_HashKeyCreateContent_(HASH, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE))
 //lint -restore
 
 grlAPI Gb          g_HashKeyAdd(             G_HashKey       * const hash, Gkey const * const key, Gp const * const value);
 
-grlAPI G_HashKey  *g_HashKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GhashSize const hashSize);
-grlAPI Gb          g_HashKeyCreateContent_(  G_HashKey       * const hash, Gsize const typeSize, Char const * const typeName, Char const * const typeNameSub, Gb const isPointerType, GhashSize const hashSize);
+grlAPI G_HashKey  *g_HashKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
+grlAPI Gb          g_HashKeyCreateContent_(  G_HashKey       * const hash, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
 
 grlAPI void        g_HashKeyDestroy(         G_HashKey       * const hash);
 grlAPI void        g_HashKeyDestroyContent(  G_HashKey       * const hash);

@@ -213,6 +213,8 @@ grlAPI Gb gdirCreateContent(Gdir * const gdir)
 
    gmemClearType(gdir, Gdir);
 
+   GTYPE_SET(gdir, "Gdir");
+
    greturn gbTRUE;
 }
 

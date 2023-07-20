@@ -157,6 +157,8 @@ type:
 ******************************************************************************/
 typedef struct
 {
+   GTYPE_VAR
+
    Gb                       isChanged;
    Gb                       isDeleted;
    GfileOffset              fileOffset;
@@ -170,7 +172,7 @@ GfileRatRow containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -187,8 +189,8 @@ typedef struct
 #define gfileRatRowArrayClear(              ARRAY, COUNT, INDEX)                                                      g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gfileRatRowArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gfileRatRowArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gfileRatRowArrayCreate(                  )                                             (GfileRatRowArray *)   g_ArrayCreate(                                GfileRatRowArray, GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
-#define gfileRatRowArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatRowArray, GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gfileRatRowArrayCreate(             )                                                  (GfileRatRowArray *)   g_ArrayCreate(                                "GfileRatRowArray", GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gfileRatRowArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, "GfileRatRowArray", GfileRatRow *, gbTRUE, NULL, gbTRUE, gbFALSE)
 #define gfileRatRowArrayDestroy(            ARRAY)                                                                    g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gfileRatRowArrayDestroyContent(     ARRAY)                                                                    g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gfileRatRowArrayErase(              ARRAY, VALUE)                                                             g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -222,7 +224,7 @@ GfileRatCol containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR;
+   GCONTAINER_VAR
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -239,8 +241,8 @@ typedef struct
 #define gfileRatColArrayClear(              ARRAY, COUNT, INDEX)                                                      g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gfileRatColArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gfileRatColArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gfileRatColArrayCreate(                  )                                             (GfileRatColArray *)   g_ArrayCreate(                                GfileRatColArray, GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
-#define gfileRatColArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, GfileRatColArray, GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
+#define gfileRatColArrayCreate(             )                                                  (GfileRatColArray *)   g_ArrayCreate(                                "GfileRatColArray", GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
+#define gfileRatColArrayCreateContent(      ARRAY)                                                                    g_ArrayCreateContent(      (G_Array *) ARRAY, "GfileRatColArray", GfileRatCol, gbFALSE, NULL, gbFALSE, gbFALSE)
 #define gfileRatColArrayDestroy(            ARRAY)                                                                    g_ArrayDestroy(            (G_Array *) ARRAY) 
 #define gfileRatColArrayDestroyContent(     ARRAY)                                                                    g_ArrayDestroyContent(     (G_Array *) ARRAY) 
 #define gfileRatColArrayErase(              ARRAY, VALUE)                                                             g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
@@ -263,6 +265,8 @@ typedef struct
 
 typedef struct
 {
+   GTYPE_VAR
+
    Gb                       isBinary, 
                             isUpdatedVersion,
                             isUpdatedColArray;

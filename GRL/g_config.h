@@ -73,6 +73,12 @@ constant:
 // Flags when in debug.
 #if defined(_DEBUG)
 
+// GTYPE_NAME_IS_ON is used for memory leaking.  At the start of the type or
+// container there are strings of 16 characters.  This string should be unique 
+// so that when the first few byte of the structure are displayed in the leak 
+// report we should know what type was leaking.
+#define GTYPE_NAME_IS_ON            1
+
 // CHECK_MEMORY_IS_ON is used in conjunction with debugCheckMemory() macro below.  
 // This is basically to check the heap if it got corrupted in any way.  Used
 // to track down memory corruption locations.
@@ -94,9 +100,38 @@ constant:
 // Flags wen in relese.
 #else
 
+#define GTYPE_NAME_IS_ON            0
 #define GCHECK_MEMORY_IS_ON         0
 #define GTRACE_IS_ON                0
 #define GMEM_INCLUDES_TYPE_STRING   0
+
+#endif
+
+#if GTYPE_NAME_IS_ON == 1
+
+#define GTYPE_SET(VAR, TYPE)                                            \
+{                                                                       \
+   Gindex __gtype_set_index__ = 0;                                      \
+   forCount(__gtype_set_index__, 16)                                    \
+   {                                                                    \
+      GTYPE_GET(VAR)[__gtype_set_index__] = TYPE[__gtype_set_index__];  \
+      breakIf((TYPE)[__gtype_set_index__] == 0);                        \
+   }                                                                    \
+   while(__gtype_set_index__ < 16)                                      \
+   {                                                                    \
+      GTYPE_GET(VAR)[__gtype_set_index__++] = 0;                        \
+   }                                                                    \
+}
+
+#define GTYPE_GET(VAR)              VAR->typeName
+
+#define GTYPE_VAR                   Char typeName[16];
+
+#else
+
+#define GTYPE_SET(VAR, TYPE)        
+#define GTYPE_GET(VAR)              NULL
+#define GTYPE_VAR                   
 
 #endif
 

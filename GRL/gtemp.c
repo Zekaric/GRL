@@ -39,6 +39,7 @@ grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDestroyFunc const 
    greturnIf(!data, mem);
 
    // Add to the list of temporaries in the current scope.
+   GTYPE_SET(data, "GtempData");
    data->next  = scope->data;
    scope->data = data;
 
@@ -62,6 +63,8 @@ grlAPI GtempScope *gtempEnter_(void)
 
    scope = gmemCreateType(GtempScope);
    greturnNullIf(!scope);
+
+   GTYPE_SET(scope, "GtempScope");
 
    greturn scope;
 }
