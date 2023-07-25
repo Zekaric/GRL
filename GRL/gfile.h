@@ -40,6 +40,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GFILEH)
 #define      GFILEH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 type:
 ******************************************************************************/
@@ -133,5 +139,11 @@ grlAPI Gcount            gfileSetSArray(                    Gfile * const file, 
 grlAPI GfileSetPosition  gfileSetPosition(                  Gfile * const file, Gposition const pos, GfileOffset const offset);
 grlAPI Gb                gfileSetValue(                     Gfile * const file, Gcount const count, Gn1 const value, Gcount * const writeCount);
 grlAPI Gb                gfileStoreContent(                 Gpath const * const path, Gcount const count, Gn1 const * const buffer);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

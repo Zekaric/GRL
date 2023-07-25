@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GCHARH)
 #define      GCHARH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 constant:
 ******************************************************************************/
@@ -177,5 +183,10 @@ grlAPI Gcount     gcToU1(                  Gc  const letter, Gc1 * const a, Gc1 
 grlAPI Gcount     gcToU2(                  Gc  const letter, Gc2 * const a, Gc2 * const b);
 grlAPI Gc2        gcToUpperCase(           Gc2 const letter);
 
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

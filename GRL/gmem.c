@@ -92,9 +92,8 @@ struct FreeList
 
 typedef struct
 {
-#if GMEM_INCLUDES_TYPE_STRING == 1
-   Char     const *type;
-#endif
+   GTYPE_VAR
+
    Gi4             size,
                    poolBin;
 } Mem;
@@ -418,9 +417,8 @@ static Gp *_PoolCreate(Char const * const type, Gi4 const size)
          return NULL;
       }
 
-#if GMEM_INCLUDES_TYPE_STRING == 1
-      buffer->type    = type;
-#endif
+      GTYPE_SET(buffer, type);
+
       buffer->size    = size;
       buffer->poolBin = POOL_UNBINNED_INDEX;
    }
@@ -452,9 +450,8 @@ static Gp *_PoolCreate(Char const * const type, Gi4 const size)
          _pool[poolBin].poolCount++; //lint !e661
       }
 
-#if GMEM_INCLUDES_TYPE_STRING == 1
-      buffer->type    = type;
-#endif
+      GTYPE_SET(buffer, type);
+
       buffer->size    = size;
       buffer->poolBin = poolBin;
    }

@@ -26,6 +26,9 @@
     <Filter Include="Base">
       <UniqueIdentifier>{e812d575-a224-433a-92af-faa27c09bf0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{06584509-1469-4def-9336-5a5730673d39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="g_Array.h">
@@ -166,6 +169,33 @@
     <ClInclude Include="gfilePref.h">
       <Filter>File System</Filter>
     </ClInclude>
+    <ClInclude Include="gv1.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
+    <ClInclude Include="gv2.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
+    <ClInclude Include="gv4.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
+    <ClInclude Include="gv8.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
+    <ClInclude Include="gmath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gmatrix3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gvec2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gvec3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="grect.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -269,6 +299,21 @@
     </ClCompile>
     <ClCompile Include="gfilePref.c">
       <Filter>File System</Filter>
+    </ClCompile>
+    <ClCompile Include="gv.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gmath.c">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gmatrix3.c">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gvec2.c">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gvec3.c">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

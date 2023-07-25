@@ -104,14 +104,14 @@ typedef struct
                             isSorted         : 1,
                             isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
-   Gs                 **p;
+   Gs                     **p;
 } GsArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
 typedef struct 
 {
    Gkey const              *key;
-   Gs                  *p;
+   Gs                      *p;
 } GsArrayKeyCell;
 
 typedef struct
@@ -122,16 +122,16 @@ typedef struct
    Gbit                     isVectorSizing   : 1,
                             isSorted         : 1;
    GrlCompareFunc           compareFunc;
-   GsArrayKeyCell     **p;
+   GsArrayKeyCell         **p;
 } GsArrayKey;
 
 // Same as G_List and G_ListItem //////////////////////////////////////////////
 typedef struct GsListItem GsListItem;
 struct GsListItem
 {
-   GsListItem          *next,
+   GsListItem              *next,
                            *prev;
-   Gs                  *p;
+   Gs                      *p;
 };
 
 typedef struct
@@ -140,7 +140,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GsListItem          *head,
+   GsListItem              *head,
                            *tail;
 } GsList;
 
@@ -148,10 +148,10 @@ typedef struct
 typedef struct GsListKeyItem GsListKeyItem;
 struct GsListKeyItem
 {
-   GsListKeyItem       *next,
+   GsListKeyItem           *next,
                            *prev;
    Gkey const              *key;
-   Gs                  *p;
+   Gs                      *p;
 };
 
 typedef struct
@@ -160,7 +160,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GsListKeyItem       *head,
+   GsListKeyItem           *head,
                            *tail;
 } GsListKey;
 
@@ -171,7 +171,7 @@ typedef struct
 
    GrlHashFunc              hashFunc;
    GrlCompareFunc           compareFunc;
-   GsList             **binArray;
+   GsList                 **binArray;
    GhashSize                binCount;
 } GsHash;
 
@@ -180,7 +180,7 @@ typedef struct
 {
    GCONTAINER_VAR
 
-   GsListKey          **binArray;
+   GsListKey              **binArray;
    GhashSize                binCount;
 } GsHashKey;
 
@@ -189,12 +189,12 @@ typedef struct GsTree     GsTree;
 typedef struct GsTreeItem GsTreeItem;
 struct GsTreeItem
 {
-   GsTree              *owner;
-   GsTreeItem          *parent;
-   GsTreeItem          *childLeft;
-   GsTreeItem          *childRight;
+   GsTree                  *owner;
+   GsTreeItem              *parent;
+   GsTreeItem              *childLeft;
+   GsTreeItem              *childRight;
    GheapN                   heapValue;
-   Gs                  *p;
+   Gs                      *p;
 };
 
 struct GsTree
@@ -202,7 +202,7 @@ struct GsTree
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GsTreeItem          *root;
+   GsTreeItem              *root;
 };
 
 // Same as G_TreeKey and G_TreeKeyItem ////////////////////////////////////////
@@ -210,13 +210,13 @@ typedef struct GsTreeKey     GsTreeKey;
 typedef struct GsTreeKeyItem GsTreeKeyItem;
 struct GsTreeKeyItem
 {
-   GsTreeKey           *owner;
-   GsTreeKeyItem       *parent;
-   GsTreeKeyItem       *childLeft;
-   GsTreeKeyItem       *childRight;
+   GsTreeKey               *owner;
+   GsTreeKeyItem           *parent;
+   GsTreeKeyItem           *childLeft;
+   GsTreeKeyItem           *childRight;
    GheapN                   heapValue;
    Gkey const              *key;
-   Gs                  *p;
+   Gs                      *p;
 };
 
 struct GsTreeKey
@@ -224,7 +224,7 @@ struct GsTreeKey
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GsTreeKeyItem       *root;
+   GsTreeKeyItem           *root;
 };
 
 #define gsArrayAdd(                ARRAY,        VALUE)                                                  g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
@@ -306,7 +306,7 @@ struct GsTreeKey
 #define gsListGetEnd(              LIST)                                              (GsListItem *)          g_ListGetEnd(              (G_List *) LIST)
 #define gsListItemAdd(             LIST, LITEM, VALUE)                                (GsListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gsListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gsListItemGet(             LIST, LITEM)                                      ((Gs *)                  g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gsListItemGet(             LIST, LITEM)                                      ((Gs *)                  g_ListItemGet(                              (G_ListItem *) LITEM))
 #define gsListItemGetNext(               LITEM)                                       (GsListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define gsListItemGetPrev(               LITEM)                                       (GsListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gsListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)

@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GCOUNTH)
 #define      GCOUNTH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 Gcount containers.
 ******************************************************************************/
@@ -250,7 +256,7 @@ struct GcountTreeKey
 #define gcountListGetEnd(              LIST)                                              (GcountListItem *)      g_ListGetEnd(              (G_List *) LIST)
 #define gcountListItemAdd(             LIST, LITEM, VALUE)                                (GcountListItem *)      g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gcountListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gcountListItemGet(                   LITEM)                                      ((Gcount *)              g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gcountListItemGet(                   LITEM)                                      ((Gcount *)              g_ListItemGet(                              (G_ListItem *) LITEM))
 #define gcountListItemGetNext(               LITEM)                                       (GcountListItem *)      g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define gcountListItemGetPrev(               LITEM)                                       (GcountListItem *)      g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gcountListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
@@ -273,7 +279,7 @@ struct GcountTreeKey
 #define gcountListKeyGetEnd(           LIST)                                              (GcountListKeyItem *)   g_ListKeyGetEnd(           (G_ListKey *) LIST)
 #define gcountListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GcountListKeyItem *)   g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
 #define gcountListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define gcountListKeyItemGet(                LITEM)                                      ((Gcount *)              g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
+#define gcountListKeyItemGet(                LITEM)                                      ((Gcount *)              g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
 #define gcountListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
 #define gcountListKeyItemGetNext(            LITEM)                                       (GcountListKeyItem *)   g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
 #define gcountListKeyItemGetPrev(            LITEM)                                       (GcountListKeyItem *)   g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
@@ -343,5 +349,11 @@ struct GcountTreeKey
 #define gcountTreeKeyItemGetNext(            TITEM)                                       (GcountTreeKeyItem *)   g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gcountTreeKeyItemGetPrev(            TITEM)                                       (GcountTreeKeyItem *)   g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gcountTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

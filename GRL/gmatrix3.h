@@ -1,17 +1,16 @@
 /******************************************************************************
-file:       Gcon
+file:       gmatrix3
 author:     Robbert de Groot
-company:    Robbert de Groot
-copyright:  2020, Robbert de Groot
+copyright:  2001-2009, Robbert de Groot
 
 description:
-
+Functions for 4x4 matrices.
 ******************************************************************************/
 
 /******************************************************************************
 BSD 2-Clause License
 
-Copyright (c) 2000, Robbert de Groot
+Copyright (c) !!!!YEAR!!!!, Robbert de Groot
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,8 +35,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GCONH)
-#define      GCONH
+#if !defined(GMATRIX3H)
+#define      GMATRIX3H
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -46,15 +45,36 @@ extern "C" {
 /*****************************************************************************/
 
 /******************************************************************************
-prototype:
+type: 
 ******************************************************************************/
-grlAPI Gs   *gconGetS(   void);
-grlAPI Gs   *gconGetS_(  void);
+typedef struct
+{
+   Gr value[16];
+} Gmatrix3;
 
-grlAPI Gb    gconSetS(   Gs const * const value);
-grlAPI Gb    gconSetA(   Char const * const value);
+/******************************************************************************
+Functions
+******************************************************************************/
+grlAPI void gmatrix3Clean(                         Gmatrix3 const * const mi,  Gmatrix3 * const mo);
+grlAPI void gmatrix3Copy(                          Gmatrix3 const * const src, Gmatrix3 * const dst);
 
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
+grlAPI void gmatrix3Minus(                         Gmatrix3 const * const m1, Gmatrix3 const * const m2, Gmatrix3 * const m);
+
+grlAPI void gmatrix3Negate(                        Gmatrix3 const * const m1, Gmatrix3 * const m);
+
+grlAPI void gmatrix3Plus(                          Gmatrix3 const * const m1, Gmatrix3 const * const m2, Gmatrix3 * const m);
+grlAPI void gmatrix3Product(                       Gmatrix3 const * const m1, Gmatrix3 const * const m2, Gmatrix3 * const m);
+grlAPI void gmatrix3ProductGvec3(                  Gmatrix3 const * const m, Gvec3 const * const in, Gvec3 * const out);
+grlAPI void gmatrix3ProductGvec3List(              Gmatrix3 const * const m, Gcount const pcount, Gvec3 const * const in, Gvec3 * const out);
+
+grlAPI void gmatrix3SetFromUnitVectorsLocalToWorld(Gmatrix3       * const m, Gvec3 const * const x, Gvec3 const * const y, Gvec3 const * const z);
+grlAPI void gmatrix3SetFromUnitVectorsWorldToLocal(Gmatrix3       * const m, Gvec3 const * const x, Gvec3 const * const y, Gvec3 const * const z);
+grlAPI void gmatrix3SetIdentity(                   Gmatrix3       * const m);
+grlAPI void gmatrix3SetRotation(                   Gmatrix3       * const m, GmathAxis const axis, Gr const angle);
+grlAPI void gmatrix3SetScale(                      Gmatrix3       * const m, Gr const x, Gr const y, Gr const z);
+grlAPI void gmatrix3SetTranslation(                Gmatrix3       * const m, Gr const x, Gr const y, Gr const z);
+
+grlAPI void gmatrix3Transpose(                     Gmatrix3 const * const in, Gmatrix3 * const out);
 
 /*****************************************************************************/
 #ifdef __cplusplus

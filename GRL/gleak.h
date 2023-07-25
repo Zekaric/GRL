@@ -93,7 +93,7 @@ Function:
 #if defined(_DEBUG)
 
 /*lint -save -e960 -e961 -e9026 */
-#define gleakCreate(P,S) gleakCreate_((P), (S), __FILE__, __LINE__)
+#define gleakCreate(P,S) gleakCreate_((P), (S), (Char *) __FILE__, __LINE__)
 #define gleakDestroy(P)  gleakDestroy_((P))
 /*lint -restore */
 

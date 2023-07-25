@@ -1,17 +1,16 @@
 /******************************************************************************
-file:       Gcon
+file:       grect
 author:     Robbert de Groot
-company:    Robbert de Groot
-copyright:  2020, Robbert de Groot
+copyright:  2001-2010, Robbert de Groot
 
 description:
-
+Functions based on using a 2D point.
 ******************************************************************************/
 
 /******************************************************************************
 BSD 2-Clause License
 
-Copyright (c) 2000, Robbert de Groot
+Copyright (c) !!!!YEAR!!!!, Robbert de Groot
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,8 +35,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GCONH)
-#define      GCONH
+#if !defined(GRECTH)
+#define      GRECTH
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -46,15 +45,15 @@ extern "C" {
 /*****************************************************************************/
 
 /******************************************************************************
-prototype:
+type:
 ******************************************************************************/
-grlAPI Gs   *gconGetS(   void);
-grlAPI Gs   *gconGetS_(  void);
-
-grlAPI Gb    gconSetS(   Gs const * const value);
-grlAPI Gb    gconSetA(   Char const * const value);
-
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
+typedef struct _Grect
+{
+   Gi4 x,
+       y,
+       w,
+       h;
+} Grect;
 
 /*****************************************************************************/
 #ifdef __cplusplus

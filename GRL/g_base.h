@@ -224,7 +224,7 @@ macro:
 #define gABS(V)                     (((V) <    0) ? -(V) : (V))
 #define gMAX(A, B)                  (((A) >= (B)) ?  (A) : (B))
 #define gMIN(A, B)                  (((A) >= (B)) ?  (B) : (A))
-#define gIS_IN_RANGE(V, MIN, MAX)   ((MIN) <= (V) && (V) <= (MAX))
+#define gIS_IN_RANGE(  V, MIN, MAX) ((MIN) <= (V) && (V) <= (MAX))
 #define gIS_IN_BETWEEN(V, MIN, MAX) ((MIN) <  (V) && (V) <  (MAX))
 
 // Loop macroes.  
@@ -458,7 +458,7 @@ typedef enum
    gbFALSE              =  0,
    gbTRUE               =  1,
    gbUNDEFINED          = -1
-} Gb;
+} GbValues;
 
 // Compare function result options.  All compare functions should return this
 // type unless they have a good reason not too.
@@ -494,6 +494,7 @@ typedef enum
 typedef signed char        Char;
 typedef unsigned char      Uchar;
 
+
 // Yes I am using stdint types.  My code actually predated stdint but I 
 // modified the typedefs to use them instead.  Why not used stdint types?
 // I really loath using '_'.  I find it hard to type and slows me down.
@@ -510,6 +511,8 @@ typedef uint32_t           Gn4;
 typedef uint64_t           Gn8;
 typedef float              Gr4;
 typedef double             Gr8;
+
+typedef Gi1                Gb;
 
 // Same as the above but the largest size they can be.  This does not mean the
 // most efficient speed and memory wise.

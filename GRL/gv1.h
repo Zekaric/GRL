@@ -35,45 +35,81 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GVH)
 #define      GVH
 
-/*****************************************************************************/
-#ifdef __cplusplus
-extern "C" {
-#endif
-/*****************************************************************************/
-
 /******************************************************************************
 prototype
 ******************************************************************************/
-grlAPI Gcompare    gvCompareI(      Gv const * const va, Gv const * const vb);
-grlAPI Gcompare    gvCompareN(      Gv const * const va, Gv const * const vb);
-grlAPI Gcompare    gvCompareR(      Gv const * const va, Gv const * const vb);
-grlAPI Gcompare    gvCompareS(      Gv const * const va, Gv const * const vb);
+grlAPI Gb          gvGetB(          Gv const v);
+grlAPI Gi          gvGetI(          Gv const v);
+grlAPI Gn          gvGetN(          Gv const v);
+grlAPI Gp         *gvGetP(          Gv const v);
+grlAPI Gr          gvGetR(          Gv const v);
+grlAPI Gs         *gvGetS(          Gv const v);
 
-grlAPI Gb          gvGetB(          Gv const * const v);
-grlAPI Gi          gvGetI(          Gv const * const v);
-grlAPI Gn          gvGetN(          Gv const * const v);
-grlAPI Gp         *gvGetP(          Gv const * const v);
-grlAPI Gr          gvGetR(          Gv const * const v);
-grlAPI Gs         *gvGetS(          Gv const * const v);
+grlAPI void        gvSetB(          Gv       v, Gb   const value);
+grlAPI void        gvSetI(          Gv       v, Gi   const value);
+grlAPI void        gvSetN(          Gv       v, Gn   const value);
+grlAPI void        gvSetP(          Gv       v, Gp * const value);
+grlAPI void        gvSetR(          Gv       v, Gr   const value);
+grlAPI void        gvSetS(          Gv       v, Gs * const value);
 
-grlAPI Gv         *gvSetB(          Gv       * const v, Gb   const value);
-grlAPI Gv         *gvSetI(          Gv       * const v, Gi   const value);
-grlAPI Gv         *gvSetN(          Gv       * const v, Gn   const value);
-grlAPI Gv         *gvSetP(          Gv       * const v, Gp * const value);
-grlAPI Gv         *gvSetR(          Gv       * const v, Gr   const value);
-grlAPI Gv         *gvSetS(          Gv       * const v, Gs * const value);
+grlAPI Gb          gvpGetI(         Gvp const v);
+grlAPI Gip         gvpGetI(         Gvp const v);
+grlAPI Gnp         gvpGetN(         Gvp const v);
+grlAPI Gp         *gvpGetP(         Gvp const v);
+grlAPI Grp         gvpGetR(         Gvp const v);
+grlAPI Gs         *gvpGetS(         Gvp const v);
 
-#define gvGetI(V)       (V)->i
-#define gvGetN(V)       (V)->n
-#define gvGetP(V)       (V)->p
-#define gvGetR(V)       (V)->r
-#define gvGetS(V)       (V)->s
+grlAPI void        gvpSetB(         Gvp       v, Gb   const value);
+grlAPI void        gvpSetI(         Gvp       v, Gip  const value);
+grlAPI void        gvpSetN(         Gvp       v, Gnp  const value);
+grlAPI void        gvpSetP(         Gvp       v, Gp * const value);
+grlAPI void        gvpSetR(         Gvp       v, Grp  const value);
+grlAPI void        gvpSetS(         Gvp       v, Gs * const value);
 
-#define gvSetI(V, VAL)  ((V)->i = VAL, (V))
-#define gvSetN(V, VAL)  ((V)->n = VAL, (V))
-#define gvSetP(V, VAL)  ((V)->p = VAL, (V))
-#define gvSetR(V, VAL)  ((V)->r = VAL, (V))
-#define gvSetS(V, VAL)  ((V)->s = VAL, (V))
+grlAPI Gb          gv8GetB(         Gv8 const v);
+grlAPI Gi8         gv8GetI(         Gv8 const v);
+grlAPI Gn8         gv8GetN(         Gv8 const v);
+grlAPI Gp         *gv8GetP(         Gv8 const v);
+grlAPI Gr8         gv8GetR(         Gv8 const v);
+grlAPI Gs         *gv8GetS(         Gv8 const v);
+
+grlAPI void        gv8SetB(         Gv8       v, Gb   const value);
+grlAPI void        gv8SetI(         Gv8       v, Gi8  const value);
+grlAPI void        gv8SetN(         Gv8       v, Gn8  const value);
+grlAPI void        gv8SetP(         Gv8       v, Gp * const value);
+grlAPI void        gv8SetR(         Gv8       v, Gr8  const value);
+grlAPI void        gv8SetS(         Gv8       v, Gs * const value);
+
+grlAPI Gb          gv4GetB(         Gv4 const v);
+grlAPI Gi4         gv4GetI(         Gv4 const v);
+grlAPI Gn4         gv4GetN(         Gv4 const v);
+grlAPI Gr4         gv4GetR(         Gv4 const v);
+
+grlAPI void        gv4SetB(         Gv4       v, Gb  const value);
+grlAPI void        gv4SetI(         Gv4       v, Gi4 const value);
+grlAPI void        gv4SetN(         Gv4       v, Gn4 const value);
+grlAPI void        gv4SetR(         Gv4       v, Gr4 const value);
+
+grlAPI Gb          gb2GetB(         Gv2 const v);
+grlAPI Gi2         gv2GetI(         Gv2 const v);
+grlAPI Gn2         gv2GetN(         Gv2 const v);
+
+grlAPI void        gv2SetB(         Gv2       v, Gb  const value);
+grlAPI void        gv2SetI(         Gv2       v, Gi2 const value);
+grlAPI void        gv2SetN(         Gv2       v, Gn2 const value);
+
+#define gvGetI(v)       (V)->i
+#define gvGetN(v)       (V)->n
+#define gvGetP(v)       (V)->p
+#define gvGetR(v)       (V)->r
+#define gvGetS(v)       (V)->s
+
+#define gvSetI(V,VAL)   (V)->i = VAL
+#define gvSetN(V,VAL)   (V)->n = VAL
+#define gvSetP(V,VAL)   (V)->p = VAL
+#define gvSetR(V,VAL)   (V)->r = VAL
+#define gvSetS(V,VAL)   (V)->s = VAL
+
 
 /******************************************************************************
 Gv containers.
@@ -383,11 +419,5 @@ struct GvTreeKey
 #define gvTreeKeyItemGetNext(            TITEM)                                       (GvTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gvTreeKeyItemGetPrev(            TITEM)                                       (GvTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gvTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
-
-/*****************************************************************************/
-#ifdef __cplusplus
-}
-#endif
-/*****************************************************************************/
 
 #endif

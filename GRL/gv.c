@@ -1,11 +1,7 @@
 /******************************************************************************
-file:       Gcon
+file:       Gv
 author:     Robbert de Groot
-company:    Robbert de Groot
 copyright:  2020, Robbert de Groot
-
-description:
-
 ******************************************************************************/
 
 /******************************************************************************
@@ -36,30 +32,50 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GCONH)
-#define      GCONH
-
-/*****************************************************************************/
-#ifdef __cplusplus
-extern "C" {
-#endif
-/*****************************************************************************/
+#include "precompiled.h"
 
 /******************************************************************************
-prototype:
+global
+function
 ******************************************************************************/
-grlAPI Gs   *gconGetS(   void);
-grlAPI Gs   *gconGetS_(  void);
-
-grlAPI Gb    gconSetS(   Gs const * const value);
-grlAPI Gb    gconSetA(   Char const * const value);
-
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
-
-/*****************************************************************************/
-#ifdef __cplusplus
+/******************************************************************************
+func: gvCompareI
+******************************************************************************/
+grlAPI Gcompare gvCompareI(Gv const * const va, Gv const * const vb)
+{
+   genter;
+   greturnIf(va->i < vb->i, gcompareLESS_THAN);
+   greturnIf(va->i > vb->i, gcompareGREATER_THAN);
+   greturn                  gcompareEQUAL;
 }
-#endif
-/*****************************************************************************/
 
-#endif
+/******************************************************************************
+func: gvCompareN
+******************************************************************************/
+grlAPI Gcompare gvCompareN(Gv const * const va, Gv const * const vb)
+{
+   genter;
+   greturnIf(va->n < vb->n, gcompareLESS_THAN);
+   greturnIf(va->n > vb->n, gcompareGREATER_THAN);
+   greturn                  gcompareEQUAL;
+}
+
+/******************************************************************************
+func: gvCompareR
+******************************************************************************/
+grlAPI Gcompare gvCompareR(Gv const * const va, Gv const * const vb)
+{
+   genter;
+   greturnIf(va->r < vb->r, gcompareLESS_THAN);
+   greturnIf(va->r > vb->r, gcompareGREATER_THAN);
+   greturn                  gcompareEQUAL;
+}
+
+/******************************************************************************
+func: gvCompareS
+******************************************************************************/
+grlAPI Gcompare gvCompareS(Gv const * const va, Gv const * const vb)
+{
+   genter;
+   greturn gsCompareBase(va->s, vb->s);
+}

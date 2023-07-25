@@ -58,6 +58,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GLOCKH)
 #define      GLOCKH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 type:
 ******************************************************************************/
@@ -385,5 +391,11 @@ struct GlockTreeKey
 #define glockTreeKeyItemGetNext(            TITEM)                                       (GlockTreeKeyItem *)  g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define glockTreeKeyItemGetPrev(            TITEM)                                       (GlockTreeKeyItem *)  g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define glockTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                      g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

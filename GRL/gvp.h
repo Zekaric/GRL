@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GVPH)
 #define      GVPH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 Gvp containers.
 ******************************************************************************/
@@ -48,14 +54,14 @@ typedef struct
                             isSorted         : 1,
                             isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
-   Gvp                  *p;
+   Gvp                     *p;
 } GvpArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
 typedef struct
 {
    Gkey const              *key;
-   Gvp                   value;
+   Gvp                      value;
 } GvpArrayKeyCell;
 
 typedef struct
@@ -66,16 +72,16 @@ typedef struct
    Gbit                     isVectorSizing   : 1,
                             isSorted         : 1;
    GrlCompareFunc           compareFunc;
-   GvpArrayKeyCell      *p;
+   GvpArrayKeyCell         *p;
 } GvpArrayKey;
 
 // Same as G_List and G_ListItem //////////////////////////////////////////////
 typedef struct GvpListItem GvpListItem;
 struct GvpListItem
 {
-   GvpListItem          *next,
+   GvpListItem             *next,
                            *prev;
-   Gvp                   value;
+   Gvp                      value;
 };
 
 typedef struct
@@ -84,7 +90,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GvpListItem          *head,
+   GvpListItem             *head,
                            *tail;
 } GvpList;
 
@@ -92,10 +98,10 @@ typedef struct
 typedef struct GvpListKeyItem GvpListKeyItem;
 struct GvpListKeyItem
 {
-   GvpListKeyItem       *next,
+   GvpListKeyItem          *next,
                            *prev;
    Gkey const              *key;
-   Gvp                   value;
+   Gvp                      value;
 };
 
 typedef struct
@@ -104,7 +110,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GvpListKeyItem       *head,
+   GvpListKeyItem          *head,
                            *tail;
 } GvpListKey;
 
@@ -115,7 +121,7 @@ typedef struct
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
-   GvpList            **binArray;
+   GvpList               **binArray;
    GhashSize               binCount;
 } GvpHash;
 
@@ -124,7 +130,7 @@ typedef struct
 {
    GCONTAINER_VAR
 
-   GvpListKey         **binArray;
+   GvpListKey            **binArray;
    GhashSize               binCount;
 } GvpHashKey;
 
@@ -133,12 +139,12 @@ typedef struct GvpTree     GvpTree;
 typedef struct GvpTreeItem GvpTreeItem;
 struct GvpTreeItem
 {
-   GvpTree              *owner;
-   GvpTreeItem          *parent;
-   GvpTreeItem          *childLeft;
-   GvpTreeItem          *childRight;
+   GvpTree                 *owner;
+   GvpTreeItem             *parent;
+   GvpTreeItem             *childLeft;
+   GvpTreeItem             *childRight;
    GheapN                   heapValue;
-   Gvp                   value;
+   Gvp                      value;
 };
 
 struct GvpTree
@@ -146,7 +152,7 @@ struct GvpTree
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GvpTreeItem          *root;
+   GvpTreeItem             *root;
 };
 
 // Same as G_TreeKey and G_TreeKeyItem ////////////////////////////////////////
@@ -154,13 +160,13 @@ typedef struct GvpTreeKey     GvpTreeKey;
 typedef struct GvpTreeKeyItem GvpTreeKeyItem;
 struct GvpTreeKeyItem
 {
-   GvpTreeKey           *owner;
-   GvpTreeKeyItem       *parent;
-   GvpTreeKeyItem       *childLeft;
-   GvpTreeKeyItem       *childRight;
+   GvpTreeKey              *owner;
+   GvpTreeKeyItem          *parent;
+   GvpTreeKeyItem          *childLeft;
+   GvpTreeKeyItem          *childRight;
    GheapN                   heapValue;
    Gkey const              *key;
-   Gvp                   value;
+   Gvp                      value;
 };
 
 struct GvpTreeKey
@@ -168,7 +174,7 @@ struct GvpTreeKey
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GvpTreeKeyItem       *root;
+   GvpTreeKeyItem          *root;
 };
 
 #define gvpArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
@@ -250,7 +256,7 @@ struct GvpTreeKey
 #define gvpListGetEnd(              LIST)                                              (GvpListItem *)         g_ListGetEnd(              (G_List *) LIST)
 #define gvpListItemAdd(             LIST, LITEM, VALUE)                                (GvpListItem *)         g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gvpListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gvpListItemGet(                   LITEM)                                      ((Gvp *)                 g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gvpListItemGet(                   LITEM)                                      ((Gvp *)                 g_ListItemGet(                              (G_ListItem *) LITEM))
 #define gvpListItemGetNext(               LITEM)                                       (GvpListItem *)         g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define gvpListItemGetPrev(               LITEM)                                       (GvpListItem *)         g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gvpListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
@@ -273,7 +279,7 @@ struct GvpTreeKey
 #define gvpListKeyGetEnd(           LIST)                                              (GvpListKeyItem *)      g_ListKeyGetEnd(           (G_ListKey *) LIST)
 #define gvpListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GvpListKeyItem *)      g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
 #define gvpListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define gvpListKeyItemGet(                LITEM)                                      ((Gvp *)                 g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
+#define gvpListKeyItemGet(                LITEM)                                      ((Gvp *)                 g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
 #define gvpListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
 #define gvpListKeyItemGetNext(            LITEM)                                       (GvpListKeyItem *)      g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
 #define gvpListKeyItemGetPrev(            LITEM)                                       (GvpListKeyItem *)      g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
@@ -343,5 +349,11 @@ struct GvpTreeKey
 #define gvpTreeKeyItemGetNext(            TITEM)                                       (GvpTreeKeyItem *)      g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gvpTreeKeyItemGetPrev(            TITEM)                                       (GvpTreeKeyItem *)      g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gvpTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

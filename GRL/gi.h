@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GIH)
 #define      GIH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 Gi containers.
 ******************************************************************************/
@@ -48,14 +54,14 @@ typedef struct
                             isSorted         : 1,
                             isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
-   Gi                  *p;
+   Gi                      *p;
 } GiArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
 typedef struct
 {
    Gkey const              *key;
-   Gi                   value;
+   Gi                       value;
 } GiArrayKeyCell;
 
 typedef struct
@@ -66,16 +72,16 @@ typedef struct
    Gbit                     isVectorSizing   : 1,
                             isSorted         : 1;
    GrlCompareFunc           compareFunc;
-   GiArrayKeyCell      *p;
+   GiArrayKeyCell          *p;
 } GiArrayKey;
 
 // Same as G_List and G_ListItem //////////////////////////////////////////////
 typedef struct GiListItem GiListItem;
 struct GiListItem
 {
-   GiListItem          *next,
+   GiListItem              *next,
                            *prev;
-   Gi                   value;
+   Gi                       value;
 };
 
 typedef struct
@@ -84,7 +90,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GiListItem          *head,
+   GiListItem              *head,
                            *tail;
 } GiList;
 
@@ -92,10 +98,10 @@ typedef struct
 typedef struct GiListKeyItem GiListKeyItem;
 struct GiListKeyItem
 {
-   GiListKeyItem       *next,
+   GiListKeyItem           *next,
                            *prev;
    Gkey const              *key;
-   Gi                   value;
+   Gi                       value;
 };
 
 typedef struct
@@ -104,7 +110,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GiListKeyItem       *head,
+   GiListKeyItem           *head,
                            *tail;
 } GiListKey;
 
@@ -115,7 +121,7 @@ typedef struct
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
-   GiList            **binArray;
+   GiList                **binArray;
    GhashSize               binCount;
 } GiHash;
 
@@ -124,7 +130,7 @@ typedef struct
 {
    GCONTAINER_VAR
 
-   GiListKey         **binArray;
+   GiListKey             **binArray;
    GhashSize               binCount;
 } GiHashKey;
 
@@ -133,12 +139,12 @@ typedef struct GiTree     GiTree;
 typedef struct GiTreeItem GiTreeItem;
 struct GiTreeItem
 {
-   GiTree              *owner;
-   GiTreeItem          *parent;
-   GiTreeItem          *childLeft;
-   GiTreeItem          *childRight;
+   GiTree                  *owner;
+   GiTreeItem              *parent;
+   GiTreeItem              *childLeft;
+   GiTreeItem              *childRight;
    GheapN                   heapValue;
-   Gi                   value;
+   Gi                       value;
 };
 
 struct GiTree
@@ -146,7 +152,7 @@ struct GiTree
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GiTreeItem          *root;
+   GiTreeItem              *root;
 };
 
 // Same as G_TreeKey and G_TreeKeyItem ////////////////////////////////////////
@@ -154,13 +160,13 @@ typedef struct GiTreeKey     GiTreeKey;
 typedef struct GiTreeKeyItem GiTreeKeyItem;
 struct GiTreeKeyItem
 {
-   GiTreeKey           *owner;
-   GiTreeKeyItem       *parent;
-   GiTreeKeyItem       *childLeft;
-   GiTreeKeyItem       *childRight;
+   GiTreeKey               *owner;
+   GiTreeKeyItem           *parent;
+   GiTreeKeyItem           *childLeft;
+   GiTreeKeyItem           *childRight;
    GheapN                   heapValue;
    Gkey const              *key;
-   Gi                   value;
+   Gi                       value;
 };
 
 struct GiTreeKey
@@ -168,7 +174,7 @@ struct GiTreeKey
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GiTreeKeyItem       *root;
+   GiTreeKeyItem           *root;
 };
 
 #define giArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
@@ -250,7 +256,7 @@ struct GiTreeKey
 #define giListGetEnd(              LIST)                                              (GiListItem *)          g_ListGetEnd(              (G_List *) LIST)
 #define giListItemAdd(             LIST, LITEM, VALUE)                                (GiListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define giListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define giListItemGet(                   LITEM)                                      ((Gi *)                  g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define giListItemGet(                   LITEM)                                      ((Gi *)                  g_ListItemGet(                              (G_ListItem *) LITEM))
 #define giListItemGetNext(               LITEM)                                       (GiListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define giListItemGetPrev(               LITEM)                                       (GiListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define giListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
@@ -273,7 +279,7 @@ struct GiTreeKey
 #define giListKeyGetEnd(           LIST)                                              (GiListKeyItem *)       g_ListKeyGetEnd(           (G_ListKey *) LIST)
 #define giListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GiListKeyItem *)       g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
 #define giListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define giListKeyItemGet(                LITEM)                                      ((Gi *)                  g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
+#define giListKeyItemGet(                LITEM)                                      ((Gi *)                  g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
 #define giListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
 #define giListKeyItemGetNext(            LITEM)                                       (GiListKeyItem *)       g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
 #define giListKeyItemGetPrev(            LITEM)                                       (GiListKeyItem *)       g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
@@ -343,5 +349,11 @@ struct GiTreeKey
 #define giTreeKeyItemGetNext(            TITEM)                                       (GiTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define giTreeKeyItemGetPrev(            TITEM)                                       (GiTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define giTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

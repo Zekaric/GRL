@@ -38,6 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(G_HASHH)
 #define      G_HASHH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 type:
 ******************************************************************************/
@@ -131,5 +137,11 @@ grlAPI Gb       g_HashForEach(         G_Hash const * const hash, GrlForEachFunc
 grlAPI Gcount   g_HashGetCount(        G_Hash const * const hash);
 
 grlAPI Gb       g_HashUpdate(          G_Hash const * const hash, Gp const * const value);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

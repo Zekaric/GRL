@@ -38,6 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(G_LISTH)
 #define      G_LISTH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 type:
 ******************************************************************************/
@@ -63,8 +69,8 @@ struct G_List
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ListCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC) ((G_List *) gleakCreate((Gp *) g_ListCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC)), gsizeof(G_List)))
-#define g_ListCreateContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC)                                g_ListCreateContent_(LIST, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC))
+#define g_ListCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC) ((G_List *) gleakCreate((Gp *) g_ListCreate_(             gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC)), gsizeof(G_List)))
+#define g_ListCreateContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC)                                g_ListCreateContent_(LIST, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_ListItem *g_ListAdd(             G_List       * const list, Gp const * const value);
@@ -106,5 +112,11 @@ grlAPI void        g_ListItemUpdate(      G_List       * const list, G_ListItem 
        
        void        g_ListItemAdd_Add(     G_List       * const list, G_ListItem       * const litem, G_ListItem * const nitem);
        G_ListItem *g_ListItem_Create(     G_List const * const list);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

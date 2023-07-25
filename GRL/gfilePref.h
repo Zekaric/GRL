@@ -75,6 +75,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GFILEPREFH)
 #define      GFILEPREFH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 constant:
 ******************************************************************************/
@@ -159,5 +165,11 @@ grlAPI Gb                gfilePrefSetCommentA(           GfilePref const * const
 //grlAPI gsKeyValueArray  *gsKeyValueArrayCreateLoad(      Gpath const * const fileName);
 //grlAPI Gb                gsKeyValueArrayLoad(            gsKeyValueArray * const strKeyValueArray, Gpath const * const fileName);
 //grlAPI Gb                gssHashLoad(                    GsTable * const strTable, Gpath const * const filename);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

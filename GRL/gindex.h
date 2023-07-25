@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GINDEXH)
 #define      GINDEXH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 prototype:
 ******************************************************************************/
@@ -255,7 +261,7 @@ struct GindexTreeKey
 #define gindexListGetEnd(              LIST)                                              (GindexListItem *)      g_ListGetEnd(              (G_List *) LIST)
 #define gindexListItemAdd(             LIST, LITEM, VALUE)                                (GindexListItem *)      g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gindexListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gindexListItemGet(                   LITEM)                                      ((Gindex *)              g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gindexListItemGet(                   LITEM)                                      ((Gindex *)              g_ListItemGet(                              (G_ListItem *) LITEM))
 #define gindexListItemGetNext(               LITEM)                                       (GindexListItem *)      g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define gindexListItemGetPrev(               LITEM)                                       (GindexListItem *)      g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gindexListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
@@ -278,7 +284,7 @@ struct GindexTreeKey
 #define gindexListKeyGetEnd(           LIST)                                              (GindexListKeyItem *)   g_ListKeyGetEnd(           (G_ListKey *) LIST)
 #define gindexListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GindexListKeyItem *)   g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
 #define gindexListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define gindexListKeyItemGet(                LITEM)                                      ((Gindex *)              g_ListKeyItemGet(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM))
+#define gindexListKeyItemGet(                LITEM)                                      ((Gindex *)              g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
 #define gindexListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
 #define gindexListKeyItemGetNext(            LITEM)                                       (GindexListKeyItem *)   g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
 #define gindexListKeyItemGetPrev(            LITEM)                                       (GindexListKeyItem *)   g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
@@ -348,5 +354,11 @@ struct GindexTreeKey
 #define gindexTreeKeyItemGetNext(            TITEM)                                       (GindexTreeKeyItem *)   g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gindexTreeKeyItemGetPrev(            TITEM)                                       (GindexTreeKeyItem *)   g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gindexTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

@@ -38,6 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GPH)
 #define      GPH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 Gp containers.
 ******************************************************************************/
@@ -51,14 +57,14 @@ typedef struct
                             isSorted         : 1,
                             isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
-   Gp                 **p;
+   Gp                     **p;
 } GpArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
 typedef struct 
 {
    Gkey const              *key;
-   Gp                  *p;
+   Gp                      *p;
 } GpArrayKeyCell;
 
 typedef struct
@@ -69,16 +75,16 @@ typedef struct
    Gbit                     isVectorSizing   : 1,
                             isSorted         : 1;
    GrlCompareFunc           compareFunc;
-   GpArrayKeyCell     **p;
+   GpArrayKeyCell         **p;
 } GpArrayKey;
 
 // Same as G_List and G_ListItem //////////////////////////////////////////////
 typedef struct GpListItem GpListItem;
 struct GpListItem
 {
-   GpListItem          *next,
+   GpListItem              *next,
                            *prev;
-   Gp                  *p;
+   Gp                      *p;
 };
 
 typedef struct
@@ -87,7 +93,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GpListItem          *head,
+   GpListItem              *head,
                            *tail;
 } GpList;
 
@@ -95,10 +101,10 @@ typedef struct
 typedef struct GpListKeyItem GpListKeyItem;
 struct GpListKeyItem
 {
-   GpListKeyItem       *next,
+   GpListKeyItem           *next,
                            *prev;
    Gkey const              *key;
-   Gp                  *p;
+   Gp                      *p;
 };
 
 typedef struct
@@ -107,7 +113,7 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GpListKeyItem       *head,
+   GpListKeyItem           *head,
                            *tail;
 } GpListKey;
 
@@ -118,7 +124,7 @@ typedef struct
 
    GrlHashFunc              hashFunc;
    GrlCompareFunc           compareFunc;
-   GpList             **binArray;
+   GpList                 **binArray;
    GhashSize                binCount;
 } GpHash;
 
@@ -127,7 +133,7 @@ typedef struct
 {
    GCONTAINER_VAR
 
-   GpListKey          **binArray;
+   GpListKey              **binArray;
    GhashSize                binCount;
 } GpHashKey;
 
@@ -136,12 +142,12 @@ typedef struct GpTree     GpTree;
 typedef struct GpTreeItem GpTreeItem;
 struct GpTreeItem
 {
-   GpTree              *owner;
-   GpTreeItem          *parent;
-   GpTreeItem          *childLeft;
-   GpTreeItem          *childRight;
+   GpTree                  *owner;
+   GpTreeItem              *parent;
+   GpTreeItem              *childLeft;
+   GpTreeItem              *childRight;
    GheapN                   heapValue;
-   Gp                  *p;
+   Gp                      *p;
 };
 
 struct GpTree
@@ -149,7 +155,7 @@ struct GpTree
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GpTreeItem          *root;
+   GpTreeItem              *root;
 };
 
 // Same as G_TreeKey and G_TreeKeyItem ////////////////////////////////////////
@@ -157,13 +163,13 @@ typedef struct GpTreeKey     GpTreeKey;
 typedef struct GpTreeKeyItem GpTreeKeyItem;
 struct GpTreeKeyItem
 {
-   GpTreeKey           *owner;
-   GpTreeKeyItem       *parent;
-   GpTreeKeyItem       *childLeft;
-   GpTreeKeyItem       *childRight;
+   GpTreeKey               *owner;
+   GpTreeKeyItem           *parent;
+   GpTreeKeyItem           *childLeft;
+   GpTreeKeyItem           *childRight;
    GheapN                   heapValue;
    Gkey const              *key;
-   Gp                  *p;
+   Gp                      *p;
 };
 
 struct GpTreeKey
@@ -171,7 +177,7 @@ struct GpTreeKey
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GpTreeKeyItem       *root;
+   GpTreeKeyItem           *root;
 };
 
 #define gpArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
@@ -253,7 +259,7 @@ struct GpTreeKey
 #define gpListGetEnd(              LIST)                                              (GpListItem *)          g_ListGetEnd(              (G_List *) LIST)
 #define gpListItemAdd(             LIST, LITEM, VALUE)                                (GpListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 #define gpListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gpListItemGet(             LIST, LITEM)                                      ((Gp *)                  g_ListItemGet(             (G_List *) LIST, (G_ListItem *) LITEM))
+#define gpListItemGet(             LIST, LITEM)                                      ((Gp *)                  g_ListItemGet(                              (G_ListItem *) LITEM))
 #define gpListItemGetNext(               LITEM)                                       (GpListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
 #define gpListItemGetPrev(               LITEM)                                       (GpListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
 #define gpListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
@@ -346,5 +352,11 @@ struct GpTreeKey
 #define gpTreeKeyItemGetNext(            TITEM)                                       (GpTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gpTreeKeyItemGetPrev(            TITEM)                                       (GpTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gpTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

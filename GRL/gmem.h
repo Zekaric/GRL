@@ -129,9 +129,9 @@ prototype:
 // Create a dynamic memory buffer on the heap.
 // Type  - provide a type to define the size of the element(s) to create.
 // Array - indicates we are creating a buffer of N types.
-#define gmemCreate(              TYPE_CHAR,  BYTECOUNT)                          gleakCreate((Gp *) gmemCreate_((TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
-#define gmemCreateType(          TYPE)                                  (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
-#define gmemCreateTypeArray(     TYPE,       COUNT)                     (TYPE *) gleakCreate((Gp *) gmemCreate_(#TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
+#define gmemCreate(              TYPE_CHAR,  BYTECOUNT)                          gleakCreate((Gp *) gmemCreate_((Char *) (TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
+#define gmemCreateType(          TYPE)                                  (TYPE *) gleakCreate((Gp *) gmemCreate_((Char *) #TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
+#define gmemCreateTypeArray(     TYPE,       COUNT)                     (TYPE *) gleakCreate((Gp *) gmemCreate_((Char *) #TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
 
 // Low level memory comparison.
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)

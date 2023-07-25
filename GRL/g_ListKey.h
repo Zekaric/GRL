@@ -38,6 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(G_LISTKEYH)
 #define      G_LISTKEYH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 type:
 ******************************************************************************/
@@ -109,5 +115,11 @@ grlAPI void           g_ListKeyItemUpdateKey(   G_ListKey       * const list, G_
        
        void           g_ListKeyItemAdd_Add(     G_ListKey       * const list, G_ListKeyItem       * const litem, G_ListKeyItem * const nitem);
        G_ListKeyItem *g_ListKeyItem_Create(     G_ListKey const * const list);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

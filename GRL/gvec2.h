@@ -1,17 +1,16 @@
 /******************************************************************************
-file:       Gcon
+file:       gvec2
 author:     Robbert de Groot
-company:    Robbert de Groot
-copyright:  2020, Robbert de Groot
+copyright:  2001-2009, Robbert de Groot
 
 description:
-
+Functions based on using a 2D point.
 ******************************************************************************/
 
 /******************************************************************************
 BSD 2-Clause License
 
-Copyright (c) 2000, Robbert de Groot
+Copyright (c) !!!!YEAR!!!!, Robbert de Groot
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,8 +35,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GCONH)
-#define      GCONH
+#if !defined(GVEC2H)
+#define      GVEC2H
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -46,15 +45,37 @@ extern "C" {
 /*****************************************************************************/
 
 /******************************************************************************
-prototype:
+type:
 ******************************************************************************/
-grlAPI Gs   *gconGetS(   void);
-grlAPI Gs   *gconGetS_(  void);
+typedef struct
+{
+   Gr4    a,
+          b;
+} Gvec2s;
 
-grlAPI Gb    gconSetS(   Gs const * const value);
-grlAPI Gb    gconSetA(   Char const * const value);
+typedef struct
+{
+   Gr     a,
+          b;
+} Gvec2;
 
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
+/******************************************************************************
+Types
+******************************************************************************/
+grlAPI Gr    gvec2Distance( Gvec2 const * const pa, Gvec2 const * const pb);
+grlAPI Gr    gvec2Length(   Gvec2 const * const p);
+grlAPI void  gvec2Minus(    Gvec2 const * const pa, Gvec2 const * const pb, Gvec2 * const result);
+grlAPI void  gvec2Normalize(Gvec2 const * const p,                          Gvec2 * const result);
+grlAPI void  gvec2Plus(     Gvec2 const * const pa, Gvec2 const * const pb, Gvec2 * const result);
+grlAPI void  gvec2Scale(    Gvec2 const * const p,  Gr const value,         Gvec2 * const result);
+
+// single precision (depricated)
+grlAPI Gr    gvec2Distances( Gvec2s const * const pa, Gvec2s const * const pb);
+grlAPI Gr    gvec2Lengths(   Gvec2s const * const p);
+grlAPI void  gvec2Minuss(    Gvec2s const * const pa, Gvec2s const * const pb, Gvec2s * const result);
+grlAPI void  gvec2Normalizes(Gvec2s const * const p,  Gvec2s * const result);
+grlAPI void  gvec2Pluss(     Gvec2s const * const pa, Gvec2s const * const pb, Gvec2s * const result);
+grlAPI void  gvec2Scales(    Gvec2s const * const p,  Gr const value,          Gvec2s * const result);
 
 /*****************************************************************************/
 #ifdef __cplusplus

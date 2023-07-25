@@ -1,16 +1,16 @@
 /******************************************************************************
-file:       gosversion
+file:       Gvec3
 author:     Robbert de Groot
-copyright:  2000-2009, Robbert de Groot
+copyright:  2001-2009, Robbert de Groot
 
 description:
-Determine the version of the operating system.
+Functions based on using a 3D point.
 ******************************************************************************/
 
 /******************************************************************************
 BSD 2-Clause License
 
-Copyright (c) 2000, Robbert de Groot
+Copyright (c) !!!!YEAR!!!!, Robbert de Groot
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -35,8 +35,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GOSVERSIONH)
-#define      GOSVERSIONH
+#if !defined(GVEC3H)
+#define      GVEC3H
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -47,47 +47,53 @@ extern "C" {
 /******************************************************************************
 type:
 ******************************************************************************/
-/******************************************************************************
-type: Gosversion
-
-List of valid know MS windows OS versions
-
-Enumeration
-******************************************************************************/
-typedef enum
+typedef struct
 {
-   gosversionNA,
+   Gn4    a,
+          b,
+          c;
+} Gvec3n;
 
-   gosversionWIN32S,
-   gosversionWIN95,
-   gosversionWIN98,
-   gosversionWINME,
+typedef struct
+{
+   Gr4    a,
+          b,
+          c;
+} Gvec3s;
 
-   gosversionWINNT351,
-   gosversionWINNT4,
-   gosversionWIN2K,
-   gosversionWINXP,
-   gosversionWINXPSP1,
-   gosversionWINXPSP2,
-   gosversionWINXPSP3,
-   gosversionWINVISTA,
-   gosversionWINVISTASP1,
-   gosversionWINVISTASP2,
-   gosversionWIN7,
-   gosversionWIN7SP1,
-   gosversionWIN8,
-   gosversionWIN8_1,
-   gosversionWIN10,
-   gosversionWINSERVER,
-
-   gosversionMACCLASSIC,
-   gosversionMACOSX
-} Gosversion;
+typedef struct
+{
+   Gr     a,
+          b,
+          c;
+} Gvec3;
 
 /******************************************************************************
 function:
 ******************************************************************************/
-grlAPI Gosversion gosversionGet(void);
+grlAPI void  gvec3Cross(         Gvec3 const * const pa, Gvec3 const * const pb, Gvec3 * const result);
+grlAPI Gr    gvec3Distance(      Gvec3 const * const pa, Gvec3 const * const pb);
+grlAPI Gr    gvec3Dot(           Gvec3 const * const pa, Gvec3 const * const pb);
+grlAPI Gb    gvec3IsCoincident(  Gvec3 const * const pa, Gvec3 const * const pb, Gr const tolerance);
+grlAPI Gr    gvec3Length(        Gvec3 const * const p);
+grlAPI void  gvec3Minus(         Gvec3 const * const pa, Gvec3 const * const pb, Gvec3 * const result);
+grlAPI void  gvec3Normalize(     Gvec3 const * const p,                          Gvec3 * const result);
+grlAPI void  gvec3Plus(          Gvec3 const * const pa, Gvec3 const * const pb, Gvec3 * const result);
+grlAPI void  gvec3Right(         Gvec3 const * const p,                          Gvec3 * const right);
+grlAPI void  gvec3Scale(         Gvec3 const * const p,  Gr const value,         Gvec3 * const result);
+grlAPI Gvec3 gvec3Zero(          void);
+
+// single precision (depricated)
+grlAPI void  gvec3Crosss(        Gvec3s const * const pa, Gvec3s const * const pb, Gvec3s * const result);
+grlAPI Gr    gvec3Distances(     Gvec3s const * const pa, Gvec3s const * const pb);
+grlAPI Gr    gvec3Dots(          Gvec3s const * const pa, Gvec3s const * const pb);
+grlAPI Gb    gvec3IsCoincidents( Gvec3s const * const pa, Gvec3s const * const pb, Gr const tolerance);
+grlAPI Gr    gvec3Lengths(       Gvec3s const * const p);
+grlAPI void  gvec3Minuss(        Gvec3s const * const pa, Gvec3s const * const pb, Gvec3s * const result);
+grlAPI void  gvec3Normalizes(    Gvec3s const * const p,                           Gvec3s * const result);
+grlAPI void  gvec3Pluss(         Gvec3s const * const pa, Gvec3s const * const pb, Gvec3s * const result);
+grlAPI void  gvec3Rights(        Gvec3s const * const p,                           Gvec3s * const right);
+grlAPI void  gvec3Scales(        Gvec3s const * const p,  Gr const value,          Gvec3s * const result);
 
 /*****************************************************************************/
 #ifdef __cplusplus

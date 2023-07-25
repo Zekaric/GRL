@@ -1,17 +1,16 @@
 /******************************************************************************
-file:       Gcon
+file:       gmath
 author:     Robbert de Groot
-company:    Robbert de Groot
-copyright:  2020, Robbert de Groot
+copyright:  2001-2009, Robbert de Groot
 
 description:
-
+math routines
 ******************************************************************************/
 
 /******************************************************************************
 BSD 2-Clause License
 
-Copyright (c) 2000, Robbert de Groot
+Copyright (c) !!!!YEAR!!!!, Robbert de Groot
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,8 +35,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GCONH)
-#define      GCONH
+#if !defined(GMATHH)
+#define      GMATHH
+
+/******************************************************************************
+Types
+******************************************************************************/
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -45,21 +48,42 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
-prototype:
-******************************************************************************/
-grlAPI Gs   *gconGetS(   void);
-grlAPI Gs   *gconGetS_(  void);
+/*lint -save -e960 */
+#define gmathDOUBLE_TOLERANCE  0.000000001
+#define gmathFLOAT_TOLERANCE   0.001
+#define gmathDEFAULT_TOLERANCE 0.001
 
-grlAPI Gb    gconSetS(   Gs const * const value);
-grlAPI Gb    gconSetA(   Char const * const value);
+#define gmathPI                3.14159265358974
+#define gmathDEG_TO_RAD        0.01745329251994329577
+#define gmathRAD_TO_DEG       57.29577951308232088
+/*lint -restore */
 
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
+typedef enum
+{
+   gmathAxisNONE,
+   gmathAxisX,
+   gmathAxisY,
+   gmathAxisZ
+} GmathAxis;
 
 /*****************************************************************************/
 #ifdef __cplusplus
 }
 #endif
 /*****************************************************************************/
+
+/******************************************************************************
+include:
+******************************************************************************/
+#include "grect.h"
+
+#include "gvec2.h"
+#include "gvec3.h"
+
+#include "gmatrix3.h"
+
+/******************************************************************************
+prototype: 
+******************************************************************************/
 
 #endif

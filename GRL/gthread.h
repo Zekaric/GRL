@@ -10,6 +10,12 @@ Threading routines.
 #if !defined(GTHREADH)
 #define      GTHREADH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 constant:
 ******************************************************************************/
@@ -372,5 +378,11 @@ struct GthreadTreeKey
 #define gthreadTreeKeyItemGetNext(            TITEM)                                       (GthreadTreeKeyItem *) g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gthreadTreeKeyItemGetPrev(            TITEM)                                       (GthreadTreeKeyItem *) g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gthreadTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                       g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

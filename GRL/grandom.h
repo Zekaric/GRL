@@ -63,6 +63,12 @@
 #if !defined(GRANDOMH)
 #define      GRANDOMH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 #define NN               312
 
 typedef struct
@@ -94,5 +100,11 @@ Gr grandomGetROpen1(Grandom * const r);
 
 // generates a random number on (0,1)-real-interval
 Gr grandomGetROpen(Grandom * const r);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

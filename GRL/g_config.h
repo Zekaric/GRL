@@ -93,17 +93,12 @@ constant:
 // 1 = Function tracing
 #define GTRACE_IS_ON                0
 
-// When allocating memory with gmem routines I include a pointer to a type 
-// string.  Every so often this can be handy when debuggin.
-#define GMEM_INCLUDES_TYPE_STRING   1
-
 // Flags wen in relese.
 #else
 
 #define GTYPE_NAME_IS_ON            0
 #define GCHECK_MEMORY_IS_ON         0
 #define GTRACE_IS_ON                0
-#define GMEM_INCLUDES_TYPE_STRING   0
 
 #endif
 

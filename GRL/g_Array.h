@@ -63,8 +63,8 @@ typedef struct G_Array
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(              gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
-#define g_ArrayCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING)                                g_ArrayCreateContent_(ARRAY, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING))
+#define g_ArrayCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING) (G_Array *) gleakCreate((Gp *) g_ArrayCreate_(              gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING)), gsizeof(G_Array))
+#define g_ArrayCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, IS_NULL_ENDING)                                g_ArrayCreateContent_(ARRAY, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING), (IS_NULL_ENDING))
 //lint -restore
 
 grlAPI Gb          g_ArrayAdd(            G_Array       * const a,                     Gp const * const value);

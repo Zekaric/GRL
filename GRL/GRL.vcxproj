@@ -176,6 +176,8 @@
     <ClInclude Include="gindex.h" />
     <ClInclude Include="gleak.h" />
     <ClInclude Include="glock.h" />
+    <ClInclude Include="gmath.h" />
+    <ClInclude Include="gmatrix3.h" />
     <ClInclude Include="gmem.h" />
     <ClInclude Include="gn.h" />
     <ClInclude Include="gosversion.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="gprofile.h" />
     <ClInclude Include="gr.h" />
     <ClInclude Include="grandom.h" />
+    <ClInclude Include="grect.h" />
     <ClInclude Include="grl.h" />
     <ClInclude Include="gs.h" />
     <ClInclude Include="gsFunction.h" />
@@ -193,7 +196,13 @@
     <ClInclude Include="gtime.h" />
     <ClInclude Include="gtrace.h" />
     <ClInclude Include="gv.h" />
+    <ClInclude Include="gv1.h" />
+    <ClInclude Include="gv2.h" />
+    <ClInclude Include="gv4.h" />
+    <ClInclude Include="gv8.h" />
     <ClInclude Include="gvData.h" />
+    <ClInclude Include="gvec2.h" />
+    <ClInclude Include="gvec3.h" />
     <ClInclude Include="gvp.h" />
     <ClInclude Include="g_Array.h" />
     <ClInclude Include="g_ArrayKey.h" />
@@ -221,6 +230,8 @@
     <ClCompile Include="gindex.c" />
     <ClCompile Include="gleak.c" />
     <ClCompile Include="glock.c" />
+    <ClCompile Include="gmath.c" />
+    <ClCompile Include="gmatrix3.c" />
     <ClCompile Include="gmem.c" />
     <ClCompile Include="gosversion.c" />
     <ClCompile Include="gpath.c" />
@@ -233,7 +244,10 @@
     <ClCompile Include="gtemp.c" />
     <ClCompile Include="gtime.c" />
     <ClCompile Include="gtrace.c" />
+    <ClCompile Include="gv.c" />
     <ClCompile Include="gvData.c" />
+    <ClCompile Include="gvec2.c" />
+    <ClCompile Include="gvec3.c" />
     <ClCompile Include="g_Array.c" />
     <ClCompile Include="g_ArrayKey.c" />
     <ClCompile Include="g_Hash.c" />

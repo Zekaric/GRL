@@ -38,6 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(GBITH)
 #define      GBITH
 
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
+
 /******************************************************************************
 function:
 ******************************************************************************/
@@ -47,5 +53,11 @@ grlAPI Gb       gbitArraySet(     Gn4       * const data, Gindex const bit, Gcou
 
 grlAPI Gn4      gbitGet(          Gn4 const data, Gindex const bit, Gcount const count);
 grlAPI Gn4      gbitSet(          Gn4 const data, Gindex const bit, Gcount const count, Gn4 const value);
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

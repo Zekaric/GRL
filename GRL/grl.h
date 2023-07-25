@@ -165,6 +165,7 @@ include:
 #include "gosversion.h"
 #include "grandom.h"
 #include "gtemp.h"
+#include "gthread.h"
 #include "gtime.h"
 #include "gtrace.h"
 
@@ -179,16 +180,16 @@ include:
 #include "gfilePref.h"        // depends on gfile
 #include "gfileRat.h"         // depends on gfile
 
+#include "gmath.h"
+
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //
 #include "gmemCompressZip.h"  //
 
 #include "ginterp.h"
 
-#include "gthread.h"
 #include "glockQueue.h"
 
-#include "gmath.h"
 #include "Gbuf.h"
 
 #include "GsKey.h"         // depends on gs gsHash
