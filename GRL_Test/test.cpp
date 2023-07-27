@@ -547,7 +547,6 @@ TEST(GRL, GvlistSorted)
    grlStop();
 }
 
-#if 0 // Todo 
 /******************************************************************************
 test: GvHash
 ******************************************************************************/
@@ -556,26 +555,30 @@ TEST(GRL, GvHash)
    GvHash *hash;
    Gn      n;
    Gv      v,
+           v42,
+           v42neg,
+           vPointer,
+           vPI,
           *pv;
 
    EXPECT_TRUE(grlStart());
 
-   hash = gvHashCreate(gvTYPE_N, (GrlCompareFunc) gvCompareN, gvHash, gvHashSize10);
-   EXPECT_TRUE(haseh != NULL);
+   hash = gvHashCreate((GrlCompareFunc) gvCompareN, (GrlHashFunc) gvHash, ghashSize10);
+   EXPECT_TRUE(hash != NULL);
 
    n = grandomGetN(NULL);
-   gvSetN(&v, n);
-   gvHashAdd(hash, v);
+   gvHashAdd(hash, gvSetN(&v, n));
    n = grandomGetN(NULL);
-   gvHashAddI(hash, -42);
-   gvHashAddN(hash, 42);
-   gvHashAddP(hash, (Gp *) (Gnp) 0x1);
-   gvHashAddR(hash, gmathPI);
 
-   EXPECT_FALSE(gvHashEraseI(hash, -45) != gbFALSE);
-   EXPECT_FALSE(gvHashEraseI(hash, -42) != gbTRUE);
+   gvHashAdd(hash, gvSetI(&v42neg,   -42));
+   gvHashAdd(hash, gvSetN(&v42,       42));
+   gvHashAdd(hash, gvSetP(&vPointer, (Gp *) (Gnp) 0x1));
+   gvHashAdd(hash, gvSetR(&vPI,      gmathPI));
 
-   pv = gvHashFindR(hash, gmathPI);
+   EXPECT_FALSE(gvHashErase(hash, gvSetI(&v, -45)));
+   EXPECT_TRUE( gvHashErase(hash, gvSetI(&v, -42)));
+
+   pv = gvHashFind(hash, gvSetR(&v, gmathPI));
    EXPECT_FALSE(pv == NULL);
    
    gvHashFlush(hash);
@@ -592,15 +595,15 @@ TEST(GRL, GsHash)
 {
    GsHash *hash;
    Gs     *s1,
-            *s2,
-            *s3,
-            *s4,
-            *s5,
-            *s5b;
+          *s2,
+          *s3,
+          *s4,
+          *s5,
+          *s5b;
 
    EXPECT_TRUE(grlStart());
 
-   hash = gsHashCreate(gvHashSize10);
+   hash = gsHashCreate((GrlCompareFunc) gsCompare, (GrlHashFunc) gsHash, ghashSize10);
    EXPECT_TRUE(hash != NULL);
 
    s1  = gsCreateFromA("1");
@@ -623,7 +626,6 @@ TEST(GRL, GsHash)
 
    grlStop();
 }
-#endif
 
 /******************************************************************************
 func: _ForEachArray

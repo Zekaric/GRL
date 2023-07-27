@@ -296,7 +296,7 @@ grlAPI GhashN gvDataHashS(GvData const * const value)
 
    value;
 
-//RDG   result = gsHash((Gs * ) value->value.s);
+   result = gsHash((Gs * ) value->value.s);
 
    greturn result;
 }

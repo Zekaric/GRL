@@ -116,8 +116,8 @@ typedef struct
 prototype:
 ******************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE) ((G_Hash *)  gleakCreate((Gp *) g_HashCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
-#define g_HashCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent_(HASH, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE))
+#define g_HashCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE) ((G_Hash *)  gleakCreate((Gp *) g_HashCreate_(             gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
+#define g_HashCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent_(HASH, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE))
 //lint -restore
 
 grlAPI Gb       g_HashAdd(             G_Hash       * const hash, Gp const * const value);

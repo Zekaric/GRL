@@ -245,9 +245,14 @@
     <ClCompile Include="gtime.c" />
     <ClCompile Include="gtrace.c" />
     <ClCompile Include="gv.c" />
+    <ClCompile Include="gv1.c" />
+    <ClCompile Include="gv2.c" />
+    <ClCompile Include="gv4.c" />
+    <ClCompile Include="gv8.c" />
     <ClCompile Include="gvData.c" />
     <ClCompile Include="gvec2.c" />
     <ClCompile Include="gvec3.c" />
+    <ClCompile Include="gvp.c" />
     <ClCompile Include="g_Array.c" />
     <ClCompile Include="g_ArrayKey.c" />
     <ClCompile Include="g_Hash.c" />

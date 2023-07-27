@@ -661,6 +661,13 @@ typedef union
    Gn2                      n;
 } Gv2;
 
+typedef union
+{
+   Gb                       b;
+   Gi1                      i;
+   Gn1                      n;
+} Gv1;
+
 // Generic data structure for any of the base data types but includes the 
 // actual stored type.  Why use this?  Use this if you have a container that
 // can store any of the types and you may not know based on location in the

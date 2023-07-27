@@ -1,5 +1,5 @@
 /******************************************************************************
-file:       Gv
+file:       Gv2
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
 ******************************************************************************/
@@ -32,87 +32,41 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#if !defined(GVH)
-#define      GVH
+#if !defined(GV2H)
+#define      GV2H
+
+/*****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*****************************************************************************/
 
 /******************************************************************************
 prototype
 ******************************************************************************/
-grlAPI Gb          gvGetB(          Gv const v);
-grlAPI Gi          gvGetI(          Gv const v);
-grlAPI Gn          gvGetN(          Gv const v);
-grlAPI Gp         *gvGetP(          Gv const v);
-grlAPI Gr          gvGetR(          Gv const v);
-grlAPI Gs         *gvGetS(          Gv const v);
+grlAPI Gcompare    gv2CompareI(      Gv2 const * const va, Gv2 const * const vb);
+grlAPI Gcompare    gv2CompareN(      Gv2 const * const va, Gv2 const * const vb);
 
-grlAPI void        gvSetB(          Gv       v, Gb   const value);
-grlAPI void        gvSetI(          Gv       v, Gi   const value);
-grlAPI void        gvSetN(          Gv       v, Gn   const value);
-grlAPI void        gvSetP(          Gv       v, Gp * const value);
-grlAPI void        gvSetR(          Gv       v, Gr   const value);
-grlAPI void        gvSetS(          Gv       v, Gs * const value);
+grlAPI Gb          gv2GetB(          Gv2 const * const v);
+grlAPI Gi2         gv2GetI(          Gv2 const * const v);
+grlAPI Gn2         gv2GetN(          Gv2 const * const v);
 
-grlAPI Gb          gvpGetI(         Gvp const v);
-grlAPI Gip         gvpGetI(         Gvp const v);
-grlAPI Gnp         gvpGetN(         Gvp const v);
-grlAPI Gp         *gvpGetP(         Gvp const v);
-grlAPI Grp         gvpGetR(         Gvp const v);
-grlAPI Gs         *gvpGetS(         Gvp const v);
+grlAPI GhashN      gv2Hash(          Gv2 const * const v);
 
-grlAPI void        gvpSetB(         Gvp       v, Gb   const value);
-grlAPI void        gvpSetI(         Gvp       v, Gip  const value);
-grlAPI void        gvpSetN(         Gvp       v, Gnp  const value);
-grlAPI void        gvpSetP(         Gvp       v, Gp * const value);
-grlAPI void        gvpSetR(         Gvp       v, Grp  const value);
-grlAPI void        gvpSetS(         Gvp       v, Gs * const value);
+grlAPI Gv2        *gv2SetB(          Gv2       * const v, Gb   const value);
+grlAPI Gv2        *gv2SetI(          Gv2       * const v, Gi   const value);
+grlAPI Gv2        *gv2SetN(          Gv2       * const v, Gn   const value);
 
-grlAPI Gb          gv8GetB(         Gv8 const v);
-grlAPI Gi8         gv8GetI(         Gv8 const v);
-grlAPI Gn8         gv8GetN(         Gv8 const v);
-grlAPI Gp         *gv8GetP(         Gv8 const v);
-grlAPI Gr8         gv8GetR(         Gv8 const v);
-grlAPI Gs         *gv8GetS(         Gv8 const v);
+#define gv2GetB(V)       (V)->b
+#define gv2GetI(V)       (V)->i
+#define gv2GetN(V)       (V)->n
 
-grlAPI void        gv8SetB(         Gv8       v, Gb   const value);
-grlAPI void        gv8SetI(         Gv8       v, Gi8  const value);
-grlAPI void        gv8SetN(         Gv8       v, Gn8  const value);
-grlAPI void        gv8SetP(         Gv8       v, Gp * const value);
-grlAPI void        gv8SetR(         Gv8       v, Gr8  const value);
-grlAPI void        gv8SetS(         Gv8       v, Gs * const value);
-
-grlAPI Gb          gv4GetB(         Gv4 const v);
-grlAPI Gi4         gv4GetI(         Gv4 const v);
-grlAPI Gn4         gv4GetN(         Gv4 const v);
-grlAPI Gr4         gv4GetR(         Gv4 const v);
-
-grlAPI void        gv4SetB(         Gv4       v, Gb  const value);
-grlAPI void        gv4SetI(         Gv4       v, Gi4 const value);
-grlAPI void        gv4SetN(         Gv4       v, Gn4 const value);
-grlAPI void        gv4SetR(         Gv4       v, Gr4 const value);
-
-grlAPI Gb          gb2GetB(         Gv2 const v);
-grlAPI Gi2         gv2GetI(         Gv2 const v);
-grlAPI Gn2         gv2GetN(         Gv2 const v);
-
-grlAPI void        gv2SetB(         Gv2       v, Gb  const value);
-grlAPI void        gv2SetI(         Gv2       v, Gi2 const value);
-grlAPI void        gv2SetN(         Gv2       v, Gn2 const value);
-
-#define gvGetI(v)       (V)->i
-#define gvGetN(v)       (V)->n
-#define gvGetP(v)       (V)->p
-#define gvGetR(v)       (V)->r
-#define gvGetS(v)       (V)->s
-
-#define gvSetI(V,VAL)   (V)->i = VAL
-#define gvSetN(V,VAL)   (V)->n = VAL
-#define gvSetP(V,VAL)   (V)->p = VAL
-#define gvSetR(V,VAL)   (V)->r = VAL
-#define gvSetS(V,VAL)   (V)->s = VAL
-
+#define gv2SetB(V, VAL)  ((V)->b = VAL, (V))
+#define gv2SetI(V, VAL)  ((V)->i = VAL, (V))
+#define gv2SetN(V, VAL)  ((V)->n = VAL, (V))
 
 /******************************************************************************
-Gv containers.
+Gv2 containers.
 ******************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
@@ -124,15 +78,15 @@ typedef struct
                             isSorted         : 1,
                             isNullEnding     : 1;
    GrlCompareFunc           compareFunc;
-   Gv                      *p;
-} GvArray;
+   Gv2                      *p;
+} Gv2Array;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
 typedef struct
 {
    Gkey const              *key;
-   Gv                       value;
-} GvArrayKeyCell;
+   Gv2                       value;
+} Gv2ArrayKeyCell;
 
 typedef struct
 {
@@ -142,16 +96,16 @@ typedef struct
    Gbit                     isVectorSizing   : 1,
                             isSorted         : 1;
    GrlCompareFunc           compareFunc;
-   GvArrayKeyCell          *p;
-} GvArrayKey;
+   Gv2ArrayKeyCell          *p;
+} Gv2ArrayKey;
 
 // Same as G_List and G_ListItem //////////////////////////////////////////////
-typedef struct GvListItem GvListItem;
-struct GvListItem
+typedef struct Gv2ListItem Gv2ListItem;
+struct Gv2ListItem
 {
-   GvListItem              *next,
+   Gv2ListItem              *next,
                            *prev;
-   Gv                       value;
+   Gv2                       value;
 };
 
 typedef struct
@@ -160,18 +114,18 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GvListItem              *head,
+   Gv2ListItem              *head,
                            *tail;
-} GvList;
+} Gv2List;
 
 // Same as G_ListKey and G_ListKeyItem ////////////////////////////////////////
-typedef struct GvListKeyItem GvListKeyItem;
-struct GvListKeyItem
+typedef struct Gv2ListKeyItem Gv2ListKeyItem;
+struct Gv2ListKeyItem
 {
-   GvListKeyItem           *next,
+   Gv2ListKeyItem           *next,
                            *prev;
    Gkey const              *key;
-   Gv                       value;
+   Gv2                       value;
 };
 
 typedef struct
@@ -180,9 +134,9 @@ typedef struct
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
-   GvListKeyItem           *head,
+   Gv2ListKeyItem           *head,
                            *tail;
-} GvListKey;
+} Gv2ListKey;
 
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
@@ -191,233 +145,239 @@ typedef struct
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
-   GvList                **binArray;
+   Gv2List                **binArray;
    GhashSize               binCount;
-} GvHash;
+} Gv2Hash;
 
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
    GCONTAINER_VAR
 
-   GvListKey             **binArray;
+   Gv2ListKey             **binArray;
    GhashSize               binCount;
-} GvHashKey;
+} Gv2HashKey;
 
 // same as G_Tree and G_TreeItem //////////////////////////////////////////////
-typedef struct GvTree     GvTree;
-typedef struct GvTreeItem GvTreeItem;
-struct GvTreeItem
+typedef struct Gv2Tree     Gv2Tree;
+typedef struct Gv2TreeItem Gv2TreeItem;
+struct Gv2TreeItem
 {
-   GvTree                  *owner;
-   GvTreeItem              *parent;
-   GvTreeItem              *childLeft;
-   GvTreeItem              *childRight;
+   Gv2Tree                  *owner;
+   Gv2TreeItem              *parent;
+   Gv2TreeItem              *childLeft;
+   Gv2TreeItem              *childRight;
    GheapN                   heapValue;
-   Gv                       value;
+   Gv2                       value;
 };
 
-struct GvTree
+struct Gv2Tree
 {
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GvTreeItem              *root;
+   Gv2TreeItem              *root;
 };
 
 // Same as G_TreeKey and G_TreeKeyItem ////////////////////////////////////////
-typedef struct GvTreeKey     GvTreeKey;
-typedef struct GvTreeKeyItem GvTreeKeyItem;
-struct GvTreeKeyItem
+typedef struct Gv2TreeKey     Gv2TreeKey;
+typedef struct Gv2TreeKeyItem Gv2TreeKeyItem;
+struct Gv2TreeKeyItem
 {
-   GvTreeKey               *owner;
-   GvTreeKeyItem           *parent;
-   GvTreeKeyItem           *childLeft;
-   GvTreeKeyItem           *childRight;
+   Gv2TreeKey               *owner;
+   Gv2TreeKeyItem           *parent;
+   Gv2TreeKeyItem           *childLeft;
+   Gv2TreeKeyItem           *childRight;
    GheapN                   heapValue;
    Gkey const              *key;
-   Gv                       value;
+   Gv2                       value;
 };
 
-struct GvTreeKey
+struct Gv2TreeKey
 {
    GCONTAINER_VAR
 
    GrlCompareFunc           compareFunc;
-   GvTreeKeyItem           *root;
+   Gv2TreeKeyItem           *root;
 };
 
-#define gvArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gvArrayAddAt(              ARRAY, INDEX, VALUE)                                                       g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gvArrayAddBegin(           ARRAY,        VALUE)                                                       g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gvArrayAddEnd(             ARRAY,        VALUE)                                                       g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gvArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
-#define gvArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gvArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gvArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvArray *)             g_ArrayCreate(                                "GvArray", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gvArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GvArray", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gvArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gvArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
-#define gvArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gvArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
-#define gvArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
-#define gvArrayEraseEnd(           ARRAY)                                                                     g_ArrayEraseEnd(           (G_Array *) ARRAY) 
-#define gvArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gvArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
-#define gvArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
-#define gvArrayGet(                ARRAY)                                            ((Gv *)                  g_ArrayGet(                (G_Array *) ARRAY))
-#define gvArrayGetAt(              ARRAY, INDEX)                                     ((Gv *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
-#define gvArrayGetBegin(           ARRAY)                                            ((Gv *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))
-#define gvArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
-#define gvArrayGetEnd(             ARRAY)                                            ((Gv *)                  g_ArrayGetEnd(             (G_Array *) ARRAY))
-#define gvArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
-#define gvArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
-#define gvArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
-#define gvArraySwap(               ARRAY, INDEXA, INDEXB)                                                     g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define gvArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                       g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gv2ArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gv2ArrayAddAt(              ARRAY, INDEX, VALUE)                                                       g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gv2ArrayAddBegin(           ARRAY,        VALUE)                                                       g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gv2ArrayAddEnd(             ARRAY,        VALUE)                                                       g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gv2ArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
+#define gv2ArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
+#define gv2ArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gv2ArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (Gv2Array *)             g_ArrayCreate(                                "Gv2Array", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gv2ArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "Gv2Array", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gv2ArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
+#define gv2ArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gv2ArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gv2ArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
+#define gv2ArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
+#define gv2ArrayEraseEnd(           ARRAY)                                                                     g_ArrayEraseEnd(           (G_Array *) ARRAY) 
+#define gv2ArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gv2ArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
+#define gv2ArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gv2ArrayGet(                ARRAY)                                            ((Gv2 *)                  g_ArrayGet(                (G_Array *) ARRAY))
+#define gv2ArrayGetAt(              ARRAY, INDEX)                                     ((Gv2 *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
+#define gv2ArrayGetBegin(           ARRAY)                                            ((Gv2 *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))
+#define gv2ArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define gv2ArrayGetEnd(             ARRAY)                                            ((Gv2 *)                  g_ArrayGetEnd(             (G_Array *) ARRAY))
+#define gv2ArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
+#define gv2ArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
+#define gv2ArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
+#define gv2ArraySwap(               ARRAY, INDEXA, INDEXB)                                                     g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
+#define gv2ArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                       g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
 
-#define gvArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, VALUE) 
-#define gvArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                  g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, VALUE) 
-#define gvArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, VALUE) 
-#define gvArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, VALUE) 
-#define gvArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define gvArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gvArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gvArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvArray *)             g_ArrayKeyCreate(                                "GvArrayKey", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gvArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GvArrayKey", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gvArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
-#define gvArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define gvArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyEraseEnd(        ARRAY)                                                                     g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyFind(            ARRAY, KEY)                                                                g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY) 
-#define gvArrayKeyFlush(           ARRAY)                                                                     g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyForEach(         ARRAY, FUNC)                                                               g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC) 
-#define gvArrayKeyGetAt(           ARRAY, INDEX)                                     ((Gv *)                  g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
-#define gvArrayKeyGetAtKey(        ARRAY, INDEX)                                                              g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX)
-#define gvArrayKeyGetBegin(        ARRAY)                                            ((Gv *)                  g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
-#define gvArrayKeyGetBeginKey(     ARRAY)                                                                     g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyGetCount(        ARRAY)                                                                     g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyGetEnd(          ARRAY)                                            ((Gv *)                  g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
-#define gvArrayKeyGetEndKey(       ARRAY)                                                                     g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY) 
-#define gvArrayKeyGetSize(         ARRAY)                                                                     g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY) 
-#define gvArrayKeySetCount(        ARRAY, COUNT)                                                              g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT) 
-#define gvArrayKeySort(            ARRAY)                                                                     g_ArrayKeySort(            (G_ArrayKey *) ARRAY) 
-#define gvArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                     g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB) 
-#define gvArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                       g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gvArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                         g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY) 
+#define gv2ArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, VALUE) 
+#define gv2ArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                  g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, VALUE) 
+#define gv2ArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, VALUE) 
+#define gv2ArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                  g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, VALUE) 
+#define gv2ArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
+#define gv2ArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
+#define gv2ArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gv2ArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (Gv2Array *)             g_ArrayKeyCreate(                                "Gv2ArrayKey", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gv2ArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "Gv2ArrayKey", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gv2ArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
+#define gv2ArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
+#define gv2ArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyEraseEnd(        ARRAY)                                                                     g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyFind(            ARRAY, KEY)                                                                g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY) 
+#define gv2ArrayKeyFlush(           ARRAY)                                                                     g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyForEach(         ARRAY, FUNC)                                                               g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC) 
+#define gv2ArrayKeyGetAt(           ARRAY, INDEX)                                     ((Gv2 *)                  g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
+#define gv2ArrayKeyGetAtKey(        ARRAY, INDEX)                                                              g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX)
+#define gv2ArrayKeyGetBegin(        ARRAY)                                            ((Gv2 *)                  g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
+#define gv2ArrayKeyGetBeginKey(     ARRAY)                                                                     g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyGetCount(        ARRAY)                                                                     g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyGetEnd(          ARRAY)                                            ((Gv2 *)                  g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
+#define gv2ArrayKeyGetEndKey(       ARRAY)                                                                     g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeyGetSize(         ARRAY)                                                                     g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeySetCount(        ARRAY, COUNT)                                                              g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT) 
+#define gv2ArrayKeySort(            ARRAY)                                                                     g_ArrayKeySort(            (G_ArrayKey *) ARRAY) 
+#define gv2ArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                     g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB) 
+#define gv2ArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                       g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gv2ArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                         g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY) 
 
-#define gvListAdd(                 LIST, VALUE)                                       (GvListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
-#define gvListAddBegin(            LIST, VALUE)                                       (GvListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
-#define gvListAddEnd(              LIST, VALUE)                                       (GvListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gvListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GvList *)              g_ListCreate(                               "GvList", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define gvListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GvList", Gv, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define gvListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define gvListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
-#define gvListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
-#define gvListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
-#define gvListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
-#define gvListFind(                LIST, VALUE)                                       (GvListItem *)          g_ListFind(                (G_List *) LIST, (Gp *) VALUE)
-#define gvListFlush(               LIST)                                                                      g_ListFlush(               (G_List *) LIST)
-#define gvListForEach(             LIST, FUNC)                                                                g_ListForEach(             (G_List *) LIST, FUNC)
-#define gvListGetBegin(            LIST)                                              (GvListItem *)          g_ListGetBegin(            (G_List *) LIST)
-#define gvListGetCount(            LIST)                                                                      g_ListGetCount(            (G_List *) LIST)
-#define gvListGetEnd(              LIST)                                              (GvListItem *)          g_ListGetEnd(              (G_List *) LIST)
-#define gvListItemAdd(             LIST, LITEM, VALUE)                                (GvListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
-#define gvListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
-#define gvListItemGet(                   LITEM)                                      ((Gv *)                  g_ListItemGet(                              (G_ListItem *) LITEM))
-#define gvListItemGetNext(               LITEM)                                       (GvListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
-#define gvListItemGetPrev(               LITEM)                                       (GvListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
-#define gvListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
+#define gv2ListAdd(                 LIST, VALUE)                                       (Gv2ListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
+#define gv2ListAddBegin(            LIST, VALUE)                                       (Gv2ListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
+#define gv2ListAddEnd(              LIST, VALUE)                                       (Gv2ListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
+#define gv2ListCreate(                    OPTIONAL_COMPARE_FUNC)                       (Gv2List *)              g_ListCreate(                               "Gv2List", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gv2ListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "Gv2List", Gv2, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define gv2ListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
+#define gv2ListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define gv2ListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
+#define gv2ListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
+#define gv2ListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
+#define gv2ListFind(                LIST, VALUE)                                       (Gv2ListItem *)          g_ListFind(                (G_List *) LIST, (Gp *) VALUE)
+#define gv2ListFlush(               LIST)                                                                      g_ListFlush(               (G_List *) LIST)
+#define gv2ListForEach(             LIST, FUNC)                                                                g_ListForEach(             (G_List *) LIST, FUNC)
+#define gv2ListGetBegin(            LIST)                                              (Gv2ListItem *)          g_ListGetBegin(            (G_List *) LIST)
+#define gv2ListGetCount(            LIST)                                                                      g_ListGetCount(            (G_List *) LIST)
+#define gv2ListGetEnd(              LIST)                                              (Gv2ListItem *)          g_ListGetEnd(              (G_List *) LIST)
+#define gv2ListItemAdd(             LIST, LITEM, VALUE)                                (Gv2ListItem *)          g_ListItemAdd(             (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
+#define gv2ListItemErase(           LIST, LITEM)                                                               g_ListItemErase(           (G_List *) LIST, (G_ListItem *) LITEM)
+#define gv2ListItemGet(                   LITEM)                                      ((Gv2 *)                  g_ListItemGet(                              (G_ListItem *) LITEM))
+#define gv2ListItemGetNext(               LITEM)                                       (Gv2ListItem *)          g_ListItemGetNext(                          (G_ListItem *) LITEM)
+#define gv2ListItemGetPrev(               LITEM)                                       (Gv2ListItem *)          g_ListItemGetPrev(                          (G_ListItem *) LITEM)
+#define gv2ListItemUpdate(          LIST, LITEM, VALUE)                                                        g_ListItemUpdate(          (G_List *) LIST, (G_ListItem *) LITEM, (Gp *) VALUE)
 
-#define gvListKeyAdd(              LIST, KEY, VALUE)                                  (GvListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gvListKeyAddBegin(         LIST, KEY, VALUE)                                  (GvListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gvListKeyAddEnd(           LIST, KEY, VALUE)                                  (GvListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gvListKeyCreate(                 COMPARE_FUNC)                                (GvList *)              g_ListKeyCreate(                               "GvListKey", Gv, gbFALSE, COMPARE_FUNC)
-#define gvListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GvListKey", Gv, gbFALSE, COMPARE_FUNC)
-#define gvListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gvListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
-#define gvListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
-#define gvListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
-#define gvListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
-#define gvListKeyFind(             LIST, KEY)                                         (GvListKeyItem *)       g_ListKeyFind(             (G_ListKey *) LIST, KEY)
-#define gvListKeyFlush(            LIST)                                                                      g_ListKeyFlush(            (G_ListKey *) LIST)
-#define gvListKeyForEach(          LIST, FUNC)                                                                g_ListKeyForEach(          (G_ListKey *) LIST, FUNC)
-#define gvListKeyGetBegin(         LIST)                                              (GvListKeyItem *)       g_ListKeyGetBegin(         (G_ListKey *) LIST)
-#define gvListKeyGetCount(         LIST)                                                                      g_ListKeyGetCount(         (G_ListKey *) LIST)
-#define gvListKeyGetEnd(           LIST)                                              (GvListKeyItem *)       g_ListKeyGetEnd(           (G_ListKey *) LIST)
-#define gvListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (GvListKeyItem *)       g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
-#define gvListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
-#define gvListKeyItemGet(                LITEM)                                      ((Gv *)                  g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
-#define gvListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
-#define gvListKeyItemGetNext(            LITEM)                                       (GvListKeyItem *)       g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
-#define gvListKeyItemGetPrev(            LITEM)                                       (GvListKeyItem *)       g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
-#define gvListKeyItemUpdate(       LIST, LITEM, VALUE)                                                        g_ListKeyItemUpdate(       (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, (Gp *) VALUE)
-#define gvListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
+#define gv2ListKeyAdd(              LIST, KEY, VALUE)                                  (Gv2ListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gv2ListKeyAddBegin(         LIST, KEY, VALUE)                                  (Gv2ListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gv2ListKeyAddEnd(           LIST, KEY, VALUE)                                  (Gv2ListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
+#define gv2ListKeyCreate(                 COMPARE_FUNC)                                (Gv2List *)              g_ListKeyCreate(                               "Gv2ListKey", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2ListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "Gv2ListKey", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2ListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
+#define gv2ListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gv2ListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
+#define gv2ListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
+#define gv2ListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
+#define gv2ListKeyFind(             LIST, KEY)                                         (Gv2ListKeyItem *)       g_ListKeyFind(             (G_ListKey *) LIST, KEY)
+#define gv2ListKeyFlush(            LIST)                                                                      g_ListKeyFlush(            (G_ListKey *) LIST)
+#define gv2ListKeyForEach(          LIST, FUNC)                                                                g_ListKeyForEach(          (G_ListKey *) LIST, FUNC)
+#define gv2ListKeyGetBegin(         LIST)                                              (Gv2ListKeyItem *)       g_ListKeyGetBegin(         (G_ListKey *) LIST)
+#define gv2ListKeyGetCount(         LIST)                                                                      g_ListKeyGetCount(         (G_ListKey *) LIST)
+#define gv2ListKeyGetEnd(           LIST)                                              (Gv2ListKeyItem *)       g_ListKeyGetEnd(           (G_ListKey *) LIST)
+#define gv2ListKeyItemAdd(          LIST, LITEM, KEY, VALUE)                           (Gv2ListKeyItem *)       g_ListKeyItemAdd(          (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY, (Gp *) VALUE)
+#define gv2ListKeyItemErase(        LIST, LITEM)                                                               g_ListKeyItemErase(        (G_ListKey *) LIST, (G_ListKeyItem *) LITEM)
+#define gv2ListKeyItemGet(                LITEM)                                      ((Gv2 *)                  g_ListKeyItemGet(                              (G_ListKeyItem *) LITEM))
+#define gv2ListKeyItemGetKey(             LITEM)                                                               g_ListKeyItemGetKey(                           (G_ListKeyItem *) LITEM)
+#define gv2ListKeyItemGetNext(            LITEM)                                       (Gv2ListKeyItem *)       g_ListKeyItemGetNext(                          (G_ListKeyItem *) LITEM)
+#define gv2ListKeyItemGetPrev(            LITEM)                                       (Gv2ListKeyItem *)       g_ListKeyItemGetPrev(                          (G_ListKeyItem *) LITEM)
+#define gv2ListKeyItemUpdate(       LIST, LITEM, VALUE)                                                        g_ListKeyItemUpdate(       (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, (Gp *) VALUE)
+#define gv2ListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
-#define gvHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gvHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GvHash *)              g_HashCreate(                               "GvHash", Gv, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gvHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GvHash", Gv, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gvHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define gvHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
-#define gvHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
-#define gvHashFind(                HASH, VALUE)                                      ((Gv *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
-#define gvHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
-#define gvHashForEach(             HASH, FUNC)                                                                g_HashForEach(             (G_Hash *) HASH, FUNC)
-#define gvHashGetCount(            HASH)                                                                      g_HashGetCount(            (G_Hash *) HASH)
-#define gvHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
+#define gv2HashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
+#define gv2HashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (Gv2Hash *)              g_HashCreate(                               "Gv2Hash", Gv2, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gv2HashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "Gv2Hash", Gv2, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gv2HashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
+#define gv2HashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define gv2HashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
+#define gv2HashFind(                HASH, VALUE)                                      ((Gv2 *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
+#define gv2HashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
+#define gv2HashForEach(             HASH, FUNC)                                                                g_HashForEach(             (G_Hash *) HASH, FUNC)
+#define gv2HashGetCount(            HASH)                                                                      g_HashGetCount(            (G_Hash *) HASH)
+#define gv2HashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
-#define gvHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gvHashKeyCreate(                 HASHSIZE)                                    (GvHashKey *)           g_HashKeyCreate(                               "GvHashKey", Gv, gbFALSE, HASHSIZE)
-#define gvHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GvHashKey", Gv, gbFALSE, HASHSIZE)
-#define gvHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gvHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
-#define gvHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
-#define gvHashKeyFind(             HASH, KEY)                                        ((Gv *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
-#define gvHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
-#define gvHashKeyForEach(          HASH, FUNC)                                                                g_HashKeyForEach(          (G_HashKey *) HASH, FUNC)
-#define gvHashKeyGetCount(         HASH)                                                                      g_HashKeyGetCount(         (G_HashKey *) HASH)
-#define gvHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
+#define gv2HashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
+#define gv2HashKeyCreate(                 HASHSIZE)                                    (Gv2HashKey *)           g_HashKeyCreate(                               "Gv2HashKey", Gv2, gbFALSE, HASHSIZE)
+#define gv2HashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "Gv2HashKey", Gv2, gbFALSE, HASHSIZE)
+#define gv2HashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
+#define gv2HashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gv2HashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
+#define gv2HashKeyFind(             HASH, KEY)                                        ((Gv2 *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
+#define gv2HashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
+#define gv2HashKeyForEach(          HASH, FUNC)                                                                g_HashKeyForEach(          (G_HashKey *) HASH, FUNC)
+#define gv2HashKeyGetCount(         HASH)                                                                      g_HashKeyGetCount(         (G_HashKey *) HASH)
+#define gv2HashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
-#define gvTreeAdd(                 TREE, VALUE)                                       (GvTreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gvTreeCreate(                    COMPARE_FUNC)                                (GvTree *)              g_TreeCreate(                               "GvTree", Gv, gbFALSE, COMPARE_FUNC)
-#define gvTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GvTree", Gv, gbFALSE, COMPARE_FUNC)
-#define gvTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define gvTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
-#define gvTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
-#define gvTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
-#define gvTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
-#define gvTreeFind(                TREE, VALUE)                                       (GvTreeItem *)          g_TreeFind(                (G_Tree *) TREE, (Gp *) VALUE)
-#define gvTreeFlush(               TREE)                                                                      g_TreeFlush(               (G_Tree *) TREE)
-#define gvTreeForEach(             TREE, FUNC)                                                                g_TreeForEach(             (G_Tree *) TREE, FUNC)
-#define gvTreeGetBegin(            TREE)                                              (GvTreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
-#define gvTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
-#define gvTreeGetEnd(              TREE)                                              (GvTreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
-#define gvTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
-#define gvTreeItemGet(                   TITEM)                                      ((Gv *)                  g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
-#define gvTreeItemGetNext(               TITEM)                                       (GvTreeItem *)          g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
-#define gvTreeItemGetPrev(               TITEM)                                       (GvTreeItem *)          g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
-#define gvTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
+#define gv2TreeAdd(                 TREE, VALUE)                                       (Gv2TreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
+#define gv2TreeCreate(                    COMPARE_FUNC)                                (Gv2Tree *)              g_TreeCreate(                               "Gv2Tree", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2TreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "Gv2Tree", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2TreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
+#define gv2TreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gv2TreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
+#define gv2TreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
+#define gv2TreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
+#define gv2TreeFind(                TREE, VALUE)                                       (Gv2TreeItem *)          g_TreeFind(                (G_Tree *) TREE, (Gp *) VALUE)
+#define gv2TreeFlush(               TREE)                                                                      g_TreeFlush(               (G_Tree *) TREE)
+#define gv2TreeForEach(             TREE, FUNC)                                                                g_TreeForEach(             (G_Tree *) TREE, FUNC)
+#define gv2TreeGetBegin(            TREE)                                              (Gv2TreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
+#define gv2TreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
+#define gv2TreeGetEnd(              TREE)                                              (Gv2TreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
+#define gv2TreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
+#define gv2TreeItemGet(                   TITEM)                                      ((Gv2 *)                  g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
+#define gv2TreeItemGetNext(               TITEM)                                       (Gv2TreeItem *)          g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
+#define gv2TreeItemGetPrev(               TITEM)                                       (Gv2TreeItem *)          g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
+#define gv2TreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
-#define gvTreeKeyAdd(              TREE, KEY, VALUE)                                  (GvTreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gvTreeKeyCreate(                 COMPARE_FUNC)                                (GvTreeKey *)           g_TreeKeyCreate(                               "GvTreeKey", Gv, gbFALSE, COMPARE_FUNC)
-#define gvTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GvTreeKey", Gv, gbFALSE, COMPARE_FUNC)
-#define gvTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gvTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
-#define gvTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
-#define gvTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
-#define gvTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
-#define gvTreeKeyFind(             TREE, KEY)                                         (GvTreeKeyItem *)       g_TreeKeyFind(             (G_TreeKey *) TREE, KEY)
-#define gvTreeKeyFlush(            TREE)                                                                      g_TreeKeyFlush(            (G_TreeKey *) TREE)
-#define gvTreeKeyForEach(          TREE, FUNC)                                                                g_TreeKeyForEach(          (G_TreeKey *) TREE, FUNC)
-#define gvTreeKeyGetBegin(         TREE)                                              (GvTreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
-#define gvTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
-#define gvTreeKeyGetEnd(           TREE)                                              (GvTreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gvTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
-#define gvTreeKeyItemGet(                TITEM)                                      ((Gv *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
-#define gvTreeKeyItemGetNext(            TITEM)                                       (GvTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
-#define gvTreeKeyItemGetPrev(            TITEM)                                       (GvTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
-#define gvTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+#define gv2TreeKeyAdd(              TREE, KEY, VALUE)                                  (Gv2TreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
+#define gv2TreeKeyCreate(                 COMPARE_FUNC)                                (Gv2TreeKey *)           g_TreeKeyCreate(                               "Gv2TreeKey", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2TreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "Gv2TreeKey", Gv2, gbFALSE, COMPARE_FUNC)
+#define gv2TreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
+#define gv2TreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gv2TreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
+#define gv2TreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
+#define gv2TreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
+#define gv2TreeKeyFind(             TREE, KEY)                                         (Gv2TreeKeyItem *)       g_TreeKeyFind(             (G_TreeKey *) TREE, KEY)
+#define gv2TreeKeyFlush(            TREE)                                                                      g_TreeKeyFlush(            (G_TreeKey *) TREE)
+#define gv2TreeKeyForEach(          TREE, FUNC)                                                                g_TreeKeyForEach(          (G_TreeKey *) TREE, FUNC)
+#define gv2TreeKeyGetBegin(         TREE)                                              (Gv2TreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
+#define gv2TreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
+#define gv2TreeKeyGetEnd(           TREE)                                              (Gv2TreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
+#define gv2TreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gv2TreeKeyItemGet(                TITEM)                                      ((Gv2 *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
+#define gv2TreeKeyItemGetNext(            TITEM)                                       (Gv2TreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
+#define gv2TreeKeyItemGetPrev(            TITEM)                                       (Gv2TreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
+#define gv2TreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
+
+/*****************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*****************************************************************************/
 
 #endif

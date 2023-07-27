@@ -145,6 +145,10 @@ include:
 #include "gr.h"
 #include "gp.h"
 #include "gv.h"
+#include "gv1.h"
+#include "gv2.h"
+#include "gv4.h"
+#include "gv8.h"
 #include "gvp.h"
 #include "gvData.h"
 

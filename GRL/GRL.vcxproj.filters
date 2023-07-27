@@ -315,5 +315,20 @@
     <ClCompile Include="gvec3.c">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="gv1.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gvp.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gv8.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gv4.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gv2.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

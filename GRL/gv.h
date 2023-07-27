@@ -56,6 +56,8 @@ grlAPI Gp         *gvGetP(          Gv const * const v);
 grlAPI Gr          gvGetR(          Gv const * const v);
 grlAPI Gs         *gvGetS(          Gv const * const v);
 
+grlAPI GhashN      gvHash(          Gv const * const v);
+
 grlAPI Gv         *gvSetB(          Gv       * const v, Gb   const value);
 grlAPI Gv         *gvSetI(          Gv       * const v, Gi   const value);
 grlAPI Gv         *gvSetN(          Gv       * const v, Gn   const value);
@@ -63,12 +65,14 @@ grlAPI Gv         *gvSetP(          Gv       * const v, Gp * const value);
 grlAPI Gv         *gvSetR(          Gv       * const v, Gr   const value);
 grlAPI Gv         *gvSetS(          Gv       * const v, Gs * const value);
 
+#define gvGetB(V)       (V)->b
 #define gvGetI(V)       (V)->i
 #define gvGetN(V)       (V)->n
 #define gvGetP(V)       (V)->p
 #define gvGetR(V)       (V)->r
 #define gvGetS(V)       (V)->s
 
+#define gvSetB(V, VAL)  ((V)->b = VAL, (V))
 #define gvSetI(V, VAL)  ((V)->i = VAL, (V))
 #define gvSetN(V, VAL)  ((V)->n = VAL, (V))
 #define gvSetP(V, VAL)  ((V)->p = VAL, (V))

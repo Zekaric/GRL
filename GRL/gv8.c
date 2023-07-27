@@ -1,5 +1,5 @@
 /******************************************************************************
-file:       Gv
+file:       Gv8
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
 ******************************************************************************/
@@ -39,9 +39,9 @@ global
 function
 ******************************************************************************/
 /******************************************************************************
-func: gvCompareI
+func: gv8CompareI
 ******************************************************************************/
-grlAPI Gcompare gvCompareI(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gv8CompareI(Gv8 const * const va, Gv8 const * const vb)
 {
    genter;
    greturnIf(va->i < vb->i, gcompareLESS_THAN);
@@ -50,9 +50,9 @@ grlAPI Gcompare gvCompareI(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareN
+func: gv8CompareN
 ******************************************************************************/
-grlAPI Gcompare gvCompareN(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gv8CompareN(Gv8 const * const va, Gv8 const * const vb)
 {
    genter;
    greturnIf(va->n < vb->n, gcompareLESS_THAN);
@@ -61,9 +61,9 @@ grlAPI Gcompare gvCompareN(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareR
+func: gv8CompareR
 ******************************************************************************/
-grlAPI Gcompare gvCompareR(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gv8CompareR(Gv8 const * const va, Gv8 const * const vb)
 {
    genter;
    greturnIf(va->r < vb->r, gcompareLESS_THAN);
@@ -72,18 +72,9 @@ grlAPI Gcompare gvCompareR(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareS
+func: gv8Hash
 ******************************************************************************/
-grlAPI Gcompare gvCompareS(Gv const * const va, Gv const * const vb)
-{
-   genter;
-   greturn gsCompareBase(va->s, vb->s);
-}
-
-/******************************************************************************
-func: gvHash
-******************************************************************************/
-grlAPI GhashN gvHash(Gv const * const v)
+grlAPI GhashN gv8Hash(Gv8 const * const v)
 {
    genter;
    greturn (GhashN) (v->n & GhashNMAX);

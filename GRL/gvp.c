@@ -1,5 +1,5 @@
 /******************************************************************************
-file:       Gv
+file:       Gvp
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
 ******************************************************************************/
@@ -39,9 +39,9 @@ global
 function
 ******************************************************************************/
 /******************************************************************************
-func: gvCompareI
+func: gvpCompareI
 ******************************************************************************/
-grlAPI Gcompare gvCompareI(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gvpCompareI(Gvp const * const va, Gvp const * const vb)
 {
    genter;
    greturnIf(va->i < vb->i, gcompareLESS_THAN);
@@ -50,9 +50,9 @@ grlAPI Gcompare gvCompareI(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareN
+func: gvpCompareN
 ******************************************************************************/
-grlAPI Gcompare gvCompareN(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gvpCompareN(Gvp const * const va, Gvp const * const vb)
 {
    genter;
    greturnIf(va->n < vb->n, gcompareLESS_THAN);
@@ -61,9 +61,9 @@ grlAPI Gcompare gvCompareN(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareR
+func: gvpCompareR
 ******************************************************************************/
-grlAPI Gcompare gvCompareR(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gvpCompareR(Gvp const * const va, Gvp const * const vb)
 {
    genter;
    greturnIf(va->r < vb->r, gcompareLESS_THAN);
@@ -72,18 +72,18 @@ grlAPI Gcompare gvCompareR(Gv const * const va, Gv const * const vb)
 }
 
 /******************************************************************************
-func: gvCompareS
+func: gvpCompareS
 ******************************************************************************/
-grlAPI Gcompare gvCompareS(Gv const * const va, Gv const * const vb)
+grlAPI Gcompare gvpCompareS(Gvp const * const va, Gvp const * const vb)
 {
    genter;
    greturn gsCompareBase(va->s, vb->s);
 }
 
 /******************************************************************************
-func: gvHash
+func: gvpHash
 ******************************************************************************/
-grlAPI GhashN gvHash(Gv const * const v)
+grlAPI GhashN gvpHash(Gvp const * const v)
 {
    genter;
    greturn (GhashN) (v->n & GhashNMAX);
