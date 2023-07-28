@@ -159,6 +159,7 @@ include:
 #include "gs.h"
 
 #include "gsFunction.h"       // depends on gs
+#include "gsKey.h"            // depends on gs gsHash
 
 #include "gguid.h"
 ///////////////////////////////////////////////////////////////////////////////
@@ -196,7 +197,6 @@ include:
 
 #include "Gbuf.h"
 
-#include "GsKey.h"         // depends on gs gsHash
 
 #include "gthreadArray.h"  // depends on g_Array
 

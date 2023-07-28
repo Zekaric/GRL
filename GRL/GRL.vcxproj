@@ -190,6 +190,7 @@
     <ClInclude Include="grl.h" />
     <ClInclude Include="gs.h" />
     <ClInclude Include="gsFunction.h" />
+    <ClInclude Include="gskey.h" />
     <ClInclude Include="gswap.h" />
     <ClInclude Include="gtemp.h" />
     <ClInclude Include="gthread.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="GRL.c" />
     <ClCompile Include="gs.c" />
     <ClCompile Include="gsFunction.c" />
+    <ClCompile Include="gskey.c" />
     <ClCompile Include="gswap.c" />
     <ClCompile Include="gtemp.c" />
     <ClCompile Include="gtime.c" />

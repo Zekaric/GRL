@@ -196,6 +196,9 @@
     <ClInclude Include="grect.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="gskey.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -328,6 +331,9 @@
       <Filter>Type Base</Filter>
     </ClCompile>
     <ClCompile Include="gv2.c">
+      <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="gskey.c">
       <Filter>Type Base</Filter>
     </ClCompile>
   </ItemGroup>
