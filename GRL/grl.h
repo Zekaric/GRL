@@ -165,6 +165,7 @@ include:
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "gbit.h"
+#include "gbuf.h"             // depends on Gn.h
 #include "gheap.h"            // Used in g_Array but not the header file.
 #include "glock.h"
 #include "gosversion.h"
@@ -194,8 +195,6 @@ include:
 #include "ginterp.h"
 
 #include "glockQueue.h"
-
-#include "Gbuf.h"
 
 
 #include "gthreadArray.h"  // depends on g_Array

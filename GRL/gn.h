@@ -350,6 +350,51 @@ struct GnTreeKey
 #define gnTreeKeyItemGetPrev(            TITEM)                                       (GnTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
 #define gnTreeKeyItemUpdate(       TREE, TITEM, VALUE)                                                        g_TreeKeyItemUpdate(       (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM, (Gp *) VALUE)
 
+/******************************************************************************
+Gn1 containers.
+******************************************************************************/
+// Same as G_Array ////////////////////////////////////////////////////////////
+typedef struct 
+{
+   GCONTAINER_VAR
+
+   Gcount                   countTotal;
+   Gbit                     isVectorSizing   : 1,
+                            isSorted         : 1,
+                            isNullEnding     : 1;
+   GrlCompareFunc           compareFunc;
+   Gn1                     *p;
+} Gn1Array;
+
+#define gn1ArrayAdd(                ARRAY,        VALUE)                                                       g_ArrayAdd(                (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gn1ArrayAddAt(              ARRAY, INDEX, VALUE)                                                       g_ArrayAddAt(              (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gn1ArrayAddBegin(           ARRAY,        VALUE)                                                       g_ArrayAddBegin(           (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gn1ArrayAddEnd(             ARRAY,        VALUE)                                                       g_ArrayAddEnd(             (G_Array *) ARRAY,        (Gp *) VALUE) 
+#define gn1ArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
+#define gn1ArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
+#define gn1ArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gn1ArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (Gn1Array *)            g_ArrayCreate(                                "Gn1Array", Gn1, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gn1ArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "Gn1Array", Gn1, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gn1ArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
+#define gn1ArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gn1ArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gn1ArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
+#define gn1ArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
+#define gn1ArrayEraseEnd(           ARRAY)                                                                     g_ArrayEraseEnd(           (G_Array *) ARRAY) 
+#define gn1ArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
+#define gn1ArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
+#define gn1ArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gn1ArrayGet(                ARRAY)                                            ((Gn1 *)                 g_ArrayGet(                (G_Array *) ARRAY))
+#define gn1ArrayGetAt(              ARRAY, INDEX)                                     ((Gn1 *)                 g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
+#define gn1ArrayGetBegin(           ARRAY)                                            ((Gn1 *)                 g_ArrayGetBegin(           (G_Array *) ARRAY))
+#define gn1ArrayGetCount(           ARRAY)                                                                     g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define gn1ArrayGetEnd(             ARRAY)                                            ((Gn1 *)                 g_ArrayGetEnd(             (G_Array *) ARRAY))
+#define gn1ArrayGetSize(            ARRAY)                                                                     g_ArrayGetSize(            (G_Array *) ARRAY) 
+#define gn1ArraySetCount(           ARRAY, COUNT)                                                              g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
+#define gn1ArraySort(               ARRAY)                                                                     g_ArraySort(               (G_Array *) ARRAY) 
+#define gn1ArraySwap(               ARRAY, INDEXA, INDEXB)                                                     g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
+#define gn1ArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                       g_ArrayUpdateAt(           (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+
 /*****************************************************************************/
 #ifdef __cplusplus
 }
