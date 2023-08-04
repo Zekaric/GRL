@@ -619,6 +619,7 @@ typedef enum
 // Generic data structure for any of the base data types.
 typedef union
 {
+   Gn1                      bytes[8];
    Gb                       b;
    Gip                      i;
    Gnp                      n;
@@ -630,6 +631,7 @@ typedef union
 // The largest values for all types.
 typedef union
 {
+   Gn1                      byte[8];
    Gb                       b;
    Gi8                      i;
    Gn8                      n;
@@ -640,6 +642,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[8];
    Gb                       b;
    Gi8                      i;
    Gn8                      n;
@@ -648,6 +651,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[4];
    Gb                       b;
    Gi4                      i;
    Gn4                      n;
@@ -656,6 +660,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[2];
    Gb                       b;
    Gi2                      i;
    Gn2                      n;
@@ -663,6 +668,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[1];
    Gb                       b;
    Gi1                      i;
    Gn1                      n;

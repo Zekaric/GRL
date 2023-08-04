@@ -217,24 +217,18 @@ grlAPI Gcount gfileGetC(Gfile * const file, GcType const type, Gc * const letter
 
    case gcTypeU2:
       result = gfileGet(file, gsizeof(Gc2), c2);
-#if grlSWAP_NEEDED == 1
       gswap2(&c2[0]);
-#endif
       if (gcGetLetterByteCount((Gp *) c2, gcTypeU2) > 1)
       {
          result = gfileGet(file, gsizeof(Gc2), &(c2[1]));
-#if grlSWAP_NEEDED == 1
          gswap2(&c2[1]);
-#endif
       }
       c4 = gcFromU2(c2);
       break;
 
    case gcTypeU4:
       result = gfileGet(file, gsizeof(Gc), &(c4));
-#if grlSWAP_NEEDED == 1
       gswap4(&c4);
-#endif
       break;
    }
    //lint -restore
@@ -252,10 +246,8 @@ func: gfileGet2
 ******************************************************************************/
 grlAPI Gb gfileGet2(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn2   *p;
-#endif
 
    genter;
 
@@ -270,13 +262,11 @@ grlAPI Gb gfileGet2(Gfile * const file, Gcount const count, Gp * const i)
       debugHalt("gfileGet didn't real all the bytes");
    }
 
-#if grlSWAP_NEEDED == 1
    p = (Gn2 *) i;
    forCount(a, count)
    {
       gswap2(&p[a]);
    }
-#endif
 
    greturn gbTRUE;
 }
@@ -286,10 +276,8 @@ func: gfileGet4
 ******************************************************************************/
 grlAPI Gb gfileGet4(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn4   *p;
-#endif
 
    genter;
 
@@ -304,13 +292,11 @@ grlAPI Gb gfileGet4(Gfile * const file, Gcount const count, Gp * const i)
       debugHalt("gfileGet didn't real all the bytes");
    }
 
-#if grlSWAP_NEEDED == 1
    p = (Gn4 *) i;
    forCount(a, count)
    {
       gswap4(&p[a]);
    }
-#endif
 
    greturn gbTRUE;
 }
@@ -320,10 +306,8 @@ func: gfileGet8
 ******************************************************************************/
 grlAPI Gb gfileGet8(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn8   *p;
-#endif
 
    genter;
 
@@ -338,13 +322,11 @@ grlAPI Gb gfileGet8(Gfile * const file, Gcount const count, Gp * const i)
       debugHalt("gfileGet failed");
    }
 
-#if grlSWAP_NEEDED == 1
    p = (Gn8 *) i;
    forCount(a, count)
    {
       gswap8(&p[a]);
    }
-#endif
 
    greturn gbTRUE;
 }
@@ -440,15 +422,11 @@ grlAPI Gcount gfileGetS(Gfile * const file, GcType const type, Gs * const str)
          result = gfileGet(file, gsizeof(Gc2), c2);
          if (result > 0)
          {
-#if grlSWAP_NEEDED == 1
             gswap2(&c2[0]);
-#endif
             if (gcGetLetterByteCount((Gp *) c2, gcTypeU2) > 1)
             {
                result = gfileGet(file, gsizeof(Gc2), &(c2[1]));
-#if grlSWAP_NEEDED == 1
                gswap2(&c2[1]);
-#endif
             }
          }
 
@@ -467,9 +445,7 @@ grlAPI Gcount gfileGetS(Gfile * const file, GcType const type, Gs * const str)
          result = gfileGet(file, gsizeof(Gc), &(c4));
          if (result > 0)
          {
-#if grlSWAP_NEEDED == 1
             gswap4(&c4);
-#endif
             if (!gsAppendC(str, (Gc2) c4))
             {
                debugHalt("gsAppendC failed");
@@ -1057,10 +1033,8 @@ Write out an array 2 Byte values.
 ******************************************************************************/
 grlAPI Gb gfileSet2(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn2   *p;
-#endif
    Gb     result;
 
    genter;
@@ -1071,13 +1045,11 @@ grlAPI Gb gfileSet2(Gfile * const file, Gcount const count, Gp * const i)
       !i          ||
       count <= 0);
 
-#if grlSWAP_NEEDED == 1
    p = (Gn2 *) i;
    forCount(a, count)
    {
       gswap2(&p[a]);
    }
-#endif
 
    result = gbTRUE;
    if (!gfileSet(file, gsizeof(Gn2), i, NULL))
@@ -1086,12 +1058,10 @@ grlAPI Gb gfileSet2(Gfile * const file, Gcount const count, Gp * const i)
       result = gbFALSE;
    }
 
-#if grlSWAP_NEEDED == 1
    forCount(a, count)
    {
       gswap2(&p[a]);
    }
-#endif
 
    greturn result;
 }
@@ -1103,10 +1073,8 @@ Write out an array 4 Byte values.
 ******************************************************************************/
 grlAPI Gb gfileSet4(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn4   *p;
-#endif
    Gb     result;
 
    genter;
@@ -1117,13 +1085,11 @@ grlAPI Gb gfileSet4(Gfile * const file, Gcount const count, Gp * const i)
       !i          ||
       count == 0);
 
-#if grlSWAP_NEEDED == 1
    p = (Gn4 *) i;
    forCount(a, count)
    {
       gswap4(&p[a]);
    }
-#endif
 
    result = gbTRUE;
    if (!gfileSet(file, gsizeof(Gn4), i, NULL))
@@ -1132,12 +1098,10 @@ grlAPI Gb gfileSet4(Gfile * const file, Gcount const count, Gp * const i)
       result = gbFALSE;
    }
 
-#if grlSWAP_NEEDED == 1
    forCount(a, count)
    {
       gswap4(&p[a]);
    }
-#endif
 
    greturn result;
 }
@@ -1147,10 +1111,8 @@ func: gfileSet8
 ******************************************************************************/
 grlAPI Gb gfileSet8(Gfile * const file, Gcount const count, Gp * const i)
 {
-#if grlSWAP_NEEDED == 1
    Gindex a;
    Gn8   *p;
-#endif
    Gb     result;
 
    genter;
@@ -1161,13 +1123,11 @@ grlAPI Gb gfileSet8(Gfile * const file, Gcount const count, Gp * const i)
       !i          ||
       count == 0);
 
-#if grlSWAP_NEEDED == 1
    p = (Gn8 *) i;
    forCount(a, count)
    {
       gswap8(&p[a]);
    }
-#endif
 
    result = gbTRUE;
    if (!gfileSet(file, gsizeof(Gn8) * count, i, NULL))
@@ -1176,12 +1136,10 @@ grlAPI Gb gfileSet8(Gfile * const file, Gcount const count, Gp * const i)
       result = gbFALSE;
    }
 
-#if grlSWAP_NEEDED == 1
    forCount(a, count)
    {
       gswap8(&p[a]);
    }
-#endif
 
    greturn result;
 }

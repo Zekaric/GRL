@@ -47,9 +47,14 @@ extern "C" {
 /******************************************************************************
 function:
 ******************************************************************************/
-grlAPI Gp *gswap2(Gp *value);
-grlAPI Gp *gswap4(Gp *value);
-grlAPI Gp *gswap8(Gp *value);
+grlAPI Gp   *gswap2(       Gp *value);
+grlAPI Gp   *gswap4(       Gp *value);
+grlAPI Gp   *gswap8(       Gp *value);
+
+grlAPI Gb    gswapIsNeeded(void);
+
+grlAPI Gb    gswapStart(   void);
+grlAPI void  gswapStop(    void);
 
 /*****************************************************************************/
 #ifdef __cplusplus
