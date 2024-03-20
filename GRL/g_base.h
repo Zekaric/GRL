@@ -238,6 +238,8 @@ macro:
 #define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
 // loopOnce - single iteration loop.
 #define loopOnce                    for (int __index__ = 0; __index__ < 1; __index__++)
+// breakable scope
+#define breakScope                  loopOnce
 
 // Return macroes
 // Again some will hate these but I find they help prevent mistakes and improve

@@ -776,7 +776,7 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
             _SH_DENYWR,
             _S_IREAD) != 0)
       {
-         //debugHalt("_wsopen_s failed");
+         debugHalt("_wsopen_s failed");
       }
 #else
       file->file = fopen(systemStr, "rb+");
@@ -792,7 +792,7 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
             _SH_DENYWR,
             _S_IREAD | _S_IWRITE) != 0)
       {
-         //debugHalt("_wsopen_s failed");
+         debugHalt("_wsopen_s failed");
       }
 #else
       file->file = fopen(systemStr, "wb+");
@@ -808,7 +808,7 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
             _SH_DENYWR,
             _S_IREAD | _S_IWRITE) != 0)
       {
-         //debugHalt("_wsopen_s failed");
+         debugHalt("_wsopen_s failed");
       }
 #else
       file->file = fopen(systemStr, "wb");
@@ -824,7 +824,7 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
             _SH_DENYWR,
             _S_IREAD | _S_IWRITE) != 0)
       {
-         //debugHalt("_wsopen_s failed");
+         debugHalt("_wsopen_s failed");
       }
 #else
       file->file = fopen(systemStr, "ab+");
