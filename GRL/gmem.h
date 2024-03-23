@@ -97,10 +97,10 @@ prototype:
 // Not leak tracked.
 // I prefer using calloc even if it might be slower than malloc as it zeroes 
 // the memory.  The overhead so far has not caused me grief.
-#define memCreate(               BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
-#define memCreateType(           TYPE)                                  (TYPE *) memCreate(gsizeof(TYPE))
-#define memCreateTypeArray(      TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
-#define memDestroy(              P)                                              free((Gp *) (P))
+#define memoryCreate(            BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
+#define memoryCreateType(        TYPE)                                  (TYPE *) memCreate(gsizeof(TYPE))
+#define memoryCreateTypeArray(   TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
+#define memoryDestroy(           P)                                              free((Gp *) (P))
 
 // Gmem functions.
 // Leak tracked.
