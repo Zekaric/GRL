@@ -280,12 +280,19 @@ macro:
 
 #define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
 #define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
-#define debugPrint(WSTR)            OutputDebugString(WSTR)
-#define debugPrintMsg(FMT, ...)     \
+#define debugPrintU2(WSTR)          OutputDebugStringW(WSTR)
+#define debugPrintA( WSTR)          OutputDebugStringA(WSTR)
+#define debugPrintFormatU2(FMT, ...)     \
 {\
    wchar_t __debug_str[1024];\
    swprintf_s(__debug_str, 1024, FMT, __VA_ARGS__);\
-   debugPrint(__debug_str);\
+   debugPrintU2(__debug_str);\
+}
+#define debugPrintFormatA(FMT, ...)     \
+{\
+   char __debug_str[1024];\
+   sprintf_s(__debug_str, 1024, FMT, __VA_ARGS__);\
+   debugPrintA(__debug_str);\
 }
 
 #if grlWINDOWS == 1

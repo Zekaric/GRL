@@ -528,7 +528,7 @@ static void _PoolFlush(void)
             (size_t) 80,
             L"Memory pool %3d still contains allocated data.\n",
             index); //lint !e534 
-         debugPrint(stemp);
+         debugPrintU2(stemp);
       }
 #endif
    }
