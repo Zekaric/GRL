@@ -70,6 +70,7 @@ type:
 #if grlWINDOWS == 1
 typedef CRITICAL_SECTION Glock;
 #else
+#define Glock int
 #endif
 
 /******************************************************************************
@@ -87,7 +88,7 @@ grlAPI void       glockExit(             Glock * const lock);
 Glock containers.
 ******************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
-typedef struct 
+typedef struct
 {
    GCONTAINER_VAR
 
@@ -100,7 +101,7 @@ typedef struct
 } GlockArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
-typedef struct 
+typedef struct
 {
    Gkey const              *key;
    Glock                  *p;
@@ -219,66 +220,66 @@ struct GlockTreeKey
    GlockTreeKeyItem        *root;
 };
 
-#define glockArrayAdd(                ARRAY,        VALUE)                                                     g_ArrayAddP(               (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define glockArrayAddAt(              ARRAY, INDEX, VALUE)                                                     g_ArrayAddAtP(             (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define glockArrayAddBegin(           ARRAY,        VALUE)                                                     g_ArrayAddBeginP(          (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define glockArrayAddEnd(             ARRAY,        VALUE)                                                     g_ArrayAddEndP(            (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define glockArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
-#define glockArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define glockArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define glockArrayAdd(                ARRAY,        VALUE)                                                     g_ArrayAddP(               (G_Array *) ARRAY,        (Gp *) VALUE)
+#define glockArrayAddAt(              ARRAY, INDEX, VALUE)                                                     g_ArrayAddAtP(             (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
+#define glockArrayAddBegin(           ARRAY,        VALUE)                                                     g_ArrayAddBeginP(          (G_Array *) ARRAY,        (Gp *) VALUE)
+#define glockArrayAddEnd(             ARRAY,        VALUE)                                                     g_ArrayAddEndP(            (G_Array *) ARRAY,        (Gp *) VALUE)
+#define glockArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX)
+#define glockArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST)
+#define glockArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC)
 #define glockArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayCreate(                                "GlockArray", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
 #define glockArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, "GlockArray", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define glockArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define glockArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY) 
-#define glockArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
-#define glockArrayEraseAt(            ARRAY, COUNT, INDEX)                                                     g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
-#define glockArrayEraseBegin(         ARRAY)                                                                   g_ArrayEraseBegin(         (G_Array *) ARRAY) 
-#define glockArrayEraseEnd(           ARRAY)                                                                   g_ArrayEraseEnd(           (G_Array *) ARRAY) 
-#define glockArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE) 
-#define glockArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY) 
-#define glockArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC) 
-#define glockArrayGet(                ARRAY)                                             (Glock **)            g_ArrayGet(                (G_Array *) ARRAY) 
+#define glockArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY)
+#define glockArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY)
+#define glockArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE)
+#define glockArrayEraseAt(            ARRAY, COUNT, INDEX)                                                     g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX)
+#define glockArrayEraseBegin(         ARRAY)                                                                   g_ArrayEraseBegin(         (G_Array *) ARRAY)
+#define glockArrayEraseEnd(           ARRAY)                                                                   g_ArrayEraseEnd(           (G_Array *) ARRAY)
+#define glockArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE)
+#define glockArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY)
+#define glockArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC)
+#define glockArrayGet(                ARRAY)                                             (Glock **)            g_ArrayGet(                (G_Array *) ARRAY)
 #define glockArrayGetAt(              ARRAY, INDEX)                                      (Glock *)             g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX))
 #define glockArrayGetBegin(           ARRAY)                                             (Glock *)             g_ArrayGetBeginP(          (G_Array *) ARRAY))
-#define glockArrayGetCount(           ARRAY)                                                                   g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define glockArrayGetCount(           ARRAY)                                                                   g_ArrayGetCount(           (G_Array *) ARRAY)
 #define glockArrayGetEnd(             ARRAY)                                             (Glock *)             g_ArrayGetEndP(            (G_Array *) ARRAY))
-#define glockArrayGetSize(            ARRAY)                                                                   g_ArrayGetSize(            (G_Array *) ARRAY) 
-#define glockArraySetCount(           ARRAY, COUNT)                                                            g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
-#define glockArraySort(               ARRAY)                                                                   g_ArraySort(               (G_Array *) ARRAY) 
-#define glockArraySwap(               ARRAY, INDEXA, INDEXB)                                                   g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define glockArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                     g_ArrayUpdateAtP(          (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define glockArrayGetSize(            ARRAY)                                                                   g_ArrayGetSize(            (G_Array *) ARRAY)
+#define glockArraySetCount(           ARRAY, COUNT)                                                            g_ArraySetCount(           (G_Array *) ARRAY, COUNT)
+#define glockArraySort(               ARRAY)                                                                   g_ArraySort(               (G_Array *) ARRAY)
+#define glockArraySwap(               ARRAY, INDEXA, INDEXB)                                                   g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB)
+#define glockArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                     g_ArrayUpdateAtP(          (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
 
-#define glockArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define glockArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, (Gp *) VALUE) 
-#define glockArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define glockArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define glockArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define glockArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define glockArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
+#define glockArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define glockArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, (Gp *) VALUE)
+#define glockArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define glockArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define glockArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX)
+#define glockArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST)
+#define glockArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC)
 #define glockArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GlockArray *)        g_ArrayKeyCreate(                                "GlockArrayKey", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
 #define glockArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GlockArrayKey", Glock *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define glockArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
-#define glockArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                     g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define glockArrayKeyEraseBegin(      ARRAY)                                                                   g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyEraseEnd(        ARRAY)                                                                   g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyFind(            ARRAY, KEY)                                                              g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY) 
-#define glockArrayKeyFlush(           ARRAY)                                                                   g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyForEach(         ARRAY, FUNC)                                                             g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC) 
+#define glockArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY)
+#define glockArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY)
+#define glockArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY)
+#define glockArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                     g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX)
+#define glockArrayKeyEraseBegin(      ARRAY)                                                                   g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY)
+#define glockArrayKeyEraseEnd(        ARRAY)                                                                   g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY)
+#define glockArrayKeyFind(            ARRAY, KEY)                                                              g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY)
+#define glockArrayKeyFlush(           ARRAY)                                                                   g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY)
+#define glockArrayKeyForEach(         ARRAY, FUNC)                                                             g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC)
 #define glockArrayKeyGetAt(           ARRAY, INDEX)                                    *((Glock **)            g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
-#define glockArrayKeyGetAtKey(        ARRAY, INDEX)                                                            g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX) 
+#define glockArrayKeyGetAtKey(        ARRAY, INDEX)                                                            g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX)
 #define glockArrayKeyGetBegin(        ARRAY)                                           *((Glock **)            g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
-#define glockArrayKeyGetBeginKey(     ARRAY)                                                                   g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyGetCount(        ARRAY)                                                                   g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY) 
+#define glockArrayKeyGetBeginKey(     ARRAY)                                                                   g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY)
+#define glockArrayKeyGetCount(        ARRAY)                                                                   g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY)
 #define glockArrayKeyGetEnd(          ARRAY)                                           *((Glock **)            g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
-#define glockArrayKeyGetEndKey(       ARRAY)                                                                   g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY) 
-#define glockArrayKeyGetSize(         ARRAY)                                                                   g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY) 
-#define glockArrayKeySetCount(        ARRAY, COUNT)                                                            g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT) 
-#define glockArrayKeySort(            ARRAY)                                                                   g_ArrayKeySort(            (G_ArrayKey *) ARRAY) 
-#define glockArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                   g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB) 
-#define glockArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                     g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE) 
-#define glockArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                       g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY) 
+#define glockArrayKeyGetEndKey(       ARRAY)                                                                   g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY)
+#define glockArrayKeyGetSize(         ARRAY)                                                                   g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY)
+#define glockArrayKeySetCount(        ARRAY, COUNT)                                                            g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT)
+#define glockArrayKeySort(            ARRAY)                                                                   g_ArrayKeySort(            (G_ArrayKey *) ARRAY)
+#define glockArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                   g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB)
+#define glockArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                     g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE)
+#define glockArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                       g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY)
 
 #define glockListAdd(                 LIST, VALUE)                                       (GlockListItem *)     g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define glockListAddBegin(            LIST, VALUE)                                       (GlockListItem *)     g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)

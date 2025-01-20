@@ -18,3 +18,10 @@ Releasex64
 /GRL_Test/Release32
 /GRL_Test/Release64
 /GRL_Test/x64/Debug
+/GRL/x32
+/GRL/x64
+/GRL_Test/x32
+/GRL_Test/x64/Release
+/x32
+/x64
+/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7
