@@ -69,6 +69,65 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /******************************************************************************
 include:
 ******************************************************************************/
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+   #define grlWINDOWS            1   
+   #ifdef _WIN64
+      #define grl64              1
+   #else
+      #define grl32              1
+   #endif
+
+#elif __APPLE__
+   //#include <TargetConditionals.h>
+   #if TARGET_IPHONE_SIMULATOR
+      // iOS, tvOS, or watchOS Simulator
+      // Not supported
+      #define grlAPPLE_IOS       1 
+   #elif TARGET_OS_MACCATALYST
+      // Mac's Catalyst (ports iOS API into Mac, like UIKit).
+   #elif TARGET_OS_IPHONE
+      // iOS, tvOS, or watchOS Simulator
+      // Not supported
+      #define grlAPPLE_IOS       1
+   #elif TARGET_OS_MAC
+      #define grlAPPLE_OSX       1
+   #else
+      #error "Unknown Apple platform"
+   #endif
+   // Assuming all are 64 bit
+   #define grl64                 1
+
+#elif __ANDROID__
+   // Not supported
+   #define grlANDROID            1
+
+#elif __linux__
+   #define grlNIX                1
+   #if __x86_64__ || __ppc64__
+      #define grl64              1
+   #else
+      #define grl32              1
+   #endif
+   
+#elif __unix__ // all unices not caught above
+   // Unix
+   #define grlNIX                1
+
+#else
+#   error "Unknown compiler"
+
+#endif
+
+#if !defined(grl64) && !defined(grl32)
+#error "grl64 or grl32 not defined.  Need to set as compiler flag."
+#endif
+
+#if !defined(grlWINDOWS) && !defined(grlAPPLE_OSX) && !defined(grlNIX)
+#error "grlWINDOWS, grlAPPLE_OSX, or grlNIX not defined.  Need to set as compiler flag."
+#endif
+
+
 #if defined(grlWINDOWS) // I defined this, compile time define.
 
 #define WIN32_LEAN_AND_MEAN

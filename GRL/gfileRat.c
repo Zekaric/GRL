@@ -957,9 +957,7 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
       case gfileRatTypeN2:
       case gfileRatTypeI2:
          v2.n = (Gn2) _N2FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
-#if grlSWAP_NEEDED == 1
          gswap2(&v2.n);
-#endif
          value.n = v2.n;
          break;
 
@@ -967,9 +965,7 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
       case gfileRatTypeI4:
       case gfileRatTypeR4:
          v4.n = (Gn4) _N4FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
-#if grlSWAP_NEEDED == 1
          gswap4(&v4.n);
-#endif
          value.r = (Grp) v4.r;
          break;
 
@@ -977,9 +973,7 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
       case gfileRatTypeI8:
       case gfileRatTypeR8:
          value.n = _N8FromFileN1Hex(&rat->rowBuffer[bufferIndex]);
-#if grlSWAP_NEEDED == 1
          gswap8(&value.n);
-#endif
          break;
 
       case gfileRatTypeS:
@@ -1491,9 +1485,7 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
 
    // Store the data version.
    n4 = row->version;
-#if grlSWAP_NEEDED == 1
    gswap4(&n4);
-#endif
    if (rat->isBinary)
    {
       gmemCopyOverType(&n4, Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;
@@ -1513,45 +1505,29 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
       // Get the row value;
       v = *gvArrayGetAt(row->value, index);
 
-#if grlSWAP_NEEDED == 1
-      switch (col->type)
-      {
-      case gfileRatTypeI2:   
-      case gfileRatTypeN2: 
-         n2 = (Gn2) v->n;
-         gswap2(&n2);
-         v->n = n2;
-         break;
-
-      case gfileRatTypeI4:   
-      case gfileRatTypeN4:   
-      case gfileRatTypeR4:
-         n4 = (Gn4) v->n;
-         gswap4(&n4);
-         v->n = n4;
-         break;
-
-      case gfileRatTypeI8:   
-      case gfileRatTypeN8:   
-      case gfileRatTypeR8:
-         gswap8(&v->n);
-         break;
-      }
-#else
       switch (col->type)
       {
       case gfileRatTypeI2:   
       case gfileRatTypeN2: 
          n2 = (Gn2) v.n;
+         gswap2(&n2);
+         v.n = n2;
          break;
 
       case gfileRatTypeI4:   
       case gfileRatTypeN4:   
       case gfileRatTypeR4:
          n4 = (Gn4) v.n;
+         gswap4(&n4);
+         v.n = n4;
+         break;
+
+      case gfileRatTypeI8:   
+      case gfileRatTypeN8:   
+      case gfileRatTypeR8:
+         gswap8(&v.n);
          break;
       }
-#endif
 
       // Create the binary.
       if (rat->isBinary)

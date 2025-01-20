@@ -86,6 +86,8 @@ func: grlStart
 ******************************************************************************/
 grlAPI Gb grlStart(void)
 {
+   returnFalseIf(!gswapStart());
+
    returnFalseIf(!gtimeStart());
    returnFalseIf(!gleakStart());
    returnFalseIf(!gmemStart());
@@ -159,6 +161,8 @@ grlAPI void grlStop(void)
 #if GPROFILE_IS_ON == 1
    gprofileReport();
 #endif
+
+   gswapStop();
 
    _isStarted = gbFALSE;
 }

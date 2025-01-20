@@ -1,5 +1,5 @@
 /******************************************************************************
-file:         Gbuf
+file:        Gbuf
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
 
@@ -17,18 +17,22 @@ global:
 function:
 ******************************************************************************/
 /******************************************************************************
-func: gbufAddEndArray
+func: gbufAddAtArray
 ******************************************************************************/
-grlAPI Gb gbufAddEndArray(Gbuf * const buf, Gcount const count, Gn1 const * const value)
+grlAPI Gb gbufAddAtArray(Gbuf * const buf, Gindex const index, Gcount const count, Gn1  const * const value)
 {
-   Gindex index;
+   Gindex vindex;
    Gb     result;
 
    genter;
 
-   forCount(index, count)
+   greturnFalseIf(
+      !buf ||
+      count < 0);
+
+   forCount(vindex, count)
    {
-      result = gn1ArrayAddEnd(buf, &value[index]);
+      result = gn1ArrayAddAt(&buf->buf, index + vindex, &value[vindex]);
       greturnFalseIf(!result);
    }
 
@@ -36,214 +40,723 @@ grlAPI Gb gbufAddEndArray(Gbuf * const buf, Gcount const count, Gn1 const * cons
 }
 
 /******************************************************************************
-func: gbufAddEndA
+func: gbufAddAtGuid
 ******************************************************************************/
-grlAPI Gb gbufAddEndA(Gbuf * const buf, Char const * const value)
+grlAPI Gb gbufAddAtGuid(Gbuf * const buf, Gindex const index, Gguid const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   // I don't know if byte swapping needs to happen here.  Something to test.
+   result = gbufAddAtArray(buf, index, sizeof(Gguid), value.b);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAddAtV1
+******************************************************************************/
+grlAPI Gb gbufAddAtV1(Gbuf * const buf, Gindex const index, Gv1 const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   result = gn1ArrayAddAt(&buf->buf, index, (Gn1 *) &value.n);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAddAtV2
+******************************************************************************/
+grlAPI Gb gbufAddAtV2(Gbuf * const buf, Gindex const index, Gv2 const value)
+{
+   Gb  result;
+   Gv2 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap2(&vtemp);
+   
+   result = gbufAddAtArray(buf, index, 2, vtemp.byte);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAddAtV4
+******************************************************************************/
+grlAPI Gb gbufAddAtV4(Gbuf * const buf, Gindex const index, Gv4 const value)
+{
+   Gb  result;
+   Gv4 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap4(&vtemp);
+   
+   result = gbufAddAtArray(buf, index, 4, vtemp.byte);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAddAtV8
+******************************************************************************/
+grlAPI Gb gbufAddAtV8(Gbuf * const buf, Gindex const index, Gv8 const value)
+{
+   Gb  result;
+   Gv8 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap8(&vtemp);
+   
+   result = gbufAddAtArray(buf, index, 8, vtemp.byte);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAppendArray
+******************************************************************************/
+grlAPI Gb gbufAppendArray(Gbuf * const buf, Gcount const count, Gn1 const * const value)
 {
    Gindex index;
    Gb     result;
 
    genter;
 
-   loopCount(index)
+   greturnFalseIf(
+      !buf ||
+      count < 0);
+
+   forCount(index, count)
    {
-      result = gn1ArrayAddEnd(buf, &value[index]);
-      breakIf(value[index] == 0);
+      result = gn1ArrayAddEnd(&buf->buf, &value[index]);
+      greturnFalseIf(!result);
    }
 
-   greturn result;
+   greturn gbTRUE;
 }
 
 /******************************************************************************
-func: gbufAddEndGuid
+func: gbufAppendGuid
 ******************************************************************************/
-grlAPI Gb gbufAddEndGuid(Gbuf * const buf, Gguid const value)
+grlAPI Gb gbufAppendGuid(Gbuf * const buf, Gguid const value)
 {
    Gb result;
 
    genter;
+
+   greturnFalseIf(!buf);
 
    // I don't know if byte swapping needs to happen here.  Something to test.
-   result = gbufAddEndArray(buf, sizeof(Gguid), value.b);
+   result = gbufAppendArray(buf, sizeof(Gguid), value.b);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndI2
+func: gbufAppendV1
 ******************************************************************************/
-grlAPI Gb gbufAddEndI2(Gbuf * const buf, Gi2 value)
+grlAPI Gb gbufAppendV1(Gbuf * const buf, Gv1 value)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED
+   greturnFalseIf(!buf);
+
+   result = gn1ArrayAddEnd(&buf->buf, (Gn1 *) &value.n);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufAppendV2
+******************************************************************************/
+grlAPI Gb gbufAppendV2(Gbuf * const buf, Gv2 value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
    gswap2(&value);
-#endif
    
-   result = gbufAddEndArray(buf, 2, (Gn1 *) &value);
+   result = gbufAppendArray(buf, 2, (Gn1 *) &value.n);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndI4
+func: gbufAppendV4
 ******************************************************************************/
-grlAPI Gb gbufAddEndI4(Gbuf * const buf, Gi4 value)
+grlAPI Gb gbufAppendV4(Gbuf * const buf, Gv4 value)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED == 1
+   greturnFalseIf(!buf);
+
    gswap4(&value);
-#endif
    
-   result = gbufAddEndArray(buf, 4, (Gn1 *) &value);
+   result = gbufAppendArray(buf, 4, (Gn1 *) &value.n);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndI8
+func: gbufAppendV8
 ******************************************************************************/
-grlAPI Gb gbufAddEndI8(Gbuf * const buf, Gi8 value)
+grlAPI Gb gbufAppendV8(Gbuf * const buf, Gv8 value)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED == 1
+   greturnFalseIf(!buf);
+
    gswap8(&value);
-#endif
    
-   result = gbufAddEndArray(buf, 8, (Gn1 *) &value);
+   result = gbufAppendArray(buf, 8, (Gn1 *) &value.n);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndId
+func: gbufCreate_
 ******************************************************************************/
-grlAPI Gb gbufAddEndId(Gbuf * const buf, Gid const value)
+grlAPI Gbuf *gbufCreate_(void)
 {
-   Char c[4];
-
-   Gb result;
+   Gbuf *buf;
 
    genter;
 
-   gidGetC(value, c);
-   result = gbufAddEndArray(buf, 4, (Gn1 *) c);
+   buf = gmemCreateType(Gbuf);
+   greturnNullIf(!buf);
 
-   greturn result;
+   if (!gbufCreateContent(buf))
+   {
+      gbufDestroy(buf);
+      greturn NULL;
+   }
+
+   greturn buf;
 }
 
 /******************************************************************************
-func: gbufAddEndN2
+func: gbufCreateContent
 ******************************************************************************/
-grlAPI Gb gbufAddEndN2(Gbuf * const buf, Gn2 value)
-{
-   Gb result;
-
-   genter;
-   
-#if grlSWAP_NEEDED == 1
-   gswap2(&value);
-#endif
-   
-   result = gbufAddEndArray(buf, 2, (Gn1 *) &value);
-
-   greturn result;
-}
-
-/******************************************************************************
-func: gbufAddEndN4
-******************************************************************************/
-grlAPI Gb gbufAddEndN4(Gbuf * const buf, Gn4 value)
+grlAPI Gb gbufCreateContent(Gbuf * const buf)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED == 1
-   gswap4(&value);
-#endif
-   
-   result = gbufAddEndArray(buf, 4, (Gn1 *) &value);
+   greturnFalseIf(!buf);
+
+   GTYPE_SET(buf, "Gbuf");
+
+   buf->index = 0;
+   result = gn1ArrayCreateContent(&buf->buf, NULL, gbTRUE);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndN8
+func: gbufDestroy
 ******************************************************************************/
-grlAPI Gb gbufAddEndN8(Gbuf * const buf, Gn8 value)
+grlAPI void gbufDestroy(Gbuf * const buf)
+{
+   genter;
+
+   greturnVoidIf(!buf);
+
+   gbufDestroyContent(buf);
+
+   gmemDestroy(buf);
+
+   greturn;
+}
+
+/******************************************************************************
+func: gbufDestroyContent
+******************************************************************************/
+grlAPI void gbufDestroyContent(Gbuf * const buf)
+{
+   genter;
+
+   greturnVoidIf(!buf);
+
+   gn1ArrayDestroyContent(&buf->buf);
+   buf->index = 0;
+
+   greturn;
+}
+
+/******************************************************************************
+func: gbufFlush
+******************************************************************************/
+grlAPI void gbufFlush(Gbuf * const buf)
+{
+   genter;
+
+   greturnVoidIf(!buf);
+
+   gn1ArrayFlush(&buf->buf);
+   buf->index = 0;
+
+   greturn;
+}
+
+/******************************************************************************
+func: gbufGet
+******************************************************************************/
+grlAPI Gn1 *gbufGet(Gbuf const * const buf)
+{
+   Gn1 *result;
+
+   genter;
+
+   greturnNullIf(!buf);
+
+   result = gn1ArrayGet(&buf->buf);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufGetAtArray
+
+value should already be the size of count.
+******************************************************************************/
+grlAPI Gb gbufGetAtArray(Gbuf const * const buf, Gindex const index, Gcount const count, Gn1 * const value)
+{
+   Gindex vindex;
+
+   genter;
+
+   greturnFalseIf(
+      !buf      || 
+      count < 0 || 
+      !value);
+
+   forCount(vindex, count)
+   {
+      if (!gbufGetAtV1(buf, index + vindex, (Gv1 *) &(value[vindex])))
+      {
+         greturn gbFALSE;
+      }
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufGetAtGuid
+******************************************************************************/
+grlAPI Gb gbufGetAtGuid(Gbuf const * const buf, Gindex const index, Gguid * const value)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED == 1
-   gswap8(&value);
-#endif
-   
-   result = gbufAddEndArray(buf, 8, (Gn1 *) &value);
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   // I don't know if byte swapping needs to happen here.  Something to test.
+   result = gbufGetAtArray(buf, index, gsizeof(Gguid), value->b);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndR4
+func: gbufGetAtI1
 ******************************************************************************/
-grlAPI Gb gbufAddEndR4(Gbuf * const buf, Gr4 value)
+grlAPI Gb gbufGetAtV1(Gbuf const * const buf, Gindex const index, Gv1 * const value)
+{
+   Gn1 *ptemp;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   ptemp = gn1ArrayGetAt(&buf->buf, index);
+   greturnFalseIf(!ptemp);
+
+   value->n = *ptemp;
+
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufGetAtV2
+******************************************************************************/
+grlAPI Gb gbufGetAtV2(Gbuf const * const buf, Gindex const index, Gv2 * const value)
 {
    Gb result;
 
    genter;
 
-#if grlSWAP_NEEDED == 1
-   gswap4(&value);
-#endif
-   
-   result = gbufAddEndArray(buf, 4, (Gn1 *) &value);
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetAtArray(buf, index, 2, (Gn1 *) value);
+
+   gswap2(value);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndR8
+func: gbufGetAtV4
 ******************************************************************************/
-grlAPI Gb gbufAddEndR8(Gbuf * const buf, Gr8 value)
+grlAPI Gb gbufGetAtV4(Gbuf const * const buf, Gindex const index, Gv4 * const value)
 {
    Gb result;
 
    genter;
-   
-#if grlSWAP_NEEDED == 1
-   gswap8(&value);
-#endif
 
-   result = gbufAddEndArray(buf, 8, (Gn1 *) &value);
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetAtArray(buf, index, 4, (Gn1 *) value);
+
+   gswap4(value);
 
    greturn result;
 }
 
 /******************************************************************************
-func: gbufAddEndS
+func: gbufGetAtV8
 ******************************************************************************/
-grlAPI Gb gbufAddEndS(Gbuf * const buf, Gs const * const value)
+grlAPI Gb gbufGetAtV8(Gbuf const * const buf, Gindex const index, Gv8 * const value)
 {
-   Gb     result;
-   Gc1   *u1;
+   Gb result;
 
    genter;
-   
-   u1 = gsCreateU1(value);
-   greturnFalseIf(!u1);
-   result = gbufAddEndA(buf, (Char *) u1);
-   gmemDestroy(u1);
 
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetAtArray(buf, index, 8, (Gn1 *) value);
+
+   gswap8(value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufGetArray
+******************************************************************************/
+grlAPI Gb gbufGetArray(Gbuf * const buf, Gcount const count, Gn1 * const value)
+{
+   Gindex vindex;
+
+   genter;
+
+   greturnFalseIf(
+      !buf      ||
+      count < 0 ||
+      !value    ||
+      buf->index >= gn1ArrayGetCount(&buf->buf));
+
+   forCount(vindex, count)
+   {
+      greturnFalseIf(!gbufGetV1(buf, (Gv1 *) &(value[vindex])));
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufGetCount
+******************************************************************************/
+grlAPI Gcount gbufGetCount(Gbuf const * const buf)
+{
+   Gcount count;
+
+   genter;
+
+   greturn0If(!buf);
+
+   count = gn1ArrayGetCount(&buf->buf);
+
+   greturn count;
+}
+
+/******************************************************************************
+func: gbufGetGuid
+******************************************************************************/
+grlAPI Gb gbufGetGuid(Gbuf * const buf, Gguid * const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetArray(buf, gsizeof(Gguid), value->b);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufGetV1
+******************************************************************************/
+grlAPI Gb gbufGetV1(Gbuf * const buf, Gv1 * const value)
+{
+   Gn1 *ptemp;
+
+   genter;
+
+   greturnFalseIf(
+      !buf   ||
+      !value ||
+      buf->index >= gn1ArrayGetCount(&buf->buf));
+
+
+   ptemp = gn1ArrayGetAt(&buf->buf, buf->index);
+   greturnFalseIf(!ptemp);
+   
+   value->n = *ptemp;
+
+   buf->index++;
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufGetV2
+******************************************************************************/
+grlAPI Gb gbufGetV2(Gbuf * const buf, Gv2 * const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetArray(buf, 2, (Gn1 *) value);
+
+   gswap2(value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufGetV4
+******************************************************************************/
+grlAPI Gb gbufGetV4(Gbuf * const buf, Gv4 * const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetArray(buf, 4, (Gn1 *) value);
+   
+   gswap4(value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufGetV8
+******************************************************************************/
+grlAPI Gb gbufGetV8(Gbuf * const buf, Gv8 * const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      !value);
+
+   result = gbufGetArray(buf, 8, (Gn1 *) value);
+
+   gswap8(value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufSetCount
+******************************************************************************/
+grlAPI Gb gbufSetCount(Gbuf * const buf, Gcount const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(
+      !buf ||
+      value < 0);
+
+   result = gn1ArraySetCount(&buf->buf, value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufSetIndex
+******************************************************************************/
+grlAPI Gb gbufSetIndex(Gbuf * const buf, Gindex const value)
+{
+   genter;
+
+   greturnFalseIf(!buf);
+
+   buf->index = value;
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufUpdateAtArray
+******************************************************************************/
+grlAPI Gb gbufUpdateAtArray(Gbuf * const buf, Gindex const index, Gcount const count, 
+   Gn1 const * const value)
+{
+   Gindex vindex;
+
+   genter;
+
+   greturnFalseIf(
+      !buf       ||
+      count <= 0 ||
+      !value);
+
+   forCount(vindex, count)
+   {
+      greturnFalseIf(!gbufUpdateAtV1(buf, index + vindex, *((Gv1 *) &value[vindex])));
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gbufUpdateAtGuid
+******************************************************************************/
+grlAPI Gb gbufUpdateAtGuid(Gbuf * const buf, Gindex const index, Gguid const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   result = gbufUpdateAtArray(buf, index, gsizeof(Gguid), value.b);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufUpdateAtV1
+******************************************************************************/
+grlAPI Gb gbufUpdateAtV1(Gbuf * const buf, Gindex const index, Gv1 const value)
+{
+   Gb result;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   result = gn1ArrayUpdateAt(&buf->buf, index, &value);
+
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufUpdateAtV2
+******************************************************************************/
+grlAPI Gb gbufUpdateAtV2(Gbuf * const buf, Gindex const index, Gv2 const value)
+{
+   Gb  result;
+   Gv2 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap2(&vtemp);
+
+   result = gbufUpdateAtArray(buf, index, 2, vtemp.byte);
+   
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufUpdateAtV4
+******************************************************************************/
+grlAPI Gb gbufUpdateAtV4(Gbuf * const buf, Gindex const index, Gv4 const value)
+{
+   Gb  result;
+   Gv4 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap4(&vtemp);
+
+   result = gbufUpdateAtArray(buf, index, 4, vtemp.byte);
+   
+   greturn result;
+}
+
+/******************************************************************************
+func: gbufUpdateAtV8
+******************************************************************************/
+grlAPI Gb gbufUpdateAtV8(Gbuf * const buf, Gindex const index, Gv8 const value)
+{
+   Gb  result;
+   Gv8 vtemp;
+
+   genter;
+
+   greturnFalseIf(!buf);
+
+   vtemp = value;
+   gswap8(&vtemp);
+
+   result = gbufUpdateAtArray(buf, index, 8, vtemp.byte);
+   
    greturn result;
 }

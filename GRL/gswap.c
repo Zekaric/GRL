@@ -65,6 +65,11 @@ typedef union
 } Gswap8; //lint !e960 !e9018
 
 /******************************************************************************
+type:
+******************************************************************************/
+static Gb _isBigEndian = gbTRUE;
+
+/******************************************************************************
 global:
 function:
 ******************************************************************************/
@@ -79,6 +84,8 @@ grlAPI Gp *gswap2(Gp * const value)
            b;
 
    genter;
+
+   greturnIf(_isBigEndian, value);
 
    a = (Gswap2 *) value;
 
@@ -97,6 +104,8 @@ grlAPI Gp *gswap4(Gp * const value)
            b;
 
    genter;
+
+   greturnIf(_isBigEndian, value);
 
    a = (Gswap4 *) value;
 
@@ -118,6 +127,8 @@ grlAPI Gp *gswap8(Gp * const value)
 
    genter;
 
+   greturnIf(_isBigEndian, value);
+
    a = (Gswap8 *) value;
 
    b.n = 
@@ -133,4 +144,40 @@ grlAPI Gp *gswap8(Gp * const value)
    a->n = b.n;
 
    greturn value;
+}
+
+/******************************************************************************
+func: gswapIsNeeded
+******************************************************************************/
+grlAPI Gb gswapIsNeeded(void)
+{
+   genter;
+
+   greturn !_isBigEndian;
+}
+
+/******************************************************************************
+func: gswapStart
+******************************************************************************/
+grlAPI Gb gswapStart(void)
+{
+   Gswap4 a;
+
+   a.n = 1;
+
+   // High byte is 1 in little endian order.
+   if (a.b[0] == 1)
+   {
+      _isBigEndian = gbFALSE;
+   }
+
+   greturn gbTRUE;
+}
+
+/******************************************************************************
+func: gswapStop
+******************************************************************************/
+grlAPI void gswapStop(void)
+{
+   // Nothing.
 }

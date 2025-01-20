@@ -238,6 +238,8 @@ macro:
 #define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
 // loopOnce - single iteration loop.
 #define loopOnce                    for (int __index__ = 0; __index__ < 1; __index__++)
+// breakable scope
+#define breakScope                  loopOnce
 
 // Return macroes
 // Again some will hate these but I find they help prevent mistakes and improve
@@ -278,18 +280,27 @@ macro:
 
 #define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
 #define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
-#define debugPrint(WSTR)            OutputDebugString(WSTR)
-#define debugPrintMsg(FMT, ...)     \
+#define debugPrintU2(WSTR)          OutputDebugStringW(WSTR)
+#define debugPrintA( WSTR)          OutputDebugStringA(WSTR)
+#define debugPrintFormatU2(FMT, ...)     \
 {\
    wchar_t __debug_str[1024];\
    swprintf_s(__debug_str, 1024, FMT, __VA_ARGS__);\
-   debugPrint(__debug_str);\
+   debugPrintU2(__debug_str);\
+}
+#define debugPrintFormatA(FMT, ...)     \
+{\
+   char __debug_str[1024];\
+   sprintf_s(__debug_str, 1024, FMT, __VA_ARGS__);\
+   debugPrintA(__debug_str);\
 }
 
 #if grlWINDOWS == 1
-#define debugCheckMemory()    _CrtCheckMemory();
+#define debugCheckMemory()             _CrtCheckMemory()
+#define debugSetCheckMemoryAgresive()  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_LEAK_CHECK_DF)
 #else
 #define debugCheckMemory()
+#define debugSetCheckMemoryAgresive()
 #endif
 
 #else
@@ -619,6 +630,7 @@ typedef enum
 // Generic data structure for any of the base data types.
 typedef union
 {
+   Gn1                      bytes[8];
    Gb                       b;
    Gip                      i;
    Gnp                      n;
@@ -630,6 +642,7 @@ typedef union
 // The largest values for all types.
 typedef union
 {
+   Gn1                      byte[8];
    Gb                       b;
    Gi8                      i;
    Gn8                      n;
@@ -640,6 +653,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[8];
    Gb                       b;
    Gi8                      i;
    Gn8                      n;
@@ -648,6 +662,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[4];
    Gb                       b;
    Gi4                      i;
    Gn4                      n;
@@ -656,6 +671,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[2];
    Gb                       b;
    Gi2                      i;
    Gn2                      n;
@@ -663,6 +679,7 @@ typedef union
 
 typedef union
 {
+   Gn1                      byte[1];
    Gb                       b;
    Gi1                      i;
    Gn1                      n;
