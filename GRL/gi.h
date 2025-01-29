@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       Gi
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,7 +30,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GIH)
 #define      GIH
@@ -41,9 +41,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 Gi containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -184,10 +184,10 @@ struct GiTreeKey
 #define giArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define giArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define giArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define giArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GiArray *)             g_ArrayCreate(                                "GiArray", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define giArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GiArray", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define giArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define giArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define giArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GiArray *)             g_ArrayCloc(                                "GiArray", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define giArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayClocContent(      (G_Array *) ARRAY, "GiArray", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define giArrayDloc(               ARRAY)                                                                     g_ArrayDloc(               (G_Array *) ARRAY) 
+#define giArrayDlocContent(        ARRAY)                                                                     g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define giArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define giArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define giArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -213,10 +213,10 @@ struct GiTreeKey
 #define giArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define giArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define giArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define giArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GiArray *)             g_ArrayKeyCreate(                                "GiArrayKey", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define giArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GiArrayKey", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define giArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define giArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define giArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GiArray *)             g_ArrayKeyCloc(                                "GiArrayKey", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define giArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GiArrayKey", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define giArrayKeyDloc(            ARRAY)                                                                     g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define giArrayKeyDlocContent(     ARRAY)                                                                     g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define giArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define giArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define giArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -241,10 +241,10 @@ struct GiTreeKey
 #define giListAdd(                 LIST, VALUE)                                       (GiListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define giListAddBegin(            LIST, VALUE)                                       (GiListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define giListAddEnd(              LIST, VALUE)                                       (GiListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define giListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GiList *)              g_ListCreate(                               "GiList", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define giListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GiList", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define giListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define giListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define giListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GiList *)              g_ListCloc(                               "GiList", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define giListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListClocContent(       (G_List *) LIST, "GiList", Gi, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define giListDloc(                LIST)                                                                      g_ListDloc(                (G_List *) LIST)
+#define giListDlocContent(         LIST)                                                                      g_ListDlocContent(         (G_List *) LIST)
 #define giListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define giListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define giListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
@@ -264,10 +264,10 @@ struct GiTreeKey
 #define giListKeyAdd(              LIST, KEY, VALUE)                                  (GiListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define giListKeyAddBegin(         LIST, KEY, VALUE)                                  (GiListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define giListKeyAddEnd(           LIST, KEY, VALUE)                                  (GiListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define giListKeyCreate(                 COMPARE_FUNC)                                (GiList *)              g_ListKeyCreate(                               "GiListKey", Gi, gbFALSE, COMPARE_FUNC)
-#define giListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GiListKey", Gi, gbFALSE, COMPARE_FUNC)
-#define giListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define giListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define giListKeyCloc(                   COMPARE_FUNC)                                (GiList *)              g_ListKeyCloc(                               "GiListKey", Gi, gbFALSE, COMPARE_FUNC)
+#define giListKeyClocContent(      LIST, COMPARE_FUNC)                                                        g_ListKeyClocContent(    (G_ListKey *) LIST, "GiListKey", Gi, gbFALSE, COMPARE_FUNC)
+#define giListKeyDloc(             LIST)                                                                      g_ListKeyDloc(             (G_ListKey *) LIST)
+#define giListKeyDlocContent(      LIST)                                                                      g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define giListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define giListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define giListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -287,10 +287,10 @@ struct GiTreeKey
 #define giListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define giHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define giHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GiHash *)              g_HashCreate(                               "GiHash", Gi, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define giHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GiHash", Gi, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define giHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define giHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define giHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GiHash *)              g_HashCloc(                               "GiHash", Gi, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define giHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashClocContent(       (G_Hash *) HASH, "GiHash", Gi, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define giHashDloc(                HASH)                                                                      g_HashDloc(                (G_Hash *) HASH)
+#define giHashDlocContent(         HASH)                                                                      g_HashDlocContent(         (G_Hash *) HASH)
 #define giHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define giHashFind(                HASH, VALUE)                                      ((Gi *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define giHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
@@ -299,10 +299,10 @@ struct GiTreeKey
 #define giHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define giHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define giHashKeyCreate(                 HASHSIZE)                                    (GiHashKey *)           g_HashKeyCreate(                               "GiHashKey", Gi, gbFALSE, HASHSIZE)
-#define giHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GiHashKey", Gi, gbFALSE, HASHSIZE)
-#define giHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define giHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define giHashKeyCloc(                   HASHSIZE)                                    (GiHashKey *)           g_HashKeyCloc(                               "GiHashKey", Gi, gbFALSE, HASHSIZE)
+#define giHashKeyClocContent(      HASH, HASHSIZE)                                                            g_HashKeyClocContent(    (G_HashKey *) HASH, "GiHashKey", Gi, gbFALSE, HASHSIZE)
+#define giHashKeyDloc(             HASH)                                                                      g_HashKeyDloc(             (G_HashKey *) HASH)
+#define giHashKeyDlocContent(      HASH)                                                                      g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define giHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define giHashKeyFind(             HASH, KEY)                                        ((Gi *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define giHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -311,10 +311,10 @@ struct GiTreeKey
 #define giHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define giTreeAdd(                 TREE, VALUE)                                       (GiTreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define giTreeCreate(                    COMPARE_FUNC)                                (GiTree *)              g_TreeCreate(                               "GiTree", Gi, gbFALSE, COMPARE_FUNC)
-#define giTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GiTree", Gi, gbFALSE, COMPARE_FUNC)
-#define giTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define giTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define giTreeCloc(                      COMPARE_FUNC)                                (GiTree *)              g_TreeCloc(                               "GiTree", Gi, gbFALSE, COMPARE_FUNC)
+#define giTreeClocContent(         TREE, COMPARE_FUNC)                                                        g_TreeClocContent(       (G_Tree *) TREE, "GiTree", Gi, gbFALSE, COMPARE_FUNC)
+#define giTreeDloc(                TREE)                                                                      g_TreeDloc(                (G_Tree *) TREE)
+#define giTreeDlocContent(         TREE)                                                                      g_TreeDlocContent(         (G_Tree *) TREE)
 #define giTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define giTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define giTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -324,17 +324,17 @@ struct GiTreeKey
 #define giTreeGetBegin(            TREE)                                              (GiTreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
 #define giTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
 #define giTreeGetEnd(              TREE)                                              (GiTreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
-#define giTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
+#define giTreeItemDloc(            TREE, TITEM)                                                               g_TreeItemDloc(            (G_Tree *) TREE, (G_TreeItem *) TITEM)
 #define giTreeItemGet(                   TITEM)                                      ((Gi *)                  g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
 #define giTreeItemGetNext(               TITEM)                                       (GiTreeItem *)          g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
 #define giTreeItemGetPrev(               TITEM)                                       (GiTreeItem *)          g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
 #define giTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define giTreeKeyAdd(              TREE, KEY, VALUE)                                  (GiTreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define giTreeKeyCreate(                 COMPARE_FUNC)                                (GiTreeKey *)           g_TreeKeyCreate(                               "GiTreeKey", Gi, gbFALSE, COMPARE_FUNC)
-#define giTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GiTreeKey", Gi, gbFALSE, COMPARE_FUNC)
-#define giTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define giTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define giTreeKeyCloc(                   COMPARE_FUNC)                                (GiTreeKey *)           g_TreeKeyCloc(                               "GiTreeKey", Gi, gbFALSE, COMPARE_FUNC)
+#define giTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                        g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GiTreeKey", Gi, gbFALSE, COMPARE_FUNC)
+#define giTreeKeyDloc(             TREE)                                                                      g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define giTreeKeyDlocContent(      TREE)                                                                      g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define giTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define giTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define giTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -344,7 +344,7 @@ struct GiTreeKey
 #define giTreeKeyGetBegin(         TREE)                                              (GiTreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define giTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define giTreeKeyGetEnd(           TREE)                                              (GiTreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define giTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define giTreeKeyItemDloc(         TREE, TITEM)                                                               g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define giTreeKeyItemGet(                TITEM)                                      ((Gi *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
 #define giTreeKeyItemGetNext(            TITEM)                                       (GiTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define giTreeKeyItemGetPrev(            TITEM)                                       (GiTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

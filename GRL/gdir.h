@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gdir
 author:     Robbert de Groot
 copyright:  2002-2010, Robbert de Groot
 
 description:
 Simple directory routines.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GDIRH)
 #define      GDIRH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef Gn     GdirFileSize;
 
 typedef enum
@@ -69,9 +69,9 @@ typedef struct
    GdirFileSize             size;
 } Gdir;
 
-/******************************************************************************
+/**************************************************************************************************
 Gdir containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -92,10 +92,10 @@ typedef struct
 #define gdirArrayClear(              ARRAY, COUNT, INDEX)                                             g_ArrayClear(         (G_Array *) ARRAY, COUNT, INDEX) 
 #define gdirArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                g_ArrayCopy(          (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gdirArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                   g_ArrayCopyFrom(      (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gdirArrayCreate(             )                                                  (GdirArray *) g_ArrayCreate(                           "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
-#define gdirArrayCreateContent(      ARRAY)                                                           g_ArrayCreateContent( (G_Array *) ARRAY, "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
-#define gdirArrayDestroy(            ARRAY)                                                           g_ArrayDestroy(       (G_Array *) ARRAY) 
-#define gdirArrayDestroyContent(     ARRAY)                                                           g_ArrayDestroyContent((G_Array *) ARRAY) 
+#define gdirArrayCloc(               )                                                  (GdirArray *) g_ArrayCloc(                           "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gdirArrayClocContent(        ARRAY)                                                           g_ArrayClocContent( (G_Array *) ARRAY, "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
+#define gdirArrayDloc(               ARRAY)                                                           g_ArrayDloc(          (G_Array *) ARRAY) 
+#define gdirArrayDlocContent(        ARRAY)                                                           g_ArrayDlocContent(   (G_Array *) ARRAY) 
 #define gdirArrayErase(              ARRAY, VALUE)                                                    g_ArrayErase(         (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gdirArrayEraseAt(            ARRAY, COUNT, INDEX)                                             g_ArrayEraseAt(       (G_Array *) ARRAY, COUNT, INDEX) 
 #define gdirArrayEraseBegin(         ARRAY)                                                           g_ArrayEraseBegin(    (G_Array *) ARRAY) 
@@ -114,21 +114,21 @@ typedef struct
 #define gdirArraySwap(               ARRAY, INDEXA, INDEXB)                                           g_ArraySwap(          (G_Array *) ARRAY, INDEXA, INDEXB) 
 #define gdirArrayUpdateAt(           ARRAY, INDEX, VALUE)                                             g_ArrayUpdateAt(      (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
 
-/******************************************************************************
+/**************************************************************************************************
 function:
-******************************************************************************/
-#define gdirCreate()                   (Gdir *)      gleakCreate((void *) gdirCreate_(),                    gsizeof(Gdir));
-#define gdirArrayCreateFromPath(PATH)  (GdirArray *) gleakCreate((void *) gdirArrayCreateFromPath_((PATH)), gsizeof(GdirArray))
-#define gdirArrayCreateFromMask(PATH)  (GdirArray *) gleakCreate((void *) gdirArrayCreateFromMask_((PATH)), gsizeof(GdirArray))
+**************************************************************************************************/
+#define gdirCloc()                   (Gdir *)      gleakCloc((void *) gdirCloc_(),                    gsizeof(Gdir));
+#define gdirArrayClocFromPath(PATH)  (GdirArray *) gleakCloc((void *) gdirArrayClocFromPath_((PATH)), gsizeof(GdirArray))
+#define gdirArrayClocFromMask(PATH)  (GdirArray *) gleakCloc((void *) gdirArrayClocFromMask_((PATH)), gsizeof(GdirArray))
 
-grlAPI GdirArray     *gdirArrayCreateFromPath_( Gpath const * const path);
-grlAPI GdirArray     *gdirArrayCreateFromMask_( Gpath const * const path);
+grlAPI GdirArray     *gdirArrayClocFromPath_(   Gpath const * const path);
+grlAPI GdirArray     *gdirArrayClocFromMask_(   Gpath const * const path);
 
-grlAPI Gdir          *gdirCreate_(              void);
-grlAPI Gb             gdirCreateContent(        Gdir       * const gdir);
+grlAPI Gdir          *gdirCloc_(                void);
+grlAPI Gb             gdirClocContent(          Gdir       * const gdir);
 
-grlAPI void           gdirDestroy(              Gdir       * const gdir);
-grlAPI void           gdirDestroyContent(       Gdir       * const gdir);
+grlAPI void           gdirDloc(                 Gdir       * const gdir);
+grlAPI void           gdirDlocContent(          Gdir       * const gdir);
 
 grlAPI Gb             gdirFileDestroy(          Gpath const * const path);
 

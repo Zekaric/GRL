@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gfile
 author:     Robbert de Groot
 copyright:  2000-2009, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,29 +30,29 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
 // lint quiet
 //lint -save -e550 -e830
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
+**************************************************************************************************/
 static void _Prep(  Gfile * const file, GfileOpStatus const status);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: gfileClose
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void gfileClose(Gfile * const file)
 {
    genter;
@@ -78,14 +78,14 @@ grlAPI void gfileClose(Gfile * const file)
    fclose(file->file);
 #endif
 
-   gmemDestroy(file);
+   gmemDloc(file);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileCreateFromStrArray
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GfileCreate gfileCreateFromStrArray(Gpath const * const path, GcType const type, GsArray const * const lines)
 {
    Gi4          count;
@@ -112,7 +112,7 @@ grlAPI GfileCreate gfileCreateFromStrArray(Gpath const * const path, GcType cons
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGet
 
 Load in a bunch of bytes
@@ -122,7 +122,7 @@ int
    0 - Nothing left to read.[\n]
    -1 - File wasn't openned for reading or reading not permitted.[\n]
    X - Number of characters read.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileGet(Gfile * const file, Gcount const count, Gp * const buffer)
 {
    Gcount readCount;
@@ -157,7 +157,7 @@ grlAPI Gcount gfileGet(Gfile * const file, Gcount const count, Gp * const buffer
    greturn readCount;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetC
 
 Read in a gc up to and including a line feed.  The
@@ -167,7 +167,7 @@ return:
 int
    0  - Nothing left to read.[\n]
    1  - Number of characters read.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileGetC(Gfile * const file, GcType const type, Gc * const letter)
 {
    Gcount result;
@@ -241,9 +241,9 @@ grlAPI Gcount gfileGetC(Gfile * const file, GcType const type, Gc * const letter
    greturn 1;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGet2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileGet2(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -271,9 +271,9 @@ grlAPI Gb gfileGet2(Gfile * const file, Gcount const count, Gp * const i)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGet4
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileGet4(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -301,9 +301,9 @@ grlAPI Gb gfileGet4(Gfile * const file, Gcount const count, Gp * const i)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGet8
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileGet8(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -331,7 +331,7 @@ grlAPI Gb gfileGet8(Gfile * const file, Gcount const count, Gp * const i)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetS
 
 Read in a line of chars up to and including a line feed.
@@ -340,7 +340,7 @@ return:
 int
    0  - Nothing read.[\n]
    X  - Number of characters read.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileGetS(Gfile * const file, GcType const type, Gs * const str)
 {
    Gindex a;
@@ -468,11 +468,11 @@ gfileGetSERROR:
    greturn a;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetContent
 
 Read the entire file.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileGetContent(Gfile * const file, Gcount * const count, Gn1 ** const buffer)
 {
    Gcount    size;
@@ -483,12 +483,12 @@ grlAPI Gb gfileGetContent(Gfile * const file, Gcount * const count, Gn1 ** const
    size = (Gcount) gfileGetSize(file);
    greturnFalseIf(!size);
 
-   buf  = gmemCreateTypeArray(Gn1, size);
+   buf  = gmemClocTypeArray(Gn1, size);
    greturnFalseIf(!buf);
 
    if (gfileGet(file, size, buf) != size)
    {
-      gmemDestroy(buf);
+      gmemDloc(buf);
       greturn gbFALSE;
    }
 
@@ -498,11 +498,11 @@ grlAPI Gb gfileGetContent(Gfile * const file, Gcount * const count, Gn1 ** const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetContentS
 
 Read in the whole file into the Gsing.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileGetContentS(Gfile * const file, GcType const type, Gs * const str)
 {
    Gcount result;
@@ -521,7 +521,7 @@ grlAPI Gb gfileGetContentS(Gfile * const file, GcType const type, Gs * const str
         type == gcTypeA)   ||
       !str);
 
-   stemp = gsCreate();
+   stemp = gsCloc();
    first = gbTRUE;
 
    returnResult = gbTRUE;
@@ -553,12 +553,12 @@ grlAPI Gb gfileGetContentS(Gfile * const file, GcType const type, Gs * const str
    }
 
    // Clean up.
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn returnResult;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetContentSArray
 
 Read in the entire file and put the lines into an array.
@@ -567,7 +567,7 @@ return:
 int
    GcountMax - Nothing left to read.[\n]
    X         - Number of lines read.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArray * const strArray)
 {
    Gcount count;
@@ -585,12 +585,12 @@ grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArr
    loop
    {
       // Create the string.
-      stemp = gsCreate();
+      stemp = gsCloc();
 
       // All done.
       if (gfileGetS(file, type, stemp) == 0)
       {
-         gsDestroy(stemp);
+         gsDloc(stemp);
          break;
       }
 
@@ -606,7 +606,7 @@ grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArr
    greturn count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetPosition
 
 Get the current file position.
@@ -615,7 +615,7 @@ return:
 Gi8
    -1 - Failed.[\n]
    X  - The file position.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GfileIndex gfileGetPosition(Gfile * const file)
 {
    Gi8 i;
@@ -637,7 +637,7 @@ grlAPI GfileIndex gfileGetPosition(Gfile * const file)
    greturn i;
 } //lint !e818
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileGetSize
 
 Returns the size of the file.
@@ -645,7 +645,7 @@ Returns the size of the file.
 return:
 Gi8
    The size of the file.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GfileIndex gfileGetSize(Gfile * const file)
 {
    GfileIndex i,
@@ -682,9 +682,9 @@ grlAPI GfileIndex gfileGetSize(Gfile * const file)
    greturn i;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileIsAtEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileIsAtEnd(Gfile * const file)
 {
    Gb result;
@@ -698,9 +698,9 @@ grlAPI Gb gfileIsAtEnd(Gfile * const file)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileLoadContent
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileLoadContent(Gs const * const pathS, Gcount * const count, Gn1 ** const buffer)
 {
    Gpath *path;
@@ -710,7 +710,7 @@ grlAPI Gb gfileLoadContent(Gs const * const pathS, Gcount * const count, Gn1 ** 
 
    result = gbFALSE;
 
-   path = gsCreateFrom(pathS);
+   path = gsClocFrom(pathS);
    greturnFalseIf(!path);
 
    gpathSetFromSystem(path);
@@ -719,12 +719,12 @@ grlAPI Gb gfileLoadContent(Gs const * const pathS, Gcount * const count, Gn1 ** 
    result = gfileOpenLoadContent(path, count, buffer);
 
 STOP:
-   gpathDestroy(path);
+   gpathDloc(path);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileOpen_
 
 Open a file
@@ -733,7 +733,7 @@ return:
 Gfile *
    NULL - Failed[\n]
    X    - File open and ready to work with.
-******************************************************************************/
+**************************************************************************************************/
 Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
 {
    Gfile     *file;
@@ -750,18 +750,18 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
    greturnIf(  !gpathIsPath(path), NULL);
 
    // Initialize
-   file = gmemCreateType(Gfile);
+   file = gmemClocType(Gfile);
    greturnNullIf(!file);
 
    GTYPE_SET(file, "Gfile");
 
-   stemp = gsCreateFrom(path);
+   stemp = gsClocFrom(path);
    gpathSetToSystem(stemp); //lint !e534
 #if grlWINDOWS == 1
    //systemStr = gsCreateU2(stemp);
    systemStr = gsGet(stemp);
 #else
-   systemStr = gsCreateA(stemp);
+   systemStr = gsClocA(stemp);
 #endif
 
    // Open the file based on the provided mode.
@@ -833,21 +833,21 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
    }
 
 #if grlWINDOWS == 1
-   gsDestroy(stemp);
+   gsDloc(stemp);
 #else
-   gmemDestroy(systemStr);
+   gmemDloc(systemStr);
 #endif
 
 #if grlWINDOWS == 1
    if (file->file == -1)
    {
-      gmemDestroy(file);
+      gmemDloc(file);
       file = NULL;
    }
 #else
    if (!file->file)
    {
-      gmemDestroy(file);
+      gmemDloc(file);
       file = NULL;
    }
 #endif
@@ -855,9 +855,9 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
    greturn file;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileOpenLoadContent
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileOpenLoadContent(Gpath const * const path, Gcount * const count, Gn1 ** const buffer)
 {
    Gfile *file;
@@ -875,9 +875,9 @@ grlAPI Gb gfileOpenLoadContent(Gpath const * const path, Gcount * const count, G
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileOpenStoreContent
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileOpenStoreContent(Gpath const * const path, Gcount const count, Gn1 const * const buffer)
 {
    Gfile *file;
@@ -896,11 +896,11 @@ grlAPI Gb gfileOpenStoreContent(Gpath const * const path, Gcount const count, Gn
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSet
 
 Write out a bunch of bytes
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSet(Gfile * const file, Gcount const count, Gp const * const buffer,
    Gcount * const writeCount)
 {
@@ -946,9 +946,9 @@ grlAPI Gb gfileSet(Gfile * const file, Gcount const count, Gp const * const buff
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSetA(Gfile * const file, GcType const type, Char const * const line,
    Gcount * const writeCount)
 {
@@ -962,20 +962,20 @@ grlAPI Gb gfileSetA(Gfile * const file, GcType const type, Char const * const li
       !file->file ||
       !line);
 
-   stemp  = gsCreateFromA(line);
+   stemp  = gsClocFromA(line);
    result = gfileSetS(file, type, stemp, writeCount);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetC
 
 Write a line of Gcs to a file.  Writes up to the null terminator
 or at max count letters.  This will not send out a new line to the
 file.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileSetC(Gfile * const file, GcType const type, Gc const letter)
 {
    Gcount count;
@@ -1026,11 +1026,11 @@ grlAPI Gcount gfileSetC(Gfile * const file, GcType const type, Gc const letter)
    greturn 1;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSet2
 
 Write out an array 2 Byte values.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSet2(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -1066,11 +1066,11 @@ grlAPI Gb gfileSet2(Gfile * const file, Gcount const count, Gp * const i)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSet4
 
 Write out an array 4 Byte values.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSet4(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -1106,9 +1106,9 @@ grlAPI Gb gfileSet4(Gfile * const file, Gcount const count, Gp * const i)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSet8
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSet8(Gfile * const file, Gcount const count, Gp * const i)
 {
    Gindex a;
@@ -1144,7 +1144,7 @@ grlAPI Gb gfileSet8(Gfile * const file, Gcount const count, Gp * const i)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetS
 
 Write a line of Gcs to a file.  Writes up to the null terminator.
@@ -1153,7 +1153,7 @@ return:
 int
    0 - Failed.[\n]
    X - Number of characters written.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line,
    Gcount * const writeCount)
 {
@@ -1229,7 +1229,7 @@ grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetSArray
 
 Write a lines of Gcs to a file.
@@ -1238,7 +1238,7 @@ return:
 int
    0 - Failed.[\n]
    X - Number of lines written.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileSetSArray(Gfile * const file, GcType const type, GsArray const * const lines)
 {
    Gindex    index;
@@ -1264,11 +1264,11 @@ grlAPI Gcount gfileSetSArray(Gfile * const file, GcType const type, GsArray cons
    greturn index;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetPosition
 
 Set the file position.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos, 
    GfileOffset const offset)
 {
@@ -1307,11 +1307,11 @@ grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos
    greturn gfileSetPositionSUCCESS;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileSetValue
 
 Write out a bunch of bytes
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileSetValue(Gfile * const file, Gcount const count, Gn1 const value,
    Gcount * const writeCount)
 {
@@ -1393,9 +1393,9 @@ grlAPI Gb gfileSetValue(Gfile * const file, Gcount const count, Gn1 const value,
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileStoreContent
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileStoreContent(Gs const * const pathS, Gcount const count, Gn1 const * const buffer)
 {
    Gpath *path;
@@ -1405,7 +1405,7 @@ grlAPI Gb gfileStoreContent(Gs const * const pathS, Gcount const count, Gn1 cons
 
    result = gbFALSE;
 
-   path = gsCreateFrom(pathS);
+   path = gsClocFrom(pathS);
    greturnFalseIf(!path);
 
    gpathSetFromSystem(path);
@@ -1414,20 +1414,20 @@ grlAPI Gb gfileStoreContent(Gs const * const pathS, Gcount const count, Gn1 cons
    result = gfileOpenStoreContent(path, count, buffer);
 
 STOP:
-   gpathDestroy(path);
+   gpathDloc(path);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _Prep
 
 Prepare the file for reading or writing.
-******************************************************************************/
+**************************************************************************************************/
 static void _Prep(Gfile * const file, GfileOpStatus const status)
 {
    Gi8 position;

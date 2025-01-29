@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         Gbuf
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
 
 description:
 Dynamic byte buffer to hold anything.  User of these routines need to know how
-to encode and decode the buffer.  Mainly to build or consume the buffer from 
+to encode and decode the buffer.  Mainly to build or consume the buffer from
 start to end but not strictly necessary to work that way.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GBUFH)
 #define      GBUFH
@@ -18,9 +18,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GTYPE_VAR
@@ -29,9 +29,9 @@ typedef struct
    Gindex   index;
 } Gbuf;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb          gbufAddAtArray(     Gbuf       * const buf, Gindex const index, Gcount const count, Gn1  const * const value);
 grlAPI Gb          gbufAddAtGuid(      Gbuf       * const buf, Gindex const index,                     Gguid        const value);
 grlAPI Gb          gbufAddAtV1(        Gbuf       * const buf, Gindex const index,                     Gv1          const value);
@@ -45,11 +45,11 @@ grlAPI Gb          gbufAppendV2(       Gbuf       * const buf,                  
 grlAPI Gb          gbufAppendV4(       Gbuf       * const buf,                                         Gv4          const value);
 grlAPI Gb          gbufAppendV8(       Gbuf       * const buf,                                         Gv8          const value);
 
-grlAPI Gbuf       *gbufCreate_(        void);
-grlAPI Gb          gbufCreateContent(  Gbuf       * const buf);
+grlAPI Gbuf       *gbufCloc_(          void);
+grlAPI Gb          gbufClocContent(    Gbuf       * const buf);
 
-grlAPI void        gbufDestroy(        Gbuf       * const buf);
-grlAPI void        gbufDestroyContent( Gbuf       * const buf);
+grlAPI void        gbufDloc(           Gbuf       * const buf);
+grlAPI void        gbufDlocContent(    Gbuf       * const buf);
 
 grlAPI void        gbufFlush(          Gbuf       * const buf);
 
@@ -61,7 +61,7 @@ grlAPI Gb          gbufGetAtV2(        Gbuf const * const buf, Gindex const inde
 grlAPI Gb          gbufGetAtV4(        Gbuf const * const buf, Gindex const index,                     Gv4        * const value);
 grlAPI Gb          gbufGetAtV8(        Gbuf const * const buf, Gindex const index,                     Gv8        * const value);
 grlAPI Gb          gbufGetArray(       Gbuf       * const buf,                     Gcount const count, Gn1        * const value);
-grlAPI Gcount      gbufGetCount(       Gbuf const * const buf);                                                   
+grlAPI Gcount      gbufGetCount(       Gbuf const * const buf);
 grlAPI Gb          gbufGetGuid(        Gbuf       * const buf,                                         Gguid      * const value);
 grlAPI Gb          gbufGetV1(          Gbuf       * const buf,                                         Gv1        * const value);
 grlAPI Gb          gbufGetV2(          Gbuf       * const buf,                                         Gv2        * const value);
@@ -78,10 +78,10 @@ grlAPI Gb          gbufUpdateAtV2(     Gbuf       * const buf, Gindex const inde
 grlAPI Gb          gbufUpdateAtV4(     Gbuf       * const buf, Gindex const index,                     Gv4          const value);
 grlAPI Gb          gbufUpdateAtV8(     Gbuf       * const buf, Gindex const index,                     Gv8          const value);
 
-/******************************************************************************
+/**************************************************************************************************
 functions as macros:
-******************************************************************************/
-#define gbufCreate() (Gbuf *) gleakCreate((void *) gbufCreate_(), gsizeof(Gbuf))
+**************************************************************************************************/
+#define gbufCloc() (Gbuf *) gleakCloc((void *) gbufCloc_(), gsizeof(Gbuf))
 
 /*****************************************************************************/
 #ifdef __cplusplus

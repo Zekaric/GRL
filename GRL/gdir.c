@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gdir
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 Simple directory routines.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,25 +33,25 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
-func: gdirArrayCreateFromPath_
+**************************************************************************************************/
+/**************************************************************************************************
+func: gdirArrayClocFromPath_
 
 Create a directory listing based on a selection mask.
 The passed in path may be relative or full.  It should not include a *.* mask
 and should be a path to a folder.
-******************************************************************************/
-grlAPI GdirArray *gdirArrayCreateFromPath_(const Gpath * const path)
+**************************************************************************************************/
+grlAPI GdirArray *gdirArrayClocFromPath_(const Gpath * const path)
 {
    Gpath     *ptemp;
    Gs        *stemp;
@@ -65,26 +65,26 @@ grlAPI GdirArray *gdirArrayCreateFromPath_(const Gpath * const path)
 
    // Find first file in current directory
    // Create the mask.
-   ptemp = gpathCreateFrom(path);
+   ptemp = gpathClocFrom(path);
    greturnNullIf(!ptemp);
 
-   stemp = gsCreateFromU2(L"*.*");
+   stemp = gsClocFromU2(L"*.*");
    if (gpathPush(ptemp, stemp))
    {
-      dlist = gdirArrayCreateFromMask(ptemp);
+      dlist = gdirArrayClocFromMask(ptemp);
    }
 
    // Clean up
-   gsDestroy(ptemp);
-   gsDestroy(stemp);
+   gsDloc(ptemp);
+   gsDloc(stemp);
 
    greturn dlist;
 }
 
-/******************************************************************************
-func: gdirArrayCreateFromMask_
-******************************************************************************/
-grlAPI GdirArray *gdirArrayCreateFromMask_(const Gpath * const path)
+/**************************************************************************************************
+func: gdirArrayClocFromMask_
+**************************************************************************************************/
+grlAPI GdirArray *gdirArrayClocFromMask_(const Gpath * const path)
 {
    struct _wfinddata_t   finfo;
    Gi4                   htemp;
@@ -108,34 +108,34 @@ grlAPI GdirArray *gdirArrayCreateFromMask_(const Gpath * const path)
    }
    else
    {
-      pathWorking = gpathCreateFrom(path);
+      pathWorking = gpathClocFrom(path);
    }
 
    // Find first file in current directory
    // Create the mask.
-   pathMinusMask = gpathCreateFrom(pathWorking);
-   pathSystem    = gpathCreateFrom(pathWorking);
+   pathMinusMask = gpathClocFrom(pathWorking);
+   pathSystem    = gpathClocFrom(pathWorking);
 
    gpathPop(pathMinusMask); //lint !e534
 
    gpathSetToSystem(pathSystem); //lint !e534
    htemp = (Gi4) _wfindfirst(gsGet(pathSystem), &finfo);
-   gsDestroy(pathSystem);
+   gsDloc(pathSystem);
 
    greturnIf(htemp == -1L, NULL);
 
-   list = gdirArrayCreate();
+   list = gdirArrayCloc();
 
    if (list != NULL)
    {
       loop
       {
          // Set the data.
-         data = gmemCreateType(Gdir);
+         data = gmemClocType(Gdir);
 
-         data->name = gsCreateFromU2(finfo.name);
+         data->name = gsClocFromU2(finfo.name);
 
-         data->path = gpathCreateFrom(pathMinusMask);
+         data->path = gpathClocFrom(pathMinusMask);
          gpathPush(data->path, data->name); //lint !e534
 
          if (finfo.attrib & _A_SUBDIR)
@@ -175,37 +175,37 @@ grlAPI GdirArray *gdirArrayCreateFromMask_(const Gpath * const path)
    }
 
    // Clean up
-   gsDestroy(pathWorking);
-   gsDestroy(pathMinusMask);
+   gsDloc(pathWorking);
+   gsDloc(pathMinusMask);
 
    greturn list;
 }
 
-/******************************************************************************
-func: gdirCreate
-******************************************************************************/
-grlAPI Gdir *gdirCreate_(void)
+/**************************************************************************************************
+func: gdirCloc_
+**************************************************************************************************/
+grlAPI Gdir *gdirCloc_(void)
 {
    Gdir *gdir;
 
    genter;
 
-   gdir = (Gdir *) gmemCreateType(Gdir);
+   gdir = (Gdir *) gmemClocType(Gdir);
    greturnNullIf(!gdir);
 
-   if (!gdirCreateContent(gdir))
+   if (!gdirClocContent(gdir))
    {
-      gmemDestroy(gdir);
+      gmemDloc(gdir);
       greturn NULL;
    }
 
    greturn gdir;
 }
 
-/******************************************************************************
-func: gdirCreateContent
-******************************************************************************/
-grlAPI Gb gdirCreateContent(Gdir * const gdir)
+/**************************************************************************************************
+func: gdirClocContent
+**************************************************************************************************/
+grlAPI Gb gdirClocContent(Gdir * const gdir)
 {
    genter;
 
@@ -218,40 +218,40 @@ grlAPI Gb gdirCreateContent(Gdir * const gdir)
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: gdirDestroy
-******************************************************************************/
-grlAPI void gdirDestroy(Gdir * const gdir)
+/**************************************************************************************************
+func: gdirDloc
+**************************************************************************************************/
+grlAPI void gdirDloc(Gdir * const gdir)
 {
    genter;
 
    greturnVoidIf(!gdir)
 
-   gdirDestroyContent(gdir);
+   gdirDlocContent(gdir);
 
-   gmemDestroy(gdir);
+   gmemDloc(gdir);
 
    greturn;
 }
 
-/******************************************************************************
-func: gdirDestroyContent
-******************************************************************************/
-grlAPI void gdirDestroyContent(Gdir * const gdir)
+/**************************************************************************************************
+func: gdirDlocContent
+**************************************************************************************************/
+grlAPI void gdirDlocContent(Gdir * const gdir)
 {
    genter;
 
    greturnVoidIf(!gdir)
 
-   gsDestroy(   gdir->name);
-   gpathDestroy(gdir->path);
+   gsDloc(   gdir->name);
+   gpathDloc(gdir->path);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirFileDestroy
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirFileDestroy(Gpath const * const path)
 {
    Gb     result;
@@ -264,23 +264,23 @@ grlAPI Gb gdirFileDestroy(Gpath const * const path)
       !gdirIsExisting(path));
 
    // Get the system path.
-   tpath = gpathCreateFrom(path);
+   tpath = gpathClocFrom(path);
    gpathSetToSystem(tpath);
 
    // Perform the delete of the file.
    result = (Gb) (_wremove(gsGet(tpath)) == 0);
 
    // Clean up.
-   gpathDestroy(tpath);
+   gpathDloc(tpath);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirFolderCreate
 
 Create the folder(s) provided in the path.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirFolderCreate(Gpath const * const path)
 {
    Gb      result;
@@ -297,16 +297,16 @@ grlAPI Gb gdirFolderCreate(Gpath const * const path)
    popPath = NULL;
 
    // test to see if the path already exists.
-   tpath = gpathCreateFrom(path);
+   tpath = gpathClocFrom(path);
 
    // Path doesn't already exist.
    // Pop up the dir tree.
-   popPath = gpathCreateFrom(tpath);
+   popPath = gpathClocFrom(tpath);
    gpathPop(popPath); //lint !e534
 
    // Test again recursively.
    result = gdirFolderCreate(popPath);
-   gsDestroy(popPath);
+   gsDloc(popPath);
    stopIf(!result);
 
    // Create the directory.
@@ -315,14 +315,14 @@ grlAPI Gb gdirFolderCreate(Gpath const * const path)
    result = (Gb) (_wmkdir(gsGet(tpath)) == 0); //lint !e930
 
 STOP:
-   gsDestroy(tpath);
+   gsDloc(tpath);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirFolderDestroy
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirFolderDestroy(Gpath const * const path)
 {
    Gb     result;
@@ -335,23 +335,23 @@ grlAPI Gb gdirFolderDestroy(Gpath const * const path)
       !gdirIsExisting(path));
 
    // Get the system path.
-   tpath = gpathCreateFrom(path);
+   tpath = gpathClocFrom(path);
    gpathSetToSystem(tpath);
 
    // Attempt to delete the folder.
    result = (Gb) (_wrmdir(gsGet(tpath)) == 0);
 
    // Clean up.
-   gsDestroy(tpath);
+   gsDloc(tpath);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetAppData
 
 Get the application data directory for the user.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gpath *gdirGetAppData(void)
 {
    Gs                *str;
@@ -392,7 +392,7 @@ grlAPI Gpath *gdirGetAppData(void)
    //lint -restore
 
 STOP:
-   str = gsCreateFromU2(profPath);
+   str = gsClocFromU2(profPath);
    gpathSetFromSystem(str); //lint !e534
 #else
    genter;
@@ -403,11 +403,11 @@ STOP:
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetProfile
 
 Get the user profile path.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gpath const *gdirGetProfile(void)
 {
    Gs                *str;
@@ -448,7 +448,7 @@ grlAPI Gpath const *gdirGetProfile(void)
    //lint -restore
 
 STOP:
-   str = gsCreateFromU2(profPath);
+   str = gsClocFromU2(profPath);
    gpathSetFromSystem(str); //lint !e534
 #else
    genter;
@@ -459,11 +459,11 @@ STOP:
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetWorking
 
 Get the current working directory.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gpath *gdirGetWorking(void)
 {
    Gs  *str;
@@ -476,7 +476,7 @@ grlAPI Gpath *gdirGetWorking(void)
    str = NULL;
    if (_wgetcwd(syspath, 4096))
    {
-      str = gsCreateFromU2(syspath);
+      str = gsClocFromU2(syspath);
       gpathSetFromSystem(str); //lint !e534
    }
 #else
@@ -488,9 +488,9 @@ grlAPI Gpath *gdirGetWorking(void)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetName
-******************************************************************************/
+**************************************************************************************************/
 grlAPI const Gs *gdirGetName(Gdir const * const dir)
 {
    genter;
@@ -500,9 +500,9 @@ grlAPI const Gs *gdirGetName(Gdir const * const dir)
    greturn dir->name;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetPath
-******************************************************************************/
+**************************************************************************************************/
 grlAPI const Gpath *gdirGetPath(Gdir const * const dir)
 {
    genter;
@@ -512,9 +512,9 @@ grlAPI const Gpath *gdirGetPath(Gdir const * const dir)
    greturn dir->path;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetSize
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GdirFileSize gdirGetSize(Gdir const * const dir)
 {
    genter;
@@ -524,9 +524,9 @@ grlAPI GdirFileSize gdirGetSize(Gdir const * const dir)
    greturn dir->size;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetTimeAccessed
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gtime gdirGetTimeAccessed(Gdir const * const dir)
 {
    genter;
@@ -536,9 +536,9 @@ grlAPI Gtime gdirGetTimeAccessed(Gdir const * const dir)
    greturn dir->timeAccessed;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetTimeCreated
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gtime gdirGetTimeCreated(Gdir const * const dir)
 {
    genter;
@@ -548,9 +548,9 @@ grlAPI Gtime gdirGetTimeCreated(Gdir const * const dir)
    greturn dir->timeCreated;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetTimeModified
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gtime gdirGetTimeModified(Gdir const * const dir)
 {
    genter;
@@ -560,9 +560,9 @@ grlAPI Gtime gdirGetTimeModified(Gdir const * const dir)
    greturn dir->timeModified;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirGetType
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GdirType gdirGetType(Gdir const * const dir)
 {
    genter;
@@ -572,9 +572,9 @@ grlAPI GdirType gdirGetType(Gdir const * const dir)
    greturn dir->type;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirIsExisting
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirIsExisting(const Gpath * const path)
 {
    Gb      result;
@@ -584,7 +584,7 @@ grlAPI Gb gdirIsExisting(const Gpath * const path)
 
    greturnFalseIf(!gpathIsPath(path));
 
-   ptemp = gpathCreateFrom(path);
+   ptemp = gpathClocFrom(path);
    greturnFalseIf(!ptemp);
 
    result = gbFALSE;
@@ -593,14 +593,14 @@ grlAPI Gb gdirIsExisting(const Gpath * const path)
       result = (Gb) (_waccess(gsGet(ptemp), 0) == 0); //lint !e930
    }
 
-   gsDestroy(ptemp);
+   gsDloc(ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirRename
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirRename(Gpath const * const path, Gpath const * const pathDestination)
 {
    Gb     result;
@@ -615,8 +615,8 @@ grlAPI Gb gdirRename(Gpath const * const path, Gpath const * const pathDestinati
       !gdirIsExisting(path));
 
    // Get the system paths;
-   tpath             = gpathCreateFrom(path);
-   tpathDestination  = gpathCreateFrom(pathDestination);
+   tpath             = gpathClocFrom(path);
+   tpathDestination  = gpathClocFrom(pathDestination);
 
    gpathSetToSystem(tpath);
    gpathSetToSystem(tpathDestination);
@@ -624,35 +624,35 @@ grlAPI Gb gdirRename(Gpath const * const path, Gpath const * const pathDestinati
    // move the file
    result = (Gb) (_wrename(gsGet(tpath), gsGet(tpathDestination)) == 0);
 
-   gpathDestroy(tpath);
-   gpathDestroy(tpathDestination);
+   gpathDloc(tpath);
+   gpathDloc(tpathDestination);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gdirSetWorking
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gdirSetWorking(const Gpath * const path)
 {
    Gs     *ptemp;
 
    genter;
 
-   ptemp = gpathCreateFrom(path);
+   ptemp = gpathClocFrom(path);
    greturnIf(!ptemp, gbFALSE);
 
    gpathSetToSystem(ptemp); //lint !e534
 
    if (_wchdir(gsGet(ptemp)))
    {
-      gsDestroy(ptemp);
+      gsDloc(ptemp);
 
       // something wrong.
       greturn gbFALSE;
    }
 
-   gsDestroy(ptemp);
+   gsDloc(ptemp);
 
    greturn gbTRUE;
 }

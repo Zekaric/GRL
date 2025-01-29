@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       Gguid
 author:     Robbert de Groot
 copyright:  2000-2012, Robbert de Groot
@@ -6,9 +6,9 @@ copyright:  2000-2012, Robbert de Groot
 description:
 GUID is the Globally Unique Identifier structure.  This code wraps some of the
 madness.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -34,7 +34,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GGUIDH)
 #define      GGUIDH
@@ -45,17 +45,17 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
-grlAPI void     gguidCreateContent(       Gguid * const guid);
+**************************************************************************************************/
+grlAPI void     gguidClocContent(         Gguid * const guid);
 grlAPI void     gguidCreateContentFromA(  Gguid * const guid, Char const * const string);
 
 grlAPI Gb       gguidIsEqual(             Gguid const a, Gguid const b);
 
-/******************************************************************************
+/**************************************************************************************************
 Gguid containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -196,10 +196,10 @@ struct GguidTreeKey
 #define gguidArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gguidArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gguidArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gguidArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GguidArray *)          g_ArrayCreate(                                "GguidArray", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gguidArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GguidArray", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gguidArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gguidArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gguidArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GguidArray *)          g_ArrayCloc(                                "GguidArray", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gguidArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayClocContent(      (G_Array *) ARRAY, "GguidArray", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gguidArrayDloc(               ARRAY)                                                                     g_ArrayDloc(               (G_Array *) ARRAY) 
+#define gguidArrayDlocContent(        ARRAY)                                                                     g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define gguidArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gguidArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define gguidArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -225,10 +225,10 @@ struct GguidTreeKey
 #define gguidArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gguidArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gguidArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gguidArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GguidArray *)          g_ArrayKeyCreate(                                "GguidArrayKey", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gguidArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GguidArrayKey", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gguidArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gguidArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define gguidArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GguidArray *)          g_ArrayKeyCloc(                                "GguidArrayKey", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gguidArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GguidArrayKey", Gguid, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gguidArrayKeyDloc(            ARRAY)                                                                     g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define gguidArrayKeyDlocContent(     ARRAY)                                                                     g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define gguidArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define gguidArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gguidArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -253,10 +253,10 @@ struct GguidTreeKey
 #define gguidListAdd(                 LIST, VALUE)                                       (GguidListItem *)       g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gguidListAddBegin(            LIST, VALUE)                                       (GguidListItem *)       g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gguidListAddEnd(              LIST, VALUE)                                       (GguidListItem *)       g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gguidListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GguidList *)           g_ListCreate(                               "GguidList", Gguid, OPTIONAL_COMPARE_FUNC)
-#define gguidListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GguidList", Gguid, OPTIONAL_COMPARE_FUNC)
-#define gguidListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define gguidListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define gguidListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GguidList *)           g_ListCloc(                               "GguidList", Gguid, OPTIONAL_COMPARE_FUNC)
+#define gguidListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListClocContent(       (G_List *) LIST, "GguidList", Gguid, OPTIONAL_COMPARE_FUNC)
+#define gguidListDloc(                LIST)                                                                      g_ListDloc(                (G_List *) LIST)
+#define gguidListDlocContent(         LIST)                                                                      g_ListDlocContent(         (G_List *) LIST)
 #define gguidListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gguidListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define gguidListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
@@ -276,10 +276,10 @@ struct GguidTreeKey
 #define gguidListKeyAdd(              LIST, KEY, VALUE)                                  (GguidListKeyItem *)    g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gguidListKeyAddBegin(         LIST, KEY, VALUE)                                  (GguidListKeyItem *)    g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gguidListKeyAddEnd(           LIST, KEY, VALUE)                                  (GguidListKeyItem *)    g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gguidListKeyCreate(                 COMPARE_FUNC)                                (GguidList *)           g_ListKeyCreate(                               "GguidListKey", Gguid, COMPARE_FUNC)
-#define gguidListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GguidListKey", Gguid, COMPARE_FUNC)
-#define gguidListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gguidListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gguidListKeyCloc(                   COMPARE_FUNC)                                (GguidList *)           g_ListKeyCloc(                               "GguidListKey", Gguid, COMPARE_FUNC)
+#define gguidListKeyClocContent(      LIST, COMPARE_FUNC)                                                        g_ListKeyClocContent(    (G_ListKey *) LIST, "GguidListKey", Gguid, COMPARE_FUNC)
+#define gguidListKeyDloc(             LIST)                                                                      g_ListKeyDloc(             (G_ListKey *) LIST)
+#define gguidListKeyDlocContent(      LIST)                                                                      g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define gguidListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gguidListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gguidListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -299,10 +299,10 @@ struct GguidTreeKey
 #define gguidListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gguidHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gguidHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GguidHash *)           g_HashCreate(                               "GguidHash", Gguid, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gguidHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GguidHash", Gguid, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gguidHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define gguidHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define gguidHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GguidHash *)           g_HashCloc(                               "GguidHash", Gguid, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gguidHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashClocContent(       (G_Hash *) HASH, "GguidHash", Gguid, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gguidHashDloc(                HASH)                                                                      g_HashDloc(                (G_Hash *) HASH)
+#define gguidHashDlocContent(         HASH)                                                                      g_HashDlocContent(         (G_Hash *) HASH)
 #define gguidHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define gguidHashFind(                HASH, VALUE)                                       (Gguid *)               g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE)
 #define gguidHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
@@ -311,10 +311,10 @@ struct GguidTreeKey
 #define gguidHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gguidHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gguidHashKeyCreate(                 HASHSIZE)                                    (GguidHashKey *)        g_HashKeyCreate(                               "GguidHashKey", Gguid, HASHSIZE)
-#define gguidHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GguidHashKey", Gguid, HASHSIZE)
-#define gguidHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gguidHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gguidHashKeyCloc(                   HASHSIZE)                                    (GguidHashKey *)        g_HashKeyCloc(                               "GguidHashKey", Gguid, HASHSIZE)
+#define gguidHashKeyClocContent(      HASH, HASHSIZE)                                                            g_HashKeyClocContent(    (G_HashKey *) HASH, "GguidHashKey", Gguid, HASHSIZE)
+#define gguidHashKeyDloc(             HASH)                                                                      g_HashKeyDloc(             (G_HashKey *) HASH)
+#define gguidHashKeyDlocContent(      HASH)                                                                      g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define gguidHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define gguidHashKeyFind(             HASH, KEY)                                         (Gguid *)               g_HashKeyFind(             (G_HashKey *) HASH, KEY)
 #define gguidHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -323,10 +323,10 @@ struct GguidTreeKey
 #define gguidHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gguidTreeAdd(                 TREE, VALUE)                                       (GguidTreeItem *)       g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gguidTreeCreate(                    COMPARE_FUNC)                                (GguidTree *)           g_TreeCreate(                               "GguidTree", Gguid, COMPARE_FUNC)
-#define gguidTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GguidTree", Gguid, COMPARE_FUNC)
-#define gguidTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define gguidTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gguidTreeCloc(                      COMPARE_FUNC)                                (GguidTree *)           g_TreeCloc(                               "GguidTree", Gguid, COMPARE_FUNC)
+#define gguidTreeClocContent(         TREE, COMPARE_FUNC)                                                        g_TreeClocContent(       (G_Tree *) TREE, "GguidTree", Gguid, COMPARE_FUNC)
+#define gguidTreeDloc(                TREE)                                                                      g_TreeDloc(                (G_Tree *) TREE)
+#define gguidTreeDlocContent(         TREE)                                                                      g_TreeDlocContent(         (G_Tree *) TREE)
 #define gguidTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gguidTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gguidTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -336,17 +336,17 @@ struct GguidTreeKey
 #define gguidTreeGetBegin(            TREE)                                              (GguidTreeItem *)       g_TreeGetBegin(            (G_Tree *) TREE)
 #define gguidTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
 #define gguidTreeGetEnd(              TREE)                                              (GguidTreeItem *)       g_TreeGetEnd(              (G_Tree *) TREE)
-#define gguidTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
+#define gguidTreeItemDloc(            TREE, TITEM)                                                               g_TreeItemDloc(            (G_Tree *) TREE, (G_TreeItem *) TITEM)
 #define gguidTreeItemGet(                   TITEM)                                       (Gguid *)               g_TreeItemGet(                              (G_TreeItem *) TITEM)
 #define gguidTreeItemGetNext(               TITEM)                                       (GguidTreeItem *)       g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
 #define gguidTreeItemGetPrev(               TITEM)                                       (GguidTreeItem *)       g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
 #define gguidTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define gguidTreeKeyAdd(              TREE, KEY, VALUE)                                  (GguidTreeKeyItem *)    g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gguidTreeKeyCreate(                 COMPARE_FUNC)                                (GguidTreeKey *)        g_TreeKeyCreate(                               "GguidTreeKey", Gguid, COMPARE_FUNC)
-#define gguidTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GguidTreeKey", Gguid, COMPARE_FUNC)
-#define gguidTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gguidTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gguidTreeKeyCloc(                   COMPARE_FUNC)                                (GguidTreeKey *)        g_TreeKeyCloc(                               "GguidTreeKey", Gguid, COMPARE_FUNC)
+#define gguidTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                        g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GguidTreeKey", Gguid, COMPARE_FUNC)
+#define gguidTreeKeyDloc(             TREE)                                                                      g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define gguidTreeKeyDlocContent(      TREE)                                                                      g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define gguidTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gguidTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gguidTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -356,7 +356,7 @@ struct GguidTreeKey
 #define gguidTreeKeyGetBegin(         TREE)                                              (GguidTreeKeyItem *)    g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gguidTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define gguidTreeKeyGetEnd(           TREE)                                              (GguidTreeKeyItem *)    g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gguidTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gguidTreeKeyItemDloc(         TREE, TITEM)                                                               g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define gguidTreeKeyItemGet(                TITEM)                                       (Gguid *)               g_TreeKeyItemGet(                              (G_TreeKeyItem *) TITEM)
 #define gguidTreeKeyItemGetNext(            TITEM)                                       (GguidTreeKeyItem *)    g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gguidTreeKeyItemGetPrev(            TITEM)                                       (GguidTreeKeyItem *)    g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

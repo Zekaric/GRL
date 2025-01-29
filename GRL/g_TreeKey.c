@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         G_TreeKey
 author:       Robbert de Groot
 copyright:    2011-2011, Robbert de Groot
 
 description:
 Data structure for a tree representation.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,40 +33,40 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 prototype:
-******************************************************************************/
-static void           _NodeDestroy(       G_TreeKey       * const tree, G_TreeKeyItem * const value);
+**************************************************************************************************/
+static void           _NodeDloc(          G_TreeKey       * const tree, G_TreeKeyItem * const value);
 
 static G_TreeKeyItem *_NodeGetLeftMost(   G_TreeKeyItem const * const node);
 static G_TreeKeyItem *_NodeGetRightMost(  G_TreeKeyItem const * const node);
 
 static void           _NodeHeapify(       G_TreeKey       * const tree, G_TreeKeyItem * const value);
-                      
+
 static void           _NodeRemove(        G_TreeKey       * const tree, G_TreeKeyItem * const value);
 static void           _NodeRotateUp(      G_TreeKey       * const tree, G_TreeKeyItem * const value);
-                      
+
 static void           _NodeUpdate(        G_TreeKey const * const tree, G_TreeKeyItem * const node, Gp const * const value);
 
 #if defined(_DEBUG)
 static void           _Dump(              G_TreeKeyItem const * const node, Gi4 const level, Gs * const str); //lint !e752
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_TreeKeyAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyAdd(G_TreeKey * const tree, Gkey const * const key,
    Gp const * const value)
 {
@@ -79,7 +79,7 @@ grlAPI G_TreeKeyItem *g_TreeKeyAdd(G_TreeKey * const tree, Gkey const * const ke
    key;
 
    // Create the new node.
-   nodeNew = (G_TreeKeyItem *) gmemCreate(
+   nodeNew = (G_TreeKeyItem *) gmemCloc(
       "G_TreeKeyItem",
       gsizeof(G_TreeKeyItem) + tree->typeSize);
    greturnNullIf(!nodeNew);
@@ -144,10 +144,10 @@ grlAPI G_TreeKeyItem *g_TreeKeyAdd(G_TreeKey * const tree, Gkey const * const ke
    greturn node;
 }
 
-/******************************************************************************
-func: g_TreeKeyCreate_
-******************************************************************************/
-grlAPI G_TreeKey *g_TreeKeyCreate_(Gsize const typeSize, Char const * const typeName,
+/**************************************************************************************************
+func: g_TreeKeyCloc
+**************************************************************************************************/
+grlAPI G_TreeKey *g_TreeKeyCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_TreeKey *tree;
@@ -156,27 +156,27 @@ grlAPI G_TreeKey *g_TreeKeyCreate_(Gsize const typeSize, Char const * const type
 
    greturnNullIf(typeSize <= 0);
 
-   tree = gmemCreateType(G_TreeKey);
+   tree = gmemClocType(G_TreeKey);
    greturnNullIf(!tree);
 
-   if (!g_TreeKeyCreateContent_(
+   if (!g_TreeKeyClocContent_(  
          tree,
          typeSize,
          typeName,
          isPointerType,
          compareFunc))
    {
-      g_TreeKeyDestroy(tree);
+      g_TreeKeyDloc(tree);
       greturn NULL;
    }
 
    greturn tree;
 }
 
-/******************************************************************************
-func: g_TreeKeyCreateContent
-******************************************************************************/
-grlAPI Gb g_TreeKeyCreateContent_(G_TreeKey * const tree, Gsize const typeSize, 
+/**************************************************************************************************
+func: g_TreeKeyClocContent
+**************************************************************************************************/
+grlAPI Gb g_TreeKeyClocContent_(G_TreeKey * const tree, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
@@ -197,26 +197,26 @@ grlAPI Gb g_TreeKeyCreateContent_(G_TreeKey * const tree, Gsize const typeSize,
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_TreeKeyDestroy
-******************************************************************************/
-grlAPI void g_TreeKeyDestroy(G_TreeKey * const tree)
+/**************************************************************************************************
+func: g_TreeKeyDloc
+**************************************************************************************************/
+grlAPI void g_TreeKeyDloc(G_TreeKey * const tree)
 {
    genter;
 
    greturnVoidIf(!tree);
 
-   g_TreeKeyDestroyContent(tree);
+   g_TreeKeyDlocContent(tree);
 
-   gmemDestroy(tree);
+   gmemDloc(tree);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyDestoryContent
-******************************************************************************/
-grlAPI void g_TreeKeyDestroyContent(G_TreeKey * const tree)
+**************************************************************************************************/
+grlAPI void g_TreeKeyDlocContent(G_TreeKey * const tree)
 {
    G_TreeKeyItem *node,
                  *parent;
@@ -266,7 +266,7 @@ grlAPI void g_TreeKeyDestroyContent(G_TreeKey * const tree)
       }
 
       // destroy the node.
-      gmemDestroy(node);
+      gmemDloc(node);
 
       breakIf(!parent);
    }
@@ -274,9 +274,9 @@ grlAPI void g_TreeKeyDestroyContent(G_TreeKey * const tree)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeKeyErase(G_TreeKey * const tree, Gkey const * const key)
 {
    G_TreeKeyItem *node;
@@ -289,42 +289,42 @@ grlAPI Gb g_TreeKeyErase(G_TreeKey * const tree, Gkey const * const key)
 
    node = g_TreeKeyFind(tree, key);
 
-   _NodeDestroy(tree, node);
+   _NodeDloc(tree, node);
 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyEraseBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeKeyEraseBegin(G_TreeKey * const tree)
 {
    Gb result;
-   
+
    genter;
-   
+
    result = g_TreeKeyErase(tree, g_TreeKeyGetBegin(tree));
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyEraseEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeKeyEraseEnd(G_TreeKey * const tree)
 {
    Gb result;
-   
+
    genter;
-   
+
    result = g_TreeKeyErase(tree, g_TreeKeyGetEnd(tree));
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_TreeKeyFlush(G_TreeKey * const tree)
 {
    genter;
@@ -339,9 +339,9 @@ grlAPI void g_TreeKeyFlush(G_TreeKey * const tree)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeKeyForEach(G_TreeKey const * const tree, GrlForEachKeyFunc const func)
 {
    G_TreeKeyItem *node;
@@ -368,9 +368,9 @@ grlAPI Gb g_TreeKeyForEach(G_TreeKey const * const tree, GrlForEachKeyFunc const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyFind(G_TreeKey const * const tree, Gkey const * const key)
 {
    G_TreeKeyItem *node;
@@ -400,9 +400,9 @@ grlAPI G_TreeKeyItem *g_TreeKeyFind(G_TreeKey const * const tree, Gkey const * c
    greturn node;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyGetBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyGetBegin(G_TreeKey const * const tree)
 {
    G_TreeKeyItem *node,
@@ -412,15 +412,15 @@ grlAPI G_TreeKeyItem *g_TreeKeyGetBegin(G_TreeKey const * const tree)
 
    node = tree->root;
    greturnNullIf(!node);
-   
+
    result = _NodeGetLeftMost(node);
 
    greturn result;
 } //lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_TreeKeyGetCount(G_TreeKey const * const tree)
 {
    genter;
@@ -430,9 +430,9 @@ grlAPI Gcount g_TreeKeyGetCount(G_TreeKey const * const tree)
    greturn tree->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyGetEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyGetEnd(G_TreeKey const * const tree)
 {
    G_TreeKeyItem *node,
@@ -442,15 +442,15 @@ grlAPI G_TreeKeyItem *g_TreeKeyGetEnd(G_TreeKey const * const tree)
 
    node = tree->root;
    greturnNullIf(!node);
-   
+
    result = _NodeGetRightMost(node);
 
    greturn result;
 } //lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyItemGet
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_TreeKeyItemGet(G_TreeKeyItem const * const treeItem)
 {
    genter;
@@ -460,9 +460,9 @@ grlAPI Gp *g_TreeKeyItemGet(G_TreeKeyItem const * const treeItem)
    greturn (Gp *) &(treeItem[1]); //lint !e960 !e9005
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyItemGetKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gkey const *g_TreeKeyItemGetKey(G_TreeKeyItem const * const treeItem)
 {
    genter;
@@ -472,9 +472,9 @@ grlAPI Gkey const *g_TreeKeyItemGetKey(G_TreeKeyItem const * const treeItem)
    greturn treeItem->key;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyItemGetNext
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyItemGetNext(G_TreeKeyItem const * const treeItem)
 {
    G_TreeKeyItem const *node;
@@ -515,9 +515,9 @@ grlAPI G_TreeKeyItem *g_TreeKeyItemGetNext(G_TreeKeyItem const * const treeItem)
    greturn (G_TreeKeyItem *) node; //lint !e960 !e9005 !e929
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyItemGetPrev
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeKeyItem *g_TreeKeyItemGetPrev(G_TreeKeyItem const * const treeItem)
 {
    G_TreeKeyItem const *node;
@@ -550,7 +550,7 @@ grlAPI G_TreeKeyItem *g_TreeKeyItemGetPrev(G_TreeKeyItem const * const treeItem)
             node = node->parent;
             break;
          }
-         
+
          node = node->parent;
       }
    }
@@ -560,9 +560,9 @@ grlAPI G_TreeKeyItem *g_TreeKeyItemGetPrev(G_TreeKeyItem const * const treeItem)
 
 #if defined(_DEBUG)
 #if 0
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeKeyDump
-******************************************************************************/
+**************************************************************************************************/
 static void _Dump(G_TreeKeyItem const * const node, Gi4 const level, Gs * const str)
 {
    Gs const *stemp;
@@ -578,21 +578,21 @@ static void _Dump(G_TreeKeyItem const * const node, Gi4 const level, Gs * const 
 
    if (node)
    {
-      stemp = gtempGs(gsCreateFromFormated(
+      stemp = gtempGs(gsClocFromFormated(
          gcTypeU2, L"[PAD][L] | [R]\n",
-         gcTypeU2, L"[PAD]", gcTypeSTR, gtempGs(gsPadTail(gsCreate(), level + 1, ' ')),
-         gcTypeU2, L"[L]",   gcTypeSTR, gtempGs(gsCreateFromI((Gi) (level + 1))),
-         gcTypeU2, L"[R]",   gcTypeSTR, gtempGs(gsCreateFromN((Gn) gvvGetKey(&node->kv))),
+         gcTypeU2, L"[PAD]", gcTypeSTR, gtempGs(gsPadTail(gsCloc(), level + 1, ' ')),
+         gcTypeU2, L"[L]",   gcTypeSTR, gtempGs(gsClocFromI((Gi) (level + 1))),
+         gcTypeU2, L"[R]",   gcTypeSTR, gtempGs(gsClocFromN((Gn) gvvGetKey(&node->kv))),
          0)); //lint !e944 !e923 !e960
 
       gsAppend(str, stemp); //lint !e534
    }
    else
    {
-      //stemp = gsCreateFromFormated(
+      //stemp = gsClocFromFormated(
       //   gcTypeU2, L"%01U%02U | ----\n",
-      //   gcTypeU2, gsPadTail(gsCreate(), level + 1, ' '),
-      //   gcTypeU2, gsCreateFromI((Gi) (level + 1))
+      //   gcTypeU2, gsPadTail(gsCloc(), level + 1, ' '),
+      //   gcTypeU2, gsClocFromI((Gi) (level + 1))
       //   0);
    }
 
@@ -612,7 +612,7 @@ grlAPI Gs *g_TreeKeyDump(G_TreeKey const * const tree)
 
    genter;
 
-   str = gsCreate();
+   str = gsCloc();
 
    _Dump(tree->root, 0, str);
 
@@ -621,14 +621,14 @@ grlAPI Gs *g_TreeKeyDump(G_TreeKey const * const tree)
 #endif
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
-func: _NodeDestroy
-******************************************************************************/
-static void _NodeDestroy(G_TreeKey * const tree, G_TreeKeyItem * const node)
+**************************************************************************************************/
+/**************************************************************************************************
+func: _NodeDloc
+**************************************************************************************************/
+static void _NodeDloc(G_TreeKey * const tree, G_TreeKeyItem * const node)
 {
    genter;
 
@@ -648,16 +648,16 @@ static void _NodeDestroy(G_TreeKey * const tree, G_TreeKeyItem * const node)
    }
 
    // Now we can remove the node.
-   gmemDestroy(node);
+   gmemDloc(node);
 
    tree->count--;
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeGetLeftMost
-******************************************************************************/
+**************************************************************************************************/
 static G_TreeKeyItem *_NodeGetLeftMost(G_TreeKeyItem const * const node)
 {
    G_TreeKeyItem *left;
@@ -676,9 +676,9 @@ static G_TreeKeyItem *_NodeGetLeftMost(G_TreeKeyItem const * const node)
    greturn left;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeGetRightMost
-******************************************************************************/
+**************************************************************************************************/
 static G_TreeKeyItem *_NodeGetRightMost(G_TreeKeyItem const * const node)
 {
    G_TreeKeyItem *right;
@@ -697,9 +697,9 @@ static G_TreeKeyItem *_NodeGetRightMost(G_TreeKeyItem const * const node)
    greturn right;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeHeapify
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeHeapify(G_TreeKey * const tree, G_TreeKeyItem * const node)
 {
    G_TreeKeyItem const *parent;
@@ -720,9 +720,9 @@ static void _NodeHeapify(G_TreeKey * const tree, G_TreeKeyItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeRotateUp
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeRotateUp(G_TreeKey * const tree, G_TreeKeyItem * const node)
 {
    G_TreeKeyItem *parent,
@@ -737,7 +737,7 @@ static void _NodeRotateUp(G_TreeKey * const tree, G_TreeKeyItem * const node)
    //        node  ...   =>       .  parent
    //         /\                       /\    //
    //        .  child             child  .
-   // 
+   //
    // Links that change...
    // 1 parent->parent     = node
    // 2 parent->childLeft  = child
@@ -759,7 +759,7 @@ static void _NodeRotateUp(G_TreeKey * const tree, G_TreeKeyItem * const node)
       child->parent     = parent;
    }
    //          parent                   node
-   //            /\                      /\   // 
+   //            /\                      /\   //
    //           .  node  ...   =>  parent  .
    //               /\               /\       //
    //          child  .             .  child
@@ -797,9 +797,9 @@ static void _NodeRotateUp(G_TreeKey * const tree, G_TreeKeyItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeRemove
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeRemove(G_TreeKey * const tree, G_TreeKeyItem * const node)
 {
    G_TreeKeyItem *childLeft,
@@ -820,7 +820,7 @@ static void _NodeRemove(G_TreeKey * const tree, G_TreeKeyItem * const node)
       // Nothing to do.
       greturn;
    }
-   
+
    if (childLeft &&
        !childRight)
    {
@@ -898,7 +898,7 @@ static void _NodeRemove(G_TreeKey * const tree, G_TreeKeyItem * const node)
       {
          parentTemp->childLeft = swapNode;
       }
-      else 
+      else
       {
          parentTemp->childRight = swapNode;
       }
@@ -934,9 +934,9 @@ static void _NodeRemove(G_TreeKey * const tree, G_TreeKeyItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeUpdate
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeUpdate(G_TreeKey const * const tree, G_TreeKeyItem * const node, Gp const * const value)
 {
    Gp *data;

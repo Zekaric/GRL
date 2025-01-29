@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         Gpath
 author:       Robbert de Groot
 copyright:    2002-2012, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,17 +30,17 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    Gb         isFromRoot;
@@ -49,23 +49,23 @@ typedef struct
    Gs        *server;
 } GpathData;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
-static void  _DestroyPathData(   GpathData const * const path);
+**************************************************************************************************/
+static void  _DlocPathData(   GpathData const * const path);
 
 static Gb    _SetPathFromGpath(  GpathData       * const path, const Gpath * const value);
 static Gb    _SetPathFromSystem( GpathData       * const path, const Gs    * const value);
 static Gb    _SetGpathFromPath(  Gpath * const str, const GpathData * const path);
 static Gb    _SetSystemFromPath( Gs    * const str, const GpathData * const path);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: gpathAppend
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathAppend(Gpath * const path, const Gpath * const add)
 {
    Gindex     index;
@@ -89,7 +89,7 @@ grlAPI Gb gpathAppend(Gpath * const path, const Gpath * const add)
 
    forCount(index, gsArrayGetCount(atemp.folderList))
    {
-      str = gsCreateFrom(gsArrayGetAt(atemp.folderList, index));
+      str = gsClocFrom(gsArrayGetAt(atemp.folderList, index));
       stopIf(!gsArrayAddEnd(ptemp.folderList, str));
    }
 
@@ -99,15 +99,15 @@ grlAPI Gb gpathAppend(Gpath * const path, const Gpath * const add)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
-   _DestroyPathData(&atemp);
+   _DlocPathData(&ptemp);
+   _DlocPathData(&atemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathGetAt_
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gpathGetAt_(const Gpath * const path, const Gindex index)
 {
    GpathData ptemp;
@@ -120,19 +120,19 @@ grlAPI Gs *gpathGetAt_(const Gpath * const path, const Gindex index)
    str = NULL;
    stopIf(!_SetPathFromGpath(&ptemp, path));
 
-   str = gsCreateFrom(gsArrayGetAt(ptemp.folderList, index));
+   str = gsClocFrom(gsArrayGetAt(ptemp.folderList, index));
    
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathGetCount
 
 Get the number of elements in the path.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gpathGetCount(const Gpath * const path)
 {
    GpathData ptemp;
@@ -148,14 +148,14 @@ grlAPI Gcount gpathGetCount(const Gpath * const path)
    count = gsArrayGetCount(ptemp.folderList);
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathGetEnd_
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gpathGetEnd_(const Gpath * const path)
 {
    GpathData ptemp;
@@ -168,17 +168,17 @@ grlAPI Gs *gpathGetEnd_(const Gpath * const path)
    str = NULL;
    stopIf(!_SetPathFromGpath(&ptemp, path));
 
-   str = gsCreateFrom(gsArrayGetEnd(ptemp.folderList));
+   str = gsClocFrom(gsArrayGetEnd(ptemp.folderList));
    
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathGetMount_
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gpathGetMount_(const Gpath * const path)
 {
    GpathData ptemp;
@@ -191,17 +191,17 @@ grlAPI Gs *gpathGetMount_(const Gpath * const path)
    str = NULL;
    stopIf(!_SetPathFromGpath(&ptemp, path));
    
-   str = gsCreateFrom(ptemp.mount);
+   str = gsClocFrom(ptemp.mount);
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathGetServer_
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gpathGetServer_(const Gpath * const path)
 {
    GpathData ptemp;
@@ -214,17 +214,17 @@ grlAPI Gs *gpathGetServer_(const Gpath * const path)
    str = NULL;
    stopIf(!_SetPathFromGpath(&ptemp, path));
    
-   str = gsCreateFrom(ptemp.server);
+   str = gsClocFrom(ptemp.server);
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathIsFromRoot
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathIsFromRoot(const Gpath * const path)
 {
    GpathData ptemp;
@@ -240,14 +240,14 @@ grlAPI Gb gpathIsFromRoot(const Gpath * const path)
    btemp = ptemp.isFromRoot;
    
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn btemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathIsPath
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathIsPath(const Gpath * const path)
 {
    genter;
@@ -261,9 +261,9 @@ grlAPI Gb gpathIsPath(const Gpath * const path)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathIsRelative
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathIsRelative(const Gpath * const path)
 {
    Gb        result;
@@ -283,14 +283,14 @@ grlAPI Gb gpathIsRelative(const Gpath * const path)
          result = gbTRUE;
       }
    }
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathPop
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathPop(Gpath * const path)
 {
    GpathData ptemp;
@@ -304,7 +304,7 @@ grlAPI Gb gpathPop(Gpath * const path)
 
    stopIf(!_SetPathFromGpath(&ptemp, path));
 
-   gsDestroy(gsArrayGetEnd(ptemp.folderList)); //lint !e929
+   gsDloc(gsArrayGetEnd(ptemp.folderList)); //lint !e929
    gsArrayEraseEnd(ptemp.folderList);
 
    gsFlush(path);
@@ -313,14 +313,14 @@ grlAPI Gb gpathPop(Gpath * const path)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathPopExtension
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathPopExtension(Gpath * const path)
 {
    Gindex location;
@@ -337,9 +337,9 @@ grlAPI Gb gpathPopExtension(Gpath * const path)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathPush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathPush(Gpath * const path, const Gs * const value)
 {
    GpathData ptemp;
@@ -352,21 +352,21 @@ grlAPI Gb gpathPush(Gpath * const path, const Gs * const value)
    result = gbFALSE;
 
    stopIf(!_SetPathFromGpath(&ptemp, path));
-   stopIf(!gsArrayAddEnd(ptemp.folderList, gsCreateFrom(value)));
+   stopIf(!gsArrayAddEnd(ptemp.folderList, gsClocFrom(value)));
    gsFlush(path);
    stopIf(!_SetGpathFromPath(path, &ptemp));
 
    result = gbTRUE;
    
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: 
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathPushU2(Gpath * const path, const wchar_t * const value)
 {
    Gb  result;
@@ -374,16 +374,16 @@ grlAPI Gb gpathPushU2(Gpath * const path, const wchar_t * const value)
 
    genter;
 
-   stemp  = gsCreateFromU2(value);
+   stemp  = gsClocFromU2(value);
    result = gpathPush(path, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathPushExtensionA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathPushExtensionA(Gpath * const path, Char const * const extension)
 {
    genter;
@@ -396,9 +396,9 @@ grlAPI Gb gpathPushExtensionA(Gpath * const path, Char const * const extension)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathReduce
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathReduce(Gpath * const path)
 {
    Gb        result;
@@ -420,7 +420,7 @@ grlAPI Gb gpathReduce(Gpath * const path)
             gsArrayGetAt(ptemp.folderList, a),
             gpathCURRENT_DIR))
       {
-         gsDestroy(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
+         gsDloc(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
          stopIf(!gsArrayEraseAt(ptemp.folderList, 1, a));
          a--;
       }
@@ -429,11 +429,11 @@ grlAPI Gb gpathReduce(Gpath * const path)
             gsArrayGetAt(ptemp.folderList, a),
             gpathPARENT_DIR))
       {
-         gsDestroy(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
+         gsDloc(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
          stopIf(!gsArrayEraseAt(ptemp.folderList, 1, a));
          a--;
 
-         gsDestroy(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
+         gsDloc(gsArrayGetAt(ptemp.folderList, a)); //lint !e929
          stopIf(!gsArrayEraseAt(ptemp.folderList, 1, a));
          a--;
       }
@@ -446,14 +446,14 @@ grlAPI Gb gpathReduce(Gpath * const path)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathSetFromSystem
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathSetFromSystem(Gs * const path)
 {
    Gb        result;
@@ -471,14 +471,14 @@ grlAPI Gb gpathSetFromSystem(Gs * const path)
    result = gbTRUE;
    
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathSetIsFromRoot
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathSetIsFromRoot(Gpath * const path, const Gb value)
 {
    GpathData ptemp;
@@ -503,14 +503,14 @@ grlAPI Gb gpathSetIsFromRoot(Gpath * const path, const Gb value)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathSetMount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathSetMount(Gpath * const path, const Gs * const value)
 {
    GpathData ptemp;
@@ -535,14 +535,14 @@ grlAPI Gb gpathSetMount(Gpath * const path, const Gs * const value)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathSetServer
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathSetServer(Gpath * const path, const Gs * const value)
 {
    Gb        result;
@@ -567,14 +567,14 @@ grlAPI Gb gpathSetServer(Gpath * const path, const Gs * const value)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gpathSetToSystem
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gpathSetToSystem(Gs * const path)
 {
    Gb        result;
@@ -594,33 +594,33 @@ grlAPI Gb gpathSetToSystem(Gs * const path)
    result = gbTRUE;
 
 STOP:
-   _DestroyPathData(&ptemp);
+   _DlocPathData(&ptemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local: 
 function: 
-******************************************************************************/
-/******************************************************************************
-func: _DestroyPathData
-******************************************************************************/
-static void _DestroyPathData(const GpathData * const path)
+**************************************************************************************************/
+/**************************************************************************************************
+func: _DlocPathData
+**************************************************************************************************/
+static void _DlocPathData(const GpathData * const path)
 {
    genter;
 
-   gsArrayForEach(path->folderList, gsDestroyFunc);
-   gsArrayDestroy(path->folderList);
-   gsDestroy(     path->mount);
-   gsDestroy(     path->server);
+   gsArrayForEach(path->folderList, gsDlocFunc);
+   gsArrayDloc(   path->folderList);
+   gsDloc(        path->mount);
+   gsDloc(        path->server);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _SetPathFromGpath
-******************************************************************************/
+**************************************************************************************************/
 static Gb _SetPathFromGpath(GpathData * const path, const Gpath * const value)
 {
    Gindex index;
@@ -631,9 +631,9 @@ static Gb _SetPathFromGpath(GpathData * const path, const Gpath * const value)
 
    folder            = NULL;
    path->isFromRoot  = gbFALSE;
-   path->server      = gsCreate();
-   path->mount       = gsCreate();
-   path->folderList  = gsArrayCreate((GrlCompareFunc) NULL, gbTRUE);
+   path->server      = gsCloc();
+   path->mount       = gsCloc();
+   path->folderList  = gsArrayCloc((GrlCompareFunc) NULL, gbTRUE);
 
    // Get the server
    index  = 2;
@@ -684,7 +684,7 @@ static Gb _SetPathFromGpath(GpathData * const path, const Gpath * const value)
          }
          else
          {
-            gsDestroy(folder);
+            gsDloc(folder);
          }
          folder = NULL;
 
@@ -696,7 +696,7 @@ static Gb _SetPathFromGpath(GpathData * const path, const Gpath * const value)
 
       if (!folder)
       {
-         folder = gsCreate();
+         folder = gsCloc();
       }
       gsAppendC(folder, *letter); //lint !e534
       index++;
@@ -705,9 +705,9 @@ static Gb _SetPathFromGpath(GpathData * const path, const Gpath * const value)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _SetPathFromSystem
-******************************************************************************/
+**************************************************************************************************/
 static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
 {
    Gindex index;
@@ -719,9 +719,9 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
    index             = 0;
    folder            = NULL;
    path->isFromRoot  = gbFALSE;
-   path->server      = gsCreate();
-   path->mount       = gsCreate();
-   path->folderList  = gsArrayCreate((GrlCompareFunc) NULL, gbTRUE);
+   path->server      = gsCloc();
+   path->mount       = gsCloc();
+   path->folderList  = gsArrayCloc((GrlCompareFunc) NULL, gbTRUE);
 
    // Determine what kind of path this is.
 #if grlWINDOWS == 1
@@ -779,14 +779,14 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
 
       if (!folder)
       {
-         folder = gsCreate();
+         folder = gsCloc();
       }
 
       if (*letter == gpathFOLDER_SEPARATOR_SYSTEM     ||
           *letter == gpathFOLDER_SEPARATOR_SYSTEM_ALT)
       {
          gsArrayAddEnd(path->folderList, folder); //lint !e534
-         folder = gsCreate();
+         folder = gsCloc();
       }
       else
       {
@@ -800,9 +800,9 @@ static Gb _SetPathFromSystem(GpathData * const path, const Gs * const value)
    greturn gbTRUE; //lint !e438
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _SetGpathFromPath
-******************************************************************************/
+**************************************************************************************************/
 static Gb _SetGpathFromPath(Gpath * const str, const GpathData * const path)
 {
    Gindex index;
@@ -836,9 +836,9 @@ static Gb _SetGpathFromPath(Gpath * const str, const GpathData * const path)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _SetSystemFromPath
-******************************************************************************/
+**************************************************************************************************/
 static Gb _SetSystemFromPath(Gs * const str, const GpathData * const path)
 {
    Gindex index;

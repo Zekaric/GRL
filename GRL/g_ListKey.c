@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_ListKey
 author:     Robbert de Groot
 copyright:  2002-2009, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,30 +30,30 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local: 
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 #define DATA_PTR(LITEM)    ((Gp *) &(LITEM[1]))
 
-static G_ListKeyItem *_CreateAndSetListItem( G_ListKey       * const list, Gkey const * const key, Gp const * const value);
+static G_ListKeyItem *_ClocAndSetListItem(G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 
-static G_ListKeyItem *_LinearSearch(         G_ListKey const * const list, Gkey const * const key, Gb const findLocation);
+static G_ListKeyItem *_LinearSearch(      G_ListKey const * const list, Gkey const * const key, Gb const findLocation);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_ListKeyAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyAdd(G_ListKey * const list, Gkey const * const key, 
    Gp const * const value)
 {
@@ -83,9 +83,9 @@ grlAPI G_ListKeyItem *g_ListKeyAdd(G_ListKey * const list, Gkey const * const ke
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyAddBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyAddBegin(G_ListKey * const list, Gkey const * const key, 
    Gp const * const value)
 {
@@ -95,7 +95,7 @@ grlAPI G_ListKeyItem *g_ListKeyAddBegin(G_ListKey * const list, Gkey const * con
 
    greturnNullIf(!list);
 
-   litem = _CreateAndSetListItem(list, key, value);
+   litem = _ClocAndSetListItem(list, key, value);
    greturnNullIf(!litem);
 
    g_ListKeyAddBegin_Add(list, litem);
@@ -105,9 +105,9 @@ grlAPI G_ListKeyItem *g_ListKeyAddBegin(G_ListKey * const list, Gkey const * con
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyAddEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyAddEnd(G_ListKey * const list, Gkey const * const key, 
    Gp const * const value)
 {
@@ -117,7 +117,7 @@ grlAPI G_ListKeyItem *g_ListKeyAddEnd(G_ListKey * const list, Gkey const * const
 
    greturnNullIf(!list);
 
-   litem = _CreateAndSetListItem(list, key, value);
+   litem = _ClocAndSetListItem(list, key, value);
    greturnNullIf(!litem);
 
    g_ListKeyAddEnd_Add(list, litem);
@@ -127,10 +127,10 @@ grlAPI G_ListKeyItem *g_ListKeyAddEnd(G_ListKey * const list, Gkey const * const
    greturn litem;
 }
 
-/******************************************************************************
-func: g_ListKeyCreate_
-******************************************************************************/
-grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const typeName,
+/**************************************************************************************************
+func: g_ListKeyCloc
+**************************************************************************************************/
+grlAPI G_ListKey *g_ListKeyCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_ListKey *list;
@@ -139,27 +139,27 @@ grlAPI G_ListKey *g_ListKeyCreate_(Gsize const typeSize, Char const * const type
 
    greturnNullIf(typeSize <= 0);
 
-   list = gmemCreateType(G_ListKey);
+   list = gmemClocType(G_ListKey);
    greturnNullIf(!list);
 
-   if (!g_ListKeyCreateContent_(
+   if (!g_ListKeyClocContent_(
          list, 
          typeSize,
          typeName,
          isPointerType,
          compareFunc))
    {
-      g_ListKeyDestroy(list);
+      g_ListKeyDloc(list);
       greturn NULL;
    }
 
    greturn list;
 }
 
-/******************************************************************************
-func: g_ListKeyCreateContent
-******************************************************************************/
-grlAPI Gb g_ListKeyCreateContent_(G_ListKey * const list, Gsize const typeSize,
+/**************************************************************************************************
+func: g_ListKeyClocContent
+**************************************************************************************************/
+grlAPI Gb g_ListKeyClocContent_(G_ListKey * const list, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
@@ -183,25 +183,25 @@ grlAPI Gb g_ListKeyCreateContent_(G_ListKey * const list, Gsize const typeSize,
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_ListKeyDestroy
-******************************************************************************/
-grlAPI void g_ListKeyDestroy(G_ListKey * const list)
+/**************************************************************************************************
+func: g_ListKeyDloc
+**************************************************************************************************/
+grlAPI void g_ListKeyDloc(G_ListKey * const list)
 {
    genter;
 
    greturnVoidIf(!list);
 
-   g_ListKeyDestroyContent(list);
-   gmemDestroy(list);
+   g_ListKeyDlocContent(list);
+   gmemDloc(list);
 
    greturn;
 }
 
-/******************************************************************************
-func: g_ListKeyDestroyContent
-******************************************************************************/
-grlAPI void g_ListKeyDestroyContent(G_ListKey * const list)
+/**************************************************************************************************
+func: g_ListKeyDlocContent
+**************************************************************************************************/
+grlAPI void g_ListKeyDlocContent(G_ListKey * const list)
 {
    G_ListKeyItem  *lcurr,
                   *lnext;
@@ -216,7 +216,7 @@ grlAPI void g_ListKeyDestroyContent(G_ListKey * const list)
       breakIf(lcurr == NULL);
 
       lnext = lcurr->next;
-      gmemDestroy(lcurr);
+      gmemDloc(lcurr);
       lcurr = lnext;
    }
 
@@ -227,9 +227,9 @@ grlAPI void g_ListKeyDestroyContent(G_ListKey * const list)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListKeyErase(G_ListKey * const list, Gkey const * const key)
 {
    G_ListKeyItem *litem;
@@ -244,9 +244,9 @@ grlAPI Gb g_ListKeyErase(G_ListKey * const list, Gkey const * const key)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyEraseBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListKeyEraseBegin(G_ListKey * const list)
 {
    G_ListKeyItem *litem;
@@ -260,7 +260,7 @@ grlAPI Gb g_ListKeyEraseBegin(G_ListKey * const list)
    litem      = list->head;
    list->head = litem->next;
 
-   gmemDestroy(litem);
+   gmemDloc(litem);
 
    if (!list->head)
    {
@@ -276,9 +276,9 @@ grlAPI Gb g_ListKeyEraseBegin(G_ListKey * const list)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyEraseEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListKeyEraseEnd(G_ListKey * const list)
 {
    G_ListKeyItem *litem;
@@ -292,7 +292,7 @@ grlAPI Gb g_ListKeyEraseEnd(G_ListKey * const list)
    litem      = list->tail;
    list->tail = litem->prev;
 
-   gmemDestroy(litem);
+   gmemDloc(litem);
 
    if (!list->tail)
    {
@@ -308,9 +308,9 @@ grlAPI Gb g_ListKeyEraseEnd(G_ListKey * const list)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyFind(G_ListKey const * const list, Gkey const * const key)
 {
    G_ListKeyItem *result;
@@ -322,9 +322,9 @@ grlAPI G_ListKeyItem *g_ListKeyFind(G_ListKey const * const list, Gkey const * c
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyFlush(G_ListKey * const list)
 {
    genter;
@@ -338,9 +338,9 @@ grlAPI void g_ListKeyFlush(G_ListKey * const list)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListKeyForEach(G_ListKey const * const list, GrlForEachKeyFunc const func)
 {
    G_ListKeyItem const  *litem,
@@ -367,9 +367,9 @@ grlAPI Gb g_ListKeyForEach(G_ListKey const * const list, GrlForEachKeyFunc const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyGetBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyGetBegin(G_ListKey const * const list)
 {
    genter;
@@ -379,9 +379,9 @@ grlAPI G_ListKeyItem *g_ListKeyGetBegin(G_ListKey const * const list)
    greturn list->head;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_ListKeyGetCount(G_ListKey const * const list)
 {
    genter;
@@ -391,9 +391,9 @@ grlAPI Gcount g_ListKeyGetCount(G_ListKey const * const list)
    greturn list->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyGetEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyGetEnd(G_ListKey const * const list)
 {
    genter;
@@ -403,9 +403,9 @@ grlAPI G_ListKeyItem *g_ListKeyGetEnd(G_ListKey const * const list)
    greturn list->tail;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyItemAdd(G_ListKey * const list, G_ListKeyItem * const litem,
    Gkey const * const key, Gp const * const value)
 {
@@ -415,7 +415,7 @@ grlAPI G_ListKeyItem *g_ListKeyItemAdd(G_ListKey * const list, G_ListKeyItem * c
 
    greturnNullIf(!list);
 
-   nitem = _CreateAndSetListItem(list, key, value);
+   nitem = _ClocAndSetListItem(list, key, value);
    greturnNullIf(!nitem);
 
    g_ListKeyItemAdd_Add(list, litem, nitem);
@@ -425,9 +425,9 @@ grlAPI G_ListKeyItem *g_ListKeyItemAdd(G_ListKey * const list, G_ListKeyItem * c
    greturn nitem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyItemErase(G_ListKey * const list, G_ListKeyItem * const litem)
 {
    G_ListKeyItem *nextItem;
@@ -453,7 +453,7 @@ grlAPI G_ListKeyItem *g_ListKeyItemErase(G_ListKey * const list, G_ListKeyItem *
       nextItem->prev    = litem->prev;
       litem->prev->next = nextItem;
 
-      gmemDestroy(litem);
+      gmemDloc(litem);
 
       list->count--;
    }
@@ -461,9 +461,9 @@ grlAPI G_ListKeyItem *g_ListKeyItemErase(G_ListKey * const list, G_ListKeyItem *
    greturn nextItem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemGet
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ListKeyItemGet(G_ListKeyItem const * const litem)
 {
    Gp *p;
@@ -477,9 +477,9 @@ grlAPI Gp *g_ListKeyItemGet(G_ListKeyItem const * const litem)
    greturn p;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemGetKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp const *g_ListKeyItemGetKey(G_ListKeyItem const * const litem)
 {
    Gp const *p;
@@ -493,9 +493,9 @@ grlAPI Gp const *g_ListKeyItemGetKey(G_ListKeyItem const * const litem)
    greturn p;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemGetNext
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyItemGetNext(G_ListKeyItem const * const litem)
 {
    genter;
@@ -505,9 +505,9 @@ grlAPI G_ListKeyItem *g_ListKeyItemGetNext(G_ListKeyItem const * const litem)
    greturn litem->next;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemGetPrev
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListKeyItem *g_ListKeyItemGetPrev(G_ListKeyItem const * const litem)
 {
    genter;
@@ -517,9 +517,9 @@ grlAPI G_ListKeyItem *g_ListKeyItemGetPrev(G_ListKeyItem const * const litem)
    greturn litem->prev;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemUpdate
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyItemUpdate(G_ListKey * const list, G_ListKeyItem * const litem,
    Gp const * const value)
 {
@@ -535,9 +535,9 @@ grlAPI void g_ListKeyItemUpdate(G_ListKey * const list, G_ListKeyItem * const li
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemUpdateKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyItemUpdateKey(G_ListKey * const list, G_ListKeyItem *const litem,
    Gkey const * const key)
 {
@@ -552,13 +552,13 @@ grlAPI void g_ListKeyItemUpdateKey(G_ListKey * const list, G_ListKeyItem *const 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 Like Module Local: 
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_ListKeyAddBegin_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyAddBegin_Add(G_ListKey * const list, G_ListKeyItem * const litem)
 {
    genter;
@@ -579,9 +579,9 @@ grlAPI void g_ListKeyAddBegin_Add(G_ListKey * const list, G_ListKeyItem * const 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyAddEnd_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyAddEnd_Add(G_ListKey * const list, G_ListKeyItem * const litem)
 {
    genter;
@@ -603,9 +603,9 @@ grlAPI void g_ListKeyAddEnd_Add(G_ListKey * const list, G_ListKeyItem * const li
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListKeyItemAdd_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListKeyItemAdd_Add(G_ListKey * const list, G_ListKeyItem * const litem,
    G_ListKeyItem * const nitem)
 {
@@ -636,37 +636,37 @@ grlAPI void g_ListKeyItemAdd_Add(G_ListKey * const list, G_ListKeyItem * const l
    greturn;
 }
 
-/******************************************************************************
-func: g_ListKeyItem_Create
-******************************************************************************/
-grlAPI G_ListKeyItem *g_ListKeyItem_Create(G_ListKey const * const list)
+/**************************************************************************************************
+func: g_ListKeyItem_Cloc
+**************************************************************************************************/
+grlAPI G_ListKeyItem *g_ListKeyItem_Cloc(G_ListKey const * const list)
 {
    G_ListKeyItem *result;
 
    genter;
    
-   result = (G_ListKeyItem *) gmemCreate(
+   result = (G_ListKeyItem *) gmemCloc(
       "G_ListKeyItem",
       gsizeof(G_ListKeyItem) + gsizeof(Gp *) + list->typeSize);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local: 
 function:
-******************************************************************************/
-/******************************************************************************
-func: _CreateAndSetListItem
-******************************************************************************/
-static G_ListKeyItem *_CreateAndSetListItem(G_ListKey * const list, Gkey const * const key, 
+**************************************************************************************************/
+/**************************************************************************************************
+func: _ClocAndSetListItem
+**************************************************************************************************/
+static G_ListKeyItem *_ClocAndSetListItem(G_ListKey * const list, Gkey const * const key, 
    Gp const * const value)
 {
    G_ListKeyItem *litem;
 
    genter;
 
-   litem = g_ListKeyItem_Create(list);
+   litem = g_ListKeyItem_Cloc(list);
    greturnNullIf(!litem);
 
    litem->key = key;
@@ -675,9 +675,9 @@ static G_ListKeyItem *_CreateAndSetListItem(G_ListKey * const list, Gkey const *
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LinearSearch
-******************************************************************************/
+**************************************************************************************************/
 static G_ListKeyItem *_LinearSearch(G_ListKey const * const list, Gkey const * const key,
    Gb const findLocation)
 {

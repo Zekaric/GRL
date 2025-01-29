@@ -79,12 +79,12 @@ typedef struct
 } Grandom;
 
 // initializes mt[NN] with a seed
-void grandomCreateContent(Grandom * const r, Gn8 const seed);
+void grandomClocContent(Grandom * const r, Gn8 const seed);
 
 // initialize by an array with array-length
 // init_key is the array for initializing keys
 // key_length is its length
-void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 const * const keyList);
+void grandomClocContentByArray(Grandom * const r, Gcount const keyCount, Gn8 const * const keyList);
 
 // generates a random number on [0, 2^64-1]-interval
 Gn grandomGetN(Grandom * const r);

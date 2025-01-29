@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         G_Tree
 author:       Robbert de Groot
 copyright:    2011-2011, Robbert de Groot
 
 description:
 Data structure for a tree representation.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,14 +33,14 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(G_Tree_HEADER)
 #define      G_Tree_HEADER
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -48,9 +48,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct G_Tree     G_Tree;
 typedef struct G_TreeItem G_TreeItem;
 
@@ -71,21 +71,21 @@ struct G_Tree
    G_TreeItem        *root;
 };
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_TreeCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (G_Tree *) gleakCreate((Gp *) g_TreeCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_Tree)) 
-#define g_TreeCreateContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                               g_TreeCreateContent_(TREE, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
+#define g_TreeCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (G_Tree *) gleakCloc((Gp *) g_TreeCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_Tree)) 
+#define g_TreeClocContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                             g_TreeClocContent_(  TREE, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_TreeItem *g_TreeAdd(             G_Tree       * const tree, Gp const * const value);
 
-grlAPI G_Tree     *g_TreeCreate_(                                    Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
-grlAPI Gb          g_TreeCreateContent_(  G_Tree       * const tree, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI G_Tree     *g_TreeCloc_(                                      Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI Gb          g_TreeClocContent_(    G_Tree       * const tree, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
 
-grlAPI void        g_TreeDestroy(         G_Tree       * const tree);
-grlAPI void        g_TreeDestroyContent(  G_Tree       * const tree);
+grlAPI void        g_TreeDloc(            G_Tree       * const tree);
+grlAPI void        g_TreeDlocContent(     G_Tree       * const tree);
 
 grlAPI Gb          g_TreeErase(           G_Tree       * const tree, Gp const * const value);
 grlAPI Gb          g_TreeEraseBegin(      G_Tree       * const tree);
@@ -100,7 +100,7 @@ grlAPI Gcount      g_TreeGetCount(        G_Tree const * const tree);
 grlAPI G_TreeItem *g_TreeGetEnd(          G_Tree const * const tree);
 
 // G_TreeItem functions
-grlAPI G_TreeItem *g_TreeItemDestroy(     G_Tree       * const tree, G_TreeItem * const treeItem);
+grlAPI G_TreeItem *g_TreeItemDloc(        G_Tree       * const tree, G_TreeItem * const treeItem);
 
 grlAPI Gp         *g_TreeItemGet(         G_TreeItem const * const treeItem);
 grlAPI G_TreeItem *g_TreeItemGetNext(     G_TreeItem const * const treeItem);

@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       Gcon
 author:     Robbert de Groot
 company:    Robbert de Groot
@@ -6,9 +6,9 @@ copyright:  2020, Robbert de Groot
 
 description:
 
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -34,7 +34,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GCONH)
 #define      GCONH
@@ -45,16 +45,16 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs   *gconGetS(   void);
 grlAPI Gs   *gconGetS_(  void);
 
 grlAPI Gb    gconSetS(   Gs const * const value);
 grlAPI Gb    gconSetA(   Char const * const value);
 
-#define gconGetS()   (Gs *) gleakCreate(gconGetS_(), gsizeof(Gs))
+#define gconGetS()   (Gs *) gleakCloc(gconGetS_(), gsizeof(Gs))
 
 /*****************************************************************************/
 #ifdef __cplusplus

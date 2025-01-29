@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_List
 author:     Robbert de Groot
 copyright:  2002-2009, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,30 +30,30 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
-local: 
+/**************************************************************************************************
+local:
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 #define DATA_PTR(LITEM)    ((Gp *) &(LITEM[1]))
 
-static G_ListItem *_CreateAndSetListItem( G_List       * const list, Gp const * const value);
+static G_ListItem *_ClocAndSetListItem(G_List       * const list, Gp const * const value);
 
-static G_ListItem *_LinearSearch(         G_List const * const list, Gp const * const value, Gb const findLocation);
+static G_ListItem *_LinearSearch(      G_List const * const list, Gp const * const value, Gb const findLocation);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_ListAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListAdd(G_List * const list, Gp const * const value)
 {
    G_ListItem *litem;
@@ -77,9 +77,9 @@ grlAPI G_ListItem *g_ListAdd(G_List * const list, Gp const * const value)
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListAddBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListAddBegin(G_List * const list, Gp const * const value)
 {
    G_ListItem *litem;
@@ -88,7 +88,7 @@ grlAPI G_ListItem *g_ListAddBegin(G_List * const list, Gp const * const value)
 
    greturnIf(!list, NULL);
 
-   litem = _CreateAndSetListItem(list, value);
+   litem = _ClocAndSetListItem(list, value);
    greturnIf(!litem, NULL);
 
    g_ListAddBegin_Add(list, litem);
@@ -98,9 +98,9 @@ grlAPI G_ListItem *g_ListAddBegin(G_List * const list, Gp const * const value)
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListAddEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
 {
    G_ListItem *litem;
@@ -109,7 +109,7 @@ grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
 
    greturnIf(!list, NULL);
 
-   litem = _CreateAndSetListItem(list, value);
+   litem = _ClocAndSetListItem(list, value);
    greturnIf(!litem, NULL);
 
    g_ListAddEnd_Add(list, litem);
@@ -119,10 +119,10 @@ grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
    greturn litem;
 }
 
-/******************************************************************************
-func: g_ListCreate_
-******************************************************************************/
-grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
+/**************************************************************************************************
+func: g_ListCloc
+**************************************************************************************************/
+grlAPI G_List *g_ListCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_List *list;
@@ -131,27 +131,27 @@ grlAPI G_List *g_ListCreate_(Gsize const typeSize, Char const * const typeName,
 
    greturnNullIf(typeSize <= 0);
 
-   list = gmemCreateType(G_List);
+   list = gmemClocType(G_List);
    greturnIf(!list, NULL);
 
-   if (!g_ListCreateContent_(
-         list, 
-         typeSize, 
-         typeName, 
-         isPointerType, 
+   if (!g_ListClocContent_(  
+         list,
+         typeSize,
+         typeName,
+         isPointerType,
          compareFunc))
    {
-      g_ListDestroy(list);
+      g_ListDloc(list);
       greturn NULL;
    }
 
    greturn list;
 }
 
-/******************************************************************************
-func: g_ListCreateContent_
-******************************************************************************/
-grlAPI Gb g_ListCreateContent_(G_List * const list, Gsize const typeSize,
+/**************************************************************************************************
+func: g_ListClocContent_
+**************************************************************************************************/
+grlAPI Gb g_ListClocContent_(G_List * const list, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
@@ -175,25 +175,25 @@ grlAPI Gb g_ListCreateContent_(G_List * const list, Gsize const typeSize,
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_ListDestroy
-******************************************************************************/
-grlAPI void g_ListDestroy(G_List * const list)
+/**************************************************************************************************
+func: g_ListDloc
+**************************************************************************************************/
+grlAPI void g_ListDloc(G_List * const list)
 {
    genter;
 
    greturnVoidIf(!list);
 
-   g_ListDestroyContent(list);
-   gmemDestroy(list);
+   g_ListDlocContent(list);
+   gmemDloc(list);
 
    greturn;
 }
 
-/******************************************************************************
-func: g_ListDestroyContent
-******************************************************************************/
-grlAPI void g_ListDestroyContent(G_List * const list)
+/**************************************************************************************************
+func: g_ListDlocContent
+**************************************************************************************************/
+grlAPI void g_ListDlocContent(G_List * const list)
 {
    G_ListItem *lcurr,
               *lnext;
@@ -208,20 +208,20 @@ grlAPI void g_ListDestroyContent(G_List * const list)
       breakIf(lcurr == NULL);
 
       lnext = lcurr->next;
-      gmemDestroy(lcurr);
+      gmemDloc(lcurr);
       lcurr = lnext;
    }
 
-   list->head    = 
+   list->head    =
       list->tail = NULL;
    list->count   = 0;
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListErase(G_List * const list, Gp const * const value)
 {
    G_ListItem *litem;
@@ -236,9 +236,9 @@ grlAPI Gb g_ListErase(G_List * const list, Gp const * const value)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListEraseBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListEraseBegin(G_List * const list)
 {
    G_ListItem *litem;
@@ -253,7 +253,7 @@ grlAPI Gb g_ListEraseBegin(G_List * const list)
    litem      = list->head;
    list->head = litem->next;
 
-   gmemDestroy(litem);
+   gmemDloc(litem);
 
    if (!list->head)
    {
@@ -269,9 +269,9 @@ grlAPI Gb g_ListEraseBegin(G_List * const list)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListEraseEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListEraseEnd(G_List * const list)
 {
    G_ListItem *litem;
@@ -286,7 +286,7 @@ grlAPI Gb g_ListEraseEnd(G_List * const list)
    litem      = list->tail;
    list->tail = litem->prev;
 
-   gmemDestroy(litem);
+   gmemDloc(litem);
 
    if (!list->tail)
    {
@@ -302,23 +302,23 @@ grlAPI Gb g_ListEraseEnd(G_List * const list)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListFind(G_List const * const list, Gp const * const value)
 {
    G_ListItem *result;
 
    genter;
-   
+
    result = _LinearSearch(list, value, gbFALSE);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListFlush(G_List * const list)
 {
    genter;
@@ -332,9 +332,9 @@ grlAPI void g_ListFlush(G_List * const list)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ListForEach(G_List const * const list, GrlForEachFunc const func)
 {
    G_ListItem const *litem,
@@ -362,9 +362,9 @@ grlAPI Gb g_ListForEach(G_List const * const list, GrlForEachFunc const func)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListGetBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListGetBegin(G_List const * const list)
 {
    genter;
@@ -374,9 +374,9 @@ grlAPI G_ListItem *g_ListGetBegin(G_List const * const list)
    greturn list->head;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_ListGetCount(G_List const * const list)
 {
    genter;
@@ -386,9 +386,9 @@ grlAPI Gcount g_ListGetCount(G_List const * const list)
    greturn list->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListGetEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListGetEnd(G_List const * const list)
 {
    genter;
@@ -398,9 +398,9 @@ grlAPI G_ListItem *g_ListGetEnd(G_List const * const list)
    greturn list->tail;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListItemAdd(G_List * const list, G_ListItem * const litem,
    Gp const * const value)
 {
@@ -410,7 +410,7 @@ grlAPI G_ListItem *g_ListItemAdd(G_List * const list, G_ListItem * const litem,
 
    greturnIf(!list, NULL);
 
-   nitem = _CreateAndSetListItem(list, value);
+   nitem = _ClocAndSetListItem(list, value);
    greturnIf(!nitem, NULL);
 
    g_ListItemAdd_Add(list, litem, nitem);
@@ -420,9 +420,9 @@ grlAPI G_ListItem *g_ListItemAdd(G_List * const list, G_ListItem * const litem,
    greturn nitem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListItemErase(G_List * const list, G_ListItem * const litem)
 {
    G_ListItem *nextItem;
@@ -449,7 +449,7 @@ grlAPI G_ListItem *g_ListItemErase(G_List * const list, G_ListItem * const litem
       nextItem->prev    = litem->prev;
       litem->prev->next = nextItem;
 
-      gmemDestroy(litem);
+      gmemDloc(litem);
 
       list->count--;
    }
@@ -457,9 +457,9 @@ grlAPI G_ListItem *g_ListItemErase(G_List * const list, G_ListItem * const litem
    greturn nextItem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemGet
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ListItemGet(G_ListItem const * const litem)
 {
    genter;
@@ -469,9 +469,9 @@ grlAPI Gp *g_ListItemGet(G_ListItem const * const litem)
    greturn DATA_PTR(litem);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemGetNext
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListItemGetNext(G_ListItem const * const litem)
 {
    genter;
@@ -481,9 +481,9 @@ grlAPI G_ListItem *g_ListItemGetNext(G_ListItem const * const litem)
    greturn litem->next;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemGetPrev
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_ListItem *g_ListItemGetPrev(G_ListItem const * const litem)
 {
    genter;
@@ -493,9 +493,9 @@ grlAPI G_ListItem *g_ListItemGetPrev(G_ListItem const * const litem)
    greturn litem->prev;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemUpdate
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListItemUpdate(G_List * const list, G_ListItem * const litem, Gp const * const value)
 {
    genter;
@@ -509,13 +509,13 @@ grlAPI void g_ListItemUpdate(G_List * const list, G_ListItem * const litem, Gp c
    greturn;
 }
 
-/******************************************************************************
-Like Module Local: 
+/**************************************************************************************************
+Like Module Local:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_ListAddBegin_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListAddBegin_Add(G_List * const list, G_ListItem * const litem)
 {
    genter;
@@ -536,9 +536,9 @@ grlAPI void g_ListAddBegin_Add(G_List * const list, G_ListItem * const litem)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListAddEnd_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListAddEnd_Add(G_List * const list, G_ListItem * const litem)
 {
    genter;
@@ -560,9 +560,9 @@ grlAPI void g_ListAddEnd_Add(G_List * const list, G_ListItem * const litem)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ListItemAdd_Add
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ListItemAdd_Add(G_List * const list, G_ListItem * const litem, G_ListItem * const nitem)
 {
    genter;
@@ -592,34 +592,34 @@ grlAPI void g_ListItemAdd_Add(G_List * const list, G_ListItem * const litem, G_L
    greturn;
 }
 
-/******************************************************************************
-func: g_ListItem_Create
-******************************************************************************/
-grlAPI G_ListItem *g_ListItem_Create(G_List const * const list)
+/**************************************************************************************************
+func: g_ListItem_Cloc
+**************************************************************************************************/
+grlAPI G_ListItem *g_ListItem_Cloc(G_List const * const list)
 {
    G_ListItem *result;
 
    genter;
-   
-   result = (G_ListItem *) gmemCreate("G_ListItem", gsizeof(G_ListItem) + list->typeSize);
+
+   result = (G_ListItem *) gmemCloc("G_ListItem", gsizeof(G_ListItem) + list->typeSize);
 
    greturn result;
 }
 
-/******************************************************************************
-local: 
+/**************************************************************************************************
+local:
 function:
-******************************************************************************/
-/******************************************************************************
-func: _CreateAndSetListItem
-******************************************************************************/
-static G_ListItem *_CreateAndSetListItem(G_List * const list, Gp const * const value)
+**************************************************************************************************/
+/**************************************************************************************************
+func: _ClocAndSetListItem
+**************************************************************************************************/
+static G_ListItem *_ClocAndSetListItem(G_List * const list, Gp const * const value)
 {
    G_ListItem *litem;
 
    genter;
 
-   litem = g_ListItem_Create(list);
+   litem = g_ListItem_Cloc(list);
    greturnNullIf(!litem);
 
    g_ListItemUpdate(list, litem, value);
@@ -627,9 +627,9 @@ static G_ListItem *_CreateAndSetListItem(G_List * const list, Gp const * const v
    greturn litem;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LinearSearch
-******************************************************************************/
+**************************************************************************************************/
 static G_ListItem *_LinearSearch(G_List const * const list, Gp const * const value, Gb const findLocation)
 {
    G_ListItem *litem;

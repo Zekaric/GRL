@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gvDataData
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 A data type that holds all types of data.  
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GVDATAH)
 #define      GVDATAH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 const:
-******************************************************************************/
+**************************************************************************************************/
 #define gvDataTYPE_I "GvData:I"
 #define gvDataTYPE_N "GvData:N"
 #define gvDataTYPE_P "GvData:P"
@@ -55,9 +55,9 @@ const:
 
 // type defined in gconst.h
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9026
 grlAPI Gcompare    gpCompare(           Gp     const * const valueA, Gp const * const valueB);
 
@@ -67,11 +67,11 @@ grlAPI Gcompare    gvDataCompareN(      GvData const * const valueA, GvData cons
 grlAPI Gcompare    gvDataCompareP(      GvData const * const valueA, GvData const * const valueB);
 grlAPI Gcompare    gvDataCompareR(      GvData const * const valueA, GvData const * const valueB);
 
-grlAPI GvData     *gvDataCreate(        void);
-grlAPI Gb          gvDataCreateContent( GvData       * const v);
+grlAPI GvData     *gvDataCloc(          void);
+grlAPI Gb          gvDataClocContent(   GvData       * const v);
 
-grlAPI void        gvDataDestroy(       GvData       * const v);
-grlAPI void        gvDataDestroyContent(GvData       * const v);
+grlAPI void        gvDataDloc(          GvData       * const v);
+grlAPI void        gvDataDlocContent(   GvData       * const v);
 
 grlAPI GvData      gvDataFromI(         Gi             const value);
 grlAPI GvData      gvDataFromN(         Gn             const value);
@@ -96,12 +96,12 @@ grlAPI Gb          gvDataSetS(          GvData       * const v, Gs * const value
 
 //lint -restore
 
-/******************************************************************************
+/**************************************************************************************************
 GvData containers.
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 GvData containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -242,10 +242,10 @@ struct GvDataTreeKey
 #define gvDataArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gvDataArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gvDataArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gvDataArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvDataArray *)         g_ArrayCreate(                                "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gvDataArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gvDataArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gvDataArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gvDataArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvDataArray *)         g_ArrayCloc(                                "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gvDataArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayClocContent(      (G_Array *) ARRAY, "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gvDataArrayDloc(               ARRAY)                                                                     g_ArrayDloc(               (G_Array *) ARRAY) 
+#define gvDataArrayDlocContent(        ARRAY)                                                                     g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define gvDataArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gvDataArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define gvDataArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -271,10 +271,10 @@ struct GvDataTreeKey
 #define gvDataArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gvDataArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gvDataArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gvDataArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvDataArray *)         g_ArrayKeyCreate(                                "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gvDataArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gvDataArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gvDataArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define gvDataArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GvDataArray *)         g_ArrayKeyCloc(                                "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gvDataArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GvDataArray", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gvDataArrayKeyDloc(            ARRAY)                                                                     g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define gvDataArrayKeyDlocContent(     ARRAY)                                                                     g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define gvDataArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define gvDataArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gvDataArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -299,10 +299,10 @@ struct GvDataTreeKey
 #define gvDataListAdd(                 LIST, VALUE)                                       (GvDataListItem *)      g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gvDataListAddBegin(            LIST, VALUE)                                       (GvDataListItem *)      g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gvDataListAddEnd(              LIST, VALUE)                                       (GvDataListItem *)      g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gvDataListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GvDataList *)          g_ListCreate(                               "GvDataList", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC)
-#define gvDataListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GvDataList", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC)
-#define gvDataListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define gvDataListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define gvDataListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GvDataList *)          g_ListCloc(                               "GvDataList", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC)
+#define gvDataListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListClocContent(       (G_List *) LIST, "GvDataList", GvData *, gbTRUE, OPTIONAL_COMPARE_FUNC)
+#define gvDataListDloc(                LIST)                                                                      g_ListDloc(                (G_List *) LIST)
+#define gvDataListDlocContent(         LIST)                                                                      g_ListDlocContent(         (G_List *) LIST)
 #define gvDataListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gvDataListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define gvDataListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
@@ -322,10 +322,10 @@ struct GvDataTreeKey
 #define gvDataListKeyAdd(              LIST, KEY, VALUE)                                  (GvDataListKeyItem *)   g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gvDataListKeyAddBegin(         LIST, KEY, VALUE)                                  (GvDataListKeyItem *)   g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gvDataListKeyAddEnd(           LIST, KEY, VALUE)                                  (GvDataListKeyItem *)   g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gvDataListKeyCreate(                 COMPARE_FUNC)                                (GvDataList *)          g_ListKeyCreate(                               "GvDataListKey", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GvDataListKey", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gvDataListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gvDataListKeyCloc(                   COMPARE_FUNC)                                (GvDataList *)          g_ListKeyCloc(                               "GvDataListKey", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataListKeyClocContent(      LIST, COMPARE_FUNC)                                                        g_ListKeyClocContent(    (G_ListKey *) LIST, "GvDataListKey", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataListKeyDloc(             LIST)                                                                      g_ListKeyDloc(             (G_ListKey *) LIST)
+#define gvDataListKeyDlocContent(      LIST)                                                                      g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define gvDataListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gvDataListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gvDataListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -345,10 +345,10 @@ struct GvDataTreeKey
 #define gvDataListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gvDataHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gvDataHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GvDataHash *)          g_HashCreate(                               "GvDataHash", GvData *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gvDataHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GvDataHash", GvData *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gvDataHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define gvDataHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define gvDataHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GvDataHash *)          g_HashCloc(                               "GvDataHash", GvData *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gvDataHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashClocContent(       (G_Hash *) HASH, "GvDataHash", GvData *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gvDataHashDloc(                HASH)                                                                      g_HashDloc(                (G_Hash *) HASH)
+#define gvDataHashDlocContent(         HASH)                                                                      g_HashDlocContent(         (G_Hash *) HASH)
 #define gvDataHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define gvDataHashFind(                HASH, VALUE)                                      ((GvData *)              g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define gvDataHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
@@ -357,10 +357,10 @@ struct GvDataTreeKey
 #define gvDataHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gvDataHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gvDataHashKeyCreate(                 HASHSIZE)                                    (GvDataHashKey *)       g_HashKeyCreate(                               "GvDataHashKey", GvData *, gbTRUE, HASHSIZE)
-#define gvDataHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GvDataHashKey", GvData *, gbTRUE, HASHSIZE)
-#define gvDataHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gvDataHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gvDataHashKeyCloc(                   HASHSIZE)                                    (GvDataHashKey *)       g_HashKeyCloc(                               "GvDataHashKey", GvData *, gbTRUE, HASHSIZE)
+#define gvDataHashKeyClocContent(      HASH, HASHSIZE)                                                            g_HashKeyClocContent(    (G_HashKey *) HASH, "GvDataHashKey", GvData *, gbTRUE, HASHSIZE)
+#define gvDataHashKeyDloc(             HASH)                                                                      g_HashKeyDloc(             (G_HashKey *) HASH)
+#define gvDataHashKeyDlocContent(      HASH)                                                                      g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define gvDataHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define gvDataHashKeyFind(             HASH, KEY)                                        ((GvData *)              g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define gvDataHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -369,10 +369,10 @@ struct GvDataTreeKey
 #define gvDataHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gvDataTreeAdd(                 TREE, VALUE)                                       (GvDataTreeItem *)      g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gvDataTreeCreate(                    COMPARE_FUNC)                                (GvDataTree *)          g_TreeCreate(                               "GvDataTree", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GvDataTree", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define gvDataTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gvDataTreeCloc(                      COMPARE_FUNC)                                (GvDataTree *)          g_TreeCloc(                               "GvDataTree", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataTreeClocContent(         TREE, COMPARE_FUNC)                                                        g_TreeClocContent(       (G_Tree *) TREE, "GvDataTree", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataTreeDloc(                TREE)                                                                      g_TreeDloc(                (G_Tree *) TREE)
+#define gvDataTreeDlocContent(         TREE)                                                                      g_TreeDlocContent(         (G_Tree *) TREE)
 #define gvDataTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gvDataTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gvDataTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -382,17 +382,17 @@ struct GvDataTreeKey
 #define gvDataTreeGetBegin(            TREE)                                              (GvDataTreeItem *)      g_TreeGetBegin(            (G_Tree *) TREE)
 #define gvDataTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
 #define gvDataTreeGetEnd(              TREE)                                              (GvDataTreeItem *)      g_TreeGetEnd(              (G_Tree *) TREE)
-#define gvDataTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, TITEM)
+#define gvDataTreeItemDloc(            TREE, TITEM)                                                               g_TreeItemDloc(            (G_Tree *) TREE, TITEM)
 #define gvDataTreeItemGet(                   TITEM)                                      ((GvData *)              g_TreeItemGet(             (G_Tree *) TREE, TITEM))
 #define gvDataTreeItemGetNext(               TITEM)                                       (GvDataTreeItem *)      g_TreeItemGetNext(                          TITEM)
 #define gvDataTreeItemGetPrev(               TITEM)                                       (GvDataTreeItem *)      g_TreeItemGetPrev(                          TITEM)
 #define gvDataTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define gvDataTreeKeyAdd(              TREE, KEY, VALUE)                                  (GvDataTreeKeyItem *)   g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gvDataTreeKeyCreate(                 COMPARE_FUNC)                                (GvDataTreeKey *)       g_TreeKeyCreate(                               "GvDataTreeKey", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GvDataTreeKey", GvData *, gbTRUE, COMPARE_FUNC)
-#define gvDataTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gvDataTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gvDataTreeKeyCloc(                   COMPARE_FUNC)                                (GvDataTreeKey *)       g_TreeKeyCloc(                               "GvDataTreeKey", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                        g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GvDataTreeKey", GvData *, gbTRUE, COMPARE_FUNC)
+#define gvDataTreeKeyDloc(             TREE)                                                                      g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define gvDataTreeKeyDlocContent(      TREE)                                                                      g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define gvDataTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gvDataTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gvDataTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -402,7 +402,7 @@ struct GvDataTreeKey
 #define gvDataTreeKeyGetBegin(         TREE)                                              (GvDataTreeKeyItem *)   g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gvDataTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define gvDataTreeKeyGetEnd(           TREE)                                              (GvDataTreeKeyItem *)   g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gvDataTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gvDataTreeKeyItemDloc(         TREE, TITEM)                                                               g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define gvDataTreeKeyItemGet(                TITEM)                                      ((GvData *)              g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
 #define gvDataTreeKeyItemGetNext(            TITEM)                                       (GvDataTreeKeyItem *)   g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gvDataTreeKeyItemGetPrev(            TITEM)                                       (GvDataTreeKeyItem *)   g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

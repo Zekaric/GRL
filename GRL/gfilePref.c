@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gfilePref
 author:     Robbert de Groot
 copyright:  2003-2011, Robbert de Groot
 
 description:
 A library to read and write a preference file.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,27 +33,27 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
+**************************************************************************************************/
 static Gb _GetLine(GfilePref * const pref, Gs * const line);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
-func: gfilePrefCreate
-******************************************************************************/
-grlAPI GfilePref *gfilePrefCreate_(const GfilePrefMode mode, Gp * const value)
+**************************************************************************************************/
+/**************************************************************************************************
+func: gfilePrefCloc_
+**************************************************************************************************/
+grlAPI GfilePref *gfilePrefCloc_(const GfilePrefMode mode, Gp * const value)
 {
    GfilePref *pref;
 
@@ -65,22 +65,22 @@ grlAPI GfilePref *gfilePrefCreate_(const GfilePrefMode mode, Gp * const value)
       NULL);
 
    // Create the buffer.
-   pref = gmemCreateType(GfilePref);
+   pref = gmemClocType(GfilePref);
    greturnNullIf(!pref);
 
-   if (!gfilePrefCreateContent(pref, mode, value))
+   if (!gfilePrefClocContent(pref, mode, value))
    {
-      gfilePrefDestroy(pref);
+      gfilePrefDloc(pref);
       greturn NULL;
    }
 
    greturn pref;
 }
 
-/******************************************************************************
-func: gfilePrefCreateContent
-******************************************************************************/
-grlAPI Gb gfilePrefCreateContent(GfilePref * const pref, const GfilePrefMode mode, Gp * const value)
+/**************************************************************************************************
+func: gfilePrefClocContent
+**************************************************************************************************/
+grlAPI Gb gfilePrefClocContent(GfilePref * const pref, const GfilePrefMode mode, Gp * const value)
 {
    genter;
 
@@ -101,49 +101,49 @@ grlAPI Gb gfilePrefCreateContent(GfilePref * const pref, const GfilePrefMode mod
       pref->buffer = (Gs *) value;
    }
 
-   pref->key   = gsCreate();
-   pref->value = gsCreate();
+   pref->key   = gsCloc();
+   pref->value = gsCloc();
 
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: gfilePrefDestroy
-******************************************************************************/
-grlAPI void gfilePrefDestroy(GfilePref * const pref)
+/**************************************************************************************************
+func: gfilePrefDloc
+**************************************************************************************************/
+grlAPI void gfilePrefDloc(GfilePref * const pref)
 {
    genter;
 
    greturnVoidIf(!pref);
 
-   gfilePrefDestroyContent(pref);
-   gmemDestroy(pref);
+   gfilePrefDlocContent(pref);
+   gmemDloc(pref);
 
    greturn;
 }
 
-/******************************************************************************
-func: gfilePrefDestroyContent
-******************************************************************************/
-grlAPI void gfilePrefDestroyContent(GfilePref * const pref)
+/**************************************************************************************************
+func: gfilePrefDlocContent
+**************************************************************************************************/
+grlAPI void gfilePrefDlocContent(GfilePref * const pref)
 {
    genter;
 
    greturnVoidIf(!pref);
 
-   gsDestroy(pref->key);
-   gsDestroy(pref->value);
+   gsDloc(pref->key);
+   gsDloc(pref->value);
 
    gmemClearType(pref, GfilePref);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefGet
 
 Read the next record.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefGet(GfilePref * const pref)
 {
    Gs    *line,
@@ -157,7 +157,7 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
    greturnIf(!pref, gbFALSE);
 
    result = gbTRUE;
-   line   = gsCreate();
+   line   = gsCloc();
    begin  = NULL;
    end    = NULL;
 
@@ -166,7 +166,7 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
 
    loop
    {
-      gsDestroy(begin);
+      gsDloc(begin);
 
       // Get the line.
       if (!_GetLine(pref, line))
@@ -176,7 +176,7 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
       }
 
       // Get rid of the white space in front.
-      begin = gsCreateFrom(line);
+      begin = gsClocFrom(line);
       gsStrip(
          begin,
          gcStripWHITE_SPACE_LEADING | gcStripWHITE_SPACE_TRAILING);//lint !e534
@@ -227,7 +227,7 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
             break;
          }
 
-         // Single line values should be shortened to remove all leading 
+         // Single line values should be shortened to remove all leading
          // and trailing white space.
          gsStrip(
             pref->value,
@@ -241,12 +241,12 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
             breakIf(!_GetLine(pref, line));
 
             // End of the key value pair.
-            end = gsCreateFrom(line);
+            end = gsClocFrom(line);
             gsStrip(
                end,
                gcStripWHITE_SPACE_LEADING | gcStripWHITE_SPACE_TRAILING); //lint !e534
             breakIf(gsIsEqual(begin, end));
-            gsDestroy(end);
+            gsDloc(end);
             end = NULL;
 
             // Append the line.
@@ -265,16 +265,16 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
       break;
    }
 
-   gsDestroy(begin);
-   gsDestroy(end);
-   gsDestroy(line);
+   gsDloc(begin);
+   gsDloc(end);
+   gsDloc(line);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefGetKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gfilePrefGetKey(const GfilePref * const pref)
 {
    genter;
@@ -284,9 +284,9 @@ grlAPI Gs *gfilePrefGetKey(const GfilePref * const pref)
    greturn pref->key;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefGetValue
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gfilePrefGetValue(const GfilePref * const pref)
 {
    genter;
@@ -297,9 +297,9 @@ grlAPI Gs *gfilePrefGetValue(const GfilePref * const pref)
 }
 
 #if 0
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefLoadStrKeyValueArray
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray * const strKeyValueArray)
 {
    gsKeyValue *kv;
@@ -314,7 +314,7 @@ grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray 
    // Populate the article with the key values.
    while (gfilePrefGet(pref))
    {
-      kv = gsKeyValueCreate();
+      kv = gsKeyValueCloc();
 
       gsKeyValueSetKey(  kv, gfilePrefGetKey(  pref));
       gsKeyValueSetValue(kv, gfilePrefGetValue(pref));
@@ -325,11 +325,11 @@ grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefLoadStrTable
 
 Populate a name table.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefLoadStrTable(GfilePref * const pref, GsTable * const strTable)
 {
    genter;
@@ -346,7 +346,7 @@ grlAPI Gb gfilePrefLoadStrTable(GfilePref * const pref, GsTable * const strTable
             !gnameSet(
                strTable,
                gfilePrefGetKey(pref),
-               (Gp *) gsCreateFrom(gfilePrefGetValue(pref))),
+               (Gp *) gsClocFrom(gfilePrefGetValue(pref))),
          gbFALSE);
    }
 
@@ -354,11 +354,11 @@ grlAPI Gb gfilePrefLoadStrTable(GfilePref * const pref, GsTable * const strTable
 }
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefSet
 
 Write to the preference file.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const Gs * const value)
 {
    Gs *random;
@@ -376,7 +376,7 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
    {
       if (gsIsMultiline(value))
       {
-         random = gsCreateFromI(grandomGetI(NULL)); //lint !e960
+         random = gsClocFromI(grandomGetI(NULL)); //lint !e960
 
          gfileSetC(pref->file, gcTypeU1, '=');
          gfileSetC(pref->file, gcTypeU1, ' ');
@@ -395,7 +395,7 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
          gfileSetS(pref->file, gcTypeU1, random, NULL);
          gfileSetC(pref->file, gcTypeU1, '\n');
 
-         gsDestroy(random);
+         gsDloc(random);
       }
       else
       {
@@ -411,7 +411,7 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
    {
       if (gsIsMultiline(value))
       {
-         random = gsCreateFromI(grandomGetI(NULL)); //lint !e960
+         random = gsClocFromI(grandomGetI(NULL)); //lint !e960
 
          gsAppendA(pref->buffer, "= ");
          gsAppend( pref->buffer, key);
@@ -428,7 +428,7 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
          gsAppend( pref->buffer, random);
          gsAppendA(pref->buffer, "\n");
 
-         gsDestroy(random);
+         gsDloc(random);
       }
       else
       {
@@ -444,9 +444,9 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefSetCharStr
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefSetCharStr(const GfilePref * const pref, const Char * const key, const Char * const value)
 {
    Gb    result;
@@ -457,8 +457,8 @@ grlAPI Gb gfilePrefSetCharStr(const GfilePref * const pref, const Char * const k
 
    result = gbFALSE;
 
-   ntemp = gsCreateFromA(key);
-   vtemp = gsCreateFromA(value);
+   ntemp = gsClocFromA(key);
+   vtemp = gsClocFromA(value);
 
    if (ntemp &&
        vtemp)
@@ -466,13 +466,13 @@ grlAPI Gb gfilePrefSetCharStr(const GfilePref * const pref, const Char * const k
       result = gfilePrefSet(pref, ntemp, vtemp);
    }
 
-   gsDestroy(ntemp);
-   gsDestroy(vtemp);
+   gsDloc(ntemp);
+   gsDloc(vtemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefSetComment
 
 Write a comment to the pref file.
@@ -491,7 +491,7 @@ string
 
 return:
 int
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefSetComment(const GfilePref * const pref, const Gs * const value)
 {
    Gindex a;
@@ -557,7 +557,7 @@ grlAPI Gb gfilePrefSetComment(const GfilePref * const pref, const Gs * const val
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfilePrefSetCommentCharStr
 
 Write a comment to the pref file.
@@ -576,7 +576,7 @@ string
 
 return:
 int
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfilePrefSetCommentA(const GfilePref * const pref, const Char * const value)
 {
    Gb    result;
@@ -584,38 +584,38 @@ grlAPI Gb gfilePrefSetCommentA(const GfilePref * const pref, const Char * const 
 
    genter;
 
-   stemp = gsCreateFromA(value);
+   stemp = gsClocFromA(value);
 
    result = gfilePrefSetComment(pref, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
 #if 0
-/******************************************************************************
-func: gsKeyValueArrayCreateLoad
-******************************************************************************/
-grlAPI gsKeyValueArray *gsKeyValueArrayCreateLoad(const Gpath * const fileName)
+/**************************************************************************************************
+func: gsKeyValueArrayClocLoad
+**************************************************************************************************/
+grlAPI gsKeyValueArray *gsKeyValueArrayClocLoad(const Gpath * const fileName)
 {
    gsKeyValueArray *skvArray;
 
    genter;
 
-   skvArray = gsKeyValueArrayCreate();
+   skvArray = gsKeyValueArrayCloc();
    if (!gsKeyValueArrayLoad(skvArray, fileName))
    {
-      gsKeyValueArrayDestroy(skvArray);
+      gsKeyValueArrayDloc(skvArray);
       greturn NULL;
    }
 
    greturn skvArray;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsKeyValueArrayLoad
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gsKeyValueArrayLoad(gsKeyValueArray * const strKeyValueArray, const Gpath * const fileName)
 {
    Gb     result;
@@ -632,21 +632,21 @@ grlAPI Gb gsKeyValueArrayLoad(gsKeyValueArray * const strKeyValueArray, const Gp
    // open the file
    file = gfileOpen(fileName, gfileOpenREAD);
    // start the pref parser.
-   pref = gfilePrefCreate(gfilePrefModeGFILE, file);
+   pref = gfilePrefCloc(gfilePrefModeGFILE, file);
 
    // load the gname.
    result = gfilePrefLoadStrKeyValueArray(pref, strKeyValueArray);
 
    // clean up
-   gfilePrefDestroy(pref);
+   gfilePrefDloc(pref);
    gfileClose(file);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gssHashLoad
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gssHashLoad(GsTable * const strTable, const Gpath * const filename)
 {
    Gb     result;
@@ -663,27 +663,27 @@ grlAPI Gb gssHashLoad(GsTable * const strTable, const Gpath * const filename)
    // open the file
    file = gfileOpen(filename, gfileOpenREAD);
    // start the pref parser.
-   pref = gfilePrefCreate(gfilePrefModeGFILE, file);
+   pref = gfilePrefCloc(gfilePrefModeGFILE, file);
 
    // load the gname.
    result = gfilePrefLoadStrTable(pref, strTable);
 
    // clean up
-   gfilePrefDestroy(pref);
+   gfilePrefDloc(pref);
    gfileClose(file);
 
    greturn result;
 }
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 LOCAL: Functions
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _GetLine
 
 Get the next line.
-******************************************************************************/
+**************************************************************************************************/
 static Gb _GetLine(GfilePref * const pref, Gs * const line)
 {
    Gc2 letter;

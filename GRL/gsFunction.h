@@ -1,8 +1,8 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gs
 author:     Robbert de Groot
 copyright:  2000-2009, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GSFUNCTIONH)
 #define      GSFUNCTIONH
@@ -13,15 +13,15 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
+**************************************************************************************************/
 #define gsSubStrINDEX_START 0
 #define gsSubStrINDEX_END   GindexMAX
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef enum
 {
    gsFormattedTypeA,
@@ -33,9 +33,9 @@ typedef enum
    gsFormattedTypeR
 } GsFormattedType;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 // hand coded functions.
 // gs
 // Functions that greturn a Gs * may not greturn a 'new' Gs * but rather the same
@@ -95,49 +95,49 @@ grlAPI Gcompare       gsCompareCountU2(     Gs const * const a,  Gc2  const * co
 /*lint -restore */
 
 /*lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026 */
-#define gsCreateA(S)                               ((Char *) gleakCreate(gsCreateA_(          (S)),                                    gsizeof(Gs)))
-#define gsCreateFrom(S)                            ((Gs *)   gleakCreate(gsAppend(            gsCreate(), (S)),                        gsizeof(Gs)))
-#define gsCreateFromA(S)                           ((Gs *)   gleakCreate(gsAppendA(           gsCreate(), (Char *) (S)),               gsizeof(Gs)))
-#define gsCreateFromU1(S)                          ((Gs *)   gleakCreate(gsAppendU1(          gsCreate(), (S)),                        gsizeof(Gs)))
-#define gsCreateFromU2(S)                          ((Gs *)   gleakCreate(gsAppendU2(          gsCreate(), (S)),                        gsizeof(Gs)))
-#define gsCreateFromI(I)                           ((Gs *)   gleakCreate(gsAppendI(           gsCreate(), (I)),                        gsizeof(Gs)))
-#define gsCreateFromIFormat(I, FMT)                ((Gs *)   gleakCreate(gsAppendIFormat(     gsCreate(), (I), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromN(N)                           ((Gs *)   gleakCreate(gsAppendN(           gsCreate(), (N)),                        gsizeof(Gs)))
-#define gsCreateFromNFormat(N, FMT)                ((Gs *)   gleakCreate(gsAppendNFormat(     gsCreate(), (N), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromR(R)                           ((Gs *)   gleakCreate(gsAppendR(           gsCreate(), (R)),                        gsizeof(Gs)))
-#define gsCreateFromRFormat(R, FMT)                ((Gs *)   gleakCreate(gsAppendRFormat(     gsCreate(), (R), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormat(S, FMT)                 ((Gs *)   gleakCreate(gsAppendFormat(      gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormatA(S, FMT)                ((Gs *)   gleakCreate(gsAppendFormatA(     gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormatU1(S, FMT)               ((Gs *)   gleakCreate(gsAppendFormatU1(    gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormatU2(S, FMT)               ((Gs *)   gleakCreate(gsAppendFormatU2(    gsCreate(), (S), (FMT)),                 gsizeof(Gs)))
-#define gsCreateFromFormatted(FMT, ...)            ((Gs *)   gleakCreate(gsAppendFormatted(   gsCreate(), (FMT), __VA_ARGS__),   gsizeof(Gs)))
-#define gsCreateFromParam(...)                     ((Gs *)   gleakCreate(gsAppendParams(      gsCreate(), __VA_ARGS__),                gsizeof(Gs)))
-#define gsCreateFromSub(S, START, END)             ((Gs *)   gleakCreate(gsAppendSub(         gsCreate(), (S), (START), (END)),        gsizeof(Gs)))
-#define gsCreateFromSubFormat(S, START, END, FMT)  ((Gs *)   gleakCreate(gsAppendSubFormat(   gsCreate(), (S), (START), (END), (FMT)), gsizeof(Gs)))
-#define gsCreateRandom()                           ((Gs *)   gleakCreate(gsAppendRandom(      gsCreate()),                             gsizeof(Gs)))
-#define gsCreateU1(S)                              ((Gc1 *)  gleakCreate(gsCreateU1_(         (S)),                                    gsizeof(Gs)))
+#define gsClocA(S)                               ((Char *) gleakCloc(gsClocA_(            (S)),                                  gsizeof(Gs)))
+#define gsClocFrom(S)                            ((Gs *)   gleakCloc(gsAppend(            gsCloc(), (S)),                        gsizeof(Gs)))
+#define gsClocFromA(S)                           ((Gs *)   gleakCloc(gsAppendA(           gsCloc(), (Char *) (S)),               gsizeof(Gs)))
+#define gsClocFromU1(S)                          ((Gs *)   gleakCloc(gsAppendU1(          gsCloc(), (S)),                        gsizeof(Gs)))
+#define gsClocFromU2(S)                          ((Gs *)   gleakCloc(gsAppendU2(          gsCloc(), (S)),                        gsizeof(Gs)))
+#define gsClocFromI(I)                           ((Gs *)   gleakCloc(gsAppendI(           gsCloc(), (I)),                        gsizeof(Gs)))
+#define gsClocFromIFormat(I, FMT)                ((Gs *)   gleakCloc(gsAppendIFormat(     gsCloc(), (I), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromN(N)                           ((Gs *)   gleakCloc(gsAppendN(           gsCloc(), (N)),                        gsizeof(Gs)))
+#define gsClocFromNFormat(N, FMT)                ((Gs *)   gleakCloc(gsAppendNFormat(     gsCloc(), (N), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromR(R)                           ((Gs *)   gleakCloc(gsAppendR(           gsCloc(), (R)),                        gsizeof(Gs)))
+#define gsClocFromRFormat(R, FMT)                ((Gs *)   gleakCloc(gsAppendRFormat(     gsCloc(), (R), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromFormat(S, FMT)                 ((Gs *)   gleakCloc(gsAppendFormat(      gsCloc(), (S), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromFormatA(S, FMT)                ((Gs *)   gleakCloc(gsAppendFormatA(     gsCloc(), (S), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromFormatU1(S, FMT)               ((Gs *)   gleakCloc(gsAppendFormatU1(    gsCloc(), (S), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromFormatU2(S, FMT)               ((Gs *)   gleakCloc(gsAppendFormatU2(    gsCloc(), (S), (FMT)),                 gsizeof(Gs)))
+#define gsClocFromFormatted(FMT, ...)            ((Gs *)   gleakCloc(gsAppendFormatted(   gsCloc(), (FMT), __VA_ARGS__),         gsizeof(Gs)))
+#define gsClocFromParam(...)                     ((Gs *)   gleakCloc(gsAppendParams(      gsCloc(), __VA_ARGS__),                gsizeof(Gs)))
+#define gsClocFromSub(S, START, END)             ((Gs *)   gleakCloc(gsAppendSub(         gsCloc(), (S), (START), (END)),        gsizeof(Gs)))
+#define gsClocFromSubFormat(S, START, END, FMT)  ((Gs *)   gleakCloc(gsAppendSubFormat(   gsCloc(), (S), (START), (END), (FMT)), gsizeof(Gs)))
+#define gsClocRandom()                           ((Gs *)   gleakCloc(gsAppendRandom(      gsCloc()),                             gsizeof(Gs)))
+#define gsClocU1(S)                              ((Gc1 *)  gleakCloc(gsClocU1_(           (S)),                                  gsizeof(Gs)))
 #if 0
 // gsGet()
-#define gsCreateU2(S)                              ((Gc2 *) gleakCreate(gsCreateU2_(         S),                                        gsizeof(Gs)))
+#define gsClocU2(S)                              ((Gc2 *)  gleakCloc(gsClocU2_(           (S)),                                  gsizeof(Gs)))
 #endif
 /*lint -restore */
 
-grlAPI Char          *gsCreateA_(           Gs      const * const str);
-grlAPI Gs            *gsCreateJoin_(        GsArray const * const v, Gs   const * const sep);
-grlAPI Gs            *gsCreateJoinA_(       GsArray const * const v, Char const * const sep);
-grlAPI Gs            *gsCreateJoinU1_(      GsArray const * const v, Gc1  const * const sep);
-grlAPI Gs            *gsCreateJoinU2_(      GsArray const * const v, Gc2  const * const sep);
-grlAPI GsArray       *gsCreateSplit_(       Gs      const * const str, Gc const letter);
-grlAPI Gc1           *gsCreateU1_(          Gs      const * const str);
-//grlAPI Gc2           *gsCreateU2_(          Gs const * str);
+grlAPI Char          *gsClocA_(           Gs      const * const str);
+grlAPI Gs            *gsClocJoin_(        GsArray const * const v, Gs   const * const sep);
+grlAPI Gs            *gsClocJoinA_(       GsArray const * const v, Char const * const sep);
+grlAPI Gs            *gsClocJoinU1_(      GsArray const * const v, Gc1  const * const sep);
+grlAPI Gs            *gsClocJoinU2_(      GsArray const * const v, Gc2  const * const sep);
+grlAPI GsArray       *gsClocSplit_(       Gs      const * const str, Gc const letter);
+grlAPI Gc1           *gsClocU1_(          Gs      const * const str);
+//grlAPI Gc2           *gsClocU2_(          Gs const * str);
 
 /*lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026 */
-#define gsCreateJoin(A,S)                              ((Gs *) gleakCreate(gsCreateJoin_(A,S),                 gsizeof(Gs)))
-#define gsCreateJoinA(A,S)                             ((Gs *) gleakCreate(gsCreateJoinA_(A,S),                gsizeof(Gs)))
-#define gsCreateJoinU1(A,S)                            ((Gs *) gleakCreate(gsCreateJoinU1_(A,S),               gsizeof(Gs)))
-#define gsCreateJoinU2(A,S)                            ((Gs *) gleakCreate(gsCreateJoinU2_(A,S),               gsizeof(Gs)))
+#define gsClocJoin(A,S)                              ((Gs *) gleakCloc(gsClocJoin_(A,S),                 gsizeof(Gs)))
+#define gsClocJoinA(A,S)                             ((Gs *) gleakCloc(gsClocJoinA_(A,S),                gsizeof(Gs)))
+#define gsClocJoinU1(A,S)                            ((Gs *) gleakCloc(gsClocJoinU1_(A,S),               gsizeof(Gs)))
+#define gsClocJoinU2(A,S)                            ((Gs *) gleakCloc(gsClocJoinU2_(A,S),               gsizeof(Gs)))
 
-#define gsCreateSplit(S,L)                             ((GsArray *) gleakCreate(gsCreateSplit_(S,L),           gsizeof(GsArray)))
+#define gsClocSplit(S,L)                             ((GsArray *) gleakCloc(gsClocSplit_(S,L),           gsizeof(GsArray)))
 /*lint -restore */
 
 
@@ -271,7 +271,7 @@ grlAPI Gs            *gsTrimRightU2(        Gs       * const str, Gc2  const * c
 #define gsSetLengthU2(STR, COUNT, PAD)     gsSetLength(STR, COUNT, gcFromU2((Gc2 *) PAD))
 #endif
 
-grlAPI void           gvDataDestroyS(       GvData * const value);
+grlAPI void           gvDataDlocS(          GvData * const value);
 
 /*****************************************************************************/
 #ifdef __cplusplus

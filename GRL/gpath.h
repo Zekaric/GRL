@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         Gpath
 author:       Robbert de Groot
 copyright:    2002-2012, Robbert de Groot
@@ -33,9 +33,9 @@ file                                /B7p/file
 I make no attempt to figure out if the tail is a file or not.  Folders can have
 periods in their name.
 
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -61,14 +61,14 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GPATHHEADER)
 #define      GPATHHEADER
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -76,9 +76,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
+**************************************************************************************************/
 #define gpathFOLDER_SEPARATOR_UNIX           ((Gc2) L'/')
 #define gpathFOLDER_SEPARATOR_WINDOWS        ((Gc2) L'\\')
 #define gpathFOLDER_SEPARATOR_MACOSX         ((Gc2) L':')
@@ -131,22 +131,22 @@ typedef enum
 
 typedef Gs Gpath;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 /*lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026 */
-#define gpathGetAt(    PATH,INDEX)  (Gs *) gleakCreate((Gp *) gpathGetAt_(    (PATH), (INDEX)),  gsizeof(Gs))
-#define gpathGetEnd(   PATH)        (Gs *) gleakCreate((Gp *) gpathGetEnd_(   (PATH)),           gsizeof(Gs))
-#define gpathGetMount( PATH)        (Gs *) gleakCreate((Gp *) gpathGetMount_( (PATH)),           gsizeof(Gs))
-#define gpathGetServer(PATH)        (Gs *) gleakCreate((Gp *) gpathGetServer_((PATH)),           gsizeof(Gs))
+#define gpathGetAt(    PATH,INDEX)  (Gs *) gleakCloc((Gp *) gpathGetAt_(    (PATH), (INDEX)),  gsizeof(Gs))
+#define gpathGetEnd(   PATH)        (Gs *) gleakCloc((Gp *) gpathGetEnd_(   (PATH)),           gsizeof(Gs))
+#define gpathGetMount( PATH)        (Gs *) gleakCloc((Gp *) gpathGetMount_( (PATH)),           gsizeof(Gs))
+#define gpathGetServer(PATH)        (Gs *) gleakCloc((Gp *) gpathGetServer_((PATH)),           gsizeof(Gs))
 /*lint -restore */
 
 grlAPI Gb      gpathAppend(        Gpath       * const path, Gpath const * const add);
 
-#define        gpathCreate()        gsCreate()
-#define        gpathCreateFrom(P)   gsCreateFrom(P)
+#define        gpathCloc()          gsCloc()
+#define        gpathClocFrom(P)   gsClocFrom(P)
 
-#define        gpathDestroy(P)      gsDestroy(P)
+#define        gpathDloc(      P)   gsDloc(   P)
 
 grlAPI Gs     *gpathGetAt_(        Gpath const * const path, Gindex const index);
 grlAPI Gcount  gpathGetCount(      Gpath const * const path);
@@ -173,11 +173,11 @@ grlAPI Gb      gpathSetServer(     Gpath       * const path, Gs const * const va
 grlAPI Gb      gpathSetToSystem(   Gpath       * const path);
 
 
-/******************************************************************************
+/**************************************************************************************************
 Gpath containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
-typedef struct 
+typedef struct
 {
    GCONTAINER_VAR
 
@@ -190,7 +190,7 @@ typedef struct
 } GpathArray;
 
 // Same as G_ArrayKey /////////////////////////////////////////////////////////
-typedef struct 
+typedef struct
 {
    Gkey const              *key;
    Gpath                   *p;
@@ -309,74 +309,74 @@ struct GpathTreeKey
    GpathTreeKeyItem        *root;
 };
 
-#define gpathArrayAdd(                ARRAY,        VALUE)                                                     g_ArrayAddP(               (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gpathArrayAddAt(              ARRAY, INDEX, VALUE)                                                     g_ArrayAddAtP(             (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gpathArrayAddBegin(           ARRAY,        VALUE)                                                     g_ArrayAddBeginP(          (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gpathArrayAddEnd(             ARRAY,        VALUE)                                                     g_ArrayAddEndP(            (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gpathArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
-#define gpathArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gpathArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpathArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayCreate(                                "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gpathArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayCreateContent(      (G_Array *) ARRAY, "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gpathArrayDestroy(            ARRAY)                                                                   g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gpathArrayDestroyContent(     ARRAY)                                                                   g_ArrayDestroyContent(     (G_Array *) ARRAY) 
-#define gpathArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gpathArrayEraseAt(            ARRAY, COUNT, INDEX)                                                     g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
-#define gpathArrayEraseBegin(         ARRAY)                                                                   g_ArrayEraseBegin(         (G_Array *) ARRAY) 
-#define gpathArrayEraseEnd(           ARRAY)                                                                   g_ArrayEraseEnd(           (G_Array *) ARRAY) 
-#define gpathArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gpathArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY) 
-#define gpathArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC) 
-#define gpathArrayGet(                ARRAY)                                             (Gpath **)            g_ArrayGet(                (G_Array *) ARRAY) 
+#define gpathArrayAdd(                ARRAY,        VALUE)                                                     g_ArrayAddP(               (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gpathArrayAddAt(              ARRAY, INDEX, VALUE)                                                     g_ArrayAddAtP(             (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
+#define gpathArrayAddBegin(           ARRAY,        VALUE)                                                     g_ArrayAddBeginP(          (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gpathArrayAddEnd(             ARRAY,        VALUE)                                                     g_ArrayAddEndP(            (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gpathArrayClear(              ARRAY, COUNT, INDEX)                                                     g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX)
+#define gpathArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST)
+#define gpathArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC)
+#define gpathArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayCloc(                                "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpathArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayClocContent(      (G_Array *) ARRAY, "GpathArray", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpathArrayDloc(               ARRAY)                                                                   g_ArrayDloc(               (G_Array *) ARRAY)
+#define gpathArrayDlocContent(        ARRAY)                                                                   g_ArrayDlocContent(        (G_Array *) ARRAY)
+#define gpathArrayErase(              ARRAY, VALUE)                                                            g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE)
+#define gpathArrayEraseAt(            ARRAY, COUNT, INDEX)                                                     g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX)
+#define gpathArrayEraseBegin(         ARRAY)                                                                   g_ArrayEraseBegin(         (G_Array *) ARRAY)
+#define gpathArrayEraseEnd(           ARRAY)                                                                   g_ArrayEraseEnd(           (G_Array *) ARRAY)
+#define gpathArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE)
+#define gpathArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY)
+#define gpathArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC)
+#define gpathArrayGet(                ARRAY)                                             (Gpath **)            g_ArrayGet(                (G_Array *) ARRAY)
 #define gpathArrayGetAt(              ARRAY, INDEX)                                      (Gpath *)             g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX))
 #define gpathArrayGetBegin(           ARRAY)                                             (Gpath *)             g_ArrayGetBeginP(          (G_Array *) ARRAY))
-#define gpathArrayGetCount(           ARRAY)                                                                   g_ArrayGetCount(           (G_Array *) ARRAY) 
+#define gpathArrayGetCount(           ARRAY)                                                                   g_ArrayGetCount(           (G_Array *) ARRAY)
 #define gpathArrayGetEnd(             ARRAY)                                             (Gpath *)             g_ArrayGetEndP(            (G_Array *) ARRAY))
-#define gpathArrayGetSize(            ARRAY)                                                                   g_ArrayGetSize(            (G_Array *) ARRAY) 
-#define gpathArraySetCount(           ARRAY, COUNT)                                                            g_ArraySetCount(           (G_Array *) ARRAY, COUNT) 
-#define gpathArraySort(               ARRAY)                                                                   g_ArraySort(               (G_Array *) ARRAY) 
-#define gpathArraySwap(               ARRAY, INDEXA, INDEXB)                                                   g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define gpathArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                     g_ArrayUpdateAtP(          (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gpathArrayGetSize(            ARRAY)                                                                   g_ArrayGetSize(            (G_Array *) ARRAY)
+#define gpathArraySetCount(           ARRAY, COUNT)                                                            g_ArraySetCount(           (G_Array *) ARRAY, COUNT)
+#define gpathArraySort(               ARRAY)                                                                   g_ArraySort(               (G_Array *) ARRAY)
+#define gpathArraySwap(               ARRAY, INDEXA, INDEXB)                                                   g_ArraySwap(               (G_Array *) ARRAY, INDEXA, INDEXB)
+#define gpathArrayUpdateAt(           ARRAY, INDEX, VALUE)                                                     g_ArrayUpdateAtP(          (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
 
-#define gpathArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define gpathArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, (Gp *) VALUE) 
-#define gpathArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define gpathArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE) 
-#define gpathArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define gpathArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gpathArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpathArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayKeyCreate(                                "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gpathArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gpathArrayKeyDestroy(         ARRAY)                                                                   g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyDestroyContent(  ARRAY)                                                                   g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
-#define gpathArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                     g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
-#define gpathArrayKeyEraseBegin(      ARRAY)                                                                   g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyEraseEnd(        ARRAY)                                                                   g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyFind(            ARRAY, KEY)                                                              g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY) 
-#define gpathArrayKeyFlush(           ARRAY)                                                                   g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyForEach(         ARRAY, FUNC)                                                             g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC) 
+#define gpathArrayKeyAdd(             ARRAY,        KEY, VALUE)                                                g_ArrayKeyAdd(             (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define gpathArrayKeyAddAt(           ARRAY, INDEX, KEY, VALUE)                                                g_ArrayKeyAddAt(           (G_ArrayKey *) ARRAY, INDEX, KEY, (Gp *) VALUE)
+#define gpathArrayKeyAddBegin(        ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddBegin(        (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define gpathArrayKeyAddEnd(          ARRAY,        KEY, VALUE)                                                g_ArrayKeyAddEnd(          (G_ArrayKey *) ARRAY,        KEY, (Gp *) VALUE)
+#define gpathArrayKeyClear(           ARRAY, COUNT, INDEX)                                                     g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX)
+#define gpathArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                        g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST)
+#define gpathArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                           g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC)
+#define gpathArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpathArray *)        g_ArrayKeyCloc(                                "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpathArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                          g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GpathArrayKey", Gpath *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpathArrayKeyDloc(            ARRAY)                                                                   g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyDlocContent(     ARRAY)                                                                   g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyErase(           ARRAY, KEY)                                                              g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY)
+#define gpathArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                     g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX)
+#define gpathArrayKeyEraseBegin(      ARRAY)                                                                   g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyEraseEnd(        ARRAY)                                                                   g_ArrayKeyEraseEnd(        (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyFind(            ARRAY, KEY)                                                              g_ArrayKeyFind(            (G_ArrayKey *) ARRAY, KEY)
+#define gpathArrayKeyFlush(           ARRAY)                                                                   g_ArrayKeyFlush(           (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyForEach(         ARRAY, FUNC)                                                             g_ArrayKeyForEach(         (G_ArrayKey *) ARRAY, FUNC)
 #define gpathArrayKeyGetAt(           ARRAY, INDEX)                                    *((Gpath **)            g_ArrayKeyGetAt(           (G_ArrayKey *) ARRAY, INDEX))
-#define gpathArrayKeyGetAtKey(        ARRAY, INDEX)                                                            g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX) 
+#define gpathArrayKeyGetAtKey(        ARRAY, INDEX)                                                            g_ArrayKeyGetAtKey(        (G_ArrayKey *) ARRAY, INDEX)
 #define gpathArrayKeyGetBegin(        ARRAY)                                           *((Gpath **)            g_ArrayKeyGetBegin(        (G_ArrayKey *) ARRAY))
-#define gpathArrayKeyGetBeginKey(     ARRAY)                                                                   g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyGetCount(        ARRAY)                                                                   g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY) 
+#define gpathArrayKeyGetBeginKey(     ARRAY)                                                                   g_ArrayKeyGetBeginKey(     (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyGetCount(        ARRAY)                                                                   g_ArrayKeyGetCount(        (G_ArrayKey *) ARRAY)
 #define gpathArrayKeyGetEnd(          ARRAY)                                           *((Gpath **)            g_ArrayKeyGetEnd(          (G_ArrayKey *) ARRAY))
-#define gpathArrayKeyGetEndKey(       ARRAY)                                                                   g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeyGetSize(         ARRAY)                                                                   g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeySetCount(        ARRAY, COUNT)                                                            g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT) 
-#define gpathArrayKeySort(            ARRAY)                                                                   g_ArrayKeySort(            (G_ArrayKey *) ARRAY) 
-#define gpathArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                   g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB) 
-#define gpathArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                     g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gpathArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                       g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY) 
+#define gpathArrayKeyGetEndKey(       ARRAY)                                                                   g_ArrayKeyGetEndKey(       (G_ArrayKey *) ARRAY)
+#define gpathArrayKeyGetSize(         ARRAY)                                                                   g_ArrayKeyGetSize(         (G_ArrayKey *) ARRAY)
+#define gpathArrayKeySetCount(        ARRAY, COUNT)                                                            g_ArrayKeySetCount(        (G_ArrayKey *) ARRAY, COUNT)
+#define gpathArrayKeySort(            ARRAY)                                                                   g_ArrayKeySort(            (G_ArrayKey *) ARRAY)
+#define gpathArrayKeySwap(            ARRAY, INDEXA, INDEXB)                                                   g_ArrayKeySwap(            (G_ArrayKey *) ARRAY, INDEXA, INDEXB)
+#define gpathArrayKeyUpdateAt(        ARRAY, INDEX, VALUE)                                                     g_ArrayKeyUpdateAt(        (G_ArrayKey *) ARRAY, INDEX, (Gp *) VALUE)
+#define gpathArrayKeyUpdateAtKey(     ARRAY, INDEX, KEY)                                                       g_ArrayKeyUpdateAtKey(     (G_ArrayKey *) ARRAY, INDEX, KEY)
 
 #define gpathListAdd(                 LIST, VALUE)                                       (GpathListItem *)     g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gpathListAddBegin(            LIST, VALUE)                                       (GpathListItem *)     g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gpathListAddEnd(              LIST, VALUE)                                       (GpathListItem *)     g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gpathListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GpathList *)         g_ListCreate(                               "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
-#define gpathListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListCreateContent(       (G_List *) LIST, "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
-#define gpathListDestroy(             LIST)                                                                    g_ListDestroy(             (G_List *) LIST)
-#define gpathListDestroyContent(      LIST)                                                                    g_ListDestroyContent(      (G_List *) LIST)
+#define gpathListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GpathList *)         g_ListCloc(                               "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
+#define gpathListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                             g_ListClocContent(       (G_List *) LIST, "GpathList", Gpath *, OPTIONAL_COMPARE_FUNC)
+#define gpathListDloc(                LIST)                                                                    g_ListDloc(                (G_List *) LIST)
+#define gpathListDlocContent(         LIST)                                                                    g_ListDlocContent(         (G_List *) LIST)
 #define gpathListErase(               LIST, VALUE)                                                             g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gpathListEraseBegin(          LIST)                                                                    g_ListEraseBegin(          (G_List *) LIST)
 #define gpathListEraseEnd(            LIST)                                                                    g_ListEraseEnd(            (G_List *) LIST)
@@ -396,10 +396,10 @@ struct GpathTreeKey
 #define gpathListKeyAdd(              LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpathListKeyAddBegin(         LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpathListKeyAddEnd(           LIST, KEY, VALUE)                                  (GpathListKeyItem *)  g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gpathListKeyCreate(                 COMPARE_FUNC)                                (GpathList *)         g_ListKeyCreate(                               "GpathListKey", Gpath *, COMPARE_FUNC)
-#define gpathListKeyCreateContent(    LIST, COMPARE_FUNC)                                                      g_ListKeyCreateContent(    (G_ListKey *) LIST, "GpathListKey", Gpath *, COMPARE_FUNC)
-#define gpathListKeyDestroy(          LIST)                                                                    g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gpathListKeyDestroyContent(   LIST)                                                                    g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gpathListKeyCloc(                   COMPARE_FUNC)                                (GpathList *)         g_ListKeyCloc(                               "GpathListKey", Gpath *, COMPARE_FUNC)
+#define gpathListKeyClocContent(      LIST, COMPARE_FUNC)                                                      g_ListKeyClocContent(    (G_ListKey *) LIST, "GpathListKey", Gpath *, COMPARE_FUNC)
+#define gpathListKeyDloc(             LIST)                                                                    g_ListKeyDloc(             (G_ListKey *) LIST)
+#define gpathListKeyDlocContent(      LIST)                                                                    g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define gpathListKeyErase(            LIST, KEY)                                                               g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gpathListKeyEraseBegin(       LIST)                                                                    g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gpathListKeyEraseEnd(         LIST)                                                                    g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -419,10 +419,10 @@ struct GpathTreeKey
 #define gpathListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                        g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gpathHashAdd(                 HASH, VALUE)                                                             g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gpathHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpathHash *)         g_HashCreate(                               "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gpathHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent(       (G_Hash *) HASH, "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gpathHashDestroy(             HASH)                                                                    g_HashDestroy(             (G_Hash *) HASH)
-#define gpathHashDestroyContent(      HASH)                                                                    g_HashDestroyContent(      (G_Hash *) HASH)
+#define gpathHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpathHash *)         g_HashCloc(                               "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpathHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashClocContent(       (G_Hash *) HASH, "GpathHash", Gpath *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpathHashDloc(                HASH)                                                                    g_HashDloc(                (G_Hash *) HASH)
+#define gpathHashDlocContent(         HASH)                                                                    g_HashDlocContent(         (G_Hash *) HASH)
 #define gpathHashErase(               HASH, VALUE)                                                             g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define gpathHashFind(                HASH, VALUE)                                     *((Gpath **)            g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define gpathHashFlush(               HASH)                                                                    g_HashFlush(               (G_Hash *) HASH)
@@ -431,10 +431,10 @@ struct GpathTreeKey
 #define gpathHashUpdate(              HASH, VALUE)                                                             g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gpathHashKeyAdd(              HASH, KEY, VALUE)                                                        g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gpathHashKeyCreate(                 HASHSIZE)                                    (GpathHashKey *)      g_HashKeyCreate(                               "GpathHashKey", Gpath *, HASHSIZE)
-#define gpathHashKeyCreateContent(    HASH, HASHSIZE)                                                          g_HashKeyCreateContent(    (G_HashKey *) HASH, "GpathHashKey", Gpath *, HASHSIZE)
-#define gpathHashKeyDestroy(          HASH)                                                                    g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gpathHashKeyDestroyContent(   HASH)                                                                    g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gpathHashKeyCloc(                   HASHSIZE)                                    (GpathHashKey *)      g_HashKeyCloc(                               "GpathHashKey", Gpath *, HASHSIZE)
+#define gpathHashKeyClocContent(      HASH, HASHSIZE)                                                          g_HashKeyClocContent(    (G_HashKey *) HASH, "GpathHashKey", Gpath *, HASHSIZE)
+#define gpathHashKeyDloc(             HASH)                                                                    g_HashKeyDloc(             (G_HashKey *) HASH)
+#define gpathHashKeyDlocContent(      HASH)                                                                    g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define gpathHashKeyErase(            HASH, KEY)                                                               g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define gpathHashKeyFind(             HASH, KEY)                                       *((Gpath **)            g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define gpathHashKeyFlush(            HASH)                                                                    g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -443,10 +443,10 @@ struct GpathTreeKey
 #define gpathHashKeyUpdate(           HASH, KEY, VALUE)                                                        g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gpathTreeAdd(                 TREE, VALUE)                                       (GpathTreeItem *)     g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gpathTreeCreate(                    COMPARE_FUNC)                                (GpathTree *)         g_TreeCreate(                               "GpathTree", Gpath *, COMPARE_FUNC)
-#define gpathTreeCreateContent(       TREE, COMPARE_FUNC)                                                      g_TreeCreateContent(       (G_Tree *) TREE, "GpathTree", Gpath *, COMPARE_FUNC)
-#define gpathTreeDestroy(             TREE)                                                                    g_TreeDestroy(             (G_Tree *) TREE)
-#define gpathTreeDestroyContent(      TREE)                                                                    g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gpathTreeCloc(                      COMPARE_FUNC)                                (GpathTree *)         g_TreeCloc(                               "GpathTree", Gpath *, COMPARE_FUNC)
+#define gpathTreeClocContent(         TREE, COMPARE_FUNC)                                                      g_TreeClocContent(       (G_Tree *) TREE, "GpathTree", Gpath *, COMPARE_FUNC)
+#define gpathTreeDloc(                TREE)                                                                    g_TreeDloc(                (G_Tree *) TREE)
+#define gpathTreeDlocContent(         TREE)                                                                    g_TreeDlocContent(         (G_Tree *) TREE)
 #define gpathTreeErase(               TREE, VALUE)                                                             g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gpathTreeEraseBegin(          TREE)                                                                    g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gpathTreeEraseEnd(            TREE)                                                                    g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -456,17 +456,17 @@ struct GpathTreeKey
 #define gpathTreeGetBegin(            TREE)                                              (GpathTreeItem *)     g_TreeGetBegin(            (G_Tree *) TREE)
 #define gpathTreeGetCount(            TREE)                                                                    g_TreeGetCount(            (G_Tree *) TREE)
 #define gpathTreeGetEnd(              TREE)                                              (GpathTreeItem *)     g_TreeGetEnd(              (G_Tree *) TREE)
-#define gpathTreeItemDestroy(         TREE, TITEM)                                                             g_TreeItemDestroy(         (G_Tree *) TREE, TITEM)
+#define gpathTreeItemDloc(            TREE, TITEM)                                                             g_TreeItemDloc(            (G_Tree *) TREE, TITEM)
 #define gpathTreeItemGet(                   TITEM)                                     *((Gpath **)            g_TreeItemGet(                              TITEM))
 #define gpathTreeItemGetNext(               TITEM)                                       (GpathTreeItem *)     g_TreeItemGetNext(                          TITEM)
 #define gpathTreeItemGetPrev(               TITEM)                                       (GpathTreeItem *)     g_TreeItemGetPrev(                          TITEM)
 #define gpathTreeItemUpdate(          TREE, TITEM, VALUE)                                                      g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define gpathTreeKeyAdd(              TREE, KEY, VALUE)                                  (GpathTreeKeyItem *)  g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gpathTreeKeyCreate(                 COMPARE_FUNC)                                (GpathTreeKey *)      g_TreeKeyCreate(                               "GpathTreeKey", Gpath *, COMPARE_FUNC)
-#define gpathTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                      g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GpathTreeKey", Gpath *, COMPARE_FUNC)
-#define gpathTreeKeyDestroy(          TREE)                                                                    g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gpathTreeKeyDestroyContent(   TREE)                                                                    g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gpathTreeKeyCloc(                   COMPARE_FUNC)                                (GpathTreeKey *)      g_TreeKeyCloc(                               "GpathTreeKey", Gpath *, COMPARE_FUNC)
+#define gpathTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                      g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GpathTreeKey", Gpath *, COMPARE_FUNC)
+#define gpathTreeKeyDloc(             TREE)                                                                    g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define gpathTreeKeyDlocContent(      TREE)                                                                    g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define gpathTreeKeyErase(            TREE, KEY)                                                               g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gpathTreeKeyEraseBegin(       TREE)                                                                    g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gpathTreeKeyEraseEnd(         TREE)                                                                    g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -476,7 +476,7 @@ struct GpathTreeKey
 #define gpathTreeKeyGetBegin(         TREE)                                              (GpathTreeKeyItem *)  g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gpathTreeKeyGetCount(         TREE)                                                                    g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define gpathTreeKeyGetEnd(           TREE)                                              (GpathTreeKeyItem *)  g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gpathTreeKeyItemDestroy(      TREE, TITEM)                                                             g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gpathTreeKeyItemDloc(         TREE, TITEM)                                                             g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define gpathTreeKeyItemGet(                TITEM)                                     *((Gpath **)            g_TreeKeyItemGet(                              (G_TreeKeyItem *) TITEM))
 #define gpathTreeKeyItemGetNext(            TITEM)                                       (GpathTreeKeyItem *)  g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gpathTreeKeyItemGetPrev(            TITEM)                                       (GpathTreeKeyItem *)  g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

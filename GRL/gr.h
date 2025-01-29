@@ -1,10 +1,10 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       Gr
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -30,7 +30,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GRH)
 #define      GRH
@@ -41,9 +41,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 Gr containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -184,10 +184,10 @@ struct GrTreeKey
 #define grArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define grArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define grArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define grArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GrArray *)             g_ArrayCreate(                                "GrArray", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define grArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GrArray", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define grArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define grArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define grArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GrArray *)             g_ArrayCloc(                                "GrArray", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define grArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayClocContent(      (G_Array *) ARRAY, "GrArray", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define grArrayDloc(               ARRAY)                                                                     g_ArrayDloc(               (G_Array *) ARRAY) 
+#define grArrayDlocContent(        ARRAY)                                                                     g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define grArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define grArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define grArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -213,10 +213,10 @@ struct GrTreeKey
 #define grArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define grArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define grArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define grArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GrArray *)             g_ArrayKeyCreate(                                "GrArrayKey", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define grArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GrArrayKey", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define grArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define grArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define grArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GrArray *)             g_ArrayKeyCloc(                                "GrArrayKey", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define grArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GrArrayKey", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define grArrayKeyDloc(            ARRAY)                                                                     g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define grArrayKeyDlocContent(     ARRAY)                                                                     g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define grArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define grArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define grArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -241,10 +241,10 @@ struct GrTreeKey
 #define grListAdd(                 LIST, VALUE)                                       (GrListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define grListAddBegin(            LIST, VALUE)                                       (GrListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define grListAddEnd(              LIST, VALUE)                                       (GrListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define grListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GrList *)              g_ListCreate(                               "GrList", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define grListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GrList", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC)
-#define grListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define grListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define grListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GrList *)              g_ListCloc(                               "GrList", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define grListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListClocContent(       (G_List *) LIST, "GrList", Gr, gbFALSE, OPTIONAL_COMPARE_FUNC)
+#define grListDloc(                LIST)                                                                      g_ListDloc(                (G_List *) LIST)
+#define grListDlocContent(         LIST)                                                                      g_ListDlocContent(         (G_List *) LIST)
 #define grListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define grListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define grListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
@@ -264,10 +264,10 @@ struct GrTreeKey
 #define grListKeyAdd(              LIST, KEY, VALUE)                                  (GrListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define grListKeyAddBegin(         LIST, KEY, VALUE)                                  (GrListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define grListKeyAddEnd(           LIST, KEY, VALUE)                                  (GrListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define grListKeyCreate(                 COMPARE_FUNC)                                (GrList *)              g_ListKeyCreate(                               "GrListKey", Gr, gbFALSE, COMPARE_FUNC)
-#define grListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GrListKey", Gr, gbFALSE, COMPARE_FUNC)
-#define grListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define grListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define grListKeyCloc(                   COMPARE_FUNC)                                (GrList *)              g_ListKeyCloc(                               "GrListKey", Gr, gbFALSE, COMPARE_FUNC)
+#define grListKeyClocContent(      LIST, COMPARE_FUNC)                                                        g_ListKeyClocContent(    (G_ListKey *) LIST, "GrListKey", Gr, gbFALSE, COMPARE_FUNC)
+#define grListKeyDloc(             LIST)                                                                      g_ListKeyDloc(             (G_ListKey *) LIST)
+#define grListKeyDlocContent(      LIST)                                                                      g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define grListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define grListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define grListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -287,10 +287,10 @@ struct GrTreeKey
 #define grListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define grHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define grHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GrHash *)              g_HashCreate(                               "GrHash", Gr, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define grHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GrHash", Gr, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define grHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define grHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define grHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GrHash *)              g_HashCloc(                               "GrHash", Gr, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define grHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashClocContent(       (G_Hash *) HASH, "GrHash", Gr, gbFALSE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define grHashDloc(                HASH)                                                                      g_HashDloc(                (G_Hash *) HASH)
+#define grHashDlocContent(         HASH)                                                                      g_HashDlocContent(         (G_Hash *) HASH)
 #define grHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define grHashFind(                HASH, VALUE)                                      ((Gr *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define grHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
@@ -299,10 +299,10 @@ struct GrTreeKey
 #define grHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define grHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define grHashKeyCreate(                 HASHSIZE)                                    (GrHashKey *)           g_HashKeyCreate(                               "GrHashKey", Gr, gbFALSE, HASHSIZE)
-#define grHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GrHashKey", Gr, gbFALSE, HASHSIZE)
-#define grHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define grHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define grHashKeyCloc(                   HASHSIZE)                                    (GrHashKey *)           g_HashKeyCloc(                               "GrHashKey", Gr, gbFALSE, HASHSIZE)
+#define grHashKeyClocContent(      HASH, HASHSIZE)                                                            g_HashKeyClocContent(    (G_HashKey *) HASH, "GrHashKey", Gr, gbFALSE, HASHSIZE)
+#define grHashKeyDloc(             HASH)                                                                      g_HashKeyDloc(             (G_HashKey *) HASH)
+#define grHashKeyDlocContent(      HASH)                                                                      g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define grHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define grHashKeyFind(             HASH, KEY)                                        ((Gr *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define grHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -311,10 +311,10 @@ struct GrTreeKey
 #define grHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define grTreeAdd(                 TREE, VALUE)                                       (GrTreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define grTreeCreate(                    COMPARE_FUNC)                                (GrTree *)              g_TreeCreate(                               "GrTree", Gr, gbFALSE, COMPARE_FUNC)
-#define grTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GrTree", Gr, gbFALSE, COMPARE_FUNC)
-#define grTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define grTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define grTreeCloc(                      COMPARE_FUNC)                                (GrTree *)              g_TreeCloc(                               "GrTree", Gr, gbFALSE, COMPARE_FUNC)
+#define grTreeClocContent(         TREE, COMPARE_FUNC)                                                        g_TreeClocContent(       (G_Tree *) TREE, "GrTree", Gr, gbFALSE, COMPARE_FUNC)
+#define grTreeDloc(                TREE)                                                                      g_TreeDloc(                (G_Tree *) TREE)
+#define grTreeDlocContent(         TREE)                                                                      g_TreeDlocContent(         (G_Tree *) TREE)
 #define grTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define grTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define grTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -324,17 +324,17 @@ struct GrTreeKey
 #define grTreeGetBegin(            TREE)                                              (GrTreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
 #define grTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
 #define grTreeGetEnd(              TREE)                                              (GrTreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
-#define grTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, (G_TreeItem *) TITEM)
+#define grTreeItemDloc(            TREE, TITEM)                                                               g_TreeItemDloc(            (G_Tree *) TREE, (G_TreeItem *) TITEM)
 #define grTreeItemGet(                   TITEM)                                      ((Gr *)                  g_TreeItemGet(             (G_Tree *) TREE, (G_TreeItem *) TITEM))
 #define grTreeItemGetNext(               TITEM)                                       (GrTreeItem *)          g_TreeItemGetNext(                          (G_TreeItem *) TITEM)
 #define grTreeItemGetPrev(               TITEM)                                       (GrTreeItem *)          g_TreeItemGetPrev(                          (G_TreeItem *) TITEM)
 #define grTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, (G_TreeItem *) TITEM, (Gp *) VALUE)
 
 #define grTreeKeyAdd(              TREE, KEY, VALUE)                                  (GrTreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define grTreeKeyCreate(                 COMPARE_FUNC)                                (GrTreeKey *)           g_TreeKeyCreate(                               "GrTreeKey", Gr, gbFALSE, COMPARE_FUNC)
-#define grTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GrTreeKey", Gr, gbFALSE, COMPARE_FUNC)
-#define grTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define grTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define grTreeKeyCloc(                   COMPARE_FUNC)                                (GrTreeKey *)           g_TreeKeyCloc(                               "GrTreeKey", Gr, gbFALSE, COMPARE_FUNC)
+#define grTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                        g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GrTreeKey", Gr, gbFALSE, COMPARE_FUNC)
+#define grTreeKeyDloc(             TREE)                                                                      g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define grTreeKeyDlocContent(      TREE)                                                                      g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define grTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define grTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define grTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -344,7 +344,7 @@ struct GrTreeKey
 #define grTreeKeyGetBegin(         TREE)                                              (GrTreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define grTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define grTreeKeyGetEnd(           TREE)                                              (GrTreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define grTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define grTreeKeyItemDloc(         TREE, TITEM)                                                               g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define grTreeKeyItemGet(                TITEM)                                      ((Gr *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
 #define grTreeKeyItemGetNext(            TITEM)                                       (GrTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define grTreeKeyItemGetPrev(            TITEM)                                       (GrTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

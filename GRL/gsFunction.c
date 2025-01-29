@@ -1,18 +1,18 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gs
 author:     Robbert de Groot
 copyright:  2000-2009, Robbert de Groot
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
+**************************************************************************************************/
 static Gs      *_FormatI(        Gi const i,     Gc2 const * const format);
 static Gs      *_FormatN(        Gn const n,     Gc2 const * const format);
 static Gs      *_FormatR(        Gr const r,     Gc2 const * const format);
@@ -23,13 +23,13 @@ static Gcount   _GetByteLength(  Gp * const ptr, GcType const type);
 #endif
 static Gcount   _GetLength(      Gp const * const ptr, GcType const type);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: gsAppendA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendA(Gs * const str, Char const * const cstr)
 {
    Gindex a;
@@ -65,9 +65,9 @@ grlAPI Gs *gsAppendA(Gs * const str, Char const * const cstr)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsAppendFormatA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendFormatA(Gs * const str, Char const * const cstr, Gc2 const * const format)
 {
    Gs *stemp,
@@ -75,18 +75,18 @@ grlAPI Gs *gsAppendFormatA(Gs * const str, Char const * const cstr, Gc2 const * 
 
    genter;
 
-   stemp = gsCreateFromA(cstr);
+   stemp = gsClocFromA(cstr);
    greturnNullIf(!stemp);
 
    result = gsAppend(str, _FormatString(stemp, format));
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendC
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendC(Gs * const str, Gc2 const gc)
 {
    Gcount length;
@@ -105,9 +105,9 @@ grlAPI Gs *gsAppendC(Gs * const str, Gc2 const gc)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendCFormat
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendCFormat(Gs * const str, Gc2 const gc, Gc2 const * const format)
 {
    Gs *stemp,
@@ -120,7 +120,7 @@ grlAPI Gs *gsAppendCFormat(Gs * const str, Gc2 const gc, Gc2 const * const forma
       !gc  ||
       !format);
 
-   stemp = gsCreate();
+   stemp = gsCloc();
    greturnNullIf(!stemp);
 
    result = NULL;
@@ -130,14 +130,14 @@ grlAPI Gs *gsAppendCFormat(Gs * const str, Gc2 const gc, Gc2 const * const forma
       result = gsAppend(str, stemp);
    }
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendI
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendI(Gs * const str, Gi const i)
 {
    Gs  *result;
@@ -154,7 +154,7 @@ grlAPI Gs *gsAppendI(Gs * const str, Gi const i)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendIFormat
 
 Format is the same as an printf format.  The printf format is as
@@ -191,7 +191,7 @@ Valid (type) values (not optional like the other options above) are:
    u   : Unsigned integer.
    x   : Unsigned hexadecimal.  Lower case letters.
    X   : Same as X with Upper case letters.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendIFormat(Gs * const str, Gi8 const i, Gc2 const * const format)
 {
    Gs *stemp,
@@ -208,14 +208,14 @@ grlAPI Gs *gsAppendIFormat(Gs * const str, Gi8 const i, Gc2 const * const format
 
    result = gsAppend(str, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendN
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendN(Gs * const str, Gn const n)
 {
    Gs  *result;
@@ -232,7 +232,7 @@ grlAPI Gs *gsAppendN(Gs * const str, Gn const n)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendNformat
 
 Format is the same as an printf format.  The printf format is as
@@ -269,7 +269,7 @@ Valid (type) values (not optional like the other options above) are:
    u   : Unsigned integer.
    x   : Unsigned hexadecimal.  Lower case letters.
    X   : Same as X with Upper case letters.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendNFormat(Gs * const str, Gn const n, Gc2 const * const format)
 {
    Gs *stemp,
@@ -286,14 +286,14 @@ grlAPI Gs *gsAppendNFormat(Gs * const str, Gn const n, Gc2 const * const format)
 
    result = gsAppend(str, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendR
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendR(Gs * const str, Gr const r)
 {
    Gs  *result;
@@ -310,7 +310,7 @@ grlAPI Gs *gsAppendR(Gs * const str, Gr const r)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendRformat
 
 Format is the same as an printf format.  The printf format is as
@@ -348,7 +348,7 @@ Valid (type) values (not optional like the other options above) are:
    a   : Display the number in hexidecimal form.
    A   : Same as a but with a P instead of p.
    See MSDN Help doc for further information.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendRFormat(Gs * const str, Gr const r, Gc2 const * const format)
 {
    Gs *stemp,
@@ -365,14 +365,14 @@ grlAPI Gs *gsAppendRFormat(Gs * const str, Gr const r, Gc2 const * const format)
 
    result = gsAppend(str, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendSub
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const start, 
    Gindex const end)
 {
@@ -402,9 +402,9 @@ grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const star
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsAppendSubFormat
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendSubFormat(Gs * const str, Gs const * const value,
    Gindex const start, Gindex const end, Gc2 const * const format)
 {
@@ -418,17 +418,17 @@ grlAPI Gs *gsAppendSubFormat(Gs * const str, Gs const * const value,
       !value ||
       !format);
 
-   stemp = _FormatString(gsCreateFromSub(value, start, end), format);
+   stemp = _FormatString(gsClocFromSub(value, start, end), format);
    greturnNullIf(!stemp);
 
    result = gsAppend(str, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppend
 
 Add a Gs to the string.
@@ -438,7 +438,7 @@ str, add
    Gs *, Gs *
    in/out, in
    The strings.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppend(Gs * const str, Gs const * const value)
 {
    Gcount count,
@@ -463,7 +463,7 @@ grlAPI Gs *gsAppend(Gs * const str, Gs const * const value)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 FUNC: gsAppendFormat
 
 Format is the same as an printf format.  The printf format is as
@@ -489,7 +489,7 @@ Always provide I64 for this case.
 
 Valid (type) values (not optional like the other options above) are:
    s   : Unicode string.  (lowercase s is the Only option.)
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendFormat(Gs * const str, Gs const * const value, Gc2 const * const format)
 {
    Gs *atemp,
@@ -502,19 +502,19 @@ grlAPI Gs *gsAppendFormat(Gs * const str, Gs const * const value, Gc2 const * co
       !value ||
       !format);
 
-   atemp = gsCreateFrom(value);
+   atemp = gsClocFrom(value);
    greturnNullIf(!atemp);
 
    result = gsAppend(str, _FormatString(atemp, format));
 
-   gsDestroy(atemp);
+   gsDloc(atemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendU1(Gs * const str, Gc1 const * const cstr)
 {
    Gindex a;
@@ -555,9 +555,9 @@ grlAPI Gs *gsAppendU1(Gs * const str, Gc1 const * const cstr)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsAppendFormatU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendFormatU1(Gs * const str, Gc1 const * const cstr, Gc2 const * const format)
 {
    Gs *stemp,
@@ -565,19 +565,19 @@ grlAPI Gs *gsAppendFormatU1(Gs * const str, Gc1 const * const cstr, Gc2 const * 
 
    genter;
 
-   stemp = gsCreateFromU1(cstr);
+   stemp = gsClocFromU1(cstr);
    greturnNullIf(!stemp);
 
    result = gsAppend(str, _FormatString(stemp, format));
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendU2(Gs * const str, Gc2 const * const cstr)
 {
    Gindex a,
@@ -616,9 +616,9 @@ grlAPI Gs *gsAppendU2(Gs * const str, Gc2 const * const cstr)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsAppendFormatU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendFormatU2(Gs * const str, Gc2 const * const cstr, Gc2 const * const format)
 {
    Gs *stemp,
@@ -631,17 +631,17 @@ grlAPI Gs *gsAppendFormatU2(Gs * const str, Gc2 const * const cstr, Gc2 const * 
       !cstr ||
       !format);
 
-   stemp = gsCreateFromU2(cstr);
+   stemp = gsClocFromU2(cstr);
    greturnNullIf(!stemp);
 
    result = gsAppend(str, _FormatString(stemp, format));
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendFormatted
 
 After format, you have key value pairs of variables.
@@ -669,7 +669,7 @@ gsAppendFormated(
    L"%KEY%",   gsFormattedTypeA, (Char *) "Hokey", 
    L"$(OTHER), gsFormattedTypeI, (Gi)     1024,
    NULL);
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendFormatted(Gs * const str, Gc2 const * const format, ...)//lint !e1916 !e960
 {
    Gs  const            *search,
@@ -695,26 +695,26 @@ grlAPI Gs *gsAppendFormatted(Gs * const str, Gc2 const * const format, ...)//lin
 
    va_start(args, format);
 
-   stemp = gtempGs(tempScope, gsCreateFromU2((Gc2 const *) format));
+   stemp = gtempGs(tempScope, gsClocFromU2((Gc2 const *) format));
 
    loop
    {
-      search = gtempGs(tempScope, gsCreateFromU2(va_arg(args, Gc2 *))); //lint !e960
+      search = gtempGs(tempScope, gsClocFromU2(va_arg(args, Gc2 *))); //lint !e960
       breakIf(search == NULL);
 
       typeTemp = va_arg(args, GsFormattedType);
       switch (typeTemp)
       {
       case gsFormattedTypeA:
-         replace = gtempGs(tempScope, gsCreateFromA(va_arg(args, Char *))); //lint !e960
+         replace = gtempGs(tempScope, gsClocFromA(va_arg(args, Char *))); //lint !e960
          break;
 
       case gsFormattedTypeU1:
-         replace = gtempGs(tempScope, gsCreateFromU1(va_arg(args, Gc1 *))); //lint !e960
+         replace = gtempGs(tempScope, gsClocFromU1(va_arg(args, Gc1 *))); //lint !e960
          break;
 
       case gsFormattedTypeU2:
-         replace = gtempGs(tempScope, gsCreateFromU2(va_arg(args, Gc2 *))); //lint !e960
+         replace = gtempGs(tempScope, gsClocFromU2(va_arg(args, Gc2 *))); //lint !e960
          break;
 
       case gsFormattedTypeS:
@@ -722,15 +722,15 @@ grlAPI Gs *gsAppendFormatted(Gs * const str, Gc2 const * const format, ...)//lin
          break;
 
       case gsFormattedTypeI:
-         replace = gtempGs(tempScope, gsCreateFromI(va_arg(args, Gi)));
+         replace = gtempGs(tempScope, gsClocFromI(va_arg(args, Gi)));
          break;
 
       case gsFormattedTypeN:
-         replace = gtempGs(tempScope, gsCreateFromN(va_arg(args, Gn)));
+         replace = gtempGs(tempScope, gsClocFromN(va_arg(args, Gn)));
          break;
 
       case gsFormattedTypeR:
-         replace = gtempGs(tempScope, gsCreateFromR(va_arg(args, Gr)));
+         replace = gtempGs(tempScope, gsClocFromR(va_arg(args, Gr)));
          break;
       }//lint !e787
 
@@ -748,9 +748,9 @@ grlAPI Gs *gsAppendFormatted(Gs * const str, Gc2 const * const format, ...)//lin
    greturn result;//lint !e438
 }//lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendParams
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendParams(Gs * const str, ...) //lint !e1916 !e960
 {
    Gs const *stemp;
@@ -777,9 +777,9 @@ grlAPI Gs *gsAppendParams(Gs * const str, ...) //lint !e1916 !e960
    greturn str;//lint !e438
 } //lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsAppendRandom
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsAppendRandom(Gs * const str)
 {
    Gi4 count,
@@ -819,11 +819,11 @@ grlAPI Gs *gsAppendRandom(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCapitalize
 **
 ** Capitalize the first letter if not a space.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsCapitalize(Gs * const str)
 {
    Gc2 letter;
@@ -841,9 +841,9 @@ grlAPI Gs *gsCapitalize(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsCompare*
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompare(Gs const * const as, Gs const * const bs)
 {
    Gcount acount,
@@ -879,9 +879,9 @@ grlAPI Gcompare gsCompare(Gs const * const as, Gs const * const bs)
    greturn gcompareEQUAL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareA(Gs const * const a, Char const * const b)
 {
    Gs     *stemp;
@@ -894,18 +894,18 @@ grlAPI Gcompare gsCompareA(Gs const * const a, Char const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromA(b);
+   stemp  = gsClocFromA(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareU1(Gs const * const a, Gc1 const * const b)
 {
    Gs     *stemp;
@@ -918,18 +918,18 @@ grlAPI Gcompare gsCompareU1(Gs const * const a, Gc1 const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU1(b);
+   stemp  = gsClocFromU1(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareU2(Gs const * const a, Gc2 const * const b)
 {
    Gs     *stemp;
@@ -942,22 +942,22 @@ grlAPI Gcompare gsCompareU2(Gs const * const a, Gc2 const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU2(b);
+   stemp  = gsClocFromU2(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsCompareBase
 
 Compare the base strings together.  Ignores local so order may not
 honour dictionary/telephone/region order.  Read up on this at
 unicode.org
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBase(Gs const * const as, Gs const * const bs)
 {
    Gcount acount,
@@ -993,9 +993,9 @@ grlAPI Gcompare gsCompareBase(Gs const * const as, Gs const * const bs)
    greturn gcompareEQUAL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseA(Gs const * const a, Char const * const b)
 {
    Gs     *stemp;
@@ -1008,18 +1008,18 @@ grlAPI Gcompare gsCompareBaseA(Gs const * const a, Char const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromA(b);
+   stemp  = gsClocFromA(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseU1(Gs const * const a, Gc1 const * const b)
 {
    Gs     *stemp;
@@ -1032,18 +1032,18 @@ grlAPI Gcompare gsCompareBaseU1(Gs const * const a, Gc1 const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU1(b);
+   stemp  = gsClocFromU1(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseU2(Gs const * const a, Gc2 const * const b)
 {
    Gs     *stemp;
@@ -1056,16 +1056,16 @@ grlAPI Gcompare gsCompareBaseU2(Gs const * const a, Gc2 const * const b)
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU2(b);
+   stemp  = gsClocFromU2(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsCompareBaseCount
 
 Compare the base strings together.  Ignores locale so order may not
@@ -1073,7 +1073,7 @@ honour dictionary/telephone/region order.  Read up on this at
 unicode.org
 
 Compares first Count letters.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseCount(Gs const * const as, Gs const * const bs, Gcount const count)
 {
    Gcount acount,
@@ -1106,9 +1106,9 @@ grlAPI Gcompare gsCompareBaseCount(Gs const * const as, Gs const * const bs, Gco
    greturn gcompareEQUAL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseCountA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseCountA(Gs const * const a, Char const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1121,18 +1121,18 @@ grlAPI Gcompare gsCompareBaseCountA(Gs const * const a, Char const * const b, Gc
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromA(b);
+   stemp  = gsClocFromA(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseCountU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseCountU1(Gs const * const a, Gc1 const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1145,18 +1145,18 @@ grlAPI Gcompare gsCompareBaseCountU1(Gs const * const a, Gc1 const * const b, Gc
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU1(b);
+   stemp  = gsClocFromU1(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareBaseCountU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareBaseCountU2(Gs const * const a, Gc2 const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1169,18 +1169,18 @@ grlAPI Gcompare gsCompareBaseCountU2(Gs const * const a, Gc2 const * const b, Gc
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU2(b);
+   stemp  = gsClocFromU2(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsCompareCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareCount(Gs const * const as, Gs const * const bs, Gcount const count)
 {
    Gcount acount,
@@ -1213,9 +1213,9 @@ grlAPI Gcompare gsCompareCount(Gs const * const as, Gs const * const bs, Gcount 
    greturn gcompareEQUAL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareCountA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareCountA(Gs const * const a, Char const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1228,18 +1228,18 @@ grlAPI Gcompare gsCompareCountA(Gs const * const a, Char const * const b, Gcount
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromA(b);
+   stemp  = gsClocFromA(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareCountU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareCountU1(Gs const * const a, Gc1 const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1252,18 +1252,18 @@ grlAPI Gcompare gsCompareCountU1(Gs const * const a, Gc1 const * const b, Gcount
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU1(b);
+   stemp  = gsClocFromU1(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsCompareCountU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcompare gsCompareCountU2(Gs const * const a, Gc2 const * const b, Gcount const count)
 {
    Gs     *stemp;
@@ -1276,21 +1276,21 @@ grlAPI Gcompare gsCompareCountU2(Gs const * const a, Gc2 const * const b, Gcount
          !b,
       gcompareEQUAL);
 
-   stemp  = gsCreateFromU2(b);
+   stemp  = gsClocFromU2(b);
    greturnIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
-func: gsCreateA
+/**************************************************************************************************
+func: gsClocA
 
 Create the Ascii string.
-******************************************************************************/
-grlAPI Char *gsCreateA_(Gs const * const str)
+**************************************************************************************************/
+grlAPI Char *gsClocA_(Gs const * const str)
 {
    Gindex index;
    Gcount count;
@@ -1301,7 +1301,7 @@ grlAPI Char *gsCreateA_(Gs const * const str)
    greturnNullIf(!str);
 
    // Allocate the buffer.
-   stemp = gmemCreateTypeArray(Char, gsGetCount(str) + 1);//lint !e666
+   stemp = gmemClocTypeArray(Char, gsGetCount(str) + 1);//lint !e666
    greturnNullIf(!stemp);
 
    // copy the letters over.
@@ -1314,10 +1314,10 @@ grlAPI Char *gsCreateA_(Gs const * const str)
    greturn stemp;
 }
 
-/***************************************************************************************
- * FUNC: gsCreateJoin_
+/***********************************************************************************************************
+ * FUNC: gsClocJoin_
  *
- * Essential an inverse of gsCreateSplit(). This takes a garray of
+ * Essential an inverse of gsClocSplit(). This takes a garray of
  * Gs's and joins them "with" the characters.
  *
  * For example, if your GsArray contained: ["a", "b", "c"] and you
@@ -1346,8 +1346,8 @@ grlAPI Char *gsCreateA_(Gs const * const str)
  *    with the character string as glue.
  *
  *    NULL is greturned if there is no more memory.
- ***************************************************************************************/
-grlAPI Gs *gsCreateJoin_(GsArray const * const v, Gs const * const sep)
+ ***********************************************************************************************************/
+grlAPI Gs *gsClocJoin_(GsArray const * const v, Gs const * const sep)
 {
    Gs              *joined;
    Gs        const *stemp;
@@ -1362,7 +1362,7 @@ grlAPI Gs *gsCreateJoin_(GsArray const * const v, Gs const * const sep)
 
    vector = v; //lint !e929 !e960
 
-   joined = gsCreate();
+   joined = gsCloc();
    greturnNullIf(!joined);
 
    // For each string in the string list, clone the string,
@@ -1376,7 +1376,7 @@ grlAPI Gs *gsCreateJoin_(GsArray const * const v, Gs const * const sep)
       stemp = gsArrayGetAt(vector, i);
       if (stemp == NULL)
       {
-         gsDestroy(joined);
+         gsDloc(joined);
          joined = NULL;
          greturn NULL;   //lint !e438
       }
@@ -1391,10 +1391,10 @@ grlAPI Gs *gsCreateJoin_(GsArray const * const v, Gs const * const sep)
    greturn joined;
 }
 
-/******************************************************************************
-** FUNC: gsCreateJoinA_
-******************************************************************************/
-grlAPI Gs *gsCreateJoinA_(GsArray const * const v, Char const * const sep)
+/**************************************************************************************************
+** FUNC: gsClocJoinA_
+**************************************************************************************************/
+grlAPI Gs *gsClocJoinA_(GsArray const * const v, Char const * const sep)
 {
    Gs *stemp,
         *sresult;
@@ -1405,20 +1405,20 @@ grlAPI Gs *gsCreateJoinA_(GsArray const * const v, Char const * const sep)
       !v ||
       !sep);
 
-   stemp   = gsCreateFromA(sep);
+   stemp   = gsClocFromA(sep);
    greturnNullIf(!stemp);
 
-   sresult = gsCreateJoin(v, stemp);
+   sresult = gsClocJoin(v, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn sresult;
 }
 
-/******************************************************************************
-** FUNC: gsCreateJoinU1_
-******************************************************************************/
-grlAPI Gs *gsCreateJoinU1_(GsArray const * const v, Gc1 const * const sep)
+/**************************************************************************************************
+** FUNC: gsClocJoinU1_
+**************************************************************************************************/
+grlAPI Gs *gsClocJoinU1_(GsArray const * const v, Gc1 const * const sep)
 {
    Gs *stemp,
         *sresult;
@@ -1429,20 +1429,20 @@ grlAPI Gs *gsCreateJoinU1_(GsArray const * const v, Gc1 const * const sep)
       !v ||
       !sep);
 
-   stemp   = gsCreateFromU1(sep);
+   stemp   = gsClocFromU1(sep);
    greturnNullIf(!stemp);
 
-   sresult = gsCreateJoin(v, stemp);
+   sresult = gsClocJoin(v, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn sresult;
 }
 
-/******************************************************************************
-** FUNC: gsCreateJoinU2_
-******************************************************************************/
-grlAPI Gs *gsCreateJoinU2_(GsArray const * const v, Gc2 const * const sep)
+/**************************************************************************************************
+** FUNC: gsClocJoinU2_
+**************************************************************************************************/
+grlAPI Gs *gsClocJoinU2_(GsArray const * const v, Gc2 const * const sep)
 {
    Gs *stemp,
         *sresult;
@@ -1453,17 +1453,17 @@ grlAPI Gs *gsCreateJoinU2_(GsArray const * const v, Gc2 const * const sep)
       !v ||
       !sep);
 
-   stemp   = gsCreateFromU2(sep);
+   stemp   = gsClocFromU2(sep);
    greturnNullIf(!stemp);
 
-   sresult = gsCreateJoin(v, stemp);
+   sresult = gsClocJoin(v, stemp);
 
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn sresult;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsEraseSub
 
 Remove the chunk of the string.
@@ -1478,7 +1478,7 @@ start, end
    int, int
    in, in
    The end is not included in the destroy.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsEraseSub(Gs * const str, Gindex const start, Gindex const end)
 {
    Gindex startTemp,
@@ -1503,7 +1503,7 @@ grlAPI Gs *gsEraseSub(Gs * const str, Gindex const start, Gindex const end)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindAndReplace*
 
 Find a given string in the existing string and replace it with another.
@@ -1517,7 +1517,7 @@ str, find, replace
 return:
 int
    The number of times find was replaced.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsFindAndReplace(Gs * const str, Gs const * const find, Gs const * const replace,
    Gcount * const count)
 {
@@ -1541,7 +1541,7 @@ grlAPI Gs *gsFindAndReplace(Gs * const str, Gs const * const find, Gs const * co
    if (gsGetCount(str) != 0)
    {
       idx  = 0;
-      temp = gsCreate();
+      temp = gsCloc();
       greturnNullIf(!temp);
 
       // Find all occurances of the find string and replace them with the
@@ -1574,15 +1574,15 @@ grlAPI Gs *gsFindAndReplace(Gs * const str, Gs const * const find, Gs const * co
       }
 
 STOP:
-      gsDestroy(temp);
+      gsDloc(temp);
    }
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindAndReplaceA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find, 
    Char const * const  replace, Gcount * const count)
 {
@@ -1599,24 +1599,24 @@ grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find,
       NULL);
 
    result = NULL;
-   fstr   = gsCreateFromA(find);
+   fstr   = gsClocFromA(find);
    if (fstr)
    {
-      rstr = gsCreateFromA(replace);
+      rstr = gsClocFromA(replace);
       if (rstr)
       {
          result = gsFindAndReplace(str, fstr, rstr, count);
-         gsDestroy(rstr);
+         gsDloc(rstr);
       }
-      gsDestroy(fstr);
+      gsDloc(fstr);
    }
    
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindAndReplaceU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsFindAndReplaceU1(Gs * const str, Gc1  const * const find, Gc1 const * const replace, Gcount * const count)
 {
    Gs *fstr,
@@ -1631,24 +1631,24 @@ grlAPI Gs *gsFindAndReplaceU1(Gs * const str, Gc1  const * const find, Gc1 const
       !replace);
 
    result = NULL;
-   fstr = gsCreateFromU1(find);
+   fstr = gsClocFromU1(find);
    if (fstr)
    {
-      rstr = gsCreateFromU1(replace);
+      rstr = gsClocFromU1(replace);
       if (rstr)
       {
          result = gsFindAndReplace(str, fstr, rstr, count);
-         gsDestroy(rstr);
+         gsDloc(rstr);
       }
-      gsDestroy(fstr);
+      gsDloc(fstr);
    }
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindAndReplaceU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsFindAndReplaceU2(Gs * const str, Gc2 const * const find, Gc2 const * const replace, Gcount * const count)
 {
    Gs *fstr,
@@ -1663,26 +1663,26 @@ grlAPI Gs *gsFindAndReplaceU2(Gs * const str, Gc2 const * const find, Gc2 const 
       !replace);
 
    result = NULL;
-   fstr   = gsCreateFromU2(find);
+   fstr   = gsClocFromU2(find);
    if (fstr)
    {
-      rstr = gsCreateFromU2(replace);
+      rstr = gsClocFromU2(replace);
       if (rstr)
       {
          result = gsFindAndReplace(str, fstr, rstr, count);
-         gsDestroy(rstr);
+         gsDloc(rstr);
       }
-      gsDestroy(fstr);
+      gsDloc(fstr);
    }
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindFirstCSVComma
 
 Find the first comma in a comma separated value string.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstCSVComma(Gs const * const str, Gindex const position)
 {
    Gindex index;
@@ -1724,7 +1724,7 @@ grlAPI Gindex gsFindFirstCSVComma(Gs const * const str, Gindex const position)
    greturn index;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindFirstNotOf*
 
 Find the index of the first occurance of a letter not in letters in the
@@ -1738,7 +1738,7 @@ str, letters
 
 return:
 int
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position, 
    Gs const * const letters)
 {
@@ -1773,9 +1773,9 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
    greturn gsFIND_FAIL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstNotOfA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstNotOfA(Gs const * const str, Gindex const position, 
    Char const * const letters)
 {
@@ -1784,16 +1784,16 @@ grlAPI Gindex gsFindFirstNotOfA(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromA(letters);
+   lstr   = gsClocFromA(letters);
    result = gsFindFirstNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstNotOfU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstNotOfU1(Gs const * const str, Gindex const position,
    Gc1 const * const letters)
 {
@@ -1802,16 +1802,16 @@ grlAPI Gindex gsFindFirstNotOfU1(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU1(letters);
+   lstr   = gsClocFromU1(letters);
    result = gsFindFirstNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstNotOfU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstNotOfU2(Gs const * const str, Gindex const position,
    Gc2 const * const letters)
 {
@@ -1820,14 +1820,14 @@ grlAPI Gindex gsFindFirstNotOfU2(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU2(letters);
+   lstr   = gsClocFromU2(letters);
    result = gsFindFirstNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindFirstOf*
 
 Find the index of the first occurance of a letter in letters in the
@@ -1841,7 +1841,7 @@ str, letters
 
 return:
 int
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position, 
    Gs const * const letters)
 {
@@ -1868,9 +1868,9 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
    greturn gsFIND_FAIL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstOfA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstOfA(Gs const * const str, Gindex const position, 
    Char const * const letters)
 {
@@ -1879,16 +1879,16 @@ grlAPI Gindex gsFindFirstOfA(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromA(letters);
+   lstr   = gsClocFromA(letters);
    result = gsFindFirstOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstOfU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstOfU1(Gs const * const str, Gindex const position, 
    Gc1 const * const letters)
 {
@@ -1897,16 +1897,16 @@ grlAPI Gindex gsFindFirstOfU1(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU1(letters);
+   lstr   = gsClocFromU1(letters);
    result = gsFindFirstOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindFirstOfU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindFirstOfU2(Gs const * const str, Gindex const position, 
    Gc2 const * const letters)
 {
@@ -1915,14 +1915,14 @@ grlAPI Gindex gsFindFirstOfU2(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU2(letters);
+   lstr   = gsClocFromU2(letters);
    result = gsFindFirstOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindLastNotOf
 
 Find the index of the last occurance of a letter not in letters in the
@@ -1936,7 +1936,7 @@ str, letters
 
 return:
 int
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position, 
    Gs const * const letters)
 {
@@ -1974,9 +1974,9 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
    greturn gsFIND_FAIL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastNotOfA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastNotOfA(Gs const * const str, Gindex const position,
    Char const * const letters)
 {
@@ -1985,16 +1985,16 @@ grlAPI Gindex gsFindLastNotOfA(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromA(letters);
+   lstr   = gsClocFromA(letters);
    result = gsFindLastNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastNotOfU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastNotOfU1(Gs const * const str, Gindex const position, 
    Gc1 const * const letters)
 {
@@ -2003,16 +2003,16 @@ grlAPI Gindex gsFindLastNotOfU1(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU1(letters);
+   lstr   = gsClocFromU1(letters);
    result = gsFindLastNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastNotOfU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastNotOfU2(Gs const * const str, Gindex const position,
    Gc2 const * const letters)
 {
@@ -2021,14 +2021,14 @@ grlAPI Gindex gsFindLastNotOfU2(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU2(letters);
+   lstr   = gsClocFromU2(letters);
    result = gsFindLastNotOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindLastOf
 
 Find the index of the last occurance of a letter in letters in the
@@ -2043,7 +2043,7 @@ str, letters
 return:
 int
    The position of the letter or -1 if not present in the string.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position, 
    Gs const * const letters)
 {
@@ -2074,9 +2074,9 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
    greturn gsFIND_FAIL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastOfA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastOfA(Gs const * const str, Gindex const position, 
    Char const * const letters)
 {
@@ -2085,16 +2085,16 @@ grlAPI Gindex gsFindLastOfA(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromA(letters);
+   lstr   = gsClocFromA(letters);
    result = gsFindLastOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastOfU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastOfU1(Gs const * const str, Gindex const position, 
    Gc1 const * const letters)
 {
@@ -2103,16 +2103,16 @@ grlAPI Gindex gsFindLastOfU1(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU1(letters);
+   lstr   = gsClocFromU1(letters);
    result = gsFindLastOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindLastOfU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindLastOfU2(Gs const * const str, Gindex const position, 
    Gc2 const * const letters)
 {
@@ -2121,14 +2121,14 @@ grlAPI Gindex gsFindLastOfU2(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU2(letters);
+   lstr   = gsClocFromU2(letters);
    result = gsFindLastOf(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsFindSub
 
 Find a substring in a string.
@@ -2142,7 +2142,7 @@ str, substr
 return:
 int
    position of the substring or -1 if not found.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position, 
    Gs const * const substr)
 {
@@ -2192,9 +2192,9 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
    greturn gsFIND_FAIL;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindSubA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindSubA(Gs const * const str, Gindex const position, 
    Char const * const substr)
 {
@@ -2203,16 +2203,16 @@ grlAPI Gindex gsFindSubA(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromA(substr);
+   lstr   = gsClocFromA(substr);
    result = gsFindSub(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindSubU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindSubU1(Gs const * const str, Gindex const position, 
    Gc1 const * const substr)
 {
@@ -2221,16 +2221,16 @@ grlAPI Gindex gsFindSubU1(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU1(substr);
+   lstr   = gsClocFromU1(substr);
    result = gsFindSub(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFindSubU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex gsFindSubU2(Gs const * const str, Gindex const position, 
    Gc2 const * const substr)
 {
@@ -2239,18 +2239,18 @@ grlAPI Gindex gsFindSubU2(Gs const * const str, Gindex const position,
 
    genter;
 
-   lstr   = gsCreateFromU2(substr);
+   lstr   = gsClocFromU2(substr);
    result = gsFindSub(str, position, lstr);
-   gsDestroy(lstr);
+   gsDloc(lstr);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsFromCSV
 **
 ** Adjust the string from a CSV field.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsFromCSV(Gs * const str)
 {
    Gindex a;
@@ -2286,9 +2286,9 @@ grlAPI Gs *gsFromCSV(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsGetI
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gi gsGetI(Gs const * const str)
 {
 #if 0
@@ -2301,9 +2301,9 @@ grlAPI Gi gsGetI(Gs const * const str)
    greturn0If(!str);
 
 #if 0
-   stemp = gsCreateU2(str);
+   stemp = gsClocU2(str);
    itemp = (Gi) _wtoi64(stemp);
-   gmemDestroy(stemp);
+   gmemDloc(stemp);
 #else
    itemp = (Gi) _wtoi64(gsGet(str));
 #endif
@@ -2311,11 +2311,11 @@ grlAPI Gi gsGetI(Gs const * const str)
    greturn itemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsGetII
 Parses "[I]?[I]" wheren ? can be any character that does not appear in an 
 integer.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void gsGetII(Gs const * const str, Gi * const a, Gi * const b)
 {
    Gindex itemp;
@@ -2328,18 +2328,18 @@ grlAPI void gsGetII(Gs const * const str, Gi * const a, Gi * const b)
    *a = (Gi) _wtoi64(gsGet(str));
 
    itemp = gsFindFirstNotOfA(str, 0, "0123456789+-");
-   next  = gsCreateFromSub(str, itemp + 1, GindexMAX);
+   next  = gsClocFromSub(str, itemp + 1, GindexMAX);
 
    *b = (Gi) _wtoi64(gsGet(next));
 
-   gsDestroy(next);
+   gsDloc(next);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsGetN
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gn gsGetN(Gs const * const str)
 {
    Gi   ntemp;
@@ -2353,9 +2353,9 @@ grlAPI Gn gsGetN(Gs const * const str)
    greturn (Gn) ntemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsGetNHex
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gn gsGetNHex(Gs const * const str)
 {
    Gindex loopIndex;
@@ -2412,9 +2412,9 @@ STOP:
    greturn (Gn) ntemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsGetR
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gr gsGetR(Gs const * const str)
 {
 #if 0
@@ -2427,9 +2427,9 @@ grlAPI Gr gsGetR(Gs const * const str)
    greturn0If(!str);
 
 #if 0
-   stemp = gsCreateU2(str);
+   stemp = gsClocU2(str);
    rtemp = _wtof(stemp);
-   gmemDestroy(stemp);
+   gmemDloc(stemp);
 #else
    rtemp = _wtof(gsGet(str));
 #endif
@@ -2437,7 +2437,7 @@ grlAPI Gr gsGetR(Gs const * const str)
    greturn rtemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsHash
 
 Hash a string.
@@ -2451,7 +2451,7 @@ str
 return:
 long
    This integer should be modulated with a prime value.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GhashN gsHash(Gs const * const str)
 {
    Gindex a;
@@ -2486,7 +2486,7 @@ grlAPI GhashN gsHash(Gs const * const str)
    greturn hash & GhashNMAX;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsInsert
 
 Insert a string inside another string.  This isn't an efficient
@@ -2507,7 +2507,7 @@ src
    Gs *
    in
    the string.
-******************************************************************************/
+**************************************************************************************************/
 Gs *gsInsert(Gs * const dst, Gindex const position, Gs const * const src)
 {
    genter;
@@ -2522,7 +2522,7 @@ Gs *gsInsert(Gs * const dst, Gindex const position, Gs const * const src)
    }
    else
    {
-      Gs *temp = gsCreate();
+      Gs *temp = gsCloc();
 
       greturnNullIf(!gsAppendSub(temp, dst, 0, position));
       greturnNullIf(!gsAppend(   temp, src));
@@ -2530,15 +2530,15 @@ Gs *gsInsert(Gs * const dst, Gindex const position, Gs const * const src)
 
       greturnNullIf(!gsSet(dst, temp));
 
-      gsDestroy(temp);
+      gsDloc(temp);
    }//lint !e953
 
    greturn dst;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertFormat
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertFormat(Gs * const dst, Gindex const position, 
    Gs const * const src, Gc2 const * const format)
 {
@@ -2547,16 +2547,16 @@ grlAPI Gs *gsInsertFormat(Gs * const dst, Gindex const position,
 
    genter;
 
-   stemp  = _FormatString(gsCreateFrom(src), format);
+   stemp  = _FormatString(gsClocFrom(src), format);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertA(Gs * const dst, Gindex const position, Char const * const src)
 {
    Gs *stemp,
@@ -2564,16 +2564,16 @@ grlAPI Gs *gsInsertA(Gs * const dst, Gindex const position, Char const * const s
 
    genter;
 
-   stemp  = gsCreateFromA(src);
+   stemp  = gsClocFromA(src);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertFormatA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertFormatA(Gs * const dst, Gindex const position, 
    Char const * const src, Gc2 const * const format)
 {
@@ -2582,16 +2582,16 @@ grlAPI Gs *gsInsertFormatA(Gs * const dst, Gindex const position,
 
    genter;
 
-   stemp  = _FormatString(gsCreateFromA(src), format);
+   stemp  = _FormatString(gsClocFromA(src), format);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertU1(Gs * const dst, Gindex const position, Gc1 const * const src)
 {
    Gs *stemp,
@@ -2599,16 +2599,16 @@ grlAPI Gs *gsInsertU1(Gs * const dst, Gindex const position, Gc1 const * const s
 
    genter;
 
-   stemp  = gsCreateFromU1(src);
+   stemp  = gsClocFromU1(src);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertFormatU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertFormatU1(Gs * const dst, Gindex const position, 
    Gc1 const * const src, Gc2 const * const format)
 {
@@ -2617,16 +2617,16 @@ grlAPI Gs *gsInsertFormatU1(Gs * const dst, Gindex const position,
 
    genter;
 
-   stemp  = _FormatString(gsCreateFromU1(src), format);
+   stemp  = _FormatString(gsClocFromU1(src), format);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertU2(Gs * const dst, Gindex const position, Gc2 const * const src)
 {
    Gs *stemp,
@@ -2634,16 +2634,16 @@ grlAPI Gs *gsInsertU2(Gs * const dst, Gindex const position, Gc2 const * const s
 
    genter;
 
-   stemp  = gsCreateFromU2(src);
+   stemp  = gsClocFromU2(src);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsInsertFormatU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsInsertFormatU2(Gs * const dst, Gindex const position, 
    Gc2 const * const src, Gc2 const * const format)
 {
@@ -2652,16 +2652,16 @@ grlAPI Gs *gsInsertFormatU2(Gs * const dst, Gindex const position,
 
    genter;
 
-   stemp  = _FormatString(gsCreateFromU2(src), format);
+   stemp  = _FormatString(gsClocFromU2(src), format);
    result = gsInsert(dst, position, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsIsBlank
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gsIsBlank(Gs const *const str)
 {
    genter;
@@ -2673,9 +2673,9 @@ grlAPI Gb gsIsBlank(Gs const *const str)
    greturn gbFALSE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsIsMultiline
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gsIsMultiline(Gs const * const str)
 {
    Gindex index;
@@ -2692,7 +2692,7 @@ grlAPI Gb gsIsMultiline(Gs const * const str)
    greturn gbFALSE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsReverse
 
 Reverse the string.
@@ -2702,7 +2702,7 @@ dst
    Gs *
    in
    The string.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsReverse(Gs * const str)
 {
    Gindex a;
@@ -2725,9 +2725,9 @@ grlAPI Gs *gsReverse(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsPadHead
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsPadHead(Gs * const str, Gcount const length, Gc2 const letter)
 {
    genter;
@@ -2740,9 +2740,9 @@ grlAPI Gs *gsPadHead(Gs * const str, Gcount const length, Gc2 const letter)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsPadTail
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsPadTail(Gs * const str, Gcount const length, Gc2 const letter)
 {
    genter;
@@ -2755,8 +2755,8 @@ grlAPI Gs *gsPadTail(Gs * const str, Gcount const length, Gc2 const letter)
    greturn str;
 }
 
-/******************************************************************************
-func: gsCreateSplit_
+/**************************************************************************************************
+func: gsClocSplit_
 
 Takes a string an splits it into a vector of sub-strings based
 on the characters passed in.
@@ -2775,16 +2775,16 @@ Example:
 A quick little example of spliting a string on ";".
 
    int      i;
-   Gs    *str   = gsCreateFromA("this;is;a;test");
-   GsArray *split = gsCreateSplit(str, ";");
+   Gs    *str   = gsClocFromA("this;is;a;test");
+   GsArray *split = gsClocSplit(str, ";");
 
    for (i = 0 ; i != garrayGetCount(split); ++i)
    {
      Gs *token = (Gs *) garrayGet(split, i);
      printf("token is: %s.\n", gsGetA(token));
    }
-   garrayForEach(split, gsDestroy);
-   garrayDestroy(split);
+   garrayForEach(split, gsDloc);
+   garrayDloc(split);
 
 Note that we destroy the data prior to destroying the
 vector container.
@@ -2805,20 +2805,20 @@ GsArray *
    An GsArray, N elements in length, where N is equal to the number
    of substrings split off the the orginal.
 
-   Make sure you use garrayForEach(v, gsDestroy) on the
+   Make sure you use garrayForEach(v, gsDloc) on the
    greturned vector. See USAGE.
 
    Some example calls,
-      gsCreateSplit("this,is,a,test", ",") -> ["this", "is", "a", "test"]
-      gsCreateSplit("this;is;", ";")       -> ["this", "is", ""]
-      gsCreateSplit("!!!", "!")            -> ["", "", "", ""]
-      gsCreateSplit("", ",")               -> [""]
+      gsClocSplit("this,is,a,test", ",") -> ["this", "is", "a", "test"]
+      gsClocSplit("this;is;", ";")       -> ["this", "is", ""]
+      gsClocSplit("!!!", "!")            -> ["", "", "", ""]
+      gsClocSplit("", ",")               -> [""]
 
    NULL is greturned if there is no more memory, otherwise a garray
    is always greturned. The length of the garray indicates success
    or failure.  Note that an empty vector is defined by garrayIsEmpty().
-******************************************************************************/
-grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
+**************************************************************************************************/
+grlAPI GsArray *gsClocSplit_(Gs const * const str, Gc const letter)
 {
    Gindex   index;
    GsArray *slist;
@@ -2830,14 +2830,14 @@ grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
       !str ||
       !letter);
 
-   slist = gsArrayCreate((GrlCompareFunc) NULL, gbTRUE);
+   slist = gsArrayCloc((GrlCompareFunc) NULL, gbTRUE);
    greturnNullIf(!slist);
 
    // Non recursive despite the function name.
    forCount(index, gsGetCount(str))
    {
       // Find the substrings;
-      substr = gsCreate();
+      substr = gsCloc();
       for (; index < gsGetCount(str); index++) //lint !e445
       {
          breakIf(*gsGetAt(str, index) == (Gc2) letter);
@@ -2850,10 +2850,10 @@ grlAPI GsArray *gsCreateSplit_(Gs const * const str, Gc const letter)
    greturn slist; //lint !e850
 }
 
-/******************************************************************************
-func: gsCreateU1
-******************************************************************************/
-grlAPI Gc1 *gsCreateU1_(Gs const * const str)
+/**************************************************************************************************
+func: gsClocU1
+**************************************************************************************************/
+grlAPI Gc1 *gsClocU1_(Gs const * const str)
 {
    Gc1    la,
           lb,
@@ -2871,7 +2871,7 @@ grlAPI Gc1 *gsCreateU1_(Gs const * const str)
 
    // Allocate the buffer.  Oversized but for worst case it'll do.
    count = gsGetCount(str);
-   stemp = (Gc1 *) gmemCreateTypeArray(Gc1, count * 4); //lint !e926
+   stemp = (Gc1 *) gmemClocTypeArray(Gc1, count * 4); //lint !e926
    greturnNullIf(!stemp);
 
    // copy the letters over.
@@ -2889,10 +2889,10 @@ grlAPI Gc1 *gsCreateU1_(Gs const * const str)
    greturn stemp;
 }
 
-/******************************************************************************
-func: gsCreateU2
-******************************************************************************/
-grlAPI Gc2 *gsCreateU2_(Gs *str)
+/**************************************************************************************************
+func: gsClocU2
+**************************************************************************************************/
+grlAPI Gc2 *gsClocU2_(Gs *str)
 {
    Gc2   la,
          lb;
@@ -2908,7 +2908,7 @@ grlAPI Gc2 *gsCreateU2_(Gs *str)
 
    // Allocate the buffer.  Oversized but for worst case it'll do.
    count = gsGetCount(str);
-   stemp = gmemCreateTypeArray(Gc2, count * 2);
+   stemp = gmemClocTypeArray(Gc2, count * 2);
    greturnNullIf(!stemp);
 
    // copy the letters over.
@@ -2924,7 +2924,7 @@ grlAPI Gc2 *gsCreateU2_(Gs *str)
    greturn stemp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsStrip
 
 strip stuff from the string.
@@ -2939,7 +2939,7 @@ type
    GcStripType
    in
    what to strip.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
 {
    Gindex a,
@@ -3063,11 +3063,11 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsStripCompress
 
 Compress the white space runs to one space.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsStripCompress(Gs * const str)
 {
    Gindex a,
@@ -3114,11 +3114,11 @@ grlAPI Gs *gsStripCompress(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsToCSV
 **
 ** Adjusts the string so that it can live in a CSV file.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsToCSV(Gs * const str)
 {
    Gindex a;
@@ -3136,7 +3136,7 @@ grlAPI Gs *gsToCSV(Gs * const str)
    ** to convert.  Not as efficient as it could be.*/
    if (gsFindFirstOfA(str, 0, "\",") != gsFIND_FAIL)
    {
-      Gs *temp = gsCreate();
+      Gs *temp = gsCloc();
 
       greturnNullIf(!gsAppendC(temp, L'"'));
 
@@ -3154,17 +3154,17 @@ grlAPI Gs *gsToCSV(Gs * const str)
 
       greturnNullIf(!gsSet(str, temp));
 
-      gsDestroy(temp);
+      gsDloc(temp);
    }//lint !e953
 
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsToFormat
 **
 ** See Append for more information.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsToFormat(Gs * const str, Gc2 const * const format)
 {
    genter;
@@ -3177,7 +3177,7 @@ grlAPI Gs *gsToFormat(Gs * const str, Gc2 const * const format)
    greturn _FormatString(str, format);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsToLowerCase
 
 Convert the string to all lower case letters.
@@ -3187,7 +3187,7 @@ dst
    Gs *
    in
    The string.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsToLowerCase(Gs * const str)
 {
    Gindex a;
@@ -3206,7 +3206,7 @@ grlAPI Gs *gsToLowerCase(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gsToUpperCase
 
 Convert the string to all upper case letters.
@@ -3216,7 +3216,7 @@ dst
    Gs *
    in
    The string.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsToUpperCase(Gs * const str)
 {
    Gindex a;
@@ -3235,7 +3235,7 @@ grlAPI Gs *gsToUpperCase(Gs * const str)
    greturn str;
 }
 
-/******************************************************************************
+/**************************************************************************************************
  * FUNC: gsTrim
  *
  * Performs a left and right trim in succcession.  If you
@@ -3272,9 +3272,9 @@ grlAPI Gs *gsTrim(Gs * const str, Gs const * const letters)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimA(Gs * const str, Char const * const letters)
 {
    Gs *stemp,
@@ -3282,16 +3282,16 @@ grlAPI Gs *gsTrimA(Gs * const str, Char const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromA(letters);
+   stemp  = gsClocFromA(letters);
    result = gsTrim(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimU1(Gs * const str, Gc1 const * const letters)
 {
    Gs *stemp,
@@ -3299,16 +3299,16 @@ grlAPI Gs *gsTrimU1(Gs * const str, Gc1 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU1(letters);
+   stemp  = gsClocFromU1(letters);
    result = gsTrim(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimU2(Gs * const str, Gc2 const * const letters)
 {
    Gs *stemp,
@@ -3316,14 +3316,14 @@ grlAPI Gs *gsTrimU2(Gs * const str, Gc2 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU2(letters);
+   stemp  = gsClocFromU2(letters);
    result = gsTrim(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
  * FUNC: gsTrimLeft
  *
  * Performs a left trim on a string. Trimmed characters
@@ -3366,9 +3366,9 @@ grlAPI Gs *gsTrimLeft(Gs * const str, Gs const * const letters)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimLeftA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimLeftA(Gs * const str, Char const * const letters)
 {
    Gs *stemp,
@@ -3376,16 +3376,16 @@ grlAPI Gs *gsTrimLeftA(Gs * const str, Char const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromA(letters);
+   stemp  = gsClocFromA(letters);
    result = gsTrimLeft(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimLeftU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimLeftU1(Gs * const str, Gc1 const * const letters)
 {
    Gs *stemp,
@@ -3393,16 +3393,16 @@ grlAPI Gs *gsTrimLeftU1(Gs * const str, Gc1 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU1(letters);
+   stemp  = gsClocFromU1(letters);
    result = gsTrimLeft(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimLeftU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimLeftU2(Gs * const str, Gc2 const * const letters)
 {
    Gs *stemp,
@@ -3410,14 +3410,14 @@ grlAPI Gs *gsTrimLeftU2(Gs * const str, Gc2 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU2(letters);
+   stemp  = gsClocFromU2(letters);
    result = gsTrimLeft(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
  * FUNC: gsTrimRight
  *
  * Performs a right trim on a string. Trimmed characters
@@ -3460,9 +3460,9 @@ grlAPI Gs *gsTrimRight(Gs * const str, Gs const * const letters)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimRightA
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimRightA(Gs * const str, Char const * const letters)
 {
    Gs *stemp,
@@ -3470,16 +3470,16 @@ grlAPI Gs *gsTrimRightA(Gs * const str, Char const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromA(letters);
+   stemp  = gsClocFromA(letters);
    result = gsTrimRight(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimRightU1
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimRightU1(Gs * const str, Gc1 const * const letters)
 {
    Gs *stemp,
@@ -3487,16 +3487,16 @@ grlAPI Gs *gsTrimRightU1(Gs * const str, Gc1 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU1(letters);
+   stemp  = gsClocFromU1(letters);
    result = gsTrimRight(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 ** FUNC: gsTrimRightU2
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gsTrimRightU2(Gs * const str, Gc2 const * const letters)
 {
    Gs *stemp,
@@ -3504,36 +3504,36 @@ grlAPI Gs *gsTrimRightU2(Gs * const str, Gc2 const * const letters)
 
    genter;
 
-   stemp  = gsCreateFromU2(letters);
+   stemp  = gsClocFromU2(letters);
    result = gsTrimRight(str, stemp);
-   gsDestroy(stemp);
+   gsDloc(stemp);
 
    greturn result;
 }
 
-/******************************************************************************
-func: gvDataDestroyS
+/**************************************************************************************************
+func: gvDataDlocS
 
 Used with the containers that store a gv for pointers.
-******************************************************************************/
-grlAPI void gvDataDestroyS(GvData * const value)
+**************************************************************************************************/
+grlAPI void gvDataDlocS(GvData * const value)
 {
    genter;
 
-   gsDestroy(gvDataGetS(value));
+   gsDloc(gvDataGetS(value));
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local
 function
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 ** FUNC: _Format*
 **
 ** Format an integer.
-******************************************************************************/
+**************************************************************************************************/
 static Gs *_FormatI(Gi const i, Gc2 const * const format)
 {
    Gs *result;
@@ -3543,7 +3543,7 @@ static Gs *_FormatI(Gi const i, Gc2 const * const format)
 
    greturnNullIf(swprintf_s(ctemp, (size_t) 1024, format, i) == -1);
 
-   result = gsCreateFromU2(ctemp);
+   result = gsClocFromU2(ctemp);
 
    greturn result;
 }
@@ -3557,7 +3557,7 @@ static Gs *_FormatN(Gn const n, Gc2 const * const format)
 
    greturnNullIf(swprintf_s(ctemp, (size_t) 1024, format, n) == -1);
 
-   result = gsCreateFromU2(ctemp);
+   result = gsClocFromU2(ctemp);
 
    greturn result;
 }
@@ -3571,7 +3571,7 @@ static Gs *_FormatR(Gr const r, Gc2 const * const format)
 
    greturnNullIf(swprintf_s(ctemp, (size_t) 1024, format, r) == -1);
 
-   result = gsCreateFromU2(ctemp);
+   result = gsClocFromU2(ctemp);
 
    greturn result;
 }
@@ -3588,9 +3588,9 @@ static Gs *_FormatString(Gs * const str, Gc2 const * const format)
    genter;
 
 #if 0
-   stemp = gsCreateU2(str);
+   stemp = gsClocU2(str);
    swprintf_s(ctemp, 1024, format, stemp);
-   gmemDestroy(stemp);
+   gmemDloc(stemp);
 #else
    greturnNullIf(swprintf_s(ctemp, (size_t) 1024, format, gsGet(str)) == -1)
 #endif
@@ -3601,11 +3601,11 @@ static Gs *_FormatString(Gs * const str, Gc2 const * const format)
 }
 
 #if 0
-/******************************************************************************
+/**************************************************************************************************
 func: _GetByteLength
 
 Get the length of the data the hard way.
-******************************************************************************/
+**************************************************************************************************/
 static Gcount _GetByteLength(Gp *ptr, GcType type)
 {
    Gcount result;
@@ -3660,11 +3660,11 @@ static Gcount _GetByteLength(Gp *ptr, GcType type)
 }
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 func: _GetLength
 
 Get the length of the data the hard way.
-******************************************************************************/
+**************************************************************************************************/
 static Gcount _GetLength(Gp const * const ptr, GcType const type)
 {
    Gcount       result;

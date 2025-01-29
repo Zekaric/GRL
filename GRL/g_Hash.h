@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_Hash
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 G_Hash and name table to mimic Galaxy vname and vdict functionality
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(G_HASHH)
 #define      G_HASHH
@@ -44,17 +44,17 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 type: GhashSize
 
 The size of the G_Hash table when created.  Convenient prime
 numbers.
 
 Enumeration
-******************************************************************************/
+**************************************************************************************************/
 typedef enum
 {
    ghashSize10   = 11,
@@ -99,9 +99,9 @@ typedef enum
    ghashSize2G   = 2147483647
 } GhashSize;
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GCONTAINER_VAR
@@ -112,21 +112,21 @@ typedef struct
    GhashSize          binCount;
 } G_Hash;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE) ((G_Hash *)  gleakCreate((Gp *) g_HashCreate_(             gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
-#define g_HashCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                 g_HashCreateContent_(HASH, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE))
+#define g_HashCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE) ((G_Hash *)  gleakCloc((Gp *) g_HashCloc_(               gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE)), gsizeof(G_Hash)))
+#define g_HashClocContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                               g_HashClocContent_(  HASH, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC), (HASH_FUNC), (HASHSIZE))
 //lint -restore
 
 grlAPI Gb       g_HashAdd(             G_Hash       * const hash, Gp const * const value);
 
-grlAPI G_Hash  *g_HashCreate_(                                    Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
-grlAPI Gb       g_HashCreateContent_(  G_Hash       * const hash, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
+grlAPI G_Hash  *g_HashCloc_(                                      Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
+grlAPI Gb       g_HashClocContent_(    G_Hash       * const hash, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, GrlHashFunc const hashFunc, GhashSize const hashSize);
 
-grlAPI void     g_HashDestroy(         G_Hash       * const hash);
-grlAPI void     g_HashDestroyContent(  G_Hash       * const hash);
+grlAPI void     g_HashDloc(            G_Hash       * const hash);
+grlAPI void     g_HashDlocContent(     G_Hash       * const hash);
 
 grlAPI Gb       g_HashErase(           G_Hash       * const hash, Gp const * const value);
 

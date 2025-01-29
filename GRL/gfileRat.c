@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       GfileRat
 author:     Robbert de Groot
 copyright:  2020, Robbert de Groot
 
 description:
 GRL Ascii Database routines
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,37 +33,37 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 constant:
-******************************************************************************/
+**************************************************************************************************/
 #define FILE_HEADER_ASCII  "GFRAT_AF"
 #define FILE_HEADER_BINARY "GFRAT_BF"
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 variable:
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 static void           _ColSet(            GfileRat const * const rat, GfileRatCol * const col, Gs * const name, GfileRatType const type, Gcount byteCount);
 
 static void           _FileBackup(        GfileRat const * const rat);
 static void           _FileBackupRemove(  GfileRat const * const rat);
 static Gfile         *_FileOpen(          GfileRat       * const rat, GfileRatMode const mode);
-                                                      
+
 static Gb             _Load(              GfileRat       * const rat, Gfile * const file);
 static Gb             _LoadConfig(        GfileRat       * const rat, Gfile * const file);
 static Gb             _LoadHeader(        GfileRat       * const rat, Gfile * const file);
@@ -76,8 +76,8 @@ static Gn             _N2FromFileN1Hex(   Gn1      const * const n);
 static Gn             _N4FromFileN1Hex(   Gn1      const * const n);
 static Gn             _N8FromFileN1Hex(   Gn1      const * const n);
 
-static GfileRatRow   *_RowCreate(         GfileRat const * const rat);
-static void           _RowDestroy(        GfileRat const * const rat, GfileRatRow * const row);
+static GfileRatRow   *_RowCloc(           GfileRat const * const rat);
+static void           _RowDloc(           GfileRat const * const rat, GfileRatRow * const row);
 
 static Gs            *_SFromN1(           Gn1      const * const n, Gcount const count);
 static Gb             _StoreAll(          GfileRat       * const rat);
@@ -88,35 +88,35 @@ static Gb             _StoreUpdatedRows(  GfileRat       * const rat);
 
 static Gversion       _VersionFromN1(     Gn1      const * const n);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
-func: gfileRatCreate_
-******************************************************************************/
-grlAPI GfileRat *gfileRatCreate_(Gpath const * const path, Gb const isBinary, GfileRatMode const mode)
+**************************************************************************************************/
+/**************************************************************************************************
+func: gfileRatCloc_
+**************************************************************************************************/
+grlAPI GfileRat *gfileRatCloc_(Gpath const * const path, Gb const isBinary, GfileRatMode const mode)
 {
    GfileRat *rat;
 
    genter;
 
-   rat = gmemCreateType(GfileRat);
+   rat = gmemClocType(GfileRat);
    greturnNullIf(!rat);
 
-   if (!gfileRatCreateContent(rat, path, isBinary, mode))
+   if (!gfileRatClocContent(rat, path, isBinary, mode))
    {
-      gfileRatDestroy(rat);
+      gfileRatDloc(rat);
       greturn NULL;
    }
 
    greturn rat;
 }
 
-/******************************************************************************
-func: gfileRatCreateContent
-******************************************************************************/
-grlAPI Gb gfileRatCreateContent(GfileRat * const rat, Gpath const * const path, Gb const isBinary,
+/**************************************************************************************************
+func: gfileRatClocContent
+**************************************************************************************************/
+grlAPI Gb gfileRatClocContent(GfileRat * const rat, Gpath const * const path, Gb const isBinary,
    GfileRatMode const mode)
 {
    Gb     result;
@@ -133,15 +133,15 @@ grlAPI Gb gfileRatCreateContent(GfileRat * const rat, Gpath const * const path, 
    rat->isBinary          = isBinary;
    rat->versionFile       = 0;
    rat->versionData       = 0;
-   rat->path              = gpathCreateFrom(path);
-   rat->pathBackup        = gpathCreateFrom(path);
+   rat->path              = gpathClocFrom(path);
+   rat->pathBackup        = gpathClocFrom(path);
    gpathPopExtension(  rat->pathBackup);
    gpathPushExtensionA(rat->pathBackup, "bak");
 
-   rat->colArray          = gfileRatColArrayCreate();
-   rat->rowArray          = gfileRatRowArrayCreate();
-   rat->isUpdatedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
-   rat->isDeletedRowArray = gindexArrayCreate(gindexCompare, gbTRUE);
+   rat->colArray          = gfileRatColArrayCloc();
+   rat->rowArray          = gfileRatRowArrayCloc();
+   rat->isUpdatedRowArray = gindexArrayCloc(gindexCompare, gbTRUE);
+   rat->isDeletedRowArray = gindexArrayCloc(gindexCompare, gbTRUE);
    rat->offsetData        = 0;
    rat->dataByteCount     = 0;
    rat->rowByteCount      = 0;
@@ -163,26 +163,26 @@ STOP:
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: gfileRatDestroy
-******************************************************************************/
-grlAPI void gfileRatDestroy(GfileRat * const rat)
+/**************************************************************************************************
+func: gfileRatDloc
+**************************************************************************************************/
+grlAPI void gfileRatDloc(GfileRat * const rat)
 {
    genter;
 
    greturnVoidIf(!rat);
 
-   gfileRatDestroyContent(rat);
+   gfileRatDlocContent(rat);
 
-   gmemDestroy(rat);
+   gmemDloc(rat);
 
    greturn;
 }
 
-/******************************************************************************
-func: gfileRatDestroyContent
-******************************************************************************/
-grlAPI void gfileRatDestroyContent(GfileRat * const rat)
+/**************************************************************************************************
+func: gfileRatDlocContent
+**************************************************************************************************/
+grlAPI void gfileRatDlocContent(GfileRat * const rat)
 {
    Gindex  index;
    GfileRatCol *col;
@@ -194,33 +194,33 @@ grlAPI void gfileRatDestroyContent(GfileRat * const rat)
    // Clean out all the dynamic values in the table.
    forCount (index, gfileRatRowArrayGetCount(rat->rowArray))
    {
-      _RowDestroy(rat, gfileRatRowArrayGetAt(rat->rowArray, index));
+      _RowDloc(rat, gfileRatRowArrayGetAt(rat->rowArray, index));
    }
-   gfileRatRowArrayDestroy(  rat->rowArray);
+   gfileRatRowArrayDloc(rat->rowArray);
 
    // Clean out all the dynamic value in the columns.
    forCount (index, gfileRatColArrayGetCount(rat->colArray))
    {
       col = gfileRatColArrayGetAt(rat->colArray, index);
 
-      gsDestroy(col->name);
+      gsDloc(col->name);
    }
-   gfileRatColArrayDestroy(  rat->colArray);
+   gfileRatColArrayDloc(rat->colArray);
 
-   gindexArrayDestroy(  rat->isUpdatedRowArray);
-   gindexArrayDestroy(  rat->isDeletedRowArray);
+   gindexArrayDloc(rat->isUpdatedRowArray);
+   gindexArrayDloc(rat->isDeletedRowArray);
 
-   gpathDestroy(        rat->path);
-   gpathDestroy(        rat->pathBackup);
-   
-   gmemDestroy(         rat->rowBuffer);
+   gpathDloc(rat->path);
+   gpathDloc(rat->pathBackup);
+
+   gmemDloc(rat->rowBuffer);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatGetColCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileRatGetColCount(GfileRat const * const rat)
 {
    Gcount count;
@@ -234,9 +234,9 @@ grlAPI Gcount gfileRatGetColCount(GfileRat const * const rat)
    greturn count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatGetRowCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileRatGetRowCount(GfileRat const * const rat)
 {
    Gcount count;
@@ -250,9 +250,9 @@ grlAPI Gcount gfileRatGetRowCount(GfileRat const * const rat)
    greturn count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatGetVersion
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gid gfileRatGetVersion(GfileRat const * const rat)
 {
    genter;
@@ -262,9 +262,9 @@ grlAPI Gid gfileRatGetVersion(GfileRat const * const rat)
    greturn rat->versionFile;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatSetVersion
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileRatSetVersion(GfileRat * const rat, Gversion const version)
 {
    genter;
@@ -279,9 +279,9 @@ grlAPI Gb gfileRatSetVersion(GfileRat * const rat, Gversion const version)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatStore
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileRatStore(GfileRat * const rat)
 {
    Gb result;
@@ -290,13 +290,13 @@ grlAPI Gb gfileRatStore(GfileRat * const rat)
 
    greturnFalseIf(!rat);
 
-   // Update the whole file.  
+   // Update the whole file.
    if (rat->isUpdatedColArray)
    {
       result = _StoreAll(rat);
    }
    // Update only certain rows.
-   else 
+   else
    {
       result = _StoreUpdatedRows(rat);
    }
@@ -309,11 +309,11 @@ grlAPI Gb gfileRatStore(GfileRat * const rat)
    greturn result;
 }
 
-/******************************************************************************
-func: gfileRatColCreate
-******************************************************************************/
-grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex, 
-   Gs const * const colName, GfileRatType const type, Gcount const byteCountForStrings)
+/**************************************************************************************************
+func: gfileRatColCloc
+**************************************************************************************************/
+grlAPI Gb gfileRatColCloc(GfileRat * const rat, Gindex const inColIndex, Gs const * const colName, 
+   GfileRatType const type, Gcount const byteCountForStrings)
 {
    Gindex       index,
                 colIndex;
@@ -324,12 +324,12 @@ grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex,
    Gv           v;
 
    genter;
-   
+
    greturnFalseIf(!rat);
 
    // Properly set the index of the column.
    colIndex = inColIndex;
-   if (inColIndex < 0) 
+   if (inColIndex < 0)
    {
       colIndex = 0;
    }
@@ -341,7 +341,7 @@ grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex,
    result = gbFALSE;
 
    // Setup the column information.
-   _ColSet(rat, &col, gsCreateFrom(colName), type, byteCountForStrings);
+   _ColSet(rat, &col, gsClocFrom(colName), type, byteCountForStrings);
 
    // Add the column to the array.
    gfileRatColArrayAddAt(rat->colArray, colIndex, &col);
@@ -359,7 +359,7 @@ grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex,
       // Create a blank string if the column is a string.
       if (type == gfileRatTypeS)
       {
-         v.s = gsCreate();
+         v.s = gsCloc();
          if (!v.s)
          {
             allocFailed = gbTRUE;
@@ -381,10 +381,10 @@ grlAPI Gb gfileRatColCreate(GfileRat * const rat, Gindex const inColIndex,
    greturn result;
 }
 
-/******************************************************************************
-func: gfileRatColDestroy
-******************************************************************************/
-grlAPI Gb gfileRatColDestroy(GfileRat * const rat, Gindex const colIndex)
+/**************************************************************************************************
+func: gfileRatColDloc
+**************************************************************************************************/
+grlAPI Gb gfileRatColDloc(GfileRat * const rat, Gindex const colIndex)
 {
    Gindex       index;
    Gb           result;
@@ -410,7 +410,7 @@ grlAPI Gb gfileRatColDestroy(GfileRat * const rat, Gindex const colIndex)
 
       if (col.type == gfileRatTypeS)
       {
-         gsDestroy(gvArrayGetAt(row->value, colIndex)->s);
+         gsDloc(gvArrayGetAt(row->value, colIndex)->s);
       }
 
       // Remove the column.
@@ -431,9 +431,9 @@ grlAPI Gb gfileRatColDestroy(GfileRat * const rat, Gindex const colIndex)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatColGetName
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gs *gfileRatColGetName(GfileRat const * const rat, Gindex const colIndex)
 {
    GfileRatCol *col;
@@ -448,9 +448,9 @@ grlAPI Gs *gfileRatColGetName(GfileRat const * const rat, Gindex const colIndex)
    greturn col->name;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatColGetType
-******************************************************************************/
+**************************************************************************************************/
 grlAPI GfileRatType gfileRatColGetType(GfileRat const * const rat, Gindex const colIndex)
 {
    GfileRatCol *col;
@@ -471,9 +471,9 @@ grlAPI GfileRatType gfileRatColGetType(GfileRat const * const rat, Gindex const 
    greturn col->type;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatColGetByteCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount gfileRatColGetByteCount(GfileRat const * const rat, Gindex const colIndex)
 {
    GfileRatCol *col;
@@ -488,10 +488,10 @@ grlAPI Gcount gfileRatColGetByteCount(GfileRat const * const rat, Gindex const c
    greturn col->byteCount;
 }
 
-/******************************************************************************
-func: gfileRatRowDestroy
-******************************************************************************/
-grlAPI Gb gfileRatRowDestroy(GfileRat * const rat, Gindex const rowIndex)
+/**************************************************************************************************
+func: gfileRatRowDloc
+**************************************************************************************************/
+grlAPI Gb gfileRatRowDloc(GfileRat * const rat, Gindex const rowIndex)
 {
    Gindex       index;
    GfileRatRow *row;
@@ -515,7 +515,7 @@ grlAPI Gb gfileRatRowDestroy(GfileRat * const rat, Gindex const rowIndex)
 
       if (col.type == gfileRatTypeS)
       {
-         gsDestroy(gvArrayGetAt(row->value, index)->s);
+         gsDloc(gvArrayGetAt(row->value, index)->s);
       }
 
       // Clear out any of the data.
@@ -528,9 +528,9 @@ grlAPI Gb gfileRatRowDestroy(GfileRat * const rat, Gindex const rowIndex)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatRowGetValue
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gv gfileRatRowGetValue(GfileRat const * const rat, Gindex const rowIndex, Gindex const colIndex)
 {
    Gv          *vp,
@@ -559,9 +559,9 @@ grlAPI Gv gfileRatRowGetValue(GfileRat const * const rat, Gindex const rowIndex,
    greturn *vp;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatRowIsExisting
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gfileRatRowIsExisting(GfileRat const * const rat, Gindex const rowIndex)
 {
    GfileRatRow *row;
@@ -578,10 +578,10 @@ grlAPI Gb gfileRatRowIsExisting(GfileRat const * const rat, Gindex const rowInde
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gfileRatRowSetValue
-******************************************************************************/
-grlAPI Gb gfileRatRowSetValue(GfileRat * const rat, Gindex const rowIndex, Gindex const colIndex, 
+**************************************************************************************************/
+grlAPI Gb gfileRatRowSetValue(GfileRat * const rat, Gindex const rowIndex, Gindex const colIndex,
    Gv const value)
 {
    GfileRatRow *row;
@@ -594,18 +594,18 @@ grlAPI Gb gfileRatRowSetValue(GfileRat * const rat, Gindex const rowIndex, Ginde
       (colIndex < 0 || gfileRatColArrayGetCount(rat->colArray) <= colIndex));
 
    row = gfileRatRowArrayGetAt(rat->rowArray, rowIndex);
-   gvArrayUpdateAt(row->value, colIndex, &value);   
+   gvArrayUpdateAt(row->value, colIndex, &value);
 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _ColSet
-******************************************************************************/
+**************************************************************************************************/
 static void _ColSet(GfileRat const * const rat, GfileRatCol * const col, Gs * const name, GfileRatType const type, Gcount byteCount)
 {
    col->name = name;
@@ -623,15 +623,15 @@ static void _ColSet(GfileRat const * const rat, GfileRatCol * const col, Gs * co
    case gfileRatTypeI8: col->byteCount = (rat->isBinary) ? 8 : 16;
    case gfileRatTypeR4: col->byteCount = (rat->isBinary) ? 4 : 8;
    case gfileRatTypeR8: col->byteCount = (rat->isBinary) ? 8 : 16;
-   case gfileRatTypeS: 
+   case gfileRatTypeS:
       col->byteCount = byteCount;
       break;
    }
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _FileBackup
-******************************************************************************/
+**************************************************************************************************/
 static void _FileBackup(GfileRat const * const rat)
 {
    genter;
@@ -645,9 +645,9 @@ static void _FileBackup(GfileRat const * const rat)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _FileBackupRemove
-******************************************************************************/
+**************************************************************************************************/
 static void _FileBackupRemove(GfileRat const * const rat)
 {
    genter;
@@ -658,9 +658,9 @@ static void _FileBackupRemove(GfileRat const * const rat)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _FileOpen
-******************************************************************************/
+**************************************************************************************************/
 static Gfile *_FileOpen(GfileRat * const rat, GfileRatMode const mode)
 {
    Gfile *file;
@@ -668,13 +668,13 @@ static Gfile *_FileOpen(GfileRat * const rat, GfileRatMode const mode)
    genter;
 
    file = gfileOpen(rat->path, (GfileOpenMode) mode);
-   
+
    greturn file;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _Load
-******************************************************************************/
+**************************************************************************************************/
 static Gb _Load(GfileRat * const rat, Gfile * const file)
 {
    Gb        result;
@@ -703,9 +703,9 @@ STOP:
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LoadConfig
-******************************************************************************/
+**************************************************************************************************/
 static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
 {
    Gb           result;
@@ -722,9 +722,9 @@ static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
    result = gbFALSE;
 
    // Get the column names.
-   line = gsCreate();
+   line = gsCloc();
    stopIf(!gfileGetS(file, gcTypeU1, line));
-   sarray = gsCreateSplit(line, L'|');
+   sarray = gsClocSplit(line, L'|');
 
    // Create the column array.
    gfileRatColArrayFlush(   rat->colArray);
@@ -743,12 +743,12 @@ static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
    }
 
    // Clean up.
-   gsArrayDestroy(sarray);
+   gsArrayDloc(sarray);
    sarray = NULL;
-   
+
    // Get the column types.
    stopIf(!gfileGetS(file, gcTypeU1, line));
-   sarray = gsCreateSplit(line, L'|');
+   sarray = gsClocSplit(line, L'|');
 
    byteCount = 0;
 
@@ -782,7 +782,7 @@ static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
 
          _ColSet(rat, col, col->name, gfileRatTypeS, (Gcount) gsGetN(arrayLine));
       }
-      else 
+      else
       {
          // Unknown type.
          stop();
@@ -799,22 +799,22 @@ static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
    rat->rowByteCount  = byteCount + 9;
 
    // Set up the row line buffer.
-   gmemDestroy(rat->rowBuffer);
-   rat->rowBuffer = gmemCreateTypeArray(Gn1, rat->rowByteCount);
+   gmemDloc(rat->rowBuffer);
+   rat->rowBuffer = gmemClocTypeArray(Gn1, rat->rowByteCount);
 
 STOP:
    // Clean up
-   gsArrayForEach(sarray, gsDestroyFunc);
-   gsArrayDestroy(sarray);
+   gsArrayForEach(sarray, gsDlocFunc);
+   gsArrayDloc(   sarray);
 
-   gsDestroy(line);
+   gsDloc(line);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LoadHeader
-******************************************************************************/
+**************************************************************************************************/
 static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
 {
    Gb       result;
@@ -828,18 +828,18 @@ static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
    result = gbFALSE;
 
    // Get the versions.
-   line = gsCreate();
+   line = gsCloc();
    if (!gfileGetS(file, gcTypeU1, line))
    {
-      gsDestroy(line);
+      gsDloc(line);
       stop();
    }
 
    // Create the string array
-   sarray = gsCreateSplit(line, L'|');
+   sarray = gsClocSplit(line, L'|');
 
    // Clean up.
-   gsDestroy(line);
+   gsDloc(line);
 
    // Get the header.
    line = gsArrayGetAt(sarray, 0);
@@ -853,7 +853,7 @@ static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
    {
       rat->isBinary = gbTRUE;
    }
-   else 
+   else
    {
       stop();
    }
@@ -885,27 +885,27 @@ static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
 
 STOP:
    // Clean up.
-   gsArrayForEach(sarray, gsDestroyFunc);
-   gsArrayDestroy(sarray);
+   gsArrayForEach(sarray, gsDlocFunc);
+   gsArrayDloc(   sarray);
 
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LoadRow
-******************************************************************************/
+**************************************************************************************************/
 static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowIndex)
 {
    Gindex             index,
-                      bufferIndex;          
+                      bufferIndex;
    GfileSetPosition   positionResult;
    Gv                 value;
    Gv2                v2;
    Gv4                v4;
    GfileRatCol       *col;
    GfileRatRow       *row;
-   
+
    genter;
 
    // Set the file position
@@ -916,7 +916,7 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
    greturnFalseIf(gfileGet(file, rat->rowByteCount, rat->rowBuffer) != rat->rowByteCount);
 
    // Create the row.
-   row = _RowCreate(rat);
+   row = _RowCloc(rat);
 
    // Get the isDeleted flag.
    row->isDeleted = rat->rowBuffer[rat->dataByteCount] == 'T';
@@ -986,9 +986,9 @@ static Gb _LoadRow(GfileRat * const rat, Gfile * const file, Gindex const rowInd
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NFromHex
-******************************************************************************/
+**************************************************************************************************/
 static Gn _NFromHex(Gn1 const * const n)
 {
    genter;
@@ -1016,29 +1016,29 @@ static Gn _NFromHex(Gn1 const * const n)
    case 'e':
    case 'E': greturn 0xe;
    }
-      
+
    greturn 0xf;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _N1FromFileN1Hex
-******************************************************************************/
+**************************************************************************************************/
 static Gn _N1FromFileN1Hex(Gn1 const * const n)
 {
    Gn v;
 
    genter;
-   
-   v = 
+
+   v =
       _NFromHex(&n[0]) <<  4 |
       _NFromHex(&n[1]);
 
    greturn v;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _FileN1FromN
-******************************************************************************/
+**************************************************************************************************/
 static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
 {
    Gindex index,
@@ -1053,7 +1053,7 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
    {
       nvalue = (value >> (shift[nindex] + 4)) & 0xF;
 
-      switch(nvalue)      
+      switch(nvalue)
       {
       case 0x0: n[index * 2 + 0] = '0'; break;
       case 0x1: n[index * 2 + 0] = '1'; break;
@@ -1075,7 +1075,7 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
 
       nvalue = (value >> shift[nindex]) & 0xF;
 
-      switch(nvalue)      
+      switch(nvalue)
       {
       case 0x0: n[index * 2 + 1] = '0'; break;
       case 0x1: n[index * 2 + 1] = '1'; break;
@@ -1101,16 +1101,16 @@ static void _FileN1FromN(Gn1 * const n, Gcount const byteCount, Gn const value)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _N2FromFileN1Hex
-******************************************************************************/
+**************************************************************************************************/
 static Gn _N2FromFileN1Hex(Gn1 const * const n)
 {
    Gn v;
 
    genter;
-   
-   v = 
+
+   v =
       _NFromHex(&n[0]) << 12 |
       _NFromHex(&n[1]) <<  8 |
       _NFromHex(&n[2]) <<  4 |
@@ -1119,16 +1119,16 @@ static Gn _N2FromFileN1Hex(Gn1 const * const n)
    greturn v;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _N4FromFileN1Hex
-******************************************************************************/
+**************************************************************************************************/
 static Gn _N4FromFileN1Hex(Gn1 const * const n)
 {
    Gn v;
 
    genter;
-   
-   v = 
+
+   v =
       _NFromHex(&n[0]) << 28 |
       _NFromHex(&n[1]) << 24 |
       _NFromHex(&n[2]) << 20 |
@@ -1141,16 +1141,16 @@ static Gn _N4FromFileN1Hex(Gn1 const * const n)
    greturn v;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _N8FromFileN1Hex
-******************************************************************************/
+**************************************************************************************************/
 static Gn _N8FromFileN1Hex(Gn1 const * const n)
 {
    Gn v;
 
    genter;
-   
-   v = 
+
+   v =
       _NFromHex(&n[ 0]) << 60 |
       _NFromHex(&n[ 1]) << 56 |
       _NFromHex(&n[ 2]) << 52 |
@@ -1171,34 +1171,34 @@ static Gn _N8FromFileN1Hex(Gn1 const * const n)
    greturn v;
 }
 
-/******************************************************************************
-func: _RowCreate
-******************************************************************************/
-static GfileRatRow *_RowCreate(GfileRat const * const rat)
+/**************************************************************************************************
+func: _RowCloc
+**************************************************************************************************/
+static GfileRatRow *_RowCloc(GfileRat const * const rat)
 {
    GfileRatRow *row;
 
    genter;
 
-   row = gmemCreateType(GfileRatRow);
+   row = gmemClocType(GfileRatRow);
    greturnNullIf(!row);
 
    GTYPE_SET(row, "GfileRatRow");
 
-   row->value = gvArrayCreate(NULL, gbFALSE);
+   row->value = gvArrayCloc(NULL, gbFALSE);
    if (!row->value)
    {
-      _RowDestroy(rat, row);
+      _RowDloc(rat, row);
       greturn NULL;
    }
 
    greturn row;
 }
 
-/******************************************************************************
-func: _RowDestroy
-******************************************************************************/
-static void _RowDestroy(GfileRat const * const rat, GfileRatRow * const row)
+/**************************************************************************************************
+func: _RowDloc
+**************************************************************************************************/
+static void _RowDloc(GfileRat const * const rat, GfileRatRow * const row)
 {
    Gindex  index;
    GfileRatCol *col;
@@ -1223,14 +1223,14 @@ static void _RowDestroy(GfileRat const * const rat, GfileRatRow * const row)
    gindexArrayAdd(rat->isUpdatedRowArray, row);
    gindexArrayAdd(rat->isDeletedRowArray, row);
 
-   gmemDestroy(row);
+   gmemDloc(row);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _SFromN1
-******************************************************************************/
+**************************************************************************************************/
 static Gs *_SFromN1(Gn1 const * const n, Gcount const count)
 {
    Gs    *s;
@@ -1238,19 +1238,19 @@ static Gs *_SFromN1(Gn1 const * const n, Gcount const count)
 
    genter;
 
-   ntemp = gmemCreateTypeArray(Gn1, count + 1);
+   ntemp = gmemClocTypeArray(Gn1, count + 1);
    gmemCopyOverTypeArray(n, Gn1, count, ntemp);
 
-   s = gsCreateFromU1(ntemp);
+   s = gsClocFromU1(ntemp);
 
-   gmemDestroy(ntemp);
+   gmemDloc(ntemp);
 
    greturn s;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _StoreAll
-******************************************************************************/
+**************************************************************************************************/
 static Gb _StoreAll(GfileRat * const rat)
 {
    Gindex    index;
@@ -1286,9 +1286,9 @@ static Gb _StoreAll(GfileRat * const rat)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _StoreConfig
-******************************************************************************/
+**************************************************************************************************/
 static void _StoreConfig(GfileRat * const rat, Gfile * const file)
 {
    Gindex    index;
@@ -1300,7 +1300,7 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
    genter;
 
    // Write out the column names.
-   line = gsCreate();
+   line = gsCloc();
    forCount(index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Get the column.
@@ -1317,7 +1317,7 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
    }
    // Add the new line.
    gsAppendC(line, L'\n');
-   
+
    // Write the line.
    gfileSetS(file, gcTypeU1, line, NULL);
    gsFlush(line);
@@ -1327,7 +1327,7 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
    // delete flag + version.
    byteCount = 0;
 
-   type = gsCreate();
+   type = gsCloc();
    forCount(index, gfileRatColArrayGetCount(rat->colArray))
    {
       // Clean the type.
@@ -1365,17 +1365,17 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       // Append the type.
       gsAppend(line, type);
 
-      byteCount += col->byteCount; 
+      byteCount += col->byteCount;
    }
-   gsDestroy(type);
+   gsDloc(type);
 
    // Add the line.
    gsAppendC(line, L'\n');
 
    // Write the line.
    gfileSetS(file, gcTypeU1, line, NULL);
-   gsDestroy(line);
-   
+   gsDloc(line);
+
    // Has config changed since last we saved?
    if (byteCount != rat->dataByteCount)
    {
@@ -1384,17 +1384,17 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       rat->rowByteCount  = byteCount + 9;
 
       // Update the row buffer.
-      gmemDestroy(rat->rowBuffer);
-      rat->rowBuffer = gmemCreateTypeArray(Gn1, rat->rowByteCount);
+      gmemDloc(rat->rowBuffer);
+      rat->rowBuffer = gmemClocTypeArray(Gn1, rat->rowByteCount);
    }
 
    // Get the starting location of the data.
    rat->offsetData = gfileGetPosition(file);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _StoreHeader
-******************************************************************************/
+**************************************************************************************************/
 static void _StoreHeader(GfileRat * const rat, Gfile * const file)
 {
    Gn1 version[9];
@@ -1403,7 +1403,7 @@ static void _StoreHeader(GfileRat * const rat, Gfile * const file)
    genter;
 
    // Create the line.
-   line = gsCreate();
+   line = gsCloc();
 
    // Add the header.
    if (rat->isBinary)
@@ -1422,12 +1422,12 @@ static void _StoreHeader(GfileRat * const rat, Gfile * const file)
    _FileN1FromN(version, 4, 1);
    gsAppendA(line, (Char *) version);
    gsAppendC(line, L'|');
-   
+
    // Set the file version.
    _FileN1FromN(version, 4, rat->versionFile);
    gsAppendA(line, (Char *) version);
    gsAppendC(line, L'|');
-   
+
    // Set the data version.
    rat->versionData++;
    _FileN1FromN(version, 4, rat->versionData);
@@ -1439,14 +1439,14 @@ static void _StoreHeader(GfileRat * const rat, Gfile * const file)
    gfileSetS(file, gcTypeU1, line, NULL);
 
    // Clean up
-   gsDestroy(line);
+   gsDloc(line);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _StoreRow
-******************************************************************************/
+**************************************************************************************************/
 static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
 {
    Gindex             index,
@@ -1501,29 +1501,29 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
    {
       // Get the column.
       col = gfileRatColArrayGetAt(rat->colArray, index);
-      
+
       // Get the row value;
       v = *gvArrayGetAt(row->value, index);
 
       switch (col->type)
       {
-      case gfileRatTypeI2:   
-      case gfileRatTypeN2: 
+      case gfileRatTypeI2:
+      case gfileRatTypeN2:
          n2 = (Gn2) v.n;
          gswap2(&n2);
          v.n = n2;
          break;
 
-      case gfileRatTypeI4:   
-      case gfileRatTypeN4:   
+      case gfileRatTypeI4:
+      case gfileRatTypeN4:
       case gfileRatTypeR4:
          n4 = (Gn4) v.n;
          gswap4(&n4);
          v.n = n4;
          break;
 
-      case gfileRatTypeI8:   
-      case gfileRatTypeN8:   
+      case gfileRatTypeI8:
+      case gfileRatTypeN8:
       case gfileRatTypeR8:
          gswap8(&v.n);
          break;
@@ -1543,21 +1543,21 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
             }
             break;
 
-         case gfileRatTypeI1:   
+         case gfileRatTypeI1:
          case gfileRatTypeN1:   rat->rowBuffer[byteOffset++] = (Gn1) v.n; break;
-         case gfileRatTypeI2:   
+         case gfileRatTypeI2:
          case gfileRatTypeN2:   gmemCopyOverType(&n2,  Gn2, &rat->rowBuffer[byteOffset]); byteOffset += 2; break;
-         case gfileRatTypeI4:                           
-         case gfileRatTypeN4:                           
+         case gfileRatTypeI4:
+         case gfileRatTypeN4:
          case gfileRatTypeR4:   gmemCopyOverType(&n4,  Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;break;
-         case gfileRatTypeI8:   
-         case gfileRatTypeN8:   
+         case gfileRatTypeI8:
+         case gfileRatTypeN8:
          case gfileRatTypeR8:   gmemCopyOverType(&v.n, Gn8, &rat->rowBuffer[byteOffset]); byteOffset += 8; break;
          case gfileRatTypeS:
-            c1       = gsCreateU1(v.s);
+            c1       = gsClocU1(v.s);
             c1Count  = gcGetCountU1(c1);
-            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount); 
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]); 
+            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount);
+            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]);
             break;
          }
       }
@@ -1575,21 +1575,21 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
             }
             break;
 
-         case gfileRatTypeI1:   
+         case gfileRatTypeI1:
          case gfileRatTypeN1:   _FileN1FromN(&rat->rowBuffer[byteOffset], 1, v.n); break;
-         case gfileRatTypeI2:   
+         case gfileRatTypeI2:
          case gfileRatTypeN2:   _FileN1FromN(&rat->rowBuffer[byteOffset], 2, v.n); break;
-         case gfileRatTypeI4:   
-         case gfileRatTypeN4:   
+         case gfileRatTypeI4:
+         case gfileRatTypeN4:
          case gfileRatTypeR4:   _FileN1FromN(&rat->rowBuffer[byteOffset], 4, v.n); break;
-         case gfileRatTypeI8:   
-         case gfileRatTypeN8:   
+         case gfileRatTypeI8:
+         case gfileRatTypeN8:
          case gfileRatTypeR8:   _FileN1FromN(&rat->rowBuffer[byteOffset], 8, v.n); break;
-         case gfileRatTypeS:    
-            c1       = gsCreateU1(v.s);
+         case gfileRatTypeS:
+            c1       = gsClocU1(v.s);
             c1Count  = gcGetCountU1(c1);
-            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount); 
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]); 
+            gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount);
+            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]);
             break;
          }
       }
@@ -1608,9 +1608,9 @@ STOP:
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _StoreUpdatedRows
-******************************************************************************/
+**************************************************************************************************/
 static Gb _StoreUpdatedRows(GfileRat * const rat)
 {
    Gfile *file;
@@ -1644,9 +1644,9 @@ static Gb _StoreUpdatedRows(GfileRat * const rat)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _VersionFromN1
-******************************************************************************/
+**************************************************************************************************/
 static Gversion _VersionFromN1(Gn1 const * const n)
 {
    Gversion version;

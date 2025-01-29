@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_ListKey
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 Base for double linked list.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(G_LISTKEYH)
 #define      G_LISTKEYH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct G_ListKeyItem G_ListKeyItem;
 struct G_ListKeyItem
 {
@@ -66,23 +66,23 @@ struct G_ListKey
                      *tail;
 };
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ListKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) ((G_ListKey *) gleakCreate((Gp *) g_ListKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_ListKey)))
-#define g_ListKeyCreateContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                   g_ListKeyCreateContent_(LIST, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
+#define g_ListKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) ((G_ListKey *) gleakCloc((Gp *) g_ListKeyCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_ListKey)))
+#define g_ListKeyClocContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                 g_ListKeyClocContent_(  LIST, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_ListKeyItem *g_ListKeyAdd(             G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 grlAPI G_ListKeyItem *g_ListKeyAddBegin(        G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 grlAPI G_ListKeyItem *g_ListKeyAddEnd(          G_ListKey       * const list, Gkey const * const key, Gp const * const value);
 
-grlAPI G_ListKey     *g_ListKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
-grlAPI Gb             g_ListKeyCreateContent_(  G_ListKey       * const list, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI G_ListKey     *g_ListKeyCloc_(                                         Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
+grlAPI Gb             g_ListKeyClocContent_(    G_ListKey       * const list, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc);
 
-grlAPI void           g_ListKeyDestroy(         G_ListKey       * const list);
-grlAPI void           g_ListKeyDestroyContent(  G_ListKey       * const list);
+grlAPI void           g_ListKeyDloc(            G_ListKey       * const list);
+grlAPI void           g_ListKeyDlocContent(     G_ListKey       * const list);
 
 grlAPI Gb             g_ListKeyErase(           G_ListKey       * const list, Gkey const * const key);
 grlAPI Gb             g_ListKeyEraseBegin(      G_ListKey       * const list);
@@ -98,7 +98,7 @@ grlAPI G_ListKeyItem *g_ListKeyGetEnd(          G_ListKey const * const list);
 
 // G_ListKeyItem functions
 grlAPI G_ListKeyItem *g_ListKeyItemAdd(         G_ListKey       * const list, G_ListKeyItem       * const litem, Gkey const * const key, Gp const * const value);
-                                                                                                  
+
 grlAPI G_ListKeyItem *g_ListKeyItemErase(       G_ListKey       * const list, G_ListKeyItem       * const litem);
 
 grlAPI Gp            *g_ListKeyItemGet(                                       G_ListKeyItem const * const litem);
@@ -112,9 +112,9 @@ grlAPI void           g_ListKeyItemUpdateKey(   G_ListKey       * const list, G_
 // Locally called for any g_ListKey* routines an not to be used elsewhere.
        void           g_ListKeyAddBegin_Add(    G_ListKey       * const list, G_ListKeyItem       * const litem);
        void           g_ListKeyAddEnd_Add(      G_ListKey       * const list, G_ListKeyItem       * const litem);
-       
+
        void           g_ListKeyItemAdd_Add(     G_ListKey       * const list, G_ListKeyItem       * const litem, G_ListKeyItem * const nitem);
-       G_ListKeyItem *g_ListKeyItem_Create(     G_ListKey const * const list);
+       G_ListKeyItem *g_ListKeyItem_Cloc(     G_ListKey const * const list);
 
 /*****************************************************************************/
 #ifdef __cplusplus

@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_HashKey
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 G_HashKey and name table to mimic Galaxy vname and vdict functionality
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(G_HASHKEYH)
 #define      G_HASHKEYH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GCONTAINER_VAR
@@ -55,21 +55,21 @@ typedef struct
    GhashSize          binCount;
 } G_HashKey;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashKeyCreate(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCreate((Gp *) g_HashKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
-#define g_HashKeyCreateContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                    g_HashKeyCreateContent_(HASH, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE))
+#define g_HashKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCloc((Gp *) g_HashKeyCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
+#define g_HashKeyClocContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                  g_HashKeyClocContent_(  HASH, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE))
 //lint -restore
 
 grlAPI Gb          g_HashKeyAdd(             G_HashKey       * const hash, Gkey const * const key, Gp const * const value);
 
-grlAPI G_HashKey  *g_HashKeyCreate_(                                       Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
-grlAPI Gb          g_HashKeyCreateContent_(  G_HashKey       * const hash, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
+grlAPI G_HashKey  *g_HashKeyCloc_(                                         Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
+grlAPI Gb          g_HashKeyClocContent_(    G_HashKey       * const hash, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GhashSize const hashSize);
 
-grlAPI void        g_HashKeyDestroy(         G_HashKey       * const hash);
-grlAPI void        g_HashKeyDestroyContent(  G_HashKey       * const hash);
+grlAPI void        g_HashKeyDloc(            G_HashKey       * const hash);
+grlAPI void        g_HashKeyDlocContent(     G_HashKey       * const hash);
 
 grlAPI Gb          g_HashKeyErase(           G_HashKey       * const hash, Gkey const * const key);
 

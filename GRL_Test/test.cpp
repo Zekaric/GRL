@@ -1,24 +1,24 @@
 #include "pch.h"
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 static void _ForEachArray( Gv  * const value);
 static void _ForEachGc2(Gc2 * const value);
 
-/******************************************************************************
+/**************************************************************************************************
 test: libraryStart
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, LibraryStart)
 {
   EXPECT_TRUE(grlStart());
-  
+
   grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: MemRawRoutines
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, MemRawRoutines)
 {
    Gn2 *a;
@@ -26,21 +26,21 @@ TEST(GRL, MemRawRoutines)
    EXPECT_TRUE(grlStart());
 
    // test create type.
-   a = memCreateType(Gn2);
+   a = memoryClocType(Gn2);
    EXPECT_TRUE(a != NULL);
-   memDestroy(a);
+   memoryDloc(a);
 
    // test create size.
-   a = (Gn2 *) memCreate(20);
+   a = (Gn2 *) memoryCloc(20);
    EXPECT_TRUE(a != NULL);
-   memDestroy(a);
+   memoryDloc(a);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: MemLeakControlledRoutines
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, MemLeakControlledRoutines)
 {
    Gi   index;
@@ -51,22 +51,22 @@ TEST(GRL, MemLeakControlledRoutines)
 
    // creates ///////////////////////////////////////
    // Test the simple create.
-   a = (Gn2 *) gmemCreate("Bingo", 20);
+   a = (Gn2 *) gmemCloc("Bingo", 20);
    EXPECT_TRUE(a != NULL);
-   gmemDestroy(a);
+   gmemDloc(a);
 
    // Test the simple 1 count type create.
    // a leaks.  OK!
-   a = gmemCreateType(Gn2);
+   a = gmemClocType(Gn2);
    EXPECT_TRUE(a != NULL);
 
    // Test the 20 count type create.
-   a = gmemCreateTypeArray(Gn2, 20);
+   a = gmemClocTypeArray(Gn2, 20);
    EXPECT_TRUE(a != NULL);
-   gmemDestroy(a);
+   gmemDloc(a);
 
    // a leaks.  OK!
-   a = gmemCreateTypeArray(Gn2, 20);
+   a = gmemClocTypeArray(Gn2, 20);
    EXPECT_TRUE(a != NULL);
 
    // set the buffer.
@@ -146,7 +146,7 @@ TEST(GRL, MemLeakControlledRoutines)
 
    gmemClearTypeArrayAt(a, Gn2, 5, 5);
    EXPECT_FALSE(
-      a[4]  == 0 || 
+      a[4]  == 0 ||
       a[5]  != 0 ||
       a[6]  != 0 ||
       a[7]  != 0 ||
@@ -189,7 +189,7 @@ TEST(GRL, MemLeakControlledRoutines)
       a[10] != 11);
 
    // b leaks.  OK!
-   b = gmemCreateTypeArray(Gn2, 20);
+   b = gmemClocTypeArray(Gn2, 20);
    EXPECT_FALSE(!b);
 
    // set the buffer.
@@ -235,9 +235,9 @@ TEST(GRL, MemLeakControlledRoutines)
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: Grandom
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, Grandom)
 {
    Gn8     init[4] = {0x12345ULL, 0x23456ULL, 0x34567ULL, 0x45678ULL};
@@ -247,10 +247,10 @@ TEST(GRL, Grandom)
    EXPECT_TRUE(grlStart());
 
    // init the global random number generator.
-   grandomCreateContentByArray(NULL, length, init);
+   grandomClocContentByArray(NULL, length, init);
 
    // init the specific random number generator.
-   grandomCreateContentByArray(&r,   length, init);
+   grandomClocContentByArray(&r,   length, init);
 
    EXPECT_FALSE(grandomGetN(&r) != 7266447313870364031);
    EXPECT_FALSE(grandomGetN(&r) != 4946485549665804864);
@@ -261,9 +261,9 @@ TEST(GRL, Grandom)
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GarrayUnsorted
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GvArrayUnsorted)
 {
    Gi       index;
@@ -278,7 +278,7 @@ TEST(GRL, GvArrayUnsorted)
 
    EXPECT_TRUE(grlStart());
 
-   a = gvArrayCreate((GrlCompareFunc) NULL, gbTRUE);
+   a = gvArrayCloc((GrlCompareFunc) NULL, gbTRUE);
    EXPECT_FALSE(!a);
 
    gvSetI(&vFEEDFACE, 0xFEEDFACE);
@@ -307,7 +307,7 @@ TEST(GRL, GvArrayUnsorted)
    gvArrayCopy(    a, 2, 0, 2);
 
    // adst leaks.  OK!
-   adst = gvArrayCreate((GrlCompareFunc) NULL, TRUE);
+   adst = gvArrayCloc((GrlCompareFunc) NULL, TRUE);
    gvArrayAddAt(   adst, 4, &vFEEDFACE);
    gvArrayCopyFrom(adst, 0, a, 2, 0);
 
@@ -331,14 +331,14 @@ TEST(GRL, GvArrayUnsorted)
 
    gvArrayFlush(a);
 
-   gvArrayDestroy(a);
+   gvArrayDloc(a);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GarraySorted
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GvArraySorted)
 {
    Gi       index;
@@ -347,7 +347,7 @@ TEST(GRL, GvArraySorted)
 
    EXPECT_TRUE(grlStart());
 
-   a = gvArrayCreate((GrlCompareFunc) gvCompareN, TRUE);
+   a = gvArrayCloc((GrlCompareFunc) gvCompareN, TRUE);
    EXPECT_FALSE(!a);
 
    gvArrayAdd(a, gvSetN(&v, grandomGetN(NULL)));
@@ -363,14 +363,14 @@ TEST(GRL, GvArraySorted)
    index = gvArrayFind(a, gvSetN(&v, 12));
    EXPECT_FALSE(index != -1);
 
-   gvArrayDestroy(a);
+   gvArrayDloc(a);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: Gs
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, Gs)
 {
    Gs        *s,
@@ -381,31 +381,31 @@ TEST(GRL, Gs)
 
    EXPECT_TRUE(grlStart());
 
-   s = gsCreate();
+   s = gsCloc();
    EXPECT_TRUE( s != NULL);
-   EXPECT_FALSE(!gsCreateContent(&sc));
+   EXPECT_FALSE(!gsClocContent(&sc));
 
    gsSetCount(&sc, 10);
    gsForEach( &sc, (GrlForEachFunc) _ForEachGc2);
 
-   gsAddAt(   s, 5, L'A');
+   gsAddAt(   s, 5, L"A");
    gsForEach( s, (GrlForEachFunc) _ForEachGc2);
 
-   gsAddBegin(s, L'Z');
-   gsAddEnd(  s, L'Z');
+   gsAddBegin(s, L"Z");
+   gsAddEnd(  s, L"Z");
 
    gsClear(   s, 1, 0);
    gsCopy(    s, 1, 5, 0);
-   gsCopyFrom(&sc, 0, s, gsGetCount(s), 0); 
+   gsCopyFrom(&sc, 0, s, gsGetCount(s), 0);
 
-   gsUpdateAt(s, 2, L'B');
+   gsUpdateAt(s, 2, L"B");
 
    gsEraseAt(   s, 1, 6);
    gsEraseBegin(&sc);
    gsEraseEnd(  &sc);
 
-   EXPECT_FALSE(gsFind(s, L'B') == GindexERROR);
-   EXPECT_FALSE(gsFind(s, L'S') != GindexERROR);
+   EXPECT_TRUE(gsFind(s, L"B") == GindexERROR);
+   EXPECT_TRUE(gsFind(s, L"S") == GindexERROR);
    gsFlush(&sc);
 
    cstr =  gsGet(     s);
@@ -418,15 +418,15 @@ TEST(GRL, Gs)
    gsSort(s);
    gsSwap(s, 0, 5);
 
-   gsDestroy(s);
-   gsDestroyContent(&sc);
+   gsDloc(s);
+   gsDlocContent(&sc);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GsArray
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GsArray)
 {
    GsArray *sa;
@@ -434,26 +434,26 @@ TEST(GRL, GsArray)
 
    EXPECT_TRUE(grlStart());
 
-   sa = gsArrayCreate((GrlCompareFunc) gsCompare, gbFALSE);
+   sa = gsArrayCloc((GrlCompareFunc) gsCompare, gbFALSE);
 
-   gsArrayAdd(     sa,    gsCreateRandom());
-   gsArrayAddAt(   sa, 5, gsCreateRandom());
-   gsArrayAddBegin(sa,    gsCreateRandom());
-   gsArrayAddEnd(  sa,    gsCreateRandom());
+   gsArrayAdd(     sa,    gsClocRandom());
+   gsArrayAddAt(   sa, 5, gsClocRandom());
+   gsArrayAddBegin(sa,    gsClocRandom());
+   gsArrayAddEnd(  sa,    gsClocRandom());
 
    s = gsArrayGetAt(   sa, 1);
    s = gsArrayGetBegin(sa);
    s = gsArrayGetEnd(  sa);
 
-   gsArrayForEach(sa, (GrlForEachFunc) gsDestroyFunc);
-   gsArrayDestroy(sa);
+   gsArrayForEach(sa, (GrlForEachFunc) gsDlocFunc);
+   gsArrayDloc(   sa);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GlistUnsorted
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GvListUnsorted)
 {
    GvList     *list;
@@ -474,7 +474,7 @@ TEST(GRL, GvListUnsorted)
    gvSetP(&vPointer, (Gp *) (Gnp) 0x1);
    gvSetR(&vPI,       gmathPI);
 
-   list = gvListCreate((GrlCompareFunc) NULL);
+   list = gvListCloc((GrlCompareFunc) NULL);
    EXPECT_TRUE(list != NULL);
 
    item = gvListAddBegin( list, &vB000B000);
@@ -510,14 +510,14 @@ TEST(GRL, GvListUnsorted)
    item = gvListAddBegin(list, &vPointer);
    item = gvListAddBegin(list, &vPI);
 
-   gvListDestroy(list);
+   gvListDloc(list);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GlistSorted
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GvlistSorted)
 {
    GvList     *list;
@@ -526,7 +526,7 @@ TEST(GRL, GvlistSorted)
 
    EXPECT_TRUE(grlStart());
 
-   list = gvListCreate((GrlCompareFunc) gvCompareN);
+   list = gvListCloc((GrlCompareFunc) gvCompareN);
    EXPECT_TRUE(list != NULL);
 
    item = gvListAdd(list, gvSetN(&v, grandomGetN(NULL)));
@@ -542,14 +542,14 @@ TEST(GRL, GvlistSorted)
    item = gvListFind(list, gvSetN(&v, gvGetN(gvListItemGet(gvListGetEnd(list)))));
    EXPECT_FALSE(item == NULL);
 
-   gvListDestroy(list);
+   gvListDloc(list);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GvHash
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GvHash)
 {
    GvHash *hash;
@@ -563,7 +563,7 @@ TEST(GRL, GvHash)
 
    EXPECT_TRUE(grlStart());
 
-   hash = gvHashCreate((GrlCompareFunc) gvCompareN, (GrlHashFunc) gvHash, ghashSize10);
+   hash = gvHashCloc((GrlCompareFunc) gvCompareN, (GrlHashFunc) gvHash, ghashSize10);
    EXPECT_TRUE(hash != NULL);
 
    n = grandomGetN(NULL);
@@ -580,17 +580,17 @@ TEST(GRL, GvHash)
 
    pv = gvHashFind(hash, gvSetR(&v, gmathPI));
    EXPECT_FALSE(pv == NULL);
-   
+
    gvHashFlush(hash);
-   
-   gvHashDestroy(hash);
+
+   gvHashDloc(hash);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 test: GsHash
-******************************************************************************/
+**************************************************************************************************/
 TEST(GRL, GsHash)
 {
    GsHash *hash;
@@ -603,15 +603,15 @@ TEST(GRL, GsHash)
 
    EXPECT_TRUE(grlStart());
 
-   hash = gsHashCreate((GrlCompareFunc) gsCompare, (GrlHashFunc) gsHash, ghashSize10);
+   hash = gsHashCloc((GrlCompareFunc) gsCompare, (GrlHashFunc) gsHash, ghashSize10);
    EXPECT_TRUE(hash != NULL);
 
-   s1  = gsCreateFromA("1");
-   s2  = gsCreateFromA("22");
-   s3  = gsCreateFromA("333");
-   s4  = gsCreateFromA("4444");
-   s5  = gsCreateFromA("55555");
-   s5b = gsCreateFromA("55555");
+   s1  = gsClocFromA("1");
+   s2  = gsClocFromA("22");
+   s3  = gsClocFromA("333");
+   s4  = gsClocFromA("4444");
+   s5  = gsClocFromA("55555");
+   s5b = gsClocFromA("55555");
 
    gsHashAdd(hash, s1);
    gsHashAdd(hash, s2);
@@ -622,22 +622,22 @@ TEST(GRL, GsHash)
 
    EXPECT_FALSE(gsHashFind(hash, s5b) != s5);
 
-   gsHashDestroy(hash);
+   gsHashDloc(hash);
 
    grlStop();
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _ForEachArray
-******************************************************************************/
+**************************************************************************************************/
 static void _ForEachArray(Gv * const value)
 {
    gvSetN(value, gvGetN(value) + 1);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _ForEachArray
-******************************************************************************/
+**************************************************************************************************/
 static void _ForEachGc2(Gc2 * const value)
 {
    if (*value == 0)

@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gtime
 author:     Robbert de Groot
 copyright:  2002-2009, Robbert de Groot
 
 description:
 base time functions
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,28 +33,28 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 static void _Get(const struct tm ttemp, GtimeDST * const daylightSavingTime, Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: gtimeGet
 
 Get the time of the system.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gtime gtimeGet(void)
 {
    // No genter or greturn because this is called in gprofile which is embedded
@@ -71,7 +71,7 @@ grlAPI Gtime gtimeGet(void)
    return timeValue;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gtimeGetTime
 
 Get the local time of the system in understandable format.
@@ -89,7 +89,7 @@ daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, secon
    Month number.  Day of the month number.  Day of the week number (Sun = 0).
    Hour number.  Minute numbers.  Second Number.  All values here
    can be NULL if not desired.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gtimeGetTime(const Gtime timeValue, GtimeDST * const daylightSavingTime,
    Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay,
    Gi4 * const hour, Gi4 * const minute, Gi4 * const second)
@@ -109,7 +109,7 @@ grlAPI Gb gtimeGetTime(const Gtime timeValue, GtimeDST * const daylightSavingTim
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gtimeGetTimeLocal
 
 Get the local time of the system in understandable format.
@@ -127,7 +127,7 @@ daylightSavingTime, year, yearDay, month, monthDay, weekDay, hour, minute, secon
    Month number.  Day of the month number.  Day of the week number (Sun = 0).
    Hour number.  Minute numbers.  Second Number.  All values here
    can be NULL if not desired.
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb gtimeGetTimeLocal(const Gtime timeValue, GtimeDST * const daylightSavingTime, 
    Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, Gi4 * const weekDay,
    Gi4 * const hour, Gi4 * const minute, Gi4 * const second)
@@ -147,14 +147,14 @@ grlAPI Gb gtimeGetTimeLocal(const Gtime timeValue, GtimeDST * const daylightSavi
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gtimeStart
 
 Start the time functions.
 
 return:
 Gi4
-******************************************************************************/
+**************************************************************************************************/
 Gb gtimeStart(void)
 {
    genter;
@@ -166,26 +166,26 @@ Gb gtimeStart(void)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: gtimeStop
 
 Clean up.
-******************************************************************************/
+**************************************************************************************************/
 void gtimeStop(void)
 {
    genter;
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _Get
 
 Get the time data.
-******************************************************************************/
+**************************************************************************************************/
 static void _Get(const struct tm ttemp, GtimeDST * const daylightSavingTime,
    Gi4 * const year, Gi4 * const yearDay, Gi4 * const month, Gi4 * const monthDay, 
    Gi4 * const weekDay, Gi4 * const hour, Gi4 * const minute, Gi4 * const second)

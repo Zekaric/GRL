@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         Gmem
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
@@ -17,11 +17,10 @@ Not thread safe functions:  Critical sections left to the user.
    gmemStop()
 
 Thread safe functions:
-   gmemCreateType()
-   gmemCreateTypeContent()
-   gmemDestroy()
-   gmemDestroyContent()
-   gmemSetCount()
+   gmemClocType()
+   gmemClocTypeArray()
+   gmemDloc()
+   gmemSet()
 
 These functions lock because they play around with a memory pool behind the
 scenes and this pool needs to be thread safe.  Normal malloc and free is
@@ -30,12 +29,12 @@ hoping that the added expense of locking will still be less than calling
 malloc and free directly because malloc and free often make a kernel call which
 can be very slow.
 
-gmemCreate() has a type string included as one of the parameters.  This is so
+gmemCloc() has a type string included as one of the parameters.  This is so
 that when you go to debug and are looking at a buffer you may have some idea
 what is contained in that buffer by following the string pointer.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -61,7 +60,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(Gmem_HEADER)
 #define      Gmem_HEADER
@@ -72,9 +71,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 const:
-******************************************************************************/
+**************************************************************************************************/
 // For data compression functions (zlib and lz4 wrappers)
 typedef enum
 {
@@ -89,18 +88,18 @@ typedef enum
    gmemCompressLevelHIGH_MAX
 } GmemCompressLevel;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9026 -e9022 -e9024
 // Raw mem functions
 // Not leak tracked.
-// I prefer using calloc even if it might be slower than malloc as it zeroes 
+// I prefer using calloc even if it might be slower than malloc as it zeroes
 // the memory.  The overhead so far has not caused me grief.
-#define memoryCreate(            BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
-#define memoryCreateType(        TYPE)                                  (TYPE *) memCreate(gsizeof(TYPE))
-#define memoryCreateTypeArray(   TYPE, COUNT)                           (TYPE *) memCreate(gsizeof(TYPE) * (COUNT))
-#define memoryDestroy(           P)                                              free((Gp *) (P))
+#define memoryCloc(            BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
+#define memoryClocType(        TYPE)                                  (TYPE *) memoryCloc(gsizeof(TYPE))
+#define memoryClocTypeArray(   TYPE, COUNT)                           (TYPE *) memoryCloc(gsizeof(TYPE) * (COUNT))
+#define memoryDloc(            P)                                              free((Gp *) (P))
 
 // Gmem functions.
 // Leak tracked.
@@ -129,9 +128,9 @@ prototype:
 // Create a dynamic memory buffer on the heap.
 // Type  - provide a type to define the size of the element(s) to create.
 // Array - indicates we are creating a buffer of N types.
-#define gmemCreate(              TYPE_CHAR,  BYTECOUNT)                          gleakCreate((Gp *) gmemCreate_((Char *) (TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
-#define gmemCreateType(          TYPE)                                  (TYPE *) gleakCreate((Gp *) gmemCreate_((Char *) #TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
-#define gmemCreateTypeArray(     TYPE,       COUNT)                     (TYPE *) gleakCreate((Gp *) gmemCreate_((Char *) #TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
+#define gmemCloc(              TYPE_CHAR,  BYTECOUNT)                            gleakCloc((Gp *) gmemCloc_((Char *) (TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
+#define gmemClocType(          TYPE)                                    (TYPE *) gleakCloc((Gp *) gmemCloc_((Char *) #TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
+#define gmemClocTypeArray(     TYPE,       COUNT)                       (TYPE *) gleakCloc((Gp *) gmemCloc_((Char *) #TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
 
 // Low level memory comparison.
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
@@ -145,9 +144,9 @@ prototype:
 grlAPI void  gmemClearAt(     Gp         * const p,    Gcount const byteCount, Gindex const byteIndex);
 grlAPI Gb    gmemCopy(        Gp         * const p,    Gcount const byteCount, Gindex const byteIndexSrc,                  Gindex const byteIndexDst);
 grlAPI Gb    gmemCopyOverAt(  Gp   const * const pSrc, Gcount const byteCount, Gindex const byteIndexSrc, Gp * const pDst, Gindex const byteIndexDst);
-grlAPI Gp   *gmemCreate_(     Char const * const type, Gcount const byteCount);
+grlAPI Gp   *gmemCloc_(       Char const * const type, Gcount const byteCount);
 
-grlAPI void  gmemDestroy(     Gp        * const p);
+grlAPI void  gmemDloc(        Gp        * const p);
 
 grlAPI void  gmemFlushPools(  void);
 

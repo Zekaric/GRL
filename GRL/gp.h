@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gp
 author:     Robbert de Groot
 copyright:  2002-2011, Robbert de Groot
 
 description:
 Generic pointer containers
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GPH)
 #define      GPH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 Gp containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -187,10 +187,10 @@ struct GpTreeKey
 #define gpArrayClear(              ARRAY, COUNT, INDEX)                                                       g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gpArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gpArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpArray *)             g_ArrayCreate(                                "GpArray", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gpArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayCreateContent(      (G_Array *) ARRAY, "GpArray", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gpArrayDestroy(            ARRAY)                                                                     g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gpArrayDestroyContent(     ARRAY)                                                                     g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gpArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpArray *)             g_ArrayCloc(                                "GpArray", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayClocContent(      (G_Array *) ARRAY, "GpArray", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gpArrayDloc(               ARRAY)                                                                     g_ArrayDloc(               (G_Array *) ARRAY) 
+#define gpArrayDlocContent(        ARRAY)                                                                     g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define gpArrayErase(              ARRAY, VALUE)                                                              g_ArrayErase(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gpArrayEraseAt(            ARRAY, COUNT, INDEX)                                                       g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define gpArrayEraseBegin(         ARRAY)                                                                     g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -216,10 +216,10 @@ struct GpTreeKey
 #define gpArrayKeyClear(           ARRAY, COUNT, INDEX)                                                       g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gpArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                          g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gpArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                             g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gpArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpArray *)             g_ArrayKeyCreate(                                "GpArrayKey", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gpArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GpArrayKey", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gpArrayKeyDestroy(         ARRAY)                                                                     g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gpArrayKeyDestroyContent(  ARRAY)                                                                     g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define gpArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GpArray *)             g_ArrayKeyCloc(                                "GpArrayKey", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                            g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GpArrayKey", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gpArrayKeyDloc(            ARRAY)                                                                     g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define gpArrayKeyDlocContent(     ARRAY)                                                                     g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define gpArrayKeyErase(           ARRAY, KEY)                                                                g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define gpArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                       g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gpArrayKeyEraseBegin(      ARRAY)                                                                     g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -244,10 +244,10 @@ struct GpTreeKey
 #define gpListAdd(                 LIST, VALUE)                                       (GpListItem *)          g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gpListAddBegin(            LIST, VALUE)                                       (GpListItem *)          g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gpListAddEnd(              LIST, VALUE)                                       (GpListItem *)          g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gpListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GpList *)              g_ListCreate(                               "GpList", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC)
-#define gpListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListCreateContent(       (G_List *) LIST, "GpList", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC)
-#define gpListDestroy(             LIST)                                                                      g_ListDestroy(             (G_List *) LIST)
-#define gpListDestroyContent(      LIST)                                                                      g_ListDestroyContent(      (G_List *) LIST)
+#define gpListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GpList *)              g_ListCloc(                               "GpList", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC)
+#define gpListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                               g_ListClocContent(       (G_List *) LIST, "GpList", Gp *, gbTRUE, OPTIONAL_COMPARE_FUNC)
+#define gpListDloc(                LIST)                                                                      g_ListDloc(                (G_List *) LIST)
+#define gpListDlocContent(         LIST)                                                                      g_ListDlocContent(         (G_List *) LIST)
 #define gpListErase(               LIST, VALUE)                                                               g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gpListEraseBegin(          LIST)                                                                      g_ListEraseBegin(          (G_List *) LIST)
 #define gpListEraseEnd(            LIST)                                                                      g_ListEraseEnd(            (G_List *) LIST)
@@ -267,10 +267,10 @@ struct GpTreeKey
 #define gpListKeyAdd(              LIST, KEY, VALUE)                                  (GpListKeyItem *)       g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpListKeyAddBegin(         LIST, KEY, VALUE)                                  (GpListKeyItem *)       g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gpListKeyAddEnd(           LIST, KEY, VALUE)                                  (GpListKeyItem *)       g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gpListKeyCreate(                 COMPARE_FUNC)                                (GpList *)              g_ListKeyCreate(                               "GpListKey", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpListKeyCreateContent(    LIST, COMPARE_FUNC)                                                        g_ListKeyCreateContent(    (G_ListKey *) LIST, "GpListKey", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpListKeyDestroy(          LIST)                                                                      g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gpListKeyDestroyContent(   LIST)                                                                      g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gpListKeyCloc(                   COMPARE_FUNC)                                (GpList *)              g_ListKeyCloc(                               "GpListKey", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpListKeyClocContent(      LIST, COMPARE_FUNC)                                                        g_ListKeyClocContent(    (G_ListKey *) LIST, "GpListKey", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpListKeyDloc(             LIST)                                                                      g_ListKeyDloc(             (G_ListKey *) LIST)
+#define gpListKeyDlocContent(      LIST)                                                                      g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define gpListKeyErase(            LIST, KEY)                                                                 g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gpListKeyEraseBegin(       LIST)                                                                      g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gpListKeyEraseEnd(         LIST)                                                                      g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -290,10 +290,10 @@ struct GpTreeKey
 #define gpListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                          g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gpHashAdd(                 HASH, VALUE)                                                               g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gpHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpHash *)              g_HashCreate(                               "GpHash", Gp *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gpHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashCreateContent(       (G_Hash *) HASH, "GpHash", Gp *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gpHashDestroy(             HASH)                                                                      g_HashDestroy(             (G_Hash *) HASH)
-#define gpHashDestroyContent(      HASH)                                                                      g_HashDestroyContent(      (G_Hash *) HASH)
+#define gpHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GpHash *)              g_HashCloc(                               "GpHash", Gp *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                   g_HashClocContent(       (G_Hash *) HASH, "GpHash", Gp *, gbTRUE, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gpHashDloc(                HASH)                                                                      g_HashDloc(                (G_Hash *) HASH)
+#define gpHashDlocContent(         HASH)                                                                      g_HashDlocContent(         (G_Hash *) HASH)
 #define gpHashErase(               HASH, VALUE)                                                               g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define gpHashFind(                HASH, VALUE)                                      ((Gp *)                  g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define gpHashFlush(               HASH)                                                                      g_HashFlush(               (G_Hash *) HASH)
@@ -302,10 +302,10 @@ struct GpTreeKey
 #define gpHashUpdate(              HASH, VALUE)                                                               g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gpHashKeyAdd(              HASH, KEY, VALUE)                                                          g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gpHashKeyCreate(                 HASHSIZE)                                    (GpHashKey *)           g_HashKeyCreate(                               "GpHashKey", Gp *, gbTRUE, HASHSIZE)
-#define gpHashKeyCreateContent(    HASH, HASHSIZE)                                                            g_HashKeyCreateContent(    (G_HashKey *) HASH, "GpHashKey", Gp *, gbTRUE, HASHSIZE)
-#define gpHashKeyDestroy(          HASH)                                                                      g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gpHashKeyDestroyContent(   HASH)                                                                      g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gpHashKeyCloc(                   HASHSIZE)                                    (GpHashKey *)           g_HashKeyCloc(                               "GpHashKey", Gp *, gbTRUE, HASHSIZE)
+#define gpHashKeyClocContent(      HASH, HASHSIZE)                                                            g_HashKeyClocContent(    (G_HashKey *) HASH, "GpHashKey", Gp *, gbTRUE, HASHSIZE)
+#define gpHashKeyDloc(             HASH)                                                                      g_HashKeyDloc(             (G_HashKey *) HASH)
+#define gpHashKeyDlocContent(      HASH)                                                                      g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define gpHashKeyErase(            HASH, KEY)                                                                 g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define gpHashKeyFind(             HASH, KEY)                                        ((Gp *)                  g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define gpHashKeyFlush(            HASH)                                                                      g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -314,10 +314,10 @@ struct GpTreeKey
 #define gpHashKeyUpdate(           HASH, KEY, VALUE)                                                          g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gpTreeAdd(                 TREE, VALUE)                                       (GpTreeItem *)          g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gpTreeCreate(                    COMPARE_FUNC)                                (GpTree *)              g_TreeCreate(                               "GpTree", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpTreeCreateContent(       TREE, COMPARE_FUNC)                                                        g_TreeCreateContent(       (G_Tree *) TREE, "GpTree", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpTreeDestroy(             TREE)                                                                      g_TreeDestroy(             (G_Tree *) TREE)
-#define gpTreeDestroyContent(      TREE)                                                                      g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gpTreeCloc(                      COMPARE_FUNC)                                (GpTree *)              g_TreeCloc(                               "GpTree", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpTreeClocContent(         TREE, COMPARE_FUNC)                                                        g_TreeClocContent(       (G_Tree *) TREE, "GpTree", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpTreeDloc(                TREE)                                                                      g_TreeDloc(                (G_Tree *) TREE)
+#define gpTreeDlocContent(         TREE)                                                                      g_TreeDlocContent(         (G_Tree *) TREE)
 #define gpTreeErase(               TREE, VALUE)                                                               g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gpTreeEraseBegin(          TREE)                                                                      g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gpTreeEraseEnd(            TREE)                                                                      g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -327,17 +327,17 @@ struct GpTreeKey
 #define gpTreeGetBegin(            TREE)                                              (GpTreeItem *)          g_TreeGetBegin(            (G_Tree *) TREE)
 #define gpTreeGetCount(            TREE)                                                                      g_TreeGetCount(            (G_Tree *) TREE)
 #define gpTreeGetEnd(              TREE)                                              (GpTreeItem *)          g_TreeGetEnd(              (G_Tree *) TREE)
-#define gpTreeItemDestroy(         TREE, TITEM)                                                               g_TreeItemDestroy(         (G_Tree *) TREE, TITEM)
+#define gpTreeItemDloc(            TREE, TITEM)                                                               g_TreeItemDloc(            (G_Tree *) TREE, TITEM)
 #define gpTreeItemGet(                   TITEM)                                      ((Gp *)                  g_TreeItemGet(             (G_Tree *) TREE, TITEM))
 #define gpTreeItemGetNext(               TITEM)                                       (GpTreeItem *)          g_TreeItemGetNext(                          TITEM)
 #define gpTreeItemGetPrev(               TITEM)                                       (GpTreeItem *)          g_TreeItemGetPrev(                          TITEM)
 #define gpTreeItemUpdate(          TREE, TITEM, VALUE)                                                        g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define gpTreeKeyAdd(              TREE, KEY, VALUE)                                  (GpTreeKeyItem *)       g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gpTreeKeyCreate(                 COMPARE_FUNC)                                (GpTreeKey *)           g_TreeKeyCreate(                               "GpTreeKey", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                        g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GpTreeKey", Gp *, gbTRUE, COMPARE_FUNC)
-#define gpTreeKeyDestroy(          TREE)                                                                      g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gpTreeKeyDestroyContent(   TREE)                                                                      g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gpTreeKeyCloc(                   COMPARE_FUNC)                                (GpTreeKey *)           g_TreeKeyCloc(                               "GpTreeKey", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                        g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GpTreeKey", Gp *, gbTRUE, COMPARE_FUNC)
+#define gpTreeKeyDloc(             TREE)                                                                      g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define gpTreeKeyDlocContent(      TREE)                                                                      g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define gpTreeKeyErase(            TREE, KEY)                                                                 g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gpTreeKeyEraseBegin(       TREE)                                                                      g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gpTreeKeyEraseEnd(         TREE)                                                                      g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -347,7 +347,7 @@ struct GpTreeKey
 #define gpTreeKeyGetBegin(         TREE)                                              (GpTreeKeyItem *)       g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gpTreeKeyGetCount(         TREE)                                                                      g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define gpTreeKeyGetEnd(           TREE)                                              (GpTreeKeyItem *)       g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gpTreeKeyItemDestroy(      TREE, TITEM)                                                               g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gpTreeKeyItemDloc(         TREE, TITEM)                                                               g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define gpTreeKeyItemGet(                TITEM)                                      ((Gp *)                  g_TreeKeyItemGet(          (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM))
 #define gpTreeKeyItemGetNext(            TITEM)                                       (GpTreeKeyItem *)       g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gpTreeKeyItemGetPrev(            TITEM)                                       (GpTreeKeyItem *)       g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)

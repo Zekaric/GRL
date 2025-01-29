@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       g_HashKey
 author:     Robbert de Groot
 copyright:  2002, Robbert de Groot
 
 description:
 G_HashKey and name table to mimic Galaxy vname and vdict functionality
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,26 +33,26 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 static Gb _Find(G_HashKey const * const hash, Gkey const * const key, G_ListKey ** const binList, G_ListKeyItem ** const binItem);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_HashKeyAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_HashKeyAdd(G_HashKey * const hash, Gkey const * const key, Gp const * const value)
 {
    G_ListKey     *binList;
@@ -83,10 +83,10 @@ grlAPI Gb g_HashKeyAdd(G_HashKey * const hash, Gkey const * const key, Gp const 
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_HashKeyCreate_
-******************************************************************************/
-grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const typeName, 
+/**************************************************************************************************
+func: g_HashKeyCloc
+**************************************************************************************************/
+grlAPI G_HashKey *g_HashKeyCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GhashSize const hashSize)
 {
    G_HashKey *hash;
@@ -96,27 +96,27 @@ grlAPI G_HashKey *g_HashKeyCreate_(Gsize const typeSize, Char const * const type
    greturnNullIf(typeSize < 0);
 
    // Create the hash table.
-   hash = gmemCreateType(G_HashKey);
+   hash = gmemClocType(G_HashKey);
    greturnNullIf(!hash);
 
-   if (!g_HashKeyCreateContent_(
+   if (!g_HashKeyClocContent_(
          hash,
          typeSize,
          typeName,
          isPointerType,
          hashSize))
    {
-      g_HashKeyDestroy(hash);
+      g_HashKeyDloc(hash);
       greturn NULL;
    }
 
    greturn hash;
 }
 
-/******************************************************************************
-func: g_HashKeyCreateContent
-******************************************************************************/
-grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize, 
+/**************************************************************************************************
+func: g_HashKeyClocContent
+**************************************************************************************************/
+grlAPI Gb g_HashKeyClocContent_(G_HashKey * const hash, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GhashSize const hashSize)
 {
    Gindex index;
@@ -133,11 +133,11 @@ grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize,
 
    hash->typeSize      = typeSize;
    hash->isPointerType = isPointerType;
-   hash->binArray      = gmemCreateTypeArray(G_ListKey *, (Gcount) hashSize); //lint !e930
+   hash->binArray      = gmemClocTypeArray(G_ListKey *, (Gcount) hashSize); //lint !e930
    hash->binCount      = hashSize;
    if (!hash->binArray)
    {
-      gmemDestroy(hash);
+      gmemDloc(hash);
       greturn gbFALSE;
    }
 
@@ -145,7 +145,7 @@ grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize,
    index = (Gindex) (hashSize - 1);
    loop
    {
-      hash->binArray[index] = g_ListKeyCreate_(
+      hash->binArray[index] = g_ListKeyCloc_(
          typeSize,
          "G_HashKeyBinList",
          isPointerType,
@@ -158,26 +158,26 @@ grlAPI Gb g_HashKeyCreateContent_(G_HashKey * const hash, Gsize const typeSize,
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_HashKeyDestroy
-******************************************************************************/
-grlAPI void g_HashKeyDestroy(G_HashKey * const hash)
+/**************************************************************************************************
+func: g_HashKeyDloc
+**************************************************************************************************/
+grlAPI void g_HashKeyDloc(G_HashKey * const hash)
 {
    genter;
 
    greturnVoidIf(!hash);
 
-   g_HashKeyDestroyContent(hash);
+   g_HashKeyDlocContent(hash);
 
-   gmemDestroy(hash);
+   gmemDloc(hash);
 
    greturn;
 }
 
-/******************************************************************************
-func: g_HashKeyDestroy
-******************************************************************************/
-grlAPI void g_HashKeyDestroyContent(G_HashKey * const hash)
+/**************************************************************************************************
+func: g_HashKeyDloc
+**************************************************************************************************/
+grlAPI void g_HashKeyDlocContent(G_HashKey * const hash)
 {
    Gi4 index;
 
@@ -187,18 +187,18 @@ grlAPI void g_HashKeyDestroyContent(G_HashKey * const hash)
 
    forCount(index, hash->binCount)
    {
-      g_ListKeyDestroy(hash->binArray[index]);
+      g_ListKeyDloc(hash->binArray[index]);
    }
-   gmemDestroy(hash->binArray);
+   gmemDloc(hash->binArray);
 
    hash->binArray = NULL;
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_HashKeyErase(G_HashKey * const hash, Gkey const * const key)
 {
    G_ListKey     *binList;
@@ -220,9 +220,9 @@ grlAPI Gb g_HashKeyErase(G_HashKey * const hash, Gkey const * const key)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_HashKeyFind(G_HashKey const * const hash, Gkey const * const key)
 {
    G_ListKey     *binList;
@@ -240,9 +240,9 @@ grlAPI Gp *g_HashKeyFind(G_HashKey const * const hash, Gkey const * const key)
    greturn g_ListKeyItemGet(binItem);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_HashKeyFlush(G_HashKey * const hash)
 {
    Gi4          index;
@@ -264,9 +264,9 @@ grlAPI void g_HashKeyFlush(G_HashKey * const hash)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_HashKeyForEach(G_HashKey const * const hash, GrlForEachKeyFunc const func)
 {
    Gi4              index;
@@ -288,9 +288,9 @@ grlAPI Gb g_HashKeyForEach(G_HashKey const * const hash, GrlForEachKeyFunc const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_HashKeyGetCount(G_HashKey const * const hash)
 {
    genter;
@@ -300,9 +300,9 @@ grlAPI Gcount g_HashKeyGetCount(G_HashKey const * const hash)
    greturn hash->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_HashKeyUpdate
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_HashKeyUpdate(G_HashKey const * const hash, Gkey const * const key,
    Gp const * const value)
 {
@@ -327,13 +327,13 @@ grlAPI Gb g_HashKeyUpdate(G_HashKey const * const hash, Gkey const * const key,
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 Lib Local functions
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _Find
-******************************************************************************/
-static Gb _Find(G_HashKey const * const hash, Gkey const * const key, 
+**************************************************************************************************/
+static Gb _Find(G_HashKey const * const hash, Gkey const * const key,
    G_ListKey ** const binList, G_ListKeyItem ** const binItem)
 {
    Gi4             index;

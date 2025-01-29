@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         G_Tree
 author:       Robbert de Groot
 copyright:    2011-2011, Robbert de Groot
 
 description:
 Data structure for a tree representation.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,18 +33,18 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 prototype:
-******************************************************************************/
-static void        _NodeDestroy(       G_Tree       * const tree, G_TreeItem * const value);
+**************************************************************************************************/
+static void        _NodeDloc(          G_Tree       * const tree, G_TreeItem * const value);
 
 static G_TreeItem *_NodeGetLeftMost(   G_TreeItem const * const node);
 static G_TreeItem *_NodeGetRightMost(  G_TreeItem const * const node);
@@ -60,13 +60,13 @@ static void        _NodeUpdate(        G_Tree const * const tree, G_TreeItem * c
 static void        _Dump(              G_TreeItem const * const node, Gi4 const level, Gs * const str); //lint !e752
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_TreeAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeAdd(G_Tree * const tree, Gp const * const value)
 {
    G_TreeItem *node,
@@ -76,7 +76,7 @@ grlAPI G_TreeItem *g_TreeAdd(G_Tree * const tree, Gp const * const value)
    genter;
 
    // Create the new node.
-   nodeNew = gmemCreate("G_TreeItem", gsizeof(G_TreeItem) + tree->typeSize);
+   nodeNew = gmemCloc("G_TreeItem", gsizeof(G_TreeItem) + tree->typeSize);
    greturnNullIf(!nodeNew);
 
    nodeNew->heapValue = (GheapN) grandomGetN(NULL);
@@ -138,10 +138,10 @@ grlAPI G_TreeItem *g_TreeAdd(G_Tree * const tree, Gp const * const value)
    greturn node;
 }
 
-/******************************************************************************
-func: g_TreeCreate_
-******************************************************************************/
-grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
+/**************************************************************************************************
+func: g_TreeCloc
+**************************************************************************************************/
+grlAPI G_Tree *g_TreeCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    G_Tree *tree;
@@ -150,27 +150,27 @@ grlAPI G_Tree *g_TreeCreate_(Gsize const typeSize, Char const * const typeName,
 
    greturnNullIf(typeSize <= 0);
 
-   tree = gmemCreateType(G_Tree);
+   tree = gmemClocType(G_Tree);
    greturnNullIf(!tree);
 
-   if (!g_TreeCreateContent_(
+   if (!g_TreeClocContent_(
          tree, 
          typeSize, 
          typeName, 
          isPointerType,
          compareFunc))
    {
-      g_TreeDestroy(tree);
+      g_TreeDloc(tree);
       greturn NULL;
    }
 
    greturn tree;
 }
 
-/******************************************************************************
-func: g_TreeCreateContent
-******************************************************************************/
-grlAPI Gb g_TreeCreateContent_(G_Tree * const tree, Gsize const typeSize, 
+/**************************************************************************************************
+func: g_TreeClocContent
+**************************************************************************************************/
+grlAPI Gb g_TreeClocContent_(G_Tree * const tree, Gsize const typeSize, 
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
@@ -191,26 +191,26 @@ grlAPI Gb g_TreeCreateContent_(G_Tree * const tree, Gsize const typeSize,
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_TreeDestroy
-******************************************************************************/
-grlAPI void g_TreeDestroy(G_Tree * const tree)
+/**************************************************************************************************
+func: g_TreeDloc
+**************************************************************************************************/
+grlAPI void g_TreeDloc(G_Tree * const tree)
 {
    genter;
 
    greturnVoidIf(!tree);
 
-   g_TreeDestroyContent(tree);
+   g_TreeDlocContent(tree);
 
-   gmemDestroy(tree);
+   gmemDloc(tree);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeDestoryContent
-******************************************************************************/
-grlAPI void g_TreeDestroyContent(G_Tree * const tree)
+**************************************************************************************************/
+grlAPI void g_TreeDlocContent(G_Tree * const tree)
 {
    G_TreeItem *node,
               *parent;
@@ -260,7 +260,7 @@ grlAPI void g_TreeDestroyContent(G_Tree * const tree)
       }
 
       // destroy the node.
-      gmemDestroy(node);
+      gmemDloc(node);
 
       breakIf(!parent);
    }
@@ -268,9 +268,9 @@ grlAPI void g_TreeDestroyContent(G_Tree * const tree)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeErase(G_Tree * const tree, Gp const * const value)
 {
    G_TreeItem *node;
@@ -284,14 +284,14 @@ grlAPI Gb g_TreeErase(G_Tree * const tree, Gp const * const value)
 
    node = g_TreeFind(tree, value);
 
-   _NodeDestroy(tree, node);
+   _NodeDloc(tree, node);
 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeEraseBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeEraseBegin(G_Tree * const tree)
 {
    Gb result;
@@ -303,9 +303,9 @@ grlAPI Gb g_TreeEraseBegin(G_Tree * const tree)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeEraseEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeEraseEnd(G_Tree * const tree)
 {
    Gb result;
@@ -317,9 +317,9 @@ grlAPI Gb g_TreeEraseEnd(G_Tree * const tree)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_TreeFlush(G_Tree * const tree)
 {
    genter;
@@ -334,9 +334,9 @@ grlAPI void g_TreeFlush(G_Tree * const tree)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_TreeForEach(G_Tree const * const tree, GrlForEachFunc const func)
 {
    G_TreeItem *node;
@@ -364,9 +364,9 @@ grlAPI Gb g_TreeForEach(G_Tree const * const tree, GrlForEachFunc const func)
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeFind(G_Tree const * const tree, Gp const * const value)
 {
    G_TreeItem *node;
@@ -396,9 +396,9 @@ grlAPI G_TreeItem *g_TreeFind(G_Tree const * const tree, Gp const * const value)
    greturn node;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeGetBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeGetBegin(G_Tree const * const tree)
 {
    G_TreeItem *node,
@@ -414,9 +414,9 @@ grlAPI G_TreeItem *g_TreeGetBegin(G_Tree const * const tree)
    greturn result;
 } //lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_TreeGetCount(G_Tree const * const tree)
 {
    genter;
@@ -426,9 +426,9 @@ grlAPI Gcount g_TreeGetCount(G_Tree const * const tree)
    greturn tree->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeGetEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeGetEnd(G_Tree const * const tree)
 {
    G_TreeItem *node,
@@ -444,9 +444,9 @@ grlAPI G_TreeItem *g_TreeGetEnd(G_Tree const * const tree)
    greturn result;
 } //lint !e954
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeItemGet
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_TreeItemGet(G_TreeItem const * const treeItem)
 {
    genter;
@@ -456,9 +456,9 @@ grlAPI Gp *g_TreeItemGet(G_TreeItem const * const treeItem)
    greturn (Gp *) &(treeItem[1]); //lint !e960 !e9005
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeItemGetNext
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeItemGetNext(G_TreeItem const * const treeItem)
 {
    G_TreeItem const *node;
@@ -499,9 +499,9 @@ grlAPI G_TreeItem *g_TreeItemGetNext(G_TreeItem const * const treeItem)
    greturn (G_TreeItem *) node; //lint !e960 !e9005 !e929
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeItemGetPrev
-******************************************************************************/
+**************************************************************************************************/
 grlAPI G_TreeItem *g_TreeItemGetPrev(G_TreeItem const * const treeItem)
 {
    G_TreeItem const *node;
@@ -544,9 +544,9 @@ grlAPI G_TreeItem *g_TreeItemGetPrev(G_TreeItem const * const treeItem)
 
 #if defined(_DEBUG)
 #if 0
-/******************************************************************************
+/**************************************************************************************************
 func: g_TreeDump
-******************************************************************************/
+**************************************************************************************************/
 static void _Dump(G_TreeItem const * const node, Gi4 const level, Gs * const str)
 {
    Gs const *stemp;
@@ -562,21 +562,21 @@ static void _Dump(G_TreeItem const * const node, Gi4 const level, Gs * const str
 
    if (node)
    {
-      stemp = gtempGs(gsCreateFromFormated(
+      stemp = gtempGs(gsClocFromFormated(
          gcTypeU2, L"[PAD][L] | [R]\n",
-         gcTypeU2, L"[PAD]", gcTypeSTR, gtempGs(gsPadTail(gsCreate(), level + 1, ' ')),
-         gcTypeU2, L"[L]",   gcTypeSTR, gtempGs(gsCreateFromI((Gi) (level + 1))),
-         gcTypeU2, L"[R]",   gcTypeSTR, gtempGs(gsCreateFromN((Gn) gvvGetKey(&node->kv))),
+         gcTypeU2, L"[PAD]", gcTypeSTR, gtempGs(gsPadTail(gsCloc(), level + 1, ' ')),
+         gcTypeU2, L"[L]",   gcTypeSTR, gtempGs(gsClocFromI((Gi) (level + 1))),
+         gcTypeU2, L"[R]",   gcTypeSTR, gtempGs(gsClocFromN((Gn) gvvGetKey(&node->kv))),
          0)); //lint !e944 !e923 !e960
 
       gsAppend(str, stemp); //lint !e534
    }
    else
    {
-      //stemp = gsCreateFromFormated(
+      //stemp = gsClocFromFormated(
       //   gcTypeU2, L"%01U%02U | ----\n",
-      //   gcTypeU2, gsPadTail(gsCreate(), level + 1, ' '),
-      //   gcTypeU2, gsCreateFromI((Gi) (level + 1))
+      //   gcTypeU2, gsPadTail(gsCloc(), level + 1, ' '),
+      //   gcTypeU2, gsClocFromI((Gi) (level + 1))
       //   0);
    }
 
@@ -596,7 +596,7 @@ grlAPI Gs *g_TreeDump(G_Tree const * const tree)
 
    genter;
 
-   str = gsCreate();
+   str = gsCloc();
 
    _Dump(tree->root, 0, str);
 
@@ -605,14 +605,14 @@ grlAPI Gs *g_TreeDump(G_Tree const * const tree)
 #endif
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
-func: _NodeDestroy
-******************************************************************************/
-static void _NodeDestroy(G_Tree * const tree, G_TreeItem * const node)
+**************************************************************************************************/
+/**************************************************************************************************
+func: _NodeDloc
+**************************************************************************************************/
+static void _NodeDloc(G_Tree * const tree, G_TreeItem * const node)
 {
    genter;
 
@@ -632,16 +632,16 @@ static void _NodeDestroy(G_Tree * const tree, G_TreeItem * const node)
    }
 
    // Now we can remove the node.
-   gmemDestroy(node);
+   gmemDloc(node);
 
    tree->count--;
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeGetLeftMost
-******************************************************************************/
+**************************************************************************************************/
 static G_TreeItem *_NodeGetLeftMost(G_TreeItem const * const node)
 {
    G_TreeItem *left;
@@ -660,9 +660,9 @@ static G_TreeItem *_NodeGetLeftMost(G_TreeItem const * const node)
    greturn left;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeGetRightMost
-******************************************************************************/
+**************************************************************************************************/
 static G_TreeItem *_NodeGetRightMost(G_TreeItem const * const node)
 {
    G_TreeItem *right;
@@ -681,9 +681,9 @@ static G_TreeItem *_NodeGetRightMost(G_TreeItem const * const node)
    greturn right;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeHeapify
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeHeapify(G_Tree * const tree, G_TreeItem * const node)
 {
    G_TreeItem const *parent;
@@ -704,9 +704,9 @@ static void _NodeHeapify(G_Tree * const tree, G_TreeItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeRotateUp
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeRotateUp(G_Tree * const tree, G_TreeItem * const node)
 {
    G_TreeItem *parent,
@@ -781,9 +781,9 @@ static void _NodeRotateUp(G_Tree * const tree, G_TreeItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeRemove
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeRemove(G_Tree * const tree, G_TreeItem * const node)
 {
    G_TreeItem *childLeft,
@@ -918,9 +918,9 @@ static void _NodeRemove(G_Tree * const tree, G_TreeItem * const node)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _NodeUpdate
-******************************************************************************/
+**************************************************************************************************/
 static void _NodeUpdate(G_Tree const * const tree, G_TreeItem * const node, Gp const * const value)
 {
    Gp *data;

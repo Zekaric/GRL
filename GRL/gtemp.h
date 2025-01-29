@@ -28,7 +28,7 @@ struct GtempData
 
    GtempData      *next;
    Gp             *data;
-   GrlDestroyFunc  destroy;
+   GrlDlocFunc     destroy;
 };
 
 struct GtempScope
@@ -42,10 +42,10 @@ struct GtempScope
 prototype:
 ********************************************************************/
 /*lint -save -e960 -e961 -e9022 -e9024 -e9026 */
-#define gtempGs(SCOPE, STR)  (Gs *) gtemp(SCOPE, (Gp *) (STR), (GrlDestroyFunc) gsDestroyFunc)
+#define gtempGs(SCOPE, STR)  (Gs *) gtemp(SCOPE, (Gp *) (STR), (GrlDlocFunc) gsDlocFunc)
 /*lint -restore */
 
-grlAPI Gp         *gtemp(       GtempScope * const scope, Gp * const mem, GrlDestroyFunc const destroyF);
+grlAPI Gp         *gtemp(       GtempScope * const scope, Gp * const mem, GrlDlocFunc const destroyF);
 
 grlAPI GtempScope *gtempEnter(  void);
 grlAPI GtempScope *gtempEnter_( void);
@@ -54,7 +54,7 @@ grlAPI void        gtempExit(   GtempScope * const scope);
        Gb          gtempStart(  void);
        void        gtempStop(   void);
 
-#define gtempEnter() (GtempScope *) gleakCreate(gtempEnter_(), gsizeof(GtempScope))
+#define gtempEnter() (GtempScope *) gleakCloc(gtempEnter_(), gsizeof(GtempScope))
 
 /*****************************************************************************/
 #ifdef __cplusplus

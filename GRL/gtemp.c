@@ -20,7 +20,7 @@ func: gtemp
 
 Add a temporary memory item.
 ********************************************************************/
-grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDestroyFunc const destroyF)
+grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDlocFunc const destroyF)
 {
    GtempData *data;
 
@@ -35,7 +35,7 @@ grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDestroyFunc const 
       mem);
 
    // Failed to create memory will cause a leak.
-   data = gmemCreateType(GtempData);
+   data = gmemClocType(GtempData);
    greturnIf(!data, mem);
 
    // Add to the list of temporaries in the current scope.
@@ -61,7 +61,7 @@ grlAPI GtempScope *gtempEnter_(void)
 
    genter;
 
-   scope = gmemCreateType(GtempScope);
+   scope = gmemClocType(GtempScope);
    greturnNullIf(!scope);
 
    GTYPE_SET(scope, "GtempScope");
@@ -72,7 +72,7 @@ grlAPI GtempScope *gtempEnter_(void)
 /********************************************************************
 func: gtempExit_
 
-Destroy all the temporary memory.
+Dloc all the temporary memory.
 ********************************************************************/
 grlAPI void gtempExit(GtempScope * const scope)
 {
@@ -88,12 +88,12 @@ grlAPI void gtempExit(GtempScope * const scope)
       dataNext = data->next;
 
       data->destroy(data->data);
-      gmemDestroy(data);
+      gmemDloc(data);
 
       data = dataNext;
    }
 
-   gmemDestroy(scope);
+   gmemDloc(scope);
 
    greturn;
 }

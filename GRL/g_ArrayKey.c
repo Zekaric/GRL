@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         G_ArrayKey
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
 
 description:
 dynamic array.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,27 +33,27 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 include:
-******************************************************************************/
+**************************************************************************************************/
 #include "precompiled.h"
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const value, Gb const findLocation);
 static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const value, Gb const findLocation);
 
-/******************************************************************************
+/**************************************************************************************************
 global:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: g_ArrayKeyAdd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const * const value)
 {
    Gindex index;
@@ -70,13 +70,13 @@ grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const *
    {
       // Find the location to put the new value in.
       index  = _BinarySearch(a, key, gbTRUE);
-      
+
       result = g_ArrayKeyAddAt(a, gABS(index), key, value);
-      
+
       // AddAt turns this off but sort order has not been
       // violated so turn it back on.
       a->isSorted = gbTRUE; //lint !e641
-      
+
       greturn result;
    }
 
@@ -86,9 +86,9 @@ grlAPI Gb g_ArrayKeyAdd(G_ArrayKey * const a, Gkey const * const key, Gp const *
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyAddAt
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const * const key,
    Gp const * const value)
 {
@@ -120,19 +120,19 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
    {
       pd = &(a->p[(index + 1) * size]);
 
-      greturnFalseIf(!gmemCopyOver(ps, size * ((a->count - index) - 1), pd)); 
+      greturnFalseIf(!gmemCopyOver(ps, size * ((a->count - index) - 1), pd));
    }
 
    greturnFalseIf(!gmemCopyOver(key, sizeof(Gkey *), ps));
    if (a->isPointerType)
    {
-      greturnFalseIf(!gmemCopyOver(&value, size, ps + gsizeof(Gkey *))); 
+      greturnFalseIf(!gmemCopyOver(&value, size, ps + gsizeof(Gkey *)));
    }
    else
    {
       if (value)
       {
-         greturnFalseIf(!gmemCopyOver(value, size, ps + gsizeof(Gkey *))); 
+         greturnFalseIf(!gmemCopyOver(value, size, ps + gsizeof(Gkey *)));
       }
       else
       {
@@ -143,39 +143,39 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyAddBegin
-******************************************************************************/
-grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key, 
+**************************************************************************************************/
+grlAPI Gb g_ArrayKeyAddBegin(G_ArrayKey * const a, Gkey const * const key,
    Gp const * const value)
 {
    Gb result;
-   
+
    genter;
-   
+
    result = g_ArrayKeyAddAt(a, 0, key, value);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyAddEnd
-******************************************************************************/
-grlAPI Gb g_ArrayKeyAddEnd(G_ArrayKey * const a, Gkey const * const key, 
+**************************************************************************************************/
+grlAPI Gb g_ArrayKeyAddEnd(G_ArrayKey * const a, Gkey const * const key,
    Gp const * const value)
 {
    Gb result;
 
    genter;
-   
+
    result = g_ArrayKeyAddAt(a, g_ArrayKeyGetCount(a), key, value);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyClear
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyClear(G_ArrayKey * const a, Gcount const count, Gindex const index)
 {
    Gsize  size;
@@ -207,13 +207,13 @@ grlAPI Gb g_ArrayKeyClear(G_ArrayKey * const a, Gcount const count, Gindex const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyCopy
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyCopy(G_ArrayKey * const a, Gcount const count, Gindex const indexSrc,
    Gindex const indexDst)
 {
-   Gb     result;   
+   Gb     result;
    Gsize  size;
    Gcount ctemp;
 
@@ -248,10 +248,10 @@ grlAPI Gb g_ArrayKeyCopy(G_ArrayKey * const a, Gcount const count, Gindex const 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyCopyFrom
-******************************************************************************/
-grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst, 
+**************************************************************************************************/
+grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
    G_ArrayKey const * const aSrc, Gcount const count, Gindex const indexSrc)
 {
    Gb     result;
@@ -294,10 +294,10 @@ grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
    greturn result;
 }
 
-/******************************************************************************
-func: g_ArrayKeyCreate_
-******************************************************************************/
-grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const typeName,
+/**************************************************************************************************
+func: g_ArrayKeyCloc_
+**************************************************************************************************/
+grlAPI G_ArrayKey *g_ArrayKeyCloc_(Gsize const typeSize, Char const * const typeName,
    Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing)
 {
    G_ArrayKey *a;
@@ -306,10 +306,10 @@ grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const ty
 
    greturnNullIf(typeSize <= 0);
 
-   a = gmemCreateType(G_ArrayKey);
+   a = gmemClocType(G_ArrayKey);
    greturnNullIf(!a);
 
-   if (!g_ArrayKeyCreateContent_(
+   if (!g_ArrayKeyClocContent_(
          a,
          typeSize,
          typeName,
@@ -317,18 +317,18 @@ grlAPI G_ArrayKey *g_ArrayKeyCreate_(Gsize const typeSize, Char const * const ty
          compareFunc,
          isVectorSizing))
    {
-      g_ArrayKeyDestroy(a);
+      g_ArrayKeyDloc(a);
       greturn NULL;
    }
 
    greturn a;
 }
 
-/******************************************************************************
-func: g_ArrayKeyCreateContent
-******************************************************************************/
-grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize, 
-   Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, 
+/**************************************************************************************************
+func: g_ArrayKeyClocContent
+**************************************************************************************************/
+grlAPI Gb g_ArrayKeyClocContent_(G_ArrayKey * const a, Gsize const typeSize, 
+   Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc,
    Gb const isVectorSizing)
 {
    genter;
@@ -352,50 +352,50 @@ grlAPI Gb g_ArrayKeyCreateContent_(G_ArrayKey * const a, Gsize const typeSize,
    }
 
    // count can be 0;
-   a->p = (Gn1 *) gleakCreate(
-      gmemCreate_(typeName, a->countTotal * (a->typeSize + gsizeof(Gkey *))),
+   a->p = (Gn1 *) gleakCloc(
+      gmemCloc_(typeName, a->countTotal * (a->typeSize + gsizeof(Gkey *))),
       a->countTotal);
    if (!a->p)
    {
-      gmemDestroy(a);
+      gmemDloc(a);
       greturn gbFALSE;
    }
 
    greturn gbTRUE;
 }
 
-/******************************************************************************
-func: g_ArrayKeyDestroy
-******************************************************************************/
-grlAPI void g_ArrayKeyDestroy(G_ArrayKey * const a)
+/**************************************************************************************************
+func: g_ArrayKeyDloc
+**************************************************************************************************/
+grlAPI void g_ArrayKeyDloc(G_ArrayKey * const a)
 {
    genter;
 
    greturnVoidIf(!a);
 
-   g_ArrayKeyDestroyContent(a);
-   gmemDestroy(a);
+   g_ArrayKeyDlocContent(a);
+   gmemDloc(a);
 
    greturn;
 }
 
-/******************************************************************************
-func: g_ArrayKeyDestroyContent
-******************************************************************************/
-grlAPI void g_ArrayKeyDestroyContent(G_ArrayKey const * const a)
+/**************************************************************************************************
+func: g_ArrayKeyDlocContent
+**************************************************************************************************/
+grlAPI void g_ArrayKeyDlocContent(G_ArrayKey const * const a)
 {
    genter;
 
    greturnVoidIf(!a);
 
-   gmemDestroy(a->p);
+   gmemDloc(a->p);
 
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyErase
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyErase(G_ArrayKey * const a, Gp const * const value)
 {
    Gb     result;
@@ -414,9 +414,9 @@ grlAPI Gb g_ArrayKeyErase(G_ArrayKey * const a, Gp const * const value)
    greturn gbFALSE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyEraseAt
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyEraseAt(G_ArrayKey * const a, Gcount const count, Gindex const index)
 {
    Gsize  size;
@@ -458,7 +458,7 @@ grlAPI Gb g_ArrayKeyEraseAt(G_ArrayKey * const a, Gcount const count, Gindex con
       a->p,
       ctemp              * size,
       (a->count - ctemp) * size);
-   
+
    if (!g_ArrayKeySetCount(a, a->count - ctemp))
    {
       debugHalt("g_ArrayKeySetCount failed");
@@ -467,9 +467,9 @@ grlAPI Gb g_ArrayKeyEraseAt(G_ArrayKey * const a, Gcount const count, Gindex con
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyEraseBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ArrayKeyEraseBegin(G_ArrayKey * const a)
 {
    genter;
@@ -480,9 +480,9 @@ grlAPI void g_ArrayKeyEraseBegin(G_ArrayKey * const a)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyEraseEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ArrayKeyEraseEnd(G_ArrayKey * const a)
 {
    genter;
@@ -493,9 +493,9 @@ grlAPI void g_ArrayKeyEraseEnd(G_ArrayKey * const a)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyFind
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gindex g_ArrayKeyFind(G_ArrayKey const * const a, Gkey const * const key)
 {
    Gindex result;
@@ -521,9 +521,9 @@ grlAPI Gindex g_ArrayKeyFind(G_ArrayKey const * const a, Gkey const * const key)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyFlush
-******************************************************************************/
+**************************************************************************************************/
 grlAPI void g_ArrayKeyFlush(G_ArrayKey * const a)
 {
    genter;
@@ -540,9 +540,9 @@ grlAPI void g_ArrayKeyFlush(G_ArrayKey * const a)
    greturn;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyForEach
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyForEach(G_ArrayKey const * const a, GrlForEachKeyFunc const func)
 {
    Gsize        size;
@@ -566,7 +566,7 @@ grlAPI Gb g_ArrayKeyForEach(G_ArrayKey const * const a, GrlForEachKeyFunc const 
          value = *((Gp **) &(a->p[index * size + gsizeof(Gkey *)]));
       }
       else
-      {      
+      {
          value =   (Gp *)  &(a->p[index * size + gsizeof(Gkey *)]);
       }
       func(key, value);
@@ -575,9 +575,9 @@ grlAPI Gb g_ArrayKeyForEach(G_ArrayKey const * const a, GrlForEachKeyFunc const 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGet
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ArrayKeyGet(G_ArrayKey const * const a)
 {
    genter;
@@ -587,9 +587,9 @@ grlAPI Gp *g_ArrayKeyGet(G_ArrayKey const * const a)
    greturn a->p;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetAt
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ArrayKeyGetAt(G_ArrayKey const * const a, Gindex const index)
 {
    Gp *result;
@@ -604,7 +604,7 @@ grlAPI Gp *g_ArrayKeyGetAt(G_ArrayKey const * const a, Gindex const index)
    {
       result = *((Gp **) &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]));
    }
-   else 
+   else
    {
       result =   (Gp *)  &(a->p[index * (a->typeSize + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
    }
@@ -612,9 +612,9 @@ grlAPI Gp *g_ArrayKeyGetAt(G_ArrayKey const * const a, Gindex const index)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetAtKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gkey const *g_ArrayKeyGetAtKey(G_ArrayKey const * const a, Gindex const index)
 {
    genter;
@@ -626,37 +626,37 @@ grlAPI Gkey const *g_ArrayKeyGetAtKey(G_ArrayKey const * const a, Gindex const i
    greturn &(a->p[index * (a->typeSize + gsizeof(Gkey *))]);
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetBegin
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ArrayKeyGetBegin(G_ArrayKey const * const a)
 {
    Gp *result;
 
    genter;
-   
+
    result = g_ArrayKeyGetAt(a, 0);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetBeginKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gkey const *g_ArrayKeyGetBeginKey(G_ArrayKey const * const a)
 {
    Gkey const *result;
 
    genter;
-   
+
    result = g_ArrayKeyGetAtKey(a, 0);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gcount g_ArrayKeyGetCount(G_ArrayKey const * const a)
 {
    genter;
@@ -666,9 +666,9 @@ grlAPI Gcount g_ArrayKeyGetCount(G_ArrayKey const * const a)
    greturn a->count;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetSize
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gsize g_ArrayKeyGetSize(G_ArrayKey const * const a)
 {
    genter;
@@ -678,37 +678,37 @@ grlAPI Gsize g_ArrayKeyGetSize(G_ArrayKey const * const a)
    greturn a->typeSize;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetEnd
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gp *g_ArrayKeyGetEnd(G_ArrayKey const * const a)
 {
    Gp *result;
 
    genter;
-   
+
    result = g_ArrayKeyGetAt(a, a->count - 1);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyGetEndKey
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gkey const *g_ArrayKeyGetEndKey(G_ArrayKey const * const a)
 {
    Gkey const *result;
 
    genter;
-   
+
    result = g_ArrayKeyGetAtKey(a, a->count - 1);
 
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeySetCount
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
 {
    Gsize  size;
@@ -734,11 +734,11 @@ grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
    result = gbTRUE;
    if (countTotal != a->countTotal)
    {
-      p      = gmemCreate(GTYPE_GET(a), countTotal * size);
+      p      = gmemCloc(GTYPE_GET(a), countTotal * size);
 
       result = gmemCopyOver(a->p, gMIN(value, a->count) * size, p);
 
-      gmemDestroy(a->p);
+      gmemDloc(a->p);
       a->p = (Gn1 *) p;
    }
 
@@ -748,9 +748,9 @@ grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
    greturn result;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeySort
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeySort(G_ArrayKey * const a)
 {
    Gheap heap;
@@ -773,9 +773,9 @@ grlAPI Gb g_ArrayKeySort(G_ArrayKey * const a)
    greturn (Gb) a->isSorted;  //lint !e930
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeySwap
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeySwap(G_ArrayKey * const a, Gindex const indexA, Gindex const indexB)
 {
    Gindex index;
@@ -807,9 +807,9 @@ grlAPI Gb g_ArrayKeySwap(G_ArrayKey * const a, Gindex const indexA, Gindex const
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: g_ArrayKeyUpdateAt
-******************************************************************************/
+**************************************************************************************************/
 grlAPI Gb g_ArrayKeyUpdateAt(G_ArrayKey * const a, Gindex const index, Gp const * const value)
 {
    Gsize  size;
@@ -829,15 +829,15 @@ grlAPI Gb g_ArrayKeyUpdateAt(G_ArrayKey * const a, Gindex const index, Gp const 
    greturn gbTRUE;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 local:
 function:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 func: _BinarySearch
 
 Binary search for the item or location where the item should be inserted.
-******************************************************************************/
+**************************************************************************************************/
 static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, Gb const findLocation)
 {
    Gindex    hi,
@@ -886,13 +886,13 @@ static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, 
       greturnIf(compare == gcompareLESS_THAN, -index)
       greturn -(index + 1);
    }
-   
+
    greturn -1;
 }
 
-/******************************************************************************
+/**************************************************************************************************
 func: _LinearSearch
-******************************************************************************/
+**************************************************************************************************/
 static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, Gb const findLocation)
 {
    Gindex    index;
@@ -901,7 +901,7 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, 
 
    genter;
 
-   // If we are findind a location and there isn't a compare function then 
+   // If we are findind a location and there isn't a compare function then
    // return the last index.
    if (a->count       == 0 ||
        a->compareFunc == NULL)

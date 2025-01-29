@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       G_base
 author:     Robbert de Groot
 copyright:  2000-2012, Robbert de Groot
@@ -6,9 +6,9 @@ copyright:  2000-2012, Robbert de Groot
 description:
 This header contains some very common constants, macroes, and types used 
 throughout the GRL library.  
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -34,7 +34,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 // I have and PCLint from time to time.  When you see something like this it is
 // to quiet some PCLint error/warnings that I deam to be ok and not needing to
@@ -67,9 +67,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
+**************************************************************************************************/
 #define GappSUCCESS           0
 
 // For the types further down below.
@@ -209,9 +209,9 @@ constant:
 #define GidNONE               0
 #define GidUNDEFINED          Gn4MAX
 
-/******************************************************************************
+/**************************************************************************************************
 macro:
-******************************************************************************/
+**************************************************************************************************/
 
 // Helper to convert a non quoted string to a quoted string for the pre-processor
 #define CHAR_FROM_INT_(X)           #X
@@ -431,9 +431,9 @@ macro:
 // nature of a pointer.
 #define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 
 // Enums could be constants but I put them here because they are more 'types'
 // in my opinion.
@@ -699,7 +699,7 @@ typedef struct
 
 // Common callback function patterns.
 typedef Gcompare   (*GrlCompareFunc)(        Gp const   * const valueA, Gp const * const valueB);
-typedef void       (*GrlDestroyFunc)(        Gp         * const value);
+typedef void       (*GrlDlocFunc)(           Gp         * const value);
 typedef void       (*GrlForEachFunc)(        Gp         * const value);
 typedef void       (*GrlForEachKeyFunc)(     Gkey const * const key,    Gp       * const value);
 typedef Gp        *(*GrlForEachProcessFunc)( Gp         * const value);

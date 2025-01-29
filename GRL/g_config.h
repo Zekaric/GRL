@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       G_config
 author:     Robbert de Groot
 copyright:  2000-2012, Robbert de Groot
 
 description:
 Some library wide flags in one location.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 // I have and PCLint from time to time.  When you see something like this it is
 // to quiet some PCLint error/warnings that I deam to be ok and not needing to
@@ -66,9 +66,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
+**************************************************************************************************/
 
 // Flags when in debug.
 #if defined(_DEBUG)

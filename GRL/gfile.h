@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gfile
 author:     Robbert de Groot
 copyright:  2000-2009, Robbert de Groot
@@ -7,9 +7,9 @@ description:
 Simple file routines without any of the standard lib problems.
 These file routines are large file compatible.  It uses windows
 file routines to accomplish this.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -35,7 +35,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GFILEH)
 #define      GFILEH
@@ -46,9 +46,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef Gi  GfileOffset;
 typedef Gn  GfileIndex;
 
@@ -98,11 +98,11 @@ struct Gfile
 #endif
 };
 
-/******************************************************************************
+/**************************************************************************************************
 function:
-******************************************************************************/
+**************************************************************************************************/
 /*lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026 */
-#define gfileOpen(PATH,MODE)  ((Gfile *) gleakCreate(gfileOpen_((PATH), (MODE)), gsizeof(Gfile)))
+#define gfileOpen(PATH,MODE)  ((Gfile *) gleakCloc(gfileOpen_((PATH), (MODE)), gsizeof(Gfile)))
 /*lint -restore */
 
 grlAPI void              gfileClose(                        Gfile * const file);

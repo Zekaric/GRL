@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gfilePref
 author:     Robbert de Groot
 copyright:  2003-2009, Robbert de Groot
@@ -42,9 +42,9 @@ Rules of the format:
    [value] lines are treated verbatum.  No white space stripping performed.
            new line characters maintained except for the last line which will
            be stripped.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -70,7 +70,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GFILEPREFH)
 #define      GFILEPREFH
@@ -81,14 +81,14 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
-/******************************************************************************
+**************************************************************************************************/
+/**************************************************************************************************
 const: GfilePrefMode
 
 Getting information from a file or a string.
-******************************************************************************/
+**************************************************************************************************/
 #define GPREF_DEFAULT_COMMENT \
    "\n"\
    "GFilePref file format\n\n"\
@@ -120,9 +120,9 @@ typedef enum
    gfilePrefModeSTR
 } GfilePrefMode;
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GTYPE_VAR
@@ -134,19 +134,19 @@ typedef struct
             *value;
 } GfilePref;
 
-/******************************************************************************
+/**************************************************************************************************
 function:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9022 -e9023 -e9024 -e9026
-#define gfilePrefCreate(GPREFMODE, VALUE) \
-   ((GfilePref *) gleakCreate(gfilePrefCreate_((GPREFMODE), (VALUE)), gsizeof(GfilePref)))
+#define gfilePrefCloc(GPREFMODE, VALUE) \
+   ((GfilePref *) gleakCloc(gfilePrefCloc_((GPREFMODE), (VALUE)), gsizeof(GfilePref)))
 //lint -restore
 
-grlAPI GfilePref        *gfilePrefCreate_(               GfilePrefMode const mode, Gp * const value);
-grlAPI Gb                gfilePrefCreateContent(         GfilePref       * const pref, GfilePrefMode const mode, Gp * const value);
+grlAPI GfilePref        *gfilePrefCloc_(                 GfilePrefMode const mode, Gp * const value);
+grlAPI Gb                gfilePrefClocContent(           GfilePref       * const pref, GfilePrefMode const mode, Gp * const value);
 
-grlAPI void              gfilePrefDestroy(               GfilePref       * const pref);
-grlAPI void              gfilePrefDestroyContent(        GfilePref       * const pref);
+grlAPI void              gfilePrefDloc(                  GfilePref       * const pref);
+grlAPI void              gfilePrefDlocContent(           GfilePref       * const pref);
 
 grlAPI Gb                gfilePrefGet(                   GfilePref       * const pref);
 grlAPI Gs               *gfilePrefGetKey(                GfilePref const * const pref);
@@ -162,7 +162,7 @@ grlAPI Gb                gfilePrefSetComment(            GfilePref const * const
 grlAPI Gb                gfilePrefSetCommentA(           GfilePref const * const pref, Char const * const value);
 
 // to avoid chicken and egg issue.
-//grlAPI gsKeyValueArray  *gsKeyValueArrayCreateLoad(      Gpath const * const fileName);
+//grlAPI gsKeyValueArray  *gsKeyValueArrayClocLoad(        Gpath const * const fileName);
 //grlAPI Gb                gsKeyValueArrayLoad(            gsKeyValueArray * const strKeyValueArray, Gpath const * const fileName);
 //grlAPI Gb                gssHashLoad(                    GsTable * const strTable, Gpath const * const filename);
 

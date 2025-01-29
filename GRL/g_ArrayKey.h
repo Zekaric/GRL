@@ -1,13 +1,13 @@
-/******************************************************************************
+/**************************************************************************************************
 file:         G_ArrayKey
 author:       Robbert de Groot
 copyright:    2011-2012, Robbert de Groot
 
 description:
 The base for a dynamic arrrays.
-******************************************************************************/
+**************************************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 BSD 2-Clause License
 
 Copyright (c) 2000, Robbert de Groot
@@ -33,7 +33,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(G_ARRAYKEYH)
 #define      G_ARRAYKEYH
@@ -44,9 +44,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GCONTAINER_VAR
@@ -58,27 +58,27 @@ typedef struct
    Gn1                     *p;
 } G_ArrayKey;
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayKeyCreate(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCreate((Gp *) g_ArrayKeyCreate_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
-#define g_ArrayKeyCreateContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                   g_ArrayKeyCreateContent(ARRAY, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
+#define g_ArrayKeyCloc(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCloc((Gp *) g_ArrayKeyCloc_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
+#define g_ArrayKeyClocContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                 g_ArrayKeyClocContent(ARRAY, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
 //lint -restore
 
 grlAPI Gb          g_ArrayKeyAdd(            G_ArrayKey       * const a,                     Gkey const * const key, Gp const * const value);
 grlAPI Gb          g_ArrayKeyAddAt(          G_ArrayKey       * const a, Gindex const index, Gkey const * const key, Gp const * const value);
 grlAPI Gb          g_ArrayKeyAddBegin(       G_ArrayKey       * const a,                     Gkey const * const key, Gp const * const value);
 grlAPI Gb          g_ArrayKeyAddEnd(         G_ArrayKey       * const a,                     Gkey const * const key, Gp const * const value);
-                   
+
 grlAPI Gb          g_ArrayKeyClear(          G_ArrayKey       * const a, Gcount const count, Gindex const index);
 grlAPI Gb          g_ArrayKeyCopy(           G_ArrayKey       * const a, Gcount const count, Gindex const indexSrc, Gindex const indexDst);
 grlAPI Gb          g_ArrayKeyCopyFrom(       G_ArrayKey       * const aDst, Gindex const indexDst, G_ArrayKey const * const aSrc, Gcount const count, Gindex const indexSrc);
-grlAPI G_ArrayKey *g_ArrayKeyCreate_(                                    Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
-grlAPI Gb          g_ArrayKeyCreateContent_( G_ArrayKey       * const a, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
+grlAPI G_ArrayKey *g_ArrayKeyCloc_(                                      Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
+grlAPI Gb          g_ArrayKeyClocContent_(   G_ArrayKey       * const a, Gsize const typeSize, Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc, Gb const isVectorSizing);
 
-grlAPI void        g_ArrayKeyDestroy(        G_ArrayKey       * const a);
-grlAPI void        g_ArrayKeyDestroyContent( G_ArrayKey const * const a);
+grlAPI void        g_ArrayKeyDloc(           G_ArrayKey       * const a);
+grlAPI void        g_ArrayKeyDlocContent(    G_ArrayKey const * const a);
 
 grlAPI Gb          g_ArrayKeyErase(          G_ArrayKey       * const a, Gkey const * const key);
 grlAPI Gb          g_ArrayKeyEraseAt(        G_ArrayKey       * const a, Gcount const count, Gindex const index);

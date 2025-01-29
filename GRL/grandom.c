@@ -1,15 +1,15 @@
-/* 
+/*
    A C-program for MT19937-64 (2004/9/29 version).
    Coded by Takuji Nishimura and Makoto Matsumoto.
 
    This is a 64-bit version of Mersenne Twister pseudorandom number
    generator.
 
-   Before using, initialize the state by using init_genrand64(seed)  
+   Before using, initialize the state by using init_genrand64(seed)
    or init_by_array64(init_key, key_length).
 
    Copyright (C) 2004, Makoto Matsumoto and Takuji Nishimura,
-   All rights reserved.                          
+   All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -22,8 +22,8 @@
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
 
-     3. The names of its contributors may not be used to endorse or promote 
-        products derived from this software without specific prior written 
+     3. The names of its contributors may not be used to endorse or promote
+        products derived from this software without specific prior written
         permission.
 
    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -40,12 +40,12 @@
 
    References:
    T. Nishimura, ``Tables of 64-bit Mersenne Twisters''
-     ACM Transactions on Modeling and 
+     ACM Transactions on Modeling and
      Computer Simulation 10. (2000) 348--357.
    M. Matsumoto and T. Nishimura,
      ``Mersenne Twister: a 623-dimensionally equidistributed
        uniform pseudorandom number generator''
-     ACM Transactions on Modeling and 
+     ACM Transactions on Modeling and
      Computer Simulation 8. (Jan. 1998) 3--30.
 
    Any feedback is very welcome.
@@ -58,9 +58,9 @@
 #define grandomMM       156
 #define grandomMATRIX   0xB5026F5AA96619E9ULL
 /* Most significant 33 bits */
-#define grandomUM       0xFFFFFFFF80000000ULL 
+#define grandomUM       0xFFFFFFFF80000000ULL
 /* Least significant 31 bits */
-#define grandomLM       0x7FFFFFFFULL 
+#define grandomLM       0x7FFFFFFFULL
 
 // Not my code.
 //lint -save -e1* -e2* -e3* -e4* -e5* -e6* -e7* -e8* -e9* -e750
@@ -68,7 +68,7 @@
 static Grandom _r;
 
 /* initializes mt[NN] with a seed */
-void grandomCreateContent(Grandom * const r, Gn8 const seed)
+void grandomClocContent(Grandom * const r, Gn8 const seed)
 {
    Grandom *rtemp;
 
@@ -86,11 +86,11 @@ void grandomCreateContent(Grandom * const r, Gn8 const seed)
    }
 
    rtemp->mt[0] = seed;
-   for (rtemp->mti = 1; rtemp->mti < NN; rtemp->mti++) 
+   for (rtemp->mti = 1; rtemp->mti < NN; rtemp->mti++)
    {
-      rtemp->mt[rtemp->mti] = 
-         (6364136223846793005ULL * 
-            (rtemp->mt[rtemp->mti - 1] ^ (rtemp->mt[rtemp->mti - 1] >> 62)) + 
+      rtemp->mt[rtemp->mti] =
+         (6364136223846793005ULL *
+            (rtemp->mt[rtemp->mti - 1] ^ (rtemp->mt[rtemp->mti - 1] >> 62)) +
           rtemp->mti);
    }
    rtemp->isInit = gbTRUE;
@@ -101,7 +101,7 @@ void grandomCreateContent(Grandom * const r, Gn8 const seed)
 /* initialize by an array with array-length */
 /* init_key is the array for initializing keys */
 /* key_length is its length */
-void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 const * const keyList)
+void grandomClocContentByArray(Grandom * const r, Gcount const keyCount, Gn8 const * const keyList)
 {
    Gn8       i,
              k;
@@ -116,25 +116,25 @@ void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 c
       rtemp = &_r;
    }
 
-   grandomCreateContent(rtemp, 19650218ULL);
+   grandomClocContent(rtemp, 19650218ULL);
 
    i = 1;
    j = 0;
    for (k = ((NN > keyCount) ? NN : keyCount); k; k--)
    {
-      rtemp->mt[i] = 
-         (rtemp->mt[i] ^ 
+      rtemp->mt[i] =
+         (rtemp->mt[i] ^
             ((rtemp->mt[i - 1] ^ (rtemp->mt[i - 1] >> 62)) * 3935559000370003845ULL))
          + keyList[j] + j; /* non linear */
       i++;
       j++;
-      
+
       if (i >= NN)
       {
          rtemp->mt[0] = rtemp->mt[NN - 1];
          i            = 1;
       }
-      
+
       if (j >= keyCount)
       {
          j = 0;
@@ -143,8 +143,8 @@ void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 c
 
    for (k = NN - 1; k; k--)
    {
-      rtemp->mt[i] = 
-         (rtemp->mt[i] ^ 
+      rtemp->mt[i] =
+         (rtemp->mt[i] ^
             ((rtemp->mt[i - 1] ^ (rtemp->mt[i - 1] >> 62)) * 2862933555777941757ULL))
          - i; /* non linear */
       i++;
@@ -155,7 +155,7 @@ void grandomCreateContentByArray(Grandom * const r, Gcount const keyCount, Gn8 c
       }
    }
 
-   rtemp->mt[0] = 1ULL << 63; /* MSB is 1; assuring non-zero initial array */ 
+   rtemp->mt[0] = 1ULL << 63; /* MSB is 1; assuring non-zero initial array */
 
    greturn;
 }
@@ -178,12 +178,12 @@ Gn8 grandomGetN(Grandom * const r)
 
    if (!rtemp->isInit)
    {
-      grandomCreateContent(rtemp, 5489ULL);
+      grandomClocContent(rtemp, 5489ULL);
    }
 
    // generate NN words at one time
    if (rtemp->mti >= NN)
-   { 
+   {
       forCount(i, NN - grandomMM)
       {
          x            = (rtemp->mt[i] & grandomUM) | (rtemp->mt[i + 1] & grandomLM);
@@ -195,7 +195,7 @@ Gn8 grandomGetN(Grandom * const r)
          x            = (rtemp->mt[i] & grandomUM) | (rtemp->mt[i + 1] & grandomLM);
          rtemp->mt[i] = rtemp->mt[i + (grandomMM - NN)] ^ (x >> 1) ^ mag01[(Gi4) (x & 1ULL)];
       }
-      
+
       x                 = (rtemp->mt[NN - 1] & grandomUM) | (rtemp->mt[0] & grandomLM);
       rtemp->mt[NN - 1] = rtemp->mt[grandomMM - 1] ^ (x >> 1) ^ mag01[(Gi4) (x & 1ULL)];
 
@@ -218,7 +218,7 @@ long long grandomGetI(Grandom * const r)
    long long result;
 
    genter;
-   
+
    result = grandomGetN(r) >> 1;
 
    greturn result;
@@ -230,7 +230,7 @@ double grandomGetR(Grandom * const r)
    double result;
 
    genter;
-   
+
    result = (grandomGetN(r) >> 11) * (1.0 / 9007199254740991.0);
 
    greturn result;
@@ -242,7 +242,7 @@ double grandomGetROpen1(Grandom * const r)
    double result;
 
    genter;
-   
+
    result = (grandomGetN(r) >> 11) * (1.0 / 9007199254740992.0);
 
    greturn result;
@@ -254,7 +254,7 @@ double grandomGetROpen(Grandom * const r)
    double result;
 
    genter;
-   
+
    result = ((grandomGetN(r) >> 12) + 0.5) * (1.0 / 4503599627370496.0);
 
    greturn result;

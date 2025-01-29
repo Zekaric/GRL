@@ -1,11 +1,11 @@
-/******************************************************************************
+/**************************************************************************************************
 file:       gthread
 author:     Robbert de Groot
 copyright:  2009-2012, Robbert de Groot
 
 description:
 Threading routines.
-******************************************************************************/
+**************************************************************************************************/
 
 #if !defined(GTHREADH)
 #define      GTHREADH
@@ -16,9 +16,9 @@ extern "C" {
 #endif
 /*****************************************************************************/
 
-/******************************************************************************
+/**************************************************************************************************
 constant:
-******************************************************************************/
+**************************************************************************************************/
 #define gthreadMODULE "gthread"
 
 typedef enum
@@ -30,9 +30,9 @@ typedef enum
    gthreadErrorLAST
 } GthreadError;
 
-/******************************************************************************
+/**************************************************************************************************
 type:
-******************************************************************************/
+**************************************************************************************************/
 typedef struct
 {
    GTYPE_VAR
@@ -51,13 +51,13 @@ typedef Gn4 (__stdcall *GthreadFunction)(Gp *);
 #else
 #endif
 
-/******************************************************************************
+/**************************************************************************************************
 prototype:
-******************************************************************************/
+**************************************************************************************************/
 // Thread functions.
-grlAPI Gthread   *gthreadCreate(          GthreadFunction const function, Gp * const data);
+grlAPI Gthread   *gthreadCloc(            GthreadFunction const function, Gp * const data);
 
-grlAPI Gb         gthreadDestroy(         Gthread       * const thread);
+grlAPI Gb         gthreadDloc(            Gthread       * const thread);
 
 grlAPI Gb         gthreadGetReturnValue(  Gthread const * const thread, Gi4 * const value);
 
@@ -70,9 +70,9 @@ grlAPI Gb         gthreadCurrentExit(     Gn4 const exitValue);
 
 grlAPI void       gthreadCurrentPause(    void);
 
-/******************************************************************************
+/**************************************************************************************************
 Gthread containers.
-******************************************************************************/
+**************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
@@ -213,10 +213,10 @@ struct GthreadTreeKey
 #define gthreadArrayClear(              ARRAY, COUNT, INDEX)                                                      g_ArrayClear(              (G_Array *) ARRAY, COUNT, INDEX) 
 #define gthreadArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayCopy(               (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gthreadArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayCopyFrom(           (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gthreadArrayCreate(                    OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GthreadArray *)       g_ArrayCreate(                                "GthreadArray", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gthreadArrayCreateContent(      ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                           g_ArrayCreateContent(      (G_Array *) ARRAY, "GthreadArray", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
-#define gthreadArrayDestroy(            ARRAY)                                                                    g_ArrayDestroy(            (G_Array *) ARRAY) 
-#define gthreadArrayDestroyContent(     ARRAY)                                                                    g_ArrayDestroyContent(     (G_Array *) ARRAY) 
+#define gthreadArrayCloc(                      OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GthreadArray *)       g_ArrayCloc(                                "GthreadArray", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gthreadArrayClocContent(        ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                           g_ArrayClocContent(      (G_Array *) ARRAY, "GthreadArray", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING, gbFALSE)
+#define gthreadArrayDloc(               ARRAY)                                                                    g_ArrayDloc(               (G_Array *) ARRAY) 
+#define gthreadArrayDlocContent(        ARRAY)                                                                    g_ArrayDlocContent(        (G_Array *) ARRAY) 
 #define gthreadArrayErase(              ARRAY, VALUE)                                                             g_ArrayEraseP(             (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gthreadArrayEraseAt(            ARRAY, COUNT, INDEX)                                                      g_ArrayEraseAt(            (G_Array *) ARRAY, COUNT, INDEX) 
 #define gthreadArrayEraseBegin(         ARRAY)                                                                    g_ArrayEraseBegin(         (G_Array *) ARRAY) 
@@ -242,10 +242,10 @@ struct GthreadTreeKey
 #define gthreadArrayKeyClear(           ARRAY, COUNT, INDEX)                                                      g_ArrayKeyClear(           (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gthreadArrayKeyCopy(            ARRAY, COUNT, INDEXSRC, INDEXDST)                                         g_ArrayKeyCopy(            (G_ArrayKey *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
 #define gthreadArrayKeyCopyFrom(        ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                            g_ArrayKeyCopyFrom(        (G_ArrayKey *) ARRAYDST, INDEXDST, (G_ArrayKey *) ARRAYSRC, COUNT, INDEXSRC) 
-#define gthreadArrayKeyCreate(                 OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GthreadArray *)       g_ArrayKeyCreate(                                "GthreadArrayKey", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gthreadArrayKeyCreateContent(   ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                           g_ArrayKeyCreateContent(   (G_ArrayKey *) ARRAY, "GthreadArrayKey", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
-#define gthreadArrayKeyDestroy(         ARRAY)                                                                    g_ArrayKeyDestroy(         (G_ArrayKey *) ARRAY) 
-#define gthreadArrayKeyDestroyContent(  ARRAY)                                                                    g_ArrayKeyDestroyContent(  (G_ArrayKey *) ARRAY) 
+#define gthreadArrayKeyCloc(                   OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)    (GthreadArray *)       g_ArrayKeyCloc(                                "GthreadArrayKey", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gthreadArrayKeyClocContent(     ARRAY, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                           g_ArrayKeyClocContent(   (G_ArrayKey *) ARRAY, "GthreadArrayKey", Gthread *, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)
+#define gthreadArrayKeyDloc(            ARRAY)                                                                    g_ArrayKeyDloc(            (G_ArrayKey *) ARRAY) 
+#define gthreadArrayKeyDlocContent(     ARRAY)                                                                    g_ArrayKeyDlocContent(     (G_ArrayKey *) ARRAY) 
 #define gthreadArrayKeyErase(           ARRAY, KEY)                                                               g_ArrayKeyErase(           (G_ArrayKey *) ARRAY, KEY) 
 #define gthreadArrayKeyEraseAt(         ARRAY, COUNT, INDEX)                                                      g_ArrayKeyEraseAt(         (G_ArrayKey *) ARRAY, COUNT, INDEX) 
 #define gthreadArrayKeyEraseBegin(      ARRAY)                                                                    g_ArrayKeyEraseBegin(      (G_ArrayKey *) ARRAY) 
@@ -270,10 +270,10 @@ struct GthreadTreeKey
 #define gthreadListAdd(                 LIST, VALUE)                                       (GthreadListItem *)    g_ListAdd(                 (G_List *) LIST, (Gp *) VALUE)
 #define gthreadListAddBegin(            LIST, VALUE)                                       (GthreadListItem *)    g_ListAddBegin(            (G_List *) LIST, (Gp *) VALUE)
 #define gthreadListAddEnd(              LIST, VALUE)                                       (GthreadListItem *)    g_ListAddEnd(              (G_List *) LIST, (Gp *) VALUE)
-#define gthreadListCreate(                    OPTIONAL_COMPARE_FUNC)                       (GthreadList *)        g_ListCreate(                               "GthreadList", Gthread *, OPTIONAL_COMPARE_FUNC)
-#define gthreadListCreateContent(       LIST, OPTIONAL_COMPARE_FUNC)                                              g_ListCreateContent(       (G_List *) LIST, "GthreadList", Gthread *, OPTIONAL_COMPARE_FUNC)
-#define gthreadListDestroy(             LIST)                                                                     g_ListDestroy(             (G_List *) LIST)
-#define gthreadListDestroyContent(      LIST)                                                                     g_ListDestroyContent(      (G_List *) LIST)
+#define gthreadListCloc(                      OPTIONAL_COMPARE_FUNC)                       (GthreadList *)        g_ListCloc(                               "GthreadList", Gthread *, OPTIONAL_COMPARE_FUNC)
+#define gthreadListClocContent(         LIST, OPTIONAL_COMPARE_FUNC)                                              g_ListClocContent(       (G_List *) LIST, "GthreadList", Gthread *, OPTIONAL_COMPARE_FUNC)
+#define gthreadListDloc(                LIST)                                                                     g_ListDloc(                (G_List *) LIST)
+#define gthreadListDlocContent(         LIST)                                                                     g_ListDlocContent(         (G_List *) LIST)
 #define gthreadListErase(               LIST, VALUE)                                                              g_ListErase(               (G_List *) LIST, (Gp *) VALUE)
 #define gthreadListEraseBegin(          LIST)                                                                     g_ListEraseBegin(          (G_List *) LIST)
 #define gthreadListEraseEnd(            LIST)                                                                     g_ListEraseEnd(            (G_List *) LIST)
@@ -293,10 +293,10 @@ struct GthreadTreeKey
 #define gthreadListKeyAdd(              LIST, KEY, VALUE)                                  (GthreadListKeyItem *) g_ListKeyAdd(              (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gthreadListKeyAddBegin(         LIST, KEY, VALUE)                                  (GthreadListKeyItem *) g_ListKeyAddBegin(         (G_ListKey *) LIST, KEY, (Gp *) VALUE)
 #define gthreadListKeyAddEnd(           LIST, KEY, VALUE)                                  (GthreadListKeyItem *) g_ListKeyAddEnd(           (G_ListKey *) LIST, KEY, (Gp *) VALUE)
-#define gthreadListKeyCreate(                 COMPARE_FUNC)                                (GthreadList *)        g_ListKeyCreate(                               "GthreadListKey", Gthread *, COMPARE_FUNC)
-#define gthreadListKeyCreateContent(    LIST, COMPARE_FUNC)                                                       g_ListKeyCreateContent(    (G_ListKey *) LIST, "GthreadListKey", Gthread *, COMPARE_FUNC)
-#define gthreadListKeyDestroy(          LIST)                                                                     g_ListKeyDestroy(          (G_ListKey *) LIST)
-#define gthreadListKeyDestroyContent(   LIST)                                                                     g_ListKeyDestroyContent(   (G_ListKey *) LIST)
+#define gthreadListKeyCloc(                   COMPARE_FUNC)                                (GthreadList *)        g_ListKeyCloc(                               "GthreadListKey", Gthread *, COMPARE_FUNC)
+#define gthreadListKeyClocContent(      LIST, COMPARE_FUNC)                                                       g_ListKeyClocContent(    (G_ListKey *) LIST, "GthreadListKey", Gthread *, COMPARE_FUNC)
+#define gthreadListKeyDloc(             LIST)                                                                     g_ListKeyDloc(             (G_ListKey *) LIST)
+#define gthreadListKeyDlocContent(      LIST)                                                                     g_ListKeyDlocContent(      (G_ListKey *) LIST)
 #define gthreadListKeyErase(            LIST, KEY)                                                                g_ListKeyErase(            (G_ListKey *) LIST, KEY)
 #define gthreadListKeyEraseBegin(       LIST)                                                                     g_ListKeyEraseBegin(       (G_ListKey *) LIST)
 #define gthreadListKeyEraseEnd(         LIST)                                                                     g_ListKeyEraseEnd(         (G_ListKey *) LIST)
@@ -316,10 +316,10 @@ struct GthreadTreeKey
 #define gthreadListKeyItemUpdateKey(    LIST, LITEM, KEY)                                                         g_ListKeyItemUpdateKey(    (G_ListKey *) LIST, (G_ListKeyItem *) LITEM, KEY)
 
 #define gthreadHashAdd(                 HASH, VALUE)                                                              g_HashAdd(                 (G_Hash *) HASH, (Gp *) VALUE)
-#define gthreadHashCreate(                    COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GthreadHash *)        g_HashCreate(                               "GthreadHash", Gthread *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gthreadHashCreateContent(       HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                  g_HashCreateContent(       (G_Hash *) HASH, "GthreadHash", Gthread *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
-#define gthreadHashDestroy(             HASH)                                                                     g_HashDestroy(             (G_Hash *) HASH)
-#define gthreadHashDestroyContent(      HASH)                                                                     g_HashDestroyContent(      (G_Hash *) HASH)
+#define gthreadHashCloc(                      COMPARE_FUNC, HASH_FUNC, HASHSIZE)           (GthreadHash *)        g_HashCloc(                               "GthreadHash", Gthread *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gthreadHashClocContent(         HASH, COMPARE_FUNC, HASH_FUNC, HASHSIZE)                                  g_HashClocContent(       (G_Hash *) HASH, "GthreadHash", Gthread *, COMPARE_FUNC, HASH_FUNC, HASHSIZE)
+#define gthreadHashDloc(                HASH)                                                                     g_HashDloc(                (G_Hash *) HASH)
+#define gthreadHashDlocContent(         HASH)                                                                     g_HashDlocContent(         (G_Hash *) HASH)
 #define gthreadHashErase(               HASH, VALUE)                                                              g_HashErase(               (G_Hash *) HASH, (Gp *) VALUE)
 #define gthreadHashFind(                HASH, VALUE)                                     *((Gthread **)           g_HashFind(                (G_Hash *) HASH, (Gp *) VALUE))
 #define gthreadHashFlush(               HASH)                                                                     g_HashFlush(               (G_Hash *) HASH)
@@ -328,10 +328,10 @@ struct GthreadTreeKey
 #define gthreadHashUpdate(              HASH, VALUE)                                                              g_HashUpdate(              (G_Hash *) HASH, (Gp *) VALUE)
 
 #define gthreadHashKeyAdd(              HASH, KEY, VALUE)                                                         g_HashKeyAdd(              (G_HashKey *) HASH, KEY, (Gp *) VALUE)
-#define gthreadHashKeyCreate(                 HASHSIZE)                                    (GthreadHashKey *)     g_HashKeyCreate(                               "GthreadHashKey", Gthread *, HASHSIZE)
-#define gthreadHashKeyCreateContent(    HASH, HASHSIZE)                                                           g_HashKeyCreateContent(    (G_HashKey *) HASH, "GthreadHashKey", Gthread *, HASHSIZE)
-#define gthreadHashKeyDestroy(          HASH)                                                                     g_HashKeyDestroy(          (G_HashKey *) HASH)
-#define gthreadHashKeyDestroyContent(   HASH)                                                                     g_HashKeyDestroyContent(   (G_HashKey *) HASH)
+#define gthreadHashKeyCloc(                   HASHSIZE)                                    (GthreadHashKey *)     g_HashKeyCloc(                               "GthreadHashKey", Gthread *, HASHSIZE)
+#define gthreadHashKeyClocContent(      HASH, HASHSIZE)                                                           g_HashKeyClocContent(    (G_HashKey *) HASH, "GthreadHashKey", Gthread *, HASHSIZE)
+#define gthreadHashKeyDloc(             HASH)                                                                     g_HashKeyDloc(             (G_HashKey *) HASH)
+#define gthreadHashKeyDlocContent(      HASH)                                                                     g_HashKeyDlocContent(      (G_HashKey *) HASH)
 #define gthreadHashKeyErase(            HASH, KEY)                                                                g_HashKeyErase(            (G_HashKey *) HASH, KEY)
 #define gthreadHashKeyFind(             HASH, KEY)                                       *((Gthread **)           g_HashKeyFind(             (G_HashKey *) HASH, KEY))
 #define gthreadHashKeyFlush(            HASH)                                                                     g_HashKeyFlush(            (G_HashKey *) HASH)
@@ -340,10 +340,10 @@ struct GthreadTreeKey
 #define gthreadHashKeyUpdate(           HASH, KEY, VALUE)                                                         g_HashKeyUpdate(           (G_HashKey *) HASH, KEY, (Gp *) VALUE)
 
 #define gthreadTreeAdd(                 TREE, VALUE)                                       (GthreadTreeItem *)    g_TreeAdd(                 (G_Tree *) TREE, (Gp *) VALUE)
-#define gthreadTreeCreate(                    COMPARE_FUNC)                                (GthreadTree *)        g_TreeCreate(                               "GthreadTree", Gthread *, COMPARE_FUNC)
-#define gthreadTreeCreateContent(       TREE, COMPARE_FUNC)                                                       g_TreeCreateContent(       (G_Tree *) TREE, "GthreadTree", Gthread *, COMPARE_FUNC)
-#define gthreadTreeDestroy(             TREE)                                                                     g_TreeDestroy(             (G_Tree *) TREE)
-#define gthreadTreeDestroyContent(      TREE)                                                                     g_TreeDestroyContent(      (G_Tree *) TREE)
+#define gthreadTreeCloc(                      COMPARE_FUNC)                                (GthreadTree *)        g_TreeCloc(                               "GthreadTree", Gthread *, COMPARE_FUNC)
+#define gthreadTreeClocContent(         TREE, COMPARE_FUNC)                                                       g_TreeClocContent(       (G_Tree *) TREE, "GthreadTree", Gthread *, COMPARE_FUNC)
+#define gthreadTreeDloc(                TREE)                                                                     g_TreeDloc(                (G_Tree *) TREE)
+#define gthreadTreeDlocContent(         TREE)                                                                     g_TreeDlocContent(         (G_Tree *) TREE)
 #define gthreadTreeErase(               TREE, VALUE)                                                              g_TreeErase(               (G_Tree *) TREE, (Gp *) VALUE)
 #define gthreadTreeEraseBegin(          TREE)                                                                     g_TreeEraseBegin(          (G_Tree *) TREE)
 #define gthreadTreeEraseEnd(            TREE)                                                                     g_TreeEraseEnd(            (G_Tree *) TREE)
@@ -353,17 +353,17 @@ struct GthreadTreeKey
 #define gthreadTreeGetBegin(            TREE)                                              (GthreadTreeItem *)    g_TreeGetBegin(            (G_Tree *) TREE)
 #define gthreadTreeGetCount(            TREE)                                                                     g_TreeGetCount(            (G_Tree *) TREE)
 #define gthreadTreeGetEnd(              TREE)                                              (GthreadTreeItem *)    g_TreeGetEnd(              (G_Tree *) TREE)
-#define gthreadTreeItemDestroy(         TREE, TITEM)                                                              g_TreeItemDestroy(         (G_Tree *) TREE, TITEM)
+#define gthreadTreeItemDloc(            TREE, TITEM)                                                              g_TreeItemDloc(            (G_Tree *) TREE, TITEM)
 #define gthreadTreeItemGet(                   TITEM)                                     *((Gthread **)           g_TreeItemGet(                              TITEM))
 #define gthreadTreeItemGetNext(               TITEM)                                       (GthreadTreeItem *)    g_TreeItemGetNext(                          TITEM)
 #define gthreadTreeItemGetPrev(               TITEM)                                       (GthreadTreeItem *)    g_TreeItemGetPrev(                          TITEM)
 #define gthreadTreeItemUpdate(          TREE, TITEM, VALUE)                                                       g_TreeItemUpdate(          (G_Tree *) TREE, TITEM, (Gp *) VALUE)
 
 #define gthreadTreeKeyAdd(              TREE, KEY, VALUE)                                  (GthreadTreeKeyItem *) g_TreeKeyAdd(              (G_TreeKey *) TREE, KEY, (Gp *) VALUE)
-#define gthreadTreeKeyCreate(                 COMPARE_FUNC)                                (GthreadTreeKey *)     g_TreeKeyCreate(                               "GthreadTreeKey", Gthread *, COMPARE_FUNC)
-#define gthreadTreeKeyCreateContent(    TREE, COMPARE_FUNC)                                                       g_TreeKeyCreateContent(    (G_TreeKey *) TREE, "GthreadTreeKey", Gthread *, COMPARE_FUNC)
-#define gthreadTreeKeyDestroy(          TREE)                                                                     g_TreeKeyDestroy(          (G_TreeKey *) TREE)
-#define gthreadTreeKeyDestroyContent(   TREE)                                                                     g_TreeKeyDestroyContent(   (G_TreeKey *) TREE)
+#define gthreadTreeKeyCloc(                   COMPARE_FUNC)                                (GthreadTreeKey *)     g_TreeKeyCloc(                               "GthreadTreeKey", Gthread *, COMPARE_FUNC)
+#define gthreadTreeKeyClocContent(      TREE, COMPARE_FUNC)                                                       g_TreeKeyClocContent(    (G_TreeKey *) TREE, "GthreadTreeKey", Gthread *, COMPARE_FUNC)
+#define gthreadTreeKeyDloc(             TREE)                                                                     g_TreeKeyDloc(             (G_TreeKey *) TREE)
+#define gthreadTreeKeyDlocContent(      TREE)                                                                     g_TreeKeyDlocContent(      (G_TreeKey *) TREE)
 #define gthreadTreeKeyErase(            TREE, KEY)                                                                g_TreeKeyErase(            (G_TreeKey *) TREE, KEY)
 #define gthreadTreeKeyEraseBegin(       TREE)                                                                     g_TreeKeyEraseBegin(       (G_TreeKey *) TREE)
 #define gthreadTreeKeyEraseEnd(         TREE)                                                                     g_TreeKeyEraseEnd(         (G_TreeKey *) TREE)
@@ -373,7 +373,7 @@ struct GthreadTreeKey
 #define gthreadTreeKeyGetBegin(         TREE)                                              (GthreadTreeKeyItem *) g_TreeKeyGetBegin(         (G_TreeKey *) TREE)
 #define gthreadTreeKeyGetCount(         TREE)                                                                     g_TreeKeyGetCount(         (G_TreeKey *) TREE)
 #define gthreadTreeKeyGetEnd(           TREE)                                              (GthreadTreeKeyItem *) g_TreeKeyGetEnd(           (G_TreeKey *) TREE)
-#define gthreadTreeKeyItemDestroy(      TREE, TITEM)                                                              g_TreeKeyItemDestroy(      (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
+#define gthreadTreeKeyItemDloc(         TREE, TITEM)                                                              g_TreeKeyItemDloc(         (G_TreeKey *) TREE, (G_TreeKeyItem *) TITEM)
 #define gthreadTreeKeyItemGet(                TITEM)                                     *((Gthread **)           g_TreeKeyItemGet(                              (G_TreeKeyItem *) TITEM))
 #define gthreadTreeKeyItemGetNext(            TITEM)                                       (GthreadTreeKeyItem *) g_TreeKeyItemGetNext(                          (G_TreeKeyItem *) TITEM)
 #define gthreadTreeKeyItemGetPrev(            TITEM)                                       (GthreadTreeKeyItem *) g_TreeKeyItemGetPrev(                          (G_TreeKeyItem *) TITEM)
