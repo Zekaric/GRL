@@ -120,19 +120,19 @@ grlAPI Gb g_ArrayKeyAddAt(G_ArrayKey * const a, Gindex const index, Gkey const *
    {
       pd = &(a->p[(index + 1) * size]);
 
-      greturnFalseIf(!gmemCopyOver(ps, size * ((a->count - index) - 1), pd));
+      greturnFalseIf(!gmemCopyOver(pd, size * ((a->count - index) - 1), ps));
    }
 
-   greturnFalseIf(!gmemCopyOver(key, sizeof(Gkey *), ps));
+   greturnFalseIf(!gmemCopyOver(ps, sizeof(Gkey *), key));
    if (a->isPointerType)
    {
-      greturnFalseIf(!gmemCopyOver(&value, size, ps + gsizeof(Gkey *)));
+      greturnFalseIf(!gmemCopyOver(ps + gsizeof(Gkey *), size, &value));
    }
    else
    {
       if (value)
       {
-         greturnFalseIf(!gmemCopyOver(value, size, ps + gsizeof(Gkey *)));
+         greturnFalseIf(!gmemCopyOver(ps + gsizeof(Gkey *), size, value));
       }
       else
       {
@@ -289,7 +289,7 @@ grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
    // Use of this function marks the array as unsorted.
    aDst->isSorted = gbFALSE; //lint !e641
 
-   result = gmemCopyOverAt(aSrc->p, ctemp * size, indexSrc * size, aDst->p, indexDst * size);
+   result = gmemCopyOverAt(aDst->p, ctemp * size, indexDst * size, aSrc->p, indexSrc * size);
 
    greturn result;
 }
@@ -327,7 +327,7 @@ grlAPI G_ArrayKey *g_ArrayKeyCloc_(Gsize const typeSize, Char const * const type
 /**************************************************************************************************
 func: g_ArrayKeyClocContent
 **************************************************************************************************/
-grlAPI Gb g_ArrayKeyClocContent_(G_ArrayKey * const a, Gsize const typeSize, 
+grlAPI Gb g_ArrayKeyClocContent_(G_ArrayKey * const a, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc,
    Gb const isVectorSizing)
 {
@@ -736,7 +736,7 @@ grlAPI Gb g_ArrayKeySetCount(G_ArrayKey * const a, Gcount const value)
    {
       p      = gmemCloc(GTYPE_GET(a), countTotal * size);
 
-      result = gmemCopyOver(a->p, gMIN(value, a->count) * size, p);
+      result = gmemCopyOver(p, gMIN(value, a->count) * size, a->p);
 
       gmemDloc(a->p);
       a->p = (Gn1 *) p;
@@ -824,7 +824,7 @@ grlAPI Gb g_ArrayKeyUpdateAt(G_ArrayKey * const a, Gindex const index, Gp const 
    size = a->typeSize;
 
    p = &(a->p[index * (size + gsizeof(Gkey *)) + gsizeof(Gkey *)]);
-   greturnFalseIf(!gmemCopyOver(value, size, p)); //lint !e960 !e9005
+   greturnFalseIf(!gmemCopyOver(p, size, value)); //lint !e960 !e9005
 
    greturn gbTRUE;
 }

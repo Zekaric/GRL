@@ -1239,7 +1239,7 @@ static Gs *_SFromN1(Gn1 const * const n, Gcount const count)
    genter;
 
    ntemp = gmemClocTypeArray(Gn1, count + 1);
-   gmemCopyOverTypeArray(n, Gn1, count, ntemp);
+   gmemCopyOverTypeArray(ntemp, Gn1, count, n);
 
    s = gsClocFromU1(ntemp);
 
@@ -1488,7 +1488,7 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
    gswap4(&n4);
    if (rat->isBinary)
    {
-      gmemCopyOverType(&n4, Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;
+      gmemCopyOverType(&rat->rowBuffer[byteOffset], Gn4, &n4); byteOffset += 4;
    }
    else
    {
@@ -1546,18 +1546,18 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
          case gfileRatTypeI1:
          case gfileRatTypeN1:   rat->rowBuffer[byteOffset++] = (Gn1) v.n; break;
          case gfileRatTypeI2:
-         case gfileRatTypeN2:   gmemCopyOverType(&n2,  Gn2, &rat->rowBuffer[byteOffset]); byteOffset += 2; break;
+         case gfileRatTypeN2:   gmemCopyOverType(&rat->rowBuffer[byteOffset],  Gn2, &n2); byteOffset += 2; break;
          case gfileRatTypeI4:
          case gfileRatTypeN4:
-         case gfileRatTypeR4:   gmemCopyOverType(&n4,  Gn4, &rat->rowBuffer[byteOffset]); byteOffset += 4;break;
+         case gfileRatTypeR4:   gmemCopyOverType(&rat->rowBuffer[byteOffset],  Gn4, &n4); byteOffset += 4;break;
          case gfileRatTypeI8:
          case gfileRatTypeN8:
-         case gfileRatTypeR8:   gmemCopyOverType(&v.n, Gn8, &rat->rowBuffer[byteOffset]); byteOffset += 8; break;
+         case gfileRatTypeR8:   gmemCopyOverType(&rat->rowBuffer[byteOffset], Gn8, &v.n); byteOffset += 8; break;
          case gfileRatTypeS:
             c1       = gsClocU1(v.s);
             c1Count  = gcGetCountU1(c1);
             gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount);
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]);
+            gmemCopyOverType(  &rat->rowBuffer[byteOffset], gMIN(c1Count, col->byteCount), c1);
             break;
          }
       }
@@ -1589,7 +1589,7 @@ static Gb _StoreRow(GfileRat * const rat, Gfile *file, Gindex const indexRow)
             c1       = gsClocU1(v.s);
             c1Count  = gcGetCountU1(c1);
             gmemClearTypeArray(&rat->rowBuffer[byteOffset], Gn1, col->byteCount);
-            gmemCopyOverType(c1, gMIN(c1Count, col->byteCount), &rat->rowBuffer[byteOffset]);
+            gmemCopyOverType(  &rat->rowBuffer[byteOffset], gMIN(c1Count, col->byteCount), c1);
             break;
          }
       }

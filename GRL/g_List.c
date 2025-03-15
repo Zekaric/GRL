@@ -502,7 +502,7 @@ grlAPI void g_ListItemUpdate(G_List * const list, G_ListItem * const litem, Gp c
 
    greturnVoidIf(!litem);
 
-   gmemCopyOver(value, list->typeSize, DATA_PTR(litem));
+   gmemCopyOver(DATA_PTR(litem), list->typeSize, value);
 
    list->isSorted = gbFALSE;
 

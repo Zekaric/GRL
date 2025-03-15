@@ -530,7 +530,7 @@ grlAPI void g_ListKeyItemUpdate(G_ListKey * const list, G_ListKeyItem * const li
    greturnVoidIf(!litem);
 
    data = (Gn1 *) DATA_PTR(litem);
-   gmemCopyOver(value, list->typeSize, data);
+   gmemCopyOver(data, list->typeSize, value);
 
    greturn;
 }

@@ -120,10 +120,10 @@ prototype:
 #define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
 
 // Copying data from one array over to some other array of a given type.
-#define gmemCopyOver(            PSRC, BYTECOUNT,              PDST)             gmemCopyOverAt((Gp *) (PSRC),  (BYTECOUNT),               0,                            (Gp *) (PDST),  (Gi) 0)
-#define gmemCopyOverType(        PSRC, TYPE,                   PDST)             gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE),             0,                            (Gp *) (PDST),  (Gi) 0)
-#define gmemCopyOverTypeArray(   PSRC, TYPE, COUNT,            PDST)             gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE) * (COUNT),   0,                            (Gp *) (PDST),  (Gi) 0)
-#define gmemCopyOverTypeArrayAt( PSRC, TYPE, COUNT, INDEX_SRC, PDST, INDEX_DST)  gmemCopyOverAt((Gp *) (PSRC),  gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  (Gp *) (PDST),  gsizeof(TYPE) * (INDEX_DST))
+#define gmemCopyOver(            P, BYTECOUNT,            PSRC)             gmemCopyOverAt((Gp *) (P),  (BYTECOUNT),             (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverType(        P, TYPE,                 PSRC)             gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE),           (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverTypeArray(   P, TYPE, COUNT,          PSRC)             gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverTypeArrayAt( P, TYPE, COUNT, INDEX_P, PSRC, INDEX_SRC)  gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), gsizeof(TYPE) * (INDEX_P), (Gp *) (PSRC), gsizeof(TYPE) * (INDEX_SRC))
 
 // Create a dynamic memory buffer on the heap.
 // Type  - provide a type to define the size of the element(s) to create.
@@ -141,9 +141,9 @@ prototype:
 //lint -restore
 
 // Actual functions that couldn't be made into macroes.
-grlAPI void  gmemClearAt(     Gp         * const p,    Gcount const byteCount, Gindex const byteIndex);
-grlAPI Gb    gmemCopy(        Gp         * const p,    Gcount const byteCount, Gindex const byteIndexSrc,                  Gindex const byteIndexDst);
-grlAPI Gb    gmemCopyOverAt(  Gp   const * const pSrc, Gcount const byteCount, Gindex const byteIndexSrc, Gp * const pDst, Gindex const byteIndexDst);
+grlAPI void  gmemClearAt(     Gp         * const p, Gcount const byteCount, Gindex const byteIndex);
+grlAPI Gb    gmemCopy(        Gp         * const p, Gcount const byteCount, Gindex const byteIndex,                        Gindex const byteIndexSrc);
+grlAPI Gb    gmemCopyOverAt(  Gp         * const p, Gcount const byteCount, Gindex const byteIndex, Gp const * const pSrc, Gindex const byteIndexSrc);
 grlAPI Gp   *gmemCloc_(       Char const * const type, Gcount const byteCount);
 
 grlAPI void  gmemDloc(        Gp        * const p);

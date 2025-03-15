@@ -925,5 +925,5 @@ static void _NodeUpdate(G_Tree const * const tree, G_TreeItem * const node, Gp c
 {
    Gp *data;
    data = (Gp *) &node[1];
-   gmemCopyOver(value, tree->typeSize, data); //lint !e534
+   gmemCopyOver(data, tree->typeSize, value); //lint !e534
 }

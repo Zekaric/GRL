@@ -75,7 +75,7 @@ func: gmatrix3Copy
 grlAPI void gmatrix3Copy(Gmatrix3 const * const src, Gmatrix3 * const dst)
 {
    genter;
-   gmemCopyOver(src, gsizeof(Gr) * 16, dst);//lint !e960 !e9005 !e534
+   gmemCopyOverTypeArray(dst, Gr, 16, src);//lint !e960 !e9005 !e534
    greturn;
 }
 

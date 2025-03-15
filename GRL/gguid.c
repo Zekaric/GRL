@@ -83,7 +83,7 @@ Gguid gguidMake(void)
       guid.b[ 6] = (newId.Data3 >>  8) & 0xFF;
       guid.b[ 7] = (newId.Data3 >>  0) & 0xFF;
 
-      gmemCopyOverTypeArray(newId.Data4, Gn1, 8, &(guid.b[8]));
+      gmemCopyOverTypeArray(&(guid.b[8]), Gn1, 8, newId.Data4);
    }
 #endif
 

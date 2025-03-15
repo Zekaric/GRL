@@ -9,7 +9,7 @@ Routines for a memory handling.
 How is memory handled?
 
 We have memory pooling that does not free smaller blocks until told to flush
-these blocks from memory.  The idea is to reduce the amount of time for 
+these blocks from memory.  The idea is to reduce the amount of time for
 allocation as malloc/calloc is not called all the time.  This improves program
 performance but may lead to more memory fragmentation.
 
@@ -17,7 +17,7 @@ If you provide a 'small' size, I am actually allocating a buffer of a size that
 falls in to a size bin.
 
 There are 256 small size bins.  Sarting from a size of 8 and each bin increasing
-in size by 4 bytes.  So 8, 12, 16, ... 1032. 
+in size by 4 bytes.  So 8, 12, 16, ... 1032.
 
 Anything larger is too large to pool.
 
@@ -143,7 +143,7 @@ grlAPI void gmemClearAt(Gp * const p, Gcount const byteCount, Gindex const byteI
 /**************************************************************************************************
 func: gmemCopy
 **************************************************************************************************/
-grlAPI Gb gmemCopy(Gp * const p, Gcount const byteCount, Gindex const byteIndexSrc, 
+grlAPI Gb gmemCopy(Gp * const p, Gcount const byteCount, Gindex const byteIndexSrc,
    Gindex const byteIndexDst)
 {
    Gn1 *pn;
@@ -167,8 +167,8 @@ grlAPI Gb gmemCopy(Gp * const p, Gcount const byteCount, Gindex const byteIndexS
 /**************************************************************************************************
 func: gmemCopyOverAt
 **************************************************************************************************/
-grlAPI Gb gmemCopyOverAt(Gp const * const pSrc, Gcount const byteCount, 
-   Gindex const byteIndexSrc, Gp * const pDst, Gindex const byteIndexDst)
+grlAPI Gb gmemCopyOverAt(Gp * const pDst, Gcount const byteCount, Gindex const byteIndexDst,
+   Gp const * const pSrc, Gindex const byteIndexSrc)
 {
    Gn1 *pdn,
        *psn;
@@ -527,7 +527,7 @@ static void _PoolFlush(void)
             stemp,
             (size_t) 80,
             L"Memory pool %3d still contains allocated data.\n",
-            index); //lint !e534 
+            index); //lint !e534
          debugPrintU2(stemp);
       }
 #endif
