@@ -202,6 +202,9 @@
     <ClInclude Include="gbuf.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="gsUtil.h">
+      <Filter>Type Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -341,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="gbuf.c">
       <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="gsUtil.c">
+      <Filter>Type Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

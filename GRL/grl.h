@@ -6,14 +6,14 @@ copyright:  2000-2012, Robbert de Groot
 description:
 GRL - Groot's Runtime Library.
 
-A kitchen sink library to speed up 'C' development by providing missing or 
+A kitchen sink library to speed up 'C' development by providing missing or
 easier APIs for common programming things.
 
 Usage:
 Start up GRL.  Called as one of the first things your program will do.
 
    if (!grlStart())
-   { 
+   {
       // GRL failed to start.  Shutdown as nothing will work.
    }
 
@@ -26,11 +26,11 @@ On stop you will get a leak report in the output window in Visual Studio.
 Compiling:
 You need to properly set at compile time
 
-   grlWINDOWS, grlOSX, or grlLINUX 
+   grlWINDOWS, grlOSX, or grlLINUX
 
 and
 
-   grl32, or grl64 
+   grl32, or grl64
 
 Compile time defines when using this library.
 **************************************************************************************************/
@@ -71,7 +71,7 @@ include:
 **************************************************************************************************/
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-   #define grlWINDOWS            1   
+   #define grlWINDOWS            1
    #ifdef _WIN64
       #define grl64              1
    #else
@@ -83,7 +83,7 @@ include:
    #if TARGET_IPHONE_SIMULATOR
       // iOS, tvOS, or watchOS Simulator
       // Not supported
-      #define grlAPPLE_IOS       1 
+      #define grlAPPLE_IOS       1
    #elif TARGET_OS_MACCATALYST
       // Mac's Catalyst (ports iOS API into Mac, like UIKit).
    #elif TARGET_OS_IPHONE
@@ -109,7 +109,7 @@ include:
    #else
       #define grl32              1
    #endif
-   
+
 #elif __unix__ // all unices not caught above
    // Unix
    #define grlNIX                1
@@ -169,7 +169,7 @@ include:
 #include <math.h>
 //lint -restore
 
-// includes are in order of dependence.  
+// includes are in order of dependence.
 
 #include "g_config.h"
 
@@ -180,7 +180,7 @@ include:
 
 #include "g_Array.h"          // depends on g_Container
 #include "g_ArrayKey.h"
-#include "g_List.h"           
+#include "g_List.h"
 #include "g_ListKey.h"
 #include "g_Tree.h"
 #include "g_TreeKey.h"
@@ -218,6 +218,7 @@ include:
 #include "gs.h"
 
 #include "gsFunction.h"       // depends on gs
+#include "gsUtil.h"
 #include "gsKey.h"            // depends on gs gsHash
 
 #include "gguid.h"

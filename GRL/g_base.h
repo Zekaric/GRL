@@ -4,8 +4,8 @@ author:     Robbert de Groot
 copyright:  2000-2012, Robbert de Groot
 
 description:
-This header contains some very common constants, macroes, and types used 
-throughout the GRL library.  
+This header contains some very common constants, macroes, and types used
+throughout the GRL library.
 **************************************************************************************************/
 
 /**************************************************************************************************
@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(G_BASEH)
 #define      G_BASEH
 
-// GRL was initially developed to be a DLL.  After a while I found DLLs were 
+// GRL was initially developed to be a DLL.  After a while I found DLLs were
 // just being a pain when it comes to distribution of the exe.  So I have more
 // recently adopted sticking to static libraries as it makes my life slightly
 // less annoying.
@@ -60,7 +60,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 // Expecting that GRL could be used in a C++ project so properly wrapping the
-// code in these C++ blocks.  
+// code in these C++ blocks.
 /*****************************************************************************/
 #ifdef __cplusplus
 extern "C" {
@@ -184,6 +184,10 @@ constant:
 #define Gr8MAX                DBL_MAX
 #define Gr8MIN                DBL_MIN
 
+#define GrR_NAN               NAN
+#define GrR4_EPSILON          FLT_EPSILON
+#define Gr8R_EPSILON          DBL_EPSILON
+
 #if defined(grl64)
 #define GnpMAX                UINTPTR_MAX
 #define GipMAX                INTPTR_MAX
@@ -227,12 +231,12 @@ macro:
 #define gIS_IN_RANGE(  V, MIN, MAX) ((MIN) <= (V) && (V) <= (MAX))
 #define gIS_IN_BETWEEN(V, MIN, MAX) ((MIN) <  (V) && (V) <  (MAX))
 
-// Loop macroes.  
-// I know some will hate these but I find they help prevent typo mistakes and 
+// Loop macroes.
+// I know some will hate these but I find they help prevent typo mistakes and
 // to some degree they help in readability.
 // for* - finite loops.
 #define forCount(INDEX, COUNT)      for ((INDEX) = 0;           (INDEX) <  (COUNT); (INDEX) += 1)
-#define forCountDown(INDEX, COUNT)  for ((INDEX) = (COUNT) - 1; (INDEX) >= (COUNT); (INDEX) -= 1)
+#define forCountDown(INDEX, COUNT)  for ((INDEX) = (COUNT) - 1; (INDEX) >= 0;       (INDEX) -= 1)
 // loop* - infinite loop.
 #define loop                        for (;;)
 #define loopCount(INDEX)            for ((INDEX) = 0;            ; (INDEX) += 1)
@@ -252,7 +256,7 @@ macro:
 #define greturnNullIf(C)   if ((C)) { greturn NULL; }
 #define greturnTrueIf(C)   if ((C)) { greturn gbTRUE; }
 #define greturnFalseIf(C)  if ((C)) { greturn gbFALSE; }
-// return - macroes that do not call function exit code.  So just wrapping 
+// return - macroes that do not call function exit code.  So just wrapping
 //          return keyword.
 #define returnIf(C,V)      if ((C)) { return (V); }
 #define return0If(C)       if ((C)) { return 0; }
@@ -266,9 +270,9 @@ macro:
 
 // Goto macroes
 // I am not a huge goto user but there are cases where they are useful.  Similar
-// macroes to the returns above.  
+// macroes to the returns above.
 // stopIf jumps to a specific label in the code.
-/*lint -save -e9022 */ 
+/*lint -save -e9022 */
 #define gotoIf(C,G)        if ((C)) { goto G; }
 /*lint -restore */
 #define stop()             goto STOP
@@ -314,16 +318,16 @@ macro:
 #endif
 
 // Enter macroes
-// When you get into the code you will see genter; in every (or most every) 
+// When you get into the code you will see genter; in every (or most every)
 // function.  I wish 'C' or compilers had some option to add your own function
-// entry code so I didn't have to do this.  
+// entry code so I didn't have to do this.
 //
 // Uses, At one point I had my own profiling code because there was a time when
-// Microsoft stopped providing a profiler and there were no others that were 
-// affordable or free.  Now we have options it isn't really necessary so I 
-// removed that code but it was useful for a while.  
+// Microsoft stopped providing a profiler and there were no others that were
+// affordable or free.  Now we have options it isn't really necessary so I
+// removed that code but it was useful for a while.
 //
-// I also had a simple garbage collector idea once where temporary created 
+// I also had a simple garbage collector idea once where temporary created
 // heap memory would be cleaned up on function exit.  It was removed because
 // it was not improving my coding life.
 //
@@ -353,7 +357,7 @@ macro:
 
 #else
 
-#define genter 
+#define genter
 
 #endif
 
@@ -427,7 +431,7 @@ macro:
 #define gsizeIsGood(S)     (0 <= (S))
 
 // Simple hash function for pointers. This assumes pointers are byte aligned to
-// the 4 bytes.  This is why we are dividing by 4 to remove the multiple of 4 
+// the 4 bytes.  This is why we are dividing by 4 to remove the multiple of 4
 // nature of a pointer.
 #define gpHash(P) ((GhashN) ((((Gnp) P) / 4) % GhashNMAX))
 
@@ -439,7 +443,7 @@ type:
 // in my opinion.
 
 // Alignment is more a UI thing.  This may move out to my GUI (GRL User
-// Interface) Library.  I do not remember why I put this here except that I 
+// Interface) Library.  I do not remember why I put this here except that I
 // may have found a use outside of GUI.
 typedef enum
 {
@@ -495,18 +499,18 @@ typedef enum
 // typedefs
 // Why is this done?  One of C's failing was that it was not strict on defining
 // what size a type was.  This lead to reduced portability of raw C code.  If
-// you looked at any library with a certain amount of age you will see that 
+// you looked at any library with a certain amount of age you will see that
 // every one of them does something like this just so that they have some
 // predictability porting their code to various hardware architectures and
 // compilers.
 
-// Char may seem like a curious typedef but this is mainly for PCLint which 
+// Char may seem like a curious typedef but this is mainly for PCLint which
 // warns against using char
 typedef signed char        Char;
 typedef unsigned char      Uchar;
 
 
-// Yes I am using stdint types.  My code actually predated stdint but I 
+// Yes I am using stdint types.  My code actually predated stdint but I
 // modified the typedefs to use them instead.  Why not used stdint types?
 // I really loath using '_'.  I find it hard to type and slows me down.
 // i - integer (Z) numbers, positive and negative whole numbers.
@@ -523,7 +527,7 @@ typedef uint64_t           Gn8;
 typedef float              Gr4;
 typedef double             Gr8;
 
-typedef Gi1                Gb;
+typedef Gi4                Gb;
 
 // Same as the above but the largest size they can be.  This does not mean the
 // most efficient speed and memory wise.
@@ -537,7 +541,7 @@ typedef intptr_t           Gip;
 typedef uintptr_t          Gnp;
 
 // Half sizes based on architecture.  I believe I am using these when working
-// on a arbitrarily precise number format and routines.  
+// on a arbitrarily precise number format and routines.
 #if defined(grl64)
 typedef Gi4                Gih;
 typedef Gn4                Gnh;
@@ -685,7 +689,7 @@ typedef union
    Gn1                      n;
 } Gv1;
 
-// Generic data structure for any of the base data types but includes the 
+// Generic data structure for any of the base data types but includes the
 // actual stored type.  Why use this?  Use this if you have a container that
 // can store any of the types and you may not know based on location in the
 // container that the stored type might be.

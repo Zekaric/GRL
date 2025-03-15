@@ -72,19 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)x32\$(Configuration)\</OutDir>
-    <IntDir>x32\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)32\</OutDir>
+    <IntDir>$(Configuration)32\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir>$(Configuration)64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)x32\$(Configuration)\</OutDir>
-    <IntDir>x32\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)32\</OutDir>
+    <IntDir>$(Configuration)32\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir>$(Configuration)64\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -188,6 +192,7 @@
     <ClInclude Include="gs.h" />
     <ClInclude Include="gsFunction.h" />
     <ClInclude Include="gskey.h" />
+    <ClInclude Include="gsUtil.h" />
     <ClInclude Include="gswap.h" />
     <ClInclude Include="gtemp.h" />
     <ClInclude Include="gthread.h" />
@@ -240,6 +245,7 @@
     <ClCompile Include="gs.c" />
     <ClCompile Include="gsFunction.c" />
     <ClCompile Include="gskey.c" />
+    <ClCompile Include="gsUtil.c" />
     <ClCompile Include="gswap.c" />
     <ClCompile Include="gtemp.c" />
     <ClCompile Include="gtime.c" />
