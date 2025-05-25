@@ -25,3 +25,7 @@ Releasex64
 /x32
 /x64
 /packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7
+
+GRL/Release/
+
+GRL/Debug/

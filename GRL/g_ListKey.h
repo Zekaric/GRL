@@ -58,7 +58,7 @@ struct G_ListKeyItem
 typedef struct G_ListKey G_ListKey;
 struct G_ListKey
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc     compareFunc;
    Gb                 isSorted;

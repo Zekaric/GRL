@@ -49,7 +49,7 @@ type:
 **************************************************************************************************/
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    G_ListKey        **binArray;
    GhashSize          binCount;

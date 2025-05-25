@@ -57,7 +57,7 @@ struct G_ListItem
 typedef struct G_List G_List;
 struct G_List
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc     compareFunc;
    Gb                 isSorted;

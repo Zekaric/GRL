@@ -71,7 +71,7 @@ Gv1 containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -90,7 +90,7 @@ typedef struct
 
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,
@@ -110,7 +110,7 @@ struct Gv1ListItem
 
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -130,7 +130,7 @@ struct Gv1ListKeyItem
 
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc           compareFunc;
    Gb                       isSorted;
@@ -141,7 +141,7 @@ typedef struct
 // Same as G_Hash /////////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlHashFunc             hashFunc;
    GrlCompareFunc          compareFunc;
@@ -152,7 +152,7 @@ typedef struct
 // Same as G_HashKey //////////////////////////////////////////////////////////
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    Gv1ListKey             **binArray;
    GhashSize               binCount;
@@ -173,7 +173,7 @@ struct Gv1TreeItem
 
 struct Gv1Tree
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc           compareFunc;
    Gv1TreeItem              *root;
@@ -195,7 +195,7 @@ struct Gv1TreeKeyItem
 
 struct Gv1TreeKey
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc           compareFunc;
    Gv1TreeKeyItem           *root;

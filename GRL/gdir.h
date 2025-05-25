@@ -75,7 +75,7 @@ Gdir containers.
 // Same as G_Array ////////////////////////////////////////////////////////////
 typedef struct 
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    Gcount                   countTotal;
    Gbit                     isVectorSizing   : 1,

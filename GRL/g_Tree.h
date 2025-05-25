@@ -65,7 +65,7 @@ struct G_TreeItem
 
 struct G_Tree
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlCompareFunc     compareFunc;
    G_TreeItem        *root;

@@ -55,9 +55,9 @@ typedef struct
    GTYPE_VAR                                 \
    Gb                       isPointerType;   \
    Gsize                    typeSize;        \
-   Gcount                   count;
-   
-   GCONTAINER_VAR
+   Gcount                   count
+
+   GCONTAINER_VAR;
 } G_Container;
 
 /*****************************************************************************/

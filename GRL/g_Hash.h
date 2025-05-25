@@ -104,7 +104,7 @@ type:
 **************************************************************************************************/
 typedef struct
 {
-   GCONTAINER_VAR
+   GCONTAINER_VAR;
 
    GrlHashFunc        hashFunc;
    GrlCompareFunc     compareFunc;
