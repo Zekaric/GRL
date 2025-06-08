@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(G_CONFIGH)
 #define      G_CONFIGH
 
-// GRL was initially developed to be a DLL.  After a while I found DLLs were 
+// GRL was initially developed to be a DLL.  After a while I found DLLs were
 // just being a pain when it comes to distribution of the exe.  So I have more
 // recently adopted sticking to static libraries as it makes my life slightly
 // less annoying.
@@ -59,7 +59,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 // Expecting that GRL could be used in a C++ project so properly wrapping the
-// code in these C++ blocks.  
+// code in these C++ blocks.
 /*****************************************************************************/
 #ifdef __cplusplus
 extern "C" {
@@ -74,12 +74,12 @@ constant:
 #if defined(_DEBUG)
 
 // GTYPE_NAME_IS_ON is used for memory leaking.  At the start of the type or
-// container there are strings of 16 characters.  This string should be unique 
-// so that when the first few byte of the structure are displayed in the leak 
+// container there are strings of 16 characters.  This string should be unique
+// so that when the first few byte of the structure are displayed in the leak
 // report we should know what type was leaking.
 #define GTYPE_NAME_IS_ON            1
 
-// CHECK_MEMORY_IS_ON is used in conjunction with debugCheckMemory() macro below.  
+// CHECK_MEMORY_IS_ON is used in conjunction with debugCheckMemory() macro below.
 // This is basically to check the heap if it got corrupted in any way.  Used
 // to track down memory corruption locations.
 // 0 = No heap checking
@@ -87,13 +87,13 @@ constant:
 #define GCHECK_MEMORY_IS_ON         0
 
 // TRACE_IS_ON is used to track the flow of the CPU through the code.  I do not
-// use this option much, it was an idea but it can and will produce way too 
+// use this option much, it was an idea but it can and will produce way too
 // much output.
 // 0 = No function tracing
 // 1 = Function tracing
 #define GTRACE_IS_ON                0
 
-// Flags wen in relese.
+// Flags when building a release.
 #else
 
 #define GTYPE_NAME_IS_ON            0
@@ -120,13 +120,13 @@ constant:
 
 #define GTYPE_GET(VAR)              VAR->typeName
 
-#define GTYPE_VAR                   Char typeName[16];
+#define GTYPE_VAR                   Char typeName[16]
 
 #else
 
-#define GTYPE_SET(VAR, TYPE)        
+#define GTYPE_SET(VAR, TYPE)
 #define GTYPE_GET(VAR)              NULL
-#define GTYPE_VAR                   
+#define GTYPE_VAR
 
 #endif
 

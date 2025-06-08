@@ -1390,6 +1390,8 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
 
    // Get the starting location of the data.
    rat->offsetData = gfileGetPosition(file);
+
+   greturn;
 }
 
 /**************************************************************************************************

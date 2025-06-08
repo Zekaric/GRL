@@ -1549,7 +1549,7 @@ grlAPI Gs *gsFindAndReplace(Gs * const str, Gs const * const find, Gs const * co
       loop
       {
          idx = gsFindSub(str, 0, find);
-         breakIf(idx == gsFIND_FAIL);
+         breakIf(idx == GindexERROR);
 
          if (count)
          {
@@ -1718,7 +1718,7 @@ grlAPI Gindex gsFindFirstCSVComma(Gs const * const str, Gindex const position)
    // Nothing found
    if (index >= gsGetCount(str))
    {
-      index = gsFIND_FAIL;
+      index = GindexERROR;
    }
 
    greturn index;
@@ -1752,7 +1752,7 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
    greturnIf(
          !str ||
          !letters,
-      gsFIND_FAIL);
+      GindexERROR);
 
    for (a = position; a < gsGetCount(str); a++)
    {
@@ -1770,7 +1770,7 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
       greturnIf(found, a);
    }
 
-   greturn gsFIND_FAIL;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -1854,7 +1854,7 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
    greturnIf(
          !str ||
          !letters,
-      gsFIND_FAIL);
+      GindexERROR);
 
    for (a = position; a < gsGetCount(str); a++)
    {
@@ -1865,7 +1865,7 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
          greturnIf(aletter == *gsGetAt(letters, b), a);
       }
    }
-   greturn gsFIND_FAIL;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -1950,7 +1950,7 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
    greturnIf(
          !str     ||
          !letters,
-      gsFIND_FAIL);
+      GindexERROR);
 
    for (a = gsGetCount(str) - 1; a >= position; a--)
    {
@@ -1971,7 +1971,7 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
       // End of the search.
       breakIf(!a);
    }
-   greturn gsFIND_FAIL;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -2042,7 +2042,7 @@ str, letters
 
 return:
 int
-   The position of the letter or -1 if not present in the string.
+   The position of the letter or GindexERROR if not present in the string.
 **************************************************************************************************/
 grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position, 
    Gs const * const letters)
@@ -2056,7 +2056,7 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
    greturnIf(
          !str     ||
          !letters,
-      gsFIND_FAIL);
+      GindexERROR);
 
    for (a = gsGetCount(str) - 1; a >= position; a--)
    {
@@ -2071,7 +2071,7 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
       breakIf(!a);
    }
 
-   greturn gsFIND_FAIL;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -2141,7 +2141,7 @@ str, substr
 
 return:
 int
-   position of the substring or -1 if not found.
+   position of the substring or GindexERROR if not found.
 **************************************************************************************************/
 grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position, 
    Gs const * const substr)
@@ -2163,7 +2163,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
    greturnIf(
          !str ||
          !substr,
-      gsFIND_FAIL);
+      GindexERROR);
 
    cp = gsGetAt(str, position);
    while (*cp)
@@ -2189,7 +2189,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
       cp++;
    }
 
-   greturn gsFIND_FAIL;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -2668,7 +2668,7 @@ grlAPI Gb gsIsBlank(Gs const *const str)
 
    greturnTrueIf(gsIsEmpty(str));
 
-   greturnTrueIf(gsFindFirstNotOfA(str, 0, WHITESPACE_A) == gsFIND_FAIL);
+   greturnTrueIf(gsFindFirstNotOfA(str, 0, WHITESPACE_A) == GindexERROR);
 
    greturn gbFALSE;
 }
@@ -2966,10 +2966,8 @@ grlAPI Gs *gsStrip(Gs * const str, GcStrip const type)
    if (type & gcStripWHITE_SPACE_TRAILING &&
        gsGetCount(str) > 0)
    {
-      for (a = gsGetCount(str) - 1; ; a--)
+      forCountDown(a, gsGetCount(str))
       {
-         breakIf(a == -1);
-
          // move the null terminator up.
          if (gcIsWhiteSpace(*gsGetAt(str,a))) //lint !e732
          {
@@ -3134,7 +3132,7 @@ grlAPI Gs *gsToCSV(Gs * const str)
 
    /* If the string contains a " (quote) or a , (comma) then we need
    ** to convert.  Not as efficient as it could be.*/
-   if (gsFindFirstOfA(str, 0, "\",") != gsFIND_FAIL)
+   if (gsFindFirstOfA(str, 0, "\",") != GindexERROR)
    {
       Gs *temp = gsCloc();
 
@@ -3354,7 +3352,7 @@ grlAPI Gs *gsTrimLeft(Gs * const str, Gs const * const letters)
 
    idx = gsFindFirstNotOf(str, 0, letters);
 
-   if (idx != gsFIND_FAIL)
+   if (idx != GindexERROR)
    {
       result = gsEraseSub(str, 0, idx);
 
@@ -3448,7 +3446,7 @@ grlAPI Gs *gsTrimRight(Gs * const str, Gs const * const letters)
 
    idx = gsFindLastNotOf(str, 0, letters);
 
-   if (idx != gsFIND_FAIL)
+   if (idx != GindexERROR)
    {
       result = gsEraseSub(str, idx + 1, gsGetCount(str));
 

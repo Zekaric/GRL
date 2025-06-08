@@ -35,7 +35,7 @@ type:
 **************************************************************************************************/
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
 #if grlWINDOWS == 1
    HANDLE    handle;

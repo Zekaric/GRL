@@ -87,7 +87,7 @@ typedef enum
 typedef struct Gfile Gfile;
 struct Gfile
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    GfileOpStatus   opStatus;
    Gb              isAtEnd;

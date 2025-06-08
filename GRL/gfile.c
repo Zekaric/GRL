@@ -153,7 +153,7 @@ grlAPI Gcount gfileGet(Gfile * const file, Gcount const count, Gp * const buffer
       debugHalt("_read failed");
       greturn 0;
    }
-   
+
    greturn readCount;
 }
 
@@ -396,7 +396,7 @@ grlAPI Gcount gfileGetS(Gfile * const file, GcType const type, Gs * const str)
          if (result > 0)
          {
             Gcount count;
-            
+
             count = gcGetLetterByteCount((Gp *) c1, gcTypeU1);
             if (count > 1)
             {
@@ -936,8 +936,8 @@ grlAPI Gb gfileSet(Gfile * const file, Gcount const count, Gp const * const buff
       debugHalt("_write failed");
       greturn gbFALSE;
    }
-   
-   if (wc != count)  
+
+   if (wc != count)
    {
       debugHalt("_write did not write everything.");
       greturn gbFALSE;
@@ -1168,7 +1168,7 @@ grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line
 
    genter;
 
-   if (writeCount) 
+   if (writeCount)
    {
       *writeCount = 0;
    }
@@ -1217,7 +1217,7 @@ grlAPI Gb gfileSetS(Gfile * const file, GcType const type, Gs const * const line
          //result = gfileSet(file, gsizeof(Gc4), &c4, &wc);
       }
 
-      if (writeCount) 
+      if (writeCount)
       {
          *writeCount = a;
       }
@@ -1269,7 +1269,7 @@ func: gfileSetPosition
 
 Set the file position.
 **************************************************************************************************/
-grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos, 
+grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos,
    GfileOffset const offset)
 {
    genter;
@@ -1372,7 +1372,7 @@ grlAPI Gb gfileSetValue(Gfile * const file, Gcount const count, Gn1 const value,
 
       countRemaining -= gfileSetValueBUFFER_SIZE;
    }
-      
+
    if (writeCount)
    {
       *writeCount = gMAX(countSent, 0);
@@ -1383,8 +1383,8 @@ grlAPI Gb gfileSetValue(Gfile * const file, Gcount const count, Gn1 const value,
       debugHalt("_write failed");
       greturn gbFALSE;
    }
-   
-   if (countSent != count)  
+
+   if (countSent != count)
    {
       debugHalt("_write did not write everything.");
       greturn gbFALSE;

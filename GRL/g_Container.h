@@ -52,7 +52,7 @@ type:
 typedef struct
 {
 #define GCONTAINER_VAR                       \
-   GTYPE_VAR                                 \
+   GTYPE_VAR;                                \
    Gb                       isPointerType;   \
    Gsize                    typeSize;        \
    Gcount                   count

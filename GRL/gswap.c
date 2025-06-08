@@ -163,6 +163,8 @@ grlAPI Gb gswapStart(void)
 {
    Gswap4 a;
 
+   genter;
+
    a.n = 1;
 
    // High byte is 1 in little endian order.

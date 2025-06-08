@@ -58,7 +58,7 @@ typedef enum
 
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    Gs                      *name;
    Gpath                   *path;
@@ -73,7 +73,7 @@ typedef struct
 Gdir containers.
 **************************************************************************************************/
 // Same as G_Array ////////////////////////////////////////////////////////////
-typedef struct 
+typedef struct
 {
    GCONTAINER_VAR;
 
@@ -85,34 +85,34 @@ typedef struct
    Gdir                 **p;
 } GdirArray;
 
-#define gdirArrayAdd(                ARRAY,        VALUE)                                             g_ArrayAdd(           (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gdirArrayAddAt(              ARRAY, INDEX, VALUE)                                             g_ArrayAddAt(         (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
-#define gdirArrayAddBegin(           ARRAY,        VALUE)                                             g_ArrayAddBegin(      (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gdirArrayAddEnd(             ARRAY,        VALUE)                                             g_ArrayAddEnd(        (G_Array *) ARRAY,        (Gp *) VALUE) 
-#define gdirArrayClear(              ARRAY, COUNT, INDEX)                                             g_ArrayClear(         (G_Array *) ARRAY, COUNT, INDEX) 
-#define gdirArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                g_ArrayCopy(          (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST) 
-#define gdirArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                   g_ArrayCopyFrom(      (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC) 
+#define gdirArrayAdd(                ARRAY,        VALUE)                                             g_ArrayAdd(           (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gdirArrayAddAt(              ARRAY, INDEX, VALUE)                                             g_ArrayAddAt(         (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
+#define gdirArrayAddBegin(           ARRAY,        VALUE)                                             g_ArrayAddBegin(      (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gdirArrayAddEnd(             ARRAY,        VALUE)                                             g_ArrayAddEnd(        (G_Array *) ARRAY,        (Gp *) VALUE)
+#define gdirArrayClear(              ARRAY, COUNT, INDEX)                                             g_ArrayClear(         (G_Array *) ARRAY, COUNT, INDEX)
+#define gdirArrayCopy(               ARRAY, COUNT, INDEXSRC, INDEXDST)                                g_ArrayCopy(          (G_Array *) ARRAY, COUNT, INDEXSRC, INDEXDST)
+#define gdirArrayCopyFrom(           ARRAYDST, INDEXDST, ARRAYSRC, COUNT, INDEXSRC)                   g_ArrayCopyFrom(      (G_Array *) ARRAYDST, INDEXDST, (G_Array *) ARRAYSRC, COUNT, INDEXSRC)
 #define gdirArrayCloc(               )                                                  (GdirArray *) g_ArrayCloc(                           "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
 #define gdirArrayClocContent(        ARRAY)                                                           g_ArrayClocContent( (G_Array *) ARRAY, "GdirArray", Gdir *, gbTRUE, NULL, gbTRUE, gbFALSE)
-#define gdirArrayDloc(               ARRAY)                                                           g_ArrayDloc(          (G_Array *) ARRAY) 
-#define gdirArrayDlocContent(        ARRAY)                                                           g_ArrayDlocContent(   (G_Array *) ARRAY) 
-#define gdirArrayErase(              ARRAY, VALUE)                                                    g_ArrayErase(         (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gdirArrayEraseAt(            ARRAY, COUNT, INDEX)                                             g_ArrayEraseAt(       (G_Array *) ARRAY, COUNT, INDEX) 
-#define gdirArrayEraseBegin(         ARRAY)                                                           g_ArrayEraseBegin(    (G_Array *) ARRAY) 
-#define gdirArrayEraseEnd(           ARRAY)                                                           g_ArrayEraseEnd(      (G_Array *) ARRAY) 
-#define gdirArrayFind(               ARRAY, VALUE)                                                    g_ArrayFind(          (G_Array *) ARRAY, (Gp *) VALUE) 
-#define gdirArrayFlush(              ARRAY)                                                           g_ArrayFlush(         (G_Array *) ARRAY) 
-#define gdirArrayForEach(            ARRAY, FUNC)                                                     g_ArrayForEach(       (G_Array *) ARRAY, FUNC) 
+#define gdirArrayDloc(               ARRAY)                                                           g_ArrayDloc(          (G_Array *) ARRAY)
+#define gdirArrayDlocContent(        ARRAY)                                                           g_ArrayDlocContent(   (G_Array *) ARRAY)
+#define gdirArrayErase(              ARRAY, VALUE)                                                    g_ArrayErase(         (G_Array *) ARRAY, (Gp *) VALUE)
+#define gdirArrayEraseAt(            ARRAY, COUNT, INDEX)                                             g_ArrayEraseAt(       (G_Array *) ARRAY, COUNT, INDEX)
+#define gdirArrayEraseBegin(         ARRAY)                                                           g_ArrayEraseBegin(    (G_Array *) ARRAY)
+#define gdirArrayEraseEnd(           ARRAY)                                                           g_ArrayEraseEnd(      (G_Array *) ARRAY)
+#define gdirArrayFind(               ARRAY, VALUE)                                                    g_ArrayFind(          (G_Array *) ARRAY, (Gp *) VALUE)
+#define gdirArrayFlush(              ARRAY)                                                           g_ArrayFlush(         (G_Array *) ARRAY)
+#define gdirArrayForEach(            ARRAY, FUNC)                                                     g_ArrayForEach(       (G_Array *) ARRAY, FUNC)
 #define gdirArrayGet(                ARRAY)                                            ((Gdir **)     g_ArrayGet(           (G_Array *) ARRAY))
 #define gdirArrayGetAt(              ARRAY, INDEX)                                     ((Gdir *)      g_ArrayGetAt(         (G_Array *) ARRAY, INDEX))
 #define gdirArrayGetBegin(           ARRAY)                                            ((Gdir *)      g_ArrayGetBegin(      (G_Array *) ARRAY))
-#define gdirArrayGetCount(           ARRAY)                                                           g_ArrayGetCount(      (G_Array *) ARRAY) 
+#define gdirArrayGetCount(           ARRAY)                                                           g_ArrayGetCount(      (G_Array *) ARRAY)
 #define gdirArrayGetEnd(             ARRAY)                                            ((Gdir *)      g_ArrayGetEnd(        (G_Array *) ARRAY))
-#define gdirArrayGetSize(            ARRAY)                                                           g_ArrayGetSize(       (G_Array *) ARRAY) 
-#define gdirArraySetCount(           ARRAY, COUNT)                                                    g_ArraySetCount(      (G_Array *) ARRAY, COUNT) 
-#define gdirArraySort(               ARRAY)                                                           g_ArraySort(          (G_Array *) ARRAY) 
-#define gdirArraySwap(               ARRAY, INDEXA, INDEXB)                                           g_ArraySwap(          (G_Array *) ARRAY, INDEXA, INDEXB) 
-#define gdirArrayUpdateAt(           ARRAY, INDEX, VALUE)                                             g_ArrayUpdateAt(      (G_Array *) ARRAY, INDEX, (Gp *) VALUE) 
+#define gdirArrayGetSize(            ARRAY)                                                           g_ArrayGetSize(       (G_Array *) ARRAY)
+#define gdirArraySetCount(           ARRAY, COUNT)                                                    g_ArraySetCount(      (G_Array *) ARRAY, COUNT)
+#define gdirArraySort(               ARRAY)                                                           g_ArraySort(          (G_Array *) ARRAY)
+#define gdirArraySwap(               ARRAY, INDEXA, INDEXB)                                           g_ArraySwap(          (G_Array *) ARRAY, INDEXA, INDEXB)
+#define gdirArrayUpdateAt(           ARRAY, INDEX, VALUE)                                             g_ArrayUpdateAt(      (G_Array *) ARRAY, INDEX, (Gp *) VALUE)
 
 /**************************************************************************************************
 function:

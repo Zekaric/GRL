@@ -23,7 +23,7 @@ type:
 **************************************************************************************************/
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    Gn1Array buf;
    Gindex   index;

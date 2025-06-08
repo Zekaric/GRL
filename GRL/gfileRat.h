@@ -157,7 +157,7 @@ type:
 **************************************************************************************************/
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    Gb                       isChanged;
    Gb                       isDeleted;
@@ -265,7 +265,7 @@ typedef struct
 
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    Gb                       isBinary,
                             isUpdatedVersion,

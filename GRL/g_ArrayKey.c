@@ -850,8 +850,9 @@ static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, 
 
    if (a->count == 0)
    {
-      greturnIf(findLocation, 0);
-      greturn -1;
+      greturn0If(findLocation);
+
+      greturn GindexERROR;
    }
 
    hi = a->count - 1;
@@ -887,7 +888,7 @@ static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, 
       greturn -(index + 1);
    }
 
-   greturn -1;
+   greturn GindexERROR;
 }
 
 /**************************************************************************************************
@@ -907,7 +908,8 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, 
        a->compareFunc == NULL)
    {
       greturnIf(findLocation, -(a->count));
-      greturn -1;
+
+      greturn GindexERROR;
    }
 
    // Linear search for the item.
@@ -926,5 +928,5 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, 
 
    greturnIf(findLocation, -(a->count));
 
-   greturn -1;
+   greturn GindexERROR;
 }

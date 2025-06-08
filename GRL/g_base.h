@@ -318,42 +318,29 @@ macro:
 #endif
 
 // Enter macroes
-// When you get into the code you will see genter; in every (or most every)
-// function.  I wish 'C' or compilers had some option to add your own function
-// entry code so I didn't have to do this.
+// When you get into the code you will see genter; in every (or most every) function.  I wish 'C'
+// or compilers had some option to add your own function entry code so I didn't have to do this.
 //
-// Uses, At one point I had my own profiling code because there was a time when
-// Microsoft stopped providing a profiler and there were no others that were
-// affordable or free.  Now we have options it isn't really necessary so I
-// removed that code but it was useful for a while.
+// Uses:
+// At one point I had my own profiling code because there was a time when Microsoft stopped
+// providing a profiler and there were no others that were affordable or free.  Now we have options
+// it isn't really necessary and my solution still had issues.  I.E. it wouldn't do multi-threading
+// profiling.  So I removed that code but it was useful for a while.
 //
-// I also had a simple garbage collector idea once where temporary created
-// heap memory would be cleaned up on function exit.  It was removed because
-// it was not improving my coding life.
+// I also had a simple garbage collector idea once where temporary, created on heap memory, would
+// be cleaned up on function exit.  It was removed because it was not improving my coding life.
 //
-// Now it is mainly used for the TRACE_IS_ON flag.
-#if 0 // kept in case I need to revisit.
-#if   (GPROFILE_IS_ON == 1) && (GTRACE_IS_ON == 1)
-
-#define genter \
-   static Gindex ___profIndex___ = -1;\
-   Gtime         ___profTime___  = gprofileEnter(&___profIndex___, __FILE__, __FUNCTION__);\
-   gtraceEnter();
-
-#elif GPROFILE_IS_ON == 1
-
-#define genter \
-   static Gindex ___profIndex___ = -1;\
-   Gtime         ___profTime___  = gprofileEnter(&___profIndex___, __FILE__, __FUNCTION__);
-
-#elif GTRACE_IS_ON == 1
-#endif
-#endif
-
-#if GTRACE_IS_ON == 1
+// Now it is mainly used for the TRACE_IS_ON flag.  The debug genter is jsut to ensure that if I
+// do turn on or add new entry code that my code will compile properly.
+#if   defined(_DEBUG) && (GTRACE_IS_ON == 1)
 
 #define genter \
    gtraceEnter()
+
+#elif defined(_DEBUG)
+
+#define genter \
+   int ___genterValue___ = 0
 
 #else
 
@@ -363,28 +350,16 @@ macro:
 
 // Return macroes
 // Complements the enter macroes and is called on exit of a function.
-#if 0
-#if   (GPROFILE_IS_ON == 1) && (GTRACE_IS_ON == 1)
+#if   defined(_DEBUG) && (GTRACE_IS_ON == 1)
 
 #define greturn \
    gtraceExit();\
-   gprofileExit(___profIndex___, ___profTime___);\
    return
 
-#elif GPROFILE_IS_ON == 1
+#elif defined(_DEBUG)
 
-#define greturn \
-   gprofileExit(___profIndex___, ___profTime___);\
-   return
-
-#elif GTRACE_IS_ON == 1
-#endif
-#endif
-
-#if GTRACE_IS_ON == 1
-
-#define greturn \
-   gtraceExit();\
+#define greturn            \
+   ___genterValue___ = 1;  \
    return
 
 #else
@@ -695,7 +670,7 @@ typedef union
 // container that the stored type might be.
 typedef struct
 {
-   GTYPE_VAR
+   GTYPE_VAR;
 
    GvDataType               type;
    Gv                       value;
