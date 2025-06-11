@@ -49,14 +49,14 @@ type:
 **************************************************************************************************/
 // This type is for debugging pursposes.  So you can cast any of the containers to this
 // to see what the container actually is.
-typedef struct
-{
 #define GCONTAINER_VAR                       \
    GTYPE_VAR;                                \
    Gb                       isPointerType;   \
    Gsize                    typeSize;        \
    Gcount                   count
 
+typedef struct
+{
    GCONTAINER_VAR;
 } G_Container;
 
