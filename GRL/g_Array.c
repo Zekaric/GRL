@@ -560,7 +560,7 @@ grlAPI Gb g_ArrayForEach(G_Array const * const a, GrlForEachFunc const func)
       !a ||
       !func);
 
-   forCount(index, a->count)
+   forCountDown(index, a->count)
    {
       if (a->isPointerType)
       {
