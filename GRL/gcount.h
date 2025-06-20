@@ -195,6 +195,7 @@ struct GcountTreeKey
 #define gcountArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gcountArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gcountArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gcountArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define gcountArrayGet(                ARRAY)                                            ((Gcount *)              g_ArrayGet(                (G_Array *) ARRAY))
 #define gcountArrayGetAt(              ARRAY, INDEX)                                     ((Gcount *)              g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define gcountArrayGetBegin(           ARRAY)                                            ((Gcount *)              g_ArrayGetBegin(           (G_Array *) ARRAY))

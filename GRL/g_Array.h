@@ -89,6 +89,7 @@ grlAPI void        g_ArrayEraseEnd(       G_Array       * const a);
 grlAPI Gindex      g_ArrayFind(           G_Array const * const a, Gp const * const value);
 grlAPI void        g_ArrayFlush(          G_Array       * const a);
 grlAPI Gb          g_ArrayForEach(        G_Array const * const a, GrlForEachFunc const func);
+grlAPI Gb          g_ArrayForEachDown(    G_Array const * const a, GrlForEachFunc const func);
 
 grlAPI Gp         *g_ArrayGet(            G_Array const * const a);
 grlAPI Gp         *g_ArrayGetAt(          G_Array const * const a, Gindex const index);

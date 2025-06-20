@@ -238,6 +238,7 @@ struct GtimeTreeKey
 #define gtimeArrayFind(               ARRAY, VALUE)                                                            g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gtimeArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gtimeArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gtimeArrayForEachDown(        ARRAY, FUNC)                                                             g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define gtimeArrayGet(                ARRAY)                                             (Gtime *)             g_ArrayGet(                (G_Array *) ARRAY) 
 #define gtimeArrayGetAt(              ARRAY, INDEX)                                      (Gtime *)             g_ArrayGetAt(              (G_Array *) ARRAY, INDEX) 
 #define gtimeArrayGetBegin(           ARRAY)                                             (Gtime *)             g_ArrayGetBegin(           (G_Array *) ARRAY) 

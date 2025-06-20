@@ -198,6 +198,7 @@ struct GpTreeKey
 #define gpArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gpArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gpArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gpArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define gpArrayGet(                ARRAY)                                            ((Gp **)                 g_ArrayGet(                (G_Array *) ARRAY))
 #define gpArrayGetAt(              ARRAY, INDEX)                                     ((Gp *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define gpArrayGetBegin(           ARRAY)                                            ((Gp *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))

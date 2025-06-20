@@ -560,6 +560,39 @@ grlAPI Gb g_ArrayForEach(G_Array const * const a, GrlForEachFunc const func)
       !a ||
       !func);
 
+   forCount(index, a->count)
+   {
+      if (a->isPointerType)
+      {
+         // The data is a pointer so we can send that along instead of a poitner
+         // to the data.
+         func(*((Gp **) &(a->p[index * a->typeSize])));
+      }
+      else
+      {
+         func(  (Gp *)  &(a->p[index * a->typeSize]));
+      }
+   }
+
+   greturn gbTRUE;
+}
+
+/**************************************************************************************************
+func: g_ArrayForEachDown
+
+Perform the for each in reverse over the array.  This is for those times when you are removing items
+from the array or similar order is necessary.
+**************************************************************************************************/
+grlAPI Gb g_ArrayForEachDown(G_Array const * const a, GrlForEachFunc const func)
+{
+   Gi4 index;
+
+   genter;
+
+   greturnFalseIf(
+      !a ||
+      !func);
+
    forCountDown(index, a->count)
    {
       if (a->isPointerType)

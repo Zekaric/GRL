@@ -327,6 +327,7 @@ struct GpathTreeKey
 #define gpathArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE)
 #define gpathArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY)
 #define gpathArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC)
+#define gpathArrayForEachDown(        ARRAY, FUNC)                                                             g_ArrayForEachPDown(       (G_Array *) ARRAY, FUNC)
 #define gpathArrayGet(                ARRAY)                                             (Gpath **)            g_ArrayGet(                (G_Array *) ARRAY)
 #define gpathArrayGetAt(              ARRAY, INDEX)                                      (Gpath *)             g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX))
 #define gpathArrayGetBegin(           ARRAY)                                             (Gpath *)             g_ArrayGetBeginP(          (G_Array *) ARRAY))

@@ -195,6 +195,7 @@ struct GrTreeKey
 #define grArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define grArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define grArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define grArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define grArrayGet(                ARRAY)                                            ((Gr *)                  g_ArrayGet(                (G_Array *) ARRAY))
 #define grArrayGetAt(              ARRAY, INDEX)                                     ((Gr *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define grArrayGetBegin(           ARRAY)                                            ((Gr *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))

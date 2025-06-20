@@ -195,6 +195,7 @@ struct GbTreeKey
 #define gbArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE)
 #define gbArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY)
 #define gbArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC)
+#define gbArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC)
 #define gbArrayGet(                ARRAY)                                            ((Gb *)                  g_ArrayGet(                (G_Array *) ARRAY))
 #define gbArrayGetAt(              ARRAY, INDEX)                                     ((Gb *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define gbArrayGetBegin(           ARRAY)                                            ((Gb *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))

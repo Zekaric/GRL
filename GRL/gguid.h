@@ -207,6 +207,7 @@ struct GguidTreeKey
 #define gguidArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gguidArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gguidArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gguidArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define gguidArrayGet(                ARRAY)                                             (Gguid *)               g_ArrayGet(                (G_Array *) ARRAY) 
 #define gguidArrayGetAt(              ARRAY, INDEX)                                      (Gguid *)               g_ArrayGetAt(              (G_Array *) ARRAY, INDEX) 
 #define gguidArrayGetBegin(           ARRAY)                                             (Gguid *)               g_ArrayGetBegin(           (G_Array *) ARRAY) 

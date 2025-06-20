@@ -195,6 +195,7 @@ struct GiTreeKey
 #define giArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define giArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define giArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define giArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define giArrayGet(                ARRAY)                                            ((Gi *)                  g_ArrayGet(                (G_Array *) ARRAY))
 #define giArrayGetAt(              ARRAY, INDEX)                                     ((Gi *)                  g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define giArrayGetBegin(           ARRAY)                                            ((Gi *)                  g_ArrayGetBegin(           (G_Array *) ARRAY))

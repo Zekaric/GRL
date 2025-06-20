@@ -238,6 +238,7 @@ struct GlockTreeKey
 #define glockArrayFind(               ARRAY, VALUE)                                                            g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE)
 #define glockArrayFlush(              ARRAY)                                                                   g_ArrayFlush(              (G_Array *) ARRAY)
 #define glockArrayForEach(            ARRAY, FUNC)                                                             g_ArrayForEachP(           (G_Array *) ARRAY, FUNC)
+#define glockArrayForEachDown(        ARRAY, FUNC)                                                             g_ArrayForEachPDown(       (G_Array *) ARRAY, FUNC)
 #define glockArrayGet(                ARRAY)                                             (Glock **)            g_ArrayGet(                (G_Array *) ARRAY)
 #define glockArrayGetAt(              ARRAY, INDEX)                                      (Glock *)             g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX))
 #define glockArrayGetBegin(           ARRAY)                                             (Glock *)             g_ArrayGetBeginP(          (G_Array *) ARRAY))

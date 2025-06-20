@@ -200,6 +200,7 @@ struct GindexTreeKey
 #define gindexArrayFind(               ARRAY, VALUE)                                                              g_ArrayFind(               (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gindexArrayFlush(              ARRAY)                                                                     g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gindexArrayForEach(            ARRAY, FUNC)                                                               g_ArrayForEach(            (G_Array *) ARRAY, FUNC) 
+#define gindexArrayForEachDown(        ARRAY, FUNC)                                                               g_ArrayForEachDown(        (G_Array *) ARRAY, FUNC) 
 #define gindexArrayGet(                ARRAY)                                            ((Gindex *)              g_ArrayGet(                (G_Array *) ARRAY))
 #define gindexArrayGetAt(              ARRAY, INDEX)                                     ((Gindex *)              g_ArrayGetAt(              (G_Array *) ARRAY, INDEX))
 #define gindexArrayGetBegin(           ARRAY)                                            ((Gindex *)              g_ArrayGetBegin(           (G_Array *) ARRAY))

@@ -224,6 +224,7 @@ struct GthreadTreeKey
 #define gthreadArrayFind(               ARRAY, VALUE)                                                             g_ArrayFindP(              (G_Array *) ARRAY, (Gp *) VALUE) 
 #define gthreadArrayFlush(              ARRAY)                                                                    g_ArrayFlush(              (G_Array *) ARRAY) 
 #define gthreadArrayForEach(            ARRAY, FUNC)                                                              g_ArrayForEachP(           (G_Array *) ARRAY, FUNC) 
+#define gthreadArrayForEachDown(        ARRAY, FUNC)                                                              g_ArrayForEachPDown(       (G_Array *) ARRAY, FUNC) 
 #define gthreadArrayGet(                ARRAY)                                             (Gthread **)           g_ArrayGet(                (G_Array *) ARRAY) 
 #define gthreadArrayGetAt(              ARRAY, INDEX)                                      (Gthread *)            g_ArrayGetAtP(             (G_Array *) ARRAY, INDEX))
 #define gthreadArrayGetBegin(           ARRAY)                                             (Gthread *)            g_ArrayGetBeginP(          (G_Array *) ARRAY))
