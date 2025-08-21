@@ -24,7 +24,7 @@ typedef struct GtempScope GtempScope;
 
 struct GtempData
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    GtempData      *next;
    Gp             *data;
@@ -33,7 +33,7 @@ struct GtempData
 
 struct GtempScope
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    GtempData      *data;
 };

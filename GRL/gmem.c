@@ -92,7 +92,7 @@ struct FreeList
 
 typedef struct
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    Gi4             size,
                    poolBin;

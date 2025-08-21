@@ -58,7 +58,7 @@ typedef enum
 
 typedef struct
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    Gs                      *name;
    Gpath                   *path;

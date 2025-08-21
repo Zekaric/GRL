@@ -670,7 +670,7 @@ typedef union
 // container that the stored type might be.
 typedef struct
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    GvDataType               type;
    Gv                       value;

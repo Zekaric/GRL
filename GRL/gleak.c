@@ -66,7 +66,7 @@ type:
 typedef struct Leak Leak;
 struct Leak
 {
-   GTYPE_VAR;
+   GTYPE_VAR
 
    // Leak pointer
    Gp          *p;

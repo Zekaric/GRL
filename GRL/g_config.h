@@ -120,7 +120,7 @@ constant:
 
 #define GTYPE_GET(VAR)              VAR->typeName
 
-#define GTYPE_VAR                   Char typeName[16]
+#define GTYPE_VAR                   Char typeName[16];
 
 #else
 
