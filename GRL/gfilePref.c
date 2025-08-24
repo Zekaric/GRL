@@ -413,30 +413,30 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
       {
          random = gsClocFromI(grandomGetI(NULL)); //lint !e960
 
-         gsAppendA(pref->buffer, "= ");
+         gsAppendA(pref->buffer, (Char const *) "= ");
          gsAppend( pref->buffer, key);
-         gsAppendA(pref->buffer, " ");
+         gsAppendA(pref->buffer, (Char const *) " ");
          gsAppend( pref->buffer, random);
-         gsAppendA(pref->buffer, "\n");
+         gsAppendA(pref->buffer, (Char const *) "\n");
 
          gsAppend( pref->buffer, value);
-         gsAppendA(pref->buffer, "\n");
+         gsAppendA(pref->buffer, (Char const *) "\n");
 
-         gsAppendA(pref->buffer, "= ");
+         gsAppendA(pref->buffer, (Char const *) "= ");
          gsAppend( pref->buffer, key);
-         gsAppendA(pref->buffer, " ");
+         gsAppendA(pref->buffer, (Char const *) " ");
          gsAppend( pref->buffer, random);
-         gsAppendA(pref->buffer, "\n");
+         gsAppendA(pref->buffer, (Char const *) "\n");
 
          gsDloc(random);
       }
       else
       {
-         gsAppendA(pref->buffer, "- ");
+         gsAppendA(pref->buffer, (Char const *) "- ");
          gsAppend( pref->buffer, key);
-         gsAppendA(pref->buffer, " ");
+         gsAppendA(pref->buffer, (Char const *) " ");
          gsAppend( pref->buffer, value);
-         gsAppendA(pref->buffer, "\n");
+         gsAppendA(pref->buffer, (Char const *) "\n");
       }
    }
    //lint -restore

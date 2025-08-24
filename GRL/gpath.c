@@ -329,7 +329,7 @@ grlAPI Gb gpathPopExtension(Gpath * const path)
 
    greturnFalseIf(!path);
 
-   location = gsFindLastOfA(path, 0, ".");
+   location = gsFindLastOfA(path, 0, (Char const *) ".");
    greturnFalseIf(location == gsFIND_FAIL);
 
    gsEraseSub(path, location, gsSubStrINDEX_END); //lint !e534

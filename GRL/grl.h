@@ -247,12 +247,11 @@ include:
 #include "gfileRat.h"         // depends on gfile
 
 #include "gmath.h"
+#include "ginterp.h"
 
 #if 0 // Currently disabled because they have not be moved over from my private repo yet.
 #include "gmemCompressFast.h" //
 #include "gmemCompressZip.h"  //
-
-#include "ginterp.h"
 
 #include "glockQueue.h"
 

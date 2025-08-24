@@ -62,8 +62,8 @@ typedef struct
 prototype:
 **************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ArrayKeyCloc(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCloc((Gp *) g_ArrayKeyCloc_(             gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
-#define g_ArrayKeyClocContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                 g_ArrayKeyClocContent(ARRAY, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
+#define g_ArrayKeyCloc(              TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING) (G_ArrayKey *) gleakCloc((Gp *) g_ArrayKeyCloc_(             gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING)), gsizeof(G_ArrayKeyKey))
+#define g_ArrayKeyClocContent(ARRAY, TYPE, TYPE_SUB, IS_POINTER_TYPE, OPTIONAL_COMPARE_FUNC, IS_VECTOR_SIZING)                                 g_ArrayKeyClocContent(ARRAY, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (OPTIONAL_COMPARE_FUNC), (IS_VECTOR_SIZING))
 //lint -restore
 
 grlAPI Gb          g_ArrayKeyAdd(            G_ArrayKey       * const a,                     Gkey const * const key, Gp const * const value);

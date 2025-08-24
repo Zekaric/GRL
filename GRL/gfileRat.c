@@ -136,7 +136,7 @@ grlAPI Gb gfileRatClocContent(GfileRat * const rat, Gpath const * const path, Gb
    rat->path              = gpathClocFrom(path);
    rat->pathBackup        = gpathClocFrom(path);
    gpathPopExtension(  rat->pathBackup);
-   gpathPushExtensionA(rat->pathBackup, "bak");
+   gpathPushExtensionA(rat->pathBackup, (Char const *) "bak");
 
    rat->colArray          = gfileRatColArrayCloc();
    rat->rowArray          = gfileRatRowArrayCloc();
@@ -765,17 +765,17 @@ static Gb _LoadConfig(GfileRat * const rat, Gfile * const file)
       gsTrimU2(arrayLine, WHITESPACE_U2);
 
       // Start of a new type, potentially.
-      if      (gsIsEqualA(arrayLine, "b"))  { _ColSet(rat, col, col->name, gfileRatTypeB,  0); }
-      else if (gsIsEqualA(arrayLine, "n1")) { _ColSet(rat, col, col->name, gfileRatTypeN1, 0); }
-      else if (gsIsEqualA(arrayLine, "n2")) { _ColSet(rat, col, col->name, gfileRatTypeN2, 0); }
-      else if (gsIsEqualA(arrayLine, "n4")) { _ColSet(rat, col, col->name, gfileRatTypeN4, 0); }
-      else if (gsIsEqualA(arrayLine, "n8")) { _ColSet(rat, col, col->name, gfileRatTypeN8, 0); }
-      else if (gsIsEqualA(arrayLine, "i1")) { _ColSet(rat, col, col->name, gfileRatTypeI1, 0); }
-      else if (gsIsEqualA(arrayLine, "i2")) { _ColSet(rat, col, col->name, gfileRatTypeI2, 0); }
-      else if (gsIsEqualA(arrayLine, "i4")) { _ColSet(rat, col, col->name, gfileRatTypeI4, 0); }
-      else if (gsIsEqualA(arrayLine, "i8")) { _ColSet(rat, col, col->name, gfileRatTypeI8, 0); }
-      else if (gsIsEqualA(arrayLine, "r4")) { _ColSet(rat, col, col->name, gfileRatTypeR4, 0); }
-      else if (gsIsEqualA(arrayLine, "r8")) { _ColSet(rat, col, col->name, gfileRatTypeR8, 0); }
+      if      (gsIsEqualA(arrayLine, (Char const *) "b"))  { _ColSet(rat, col, col->name, gfileRatTypeB,  0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "n1")) { _ColSet(rat, col, col->name, gfileRatTypeN1, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "n2")) { _ColSet(rat, col, col->name, gfileRatTypeN2, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "n4")) { _ColSet(rat, col, col->name, gfileRatTypeN4, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "n8")) { _ColSet(rat, col, col->name, gfileRatTypeN8, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "i1")) { _ColSet(rat, col, col->name, gfileRatTypeI1, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "i2")) { _ColSet(rat, col, col->name, gfileRatTypeI2, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "i4")) { _ColSet(rat, col, col->name, gfileRatTypeI4, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "i8")) { _ColSet(rat, col, col->name, gfileRatTypeI8, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "r4")) { _ColSet(rat, col, col->name, gfileRatTypeR4, 0); }
+      else if (gsIsEqualA(arrayLine, (Char const *) "r8")) { _ColSet(rat, col, col->name, gfileRatTypeR8, 0); }
       else if (*gsGetAt(arrayLine, 0) == L's')
       {
          gsEraseAt(arrayLine, 1, 0);
@@ -845,11 +845,11 @@ static Gb _LoadHeader(GfileRat * const rat, Gfile * const file)
    line = gsArrayGetAt(sarray, 0);
 
    // Are we dealing with an ASCII or Binary file or neither.
-   if      (gsIsEqualA(line, FILE_HEADER_ASCII))
+   if      (gsIsEqualA(line, (Char const *) FILE_HEADER_ASCII))
    {
       rat->isBinary = gbFALSE;
    }
-   else if (gsIsEqualA(line, FILE_HEADER_BINARY))
+   else if (gsIsEqualA(line, (Char const *) FILE_HEADER_BINARY))
    {
       rat->isBinary = gbTRUE;
    }
@@ -1215,7 +1215,7 @@ static void _RowDloc(GfileRat const * const rat, GfileRatRow * const row)
       if (col->type == gfileRatTypeS)
       {
          // Blank the strings.
-         gsSetA(gvArrayGetAt(row->value, index)->s, "");
+         gsSetA(gvArrayGetAt(row->value, index)->s, (Char const *) "");
       }
    }
 
@@ -1339,17 +1339,17 @@ static void _StoreConfig(GfileRat * const rat, Gfile * const file)
       // Get the type.
       switch (col->type)
       {
-      case gfileRatTypeB:  gsAppendA(type, "b");  break;
-      case gfileRatTypeI1: gsAppendA(type, "i1"); break;
-      case gfileRatTypeI2: gsAppendA(type, "i2"); break;
-      case gfileRatTypeI4: gsAppendA(type, "i4"); break;
-      case gfileRatTypeI8: gsAppendA(type, "i8"); break;
-      case gfileRatTypeN1: gsAppendA(type, "n1"); break;
-      case gfileRatTypeN2: gsAppendA(type, "n2"); break;
-      case gfileRatTypeN4: gsAppendA(type, "n4"); break;
-      case gfileRatTypeN8: gsAppendA(type, "n8"); break;
-      case gfileRatTypeR4: gsAppendA(type, "r4"); break;
-      case gfileRatTypeR8: gsAppendA(type, "r8"); break;
+      case gfileRatTypeB:  gsAppendA(type, (Char const *) "b");  break;
+      case gfileRatTypeI1: gsAppendA(type, (Char const *) "i1"); break;
+      case gfileRatTypeI2: gsAppendA(type, (Char const *) "i2"); break;
+      case gfileRatTypeI4: gsAppendA(type, (Char const *) "i4"); break;
+      case gfileRatTypeI8: gsAppendA(type, (Char const *) "i8"); break;
+      case gfileRatTypeN1: gsAppendA(type, (Char const *) "n1"); break;
+      case gfileRatTypeN2: gsAppendA(type, (Char const *) "n2"); break;
+      case gfileRatTypeN4: gsAppendA(type, (Char const *) "n4"); break;
+      case gfileRatTypeN8: gsAppendA(type, (Char const *) "n8"); break;
+      case gfileRatTypeR4: gsAppendA(type, (Char const *) "r4"); break;
+      case gfileRatTypeR8: gsAppendA(type, (Char const *) "r8"); break;
       case gfileRatTypeS:  gsAppendC(type, L's'); gsAppendN(type, col->byteCount); break;
       }
 
@@ -1410,11 +1410,11 @@ static void _StoreHeader(GfileRat * const rat, Gfile * const file)
    // Add the header.
    if (rat->isBinary)
    {
-      gsAppendA(line, FILE_HEADER_BINARY "|");
+      gsAppendA(line, (Char const *) FILE_HEADER_BINARY "|");
    }
    else
    {
-      gsAppendA(line, FILE_HEADER_ASCII "|");
+      gsAppendA(line, (Char const *) FILE_HEADER_ASCII "|");
    }
 
    // Clear the version.

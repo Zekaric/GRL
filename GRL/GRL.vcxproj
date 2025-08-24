@@ -103,6 +103,7 @@
     <ClInclude Include="gheap.h" />
     <ClInclude Include="gi.h" />
     <ClInclude Include="gindex.h" />
+    <ClInclude Include="ginterp.h" />
     <ClInclude Include="gleak.h" />
     <ClInclude Include="glock.h" />
     <ClInclude Include="gmath.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="gguid.c" />
     <ClCompile Include="gheap.c" />
     <ClCompile Include="gindex.c" />
+    <ClCompile Include="ginterp.c" />
     <ClCompile Include="gleak.c" />
     <ClCompile Include="glock.c" />
     <ClCompile Include="gmath.c" />

@@ -59,8 +59,8 @@ typedef struct
 prototype:
 **************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_HashKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCloc((Gp *) g_HashKeyCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
-#define g_HashKeyClocContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                  g_HashKeyClocContent_(  HASH, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (HASHSIZE))
+#define g_HashKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE) ((G_HashKey *)  gleakCloc((Gp *) g_HashKeyCloc_(               gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (HASHSIZE)), gsizeof(G_HashKey)))
+#define g_HashKeyClocContent(HASH, TYPE, TYPE_SUB, IS_POINTER_TYPE, HASHSIZE)                                  g_HashKeyClocContent_(  HASH, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (HASHSIZE))
 //lint -restore
 
 grlAPI Gb          g_HashKeyAdd(             G_HashKey       * const hash, Gkey const * const key, Gp const * const value);

@@ -205,6 +205,9 @@
     <ClInclude Include="gsUtil.h">
       <Filter>Type Base</Filter>
     </ClInclude>
+    <ClInclude Include="ginterp.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="g_Array.c">
@@ -347,6 +350,9 @@
     </ClCompile>
     <ClCompile Include="gsUtil.c">
       <Filter>Type Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ginterp.c">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

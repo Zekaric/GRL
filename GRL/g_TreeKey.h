@@ -76,8 +76,8 @@ struct G_TreeKey
 prototype:
 **************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_TreeKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (g_TreeKey *) gleakCloc((Gp *) g_TreeKeyCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(g_TreeKey))
-#define g_TreeKeyClocContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                g_TreeKeyClocContent_(  TREE, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
+#define g_TreeKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) (g_TreeKey *) gleakCloc((Gp *) g_TreeKeyCloc_(               gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(g_TreeKey))
+#define g_TreeKeyClocContent(TREE, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                g_TreeKeyClocContent_(  TREE, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_TreeKeyItem *g_TreeKeyAdd(             G_TreeKey       * const tree, Gkey const * const key, Gp const * const value);

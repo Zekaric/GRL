@@ -70,8 +70,8 @@ struct G_ListKey
 prototype:
 **************************************************************************************************/
 //lint -save -e960 -e961 -e9023 -e9024 -e9026
-#define g_ListKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) ((G_ListKey *) gleakCloc((Gp *) g_ListKeyCloc_(               gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_ListKey)))
-#define g_ListKeyClocContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                 g_ListKeyClocContent_(  LIST, gsizeof(TYPE_SUB), TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
+#define g_ListKeyCloc(             TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC) ((G_ListKey *) gleakCloc((Gp *) g_ListKeyCloc_(               gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC)), gsizeof(G_ListKey)))
+#define g_ListKeyClocContent(LIST, TYPE, TYPE_SUB, IS_POINTER_TYPE, COMPARE_FUNC)                                 g_ListKeyClocContent_(  LIST, gsizeof(TYPE_SUB), (Char *) TYPE, IS_POINTER_TYPE, (COMPARE_FUNC))
 //lint -restore
 
 grlAPI G_ListKeyItem *g_ListKeyAdd(             G_ListKey       * const list, Gkey const * const key, Gp const * const value);

@@ -147,7 +147,7 @@ grlAPI Gb g_HashKeyClocContent_(G_HashKey * const hash, Gsize const typeSize,
    {
       hash->binArray[index] = g_ListKeyCloc_(
          typeSize,
-         "G_HashKeyBinList",
+         (Char *) "G_HashKeyBinList",
          isPointerType,
          gpCompare);
 

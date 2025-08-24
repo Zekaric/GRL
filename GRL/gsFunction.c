@@ -45,7 +45,7 @@ grlAPI Gs *gsAppendA(Gs * const str, Char const * const cstr)
       !cstr);
 
    // Nothing to add, append is ok.
-   clength = (Gcount) strlen(cstr); //lint !e586
+   clength = (Gcount) strlen((char *) cstr); //lint !e586
    greturnIf(!clength, str);
 
    // New size of the string.
@@ -147,7 +147,7 @@ grlAPI Gs *gsAppendI(Gs * const str, Gi const i)
 
    greturnNullIf(!str);
 
-   greturnNullIf(_i64toa_s(i, ctemp, (size_t) 80, 10) != 0);
+   greturnNullIf(_i64toa_s(i, (char *) ctemp, (size_t) 80, 10) != 0);
 
    result = gsAppendA(str, ctemp);
 
@@ -225,7 +225,7 @@ grlAPI Gs *gsAppendN(Gs * const str, Gn const n)
 
    greturnNullIf(!str);
 
-   greturnNullIf(_ui64toa_s(n, ctemp, (size_t) 80, 10) != 0);
+   greturnNullIf(_ui64toa_s(n, (char *) ctemp, (size_t) 80, 10) != 0);
 
    result = gsAppendA(str, ctemp);
 
@@ -303,7 +303,7 @@ grlAPI Gs *gsAppendR(Gs * const str, Gr const r)
 
    greturnNullIf(!str);
 
-   greturnNullIf(_gcvt_s(ctemp, (size_t) 80, r, 15) != 0);
+   greturnNullIf(_gcvt_s((char *) ctemp, (size_t) 80, r, 15) != 0);
 
    result = gsAppendA(str, ctemp);
 
@@ -373,7 +373,7 @@ grlAPI Gs *gsAppendRFormat(Gs * const str, Gr const r, Gc2 const * const format)
 /**************************************************************************************************
 func: gsAppendSub
 **************************************************************************************************/
-grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const start, 
+grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const start,
    Gindex const end)
 {
    Gindex a,
@@ -545,7 +545,7 @@ grlAPI Gs *gsAppendU1(Gs * const str, Gc1 const * const cstr)
    forCount(a, clength)
    {
       letter = gcFromU1((Gc1 const *) &(cstr[count])); //lint !e926
-      count += gcGetLetterByteCount((Gp const *) &(cstr[count]), gcTypeU1); 
+      count += gcGetLetterByteCount((Gp const *) &(cstr[count]), gcTypeU1);
 
       // TODO: This isn't right and should be fixed at some point.  No one is using this function yet.
       ctemp = (Gc2) letter;
@@ -655,18 +655,18 @@ gsFormattedTypeA  - ascii        Char *
 gsFormattedTypeU1 - UTF8         Gc1  *
 gsFormattedTypeU2 - UTF16        Gc2  *
 gsFormattedTypeS  - Gs           Gs   *
-gsFormattedTypeI  - integer      Gi 
-gsFormattedTypeN  - natural      Gn 
-gsFormattedTypeR  - real         Gr 
+gsFormattedTypeI  - integer      Gi
+gsFormattedTypeN  - natural      Gn
+gsFormattedTypeR  - real         Gr
 
 Terminate with a NULL value for Key.
 
 Example:
 
 gsAppendFormated(
-   stemp, 
-   L"This is a %KEY% to replace with No Key! %KEY% will also be replaced.  $(OTHER) will be something else.", 
-   L"%KEY%",   gsFormattedTypeA, (Char *) "Hokey", 
+   stemp,
+   L"This is a %KEY% to replace with No Key! %KEY% will also be replaced.  $(OTHER) will be something else.",
+   L"%KEY%",   gsFormattedTypeA, (Char *) "Hokey",
    L"$(OTHER), gsFormattedTypeI, (Gi)     1024,
    NULL);
 **************************************************************************************************/
@@ -1570,7 +1570,7 @@ grlAPI Gs *gsFindAndReplace(Gs * const str, Gs const * const find, Gs const * co
          result = gsSet(str, temp);
 
          // reset temp.
-         gsSetA(temp, "");
+         gsSetA(temp, (Char const *) "");
       }
 
 STOP:
@@ -1583,7 +1583,7 @@ STOP:
 /**************************************************************************************************
 ** FUNC: gsFindAndReplaceA
 **************************************************************************************************/
-grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find, 
+grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find,
    Char const * const  replace, Gcount * const count)
 {
    Gs *fstr,
@@ -1610,7 +1610,7 @@ grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find,
       }
       gsDloc(fstr);
    }
-   
+
    greturn result;
 }
 
@@ -1739,7 +1739,7 @@ str, letters
 return:
 int
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
    Gs const * const letters)
 {
    Gindex a,
@@ -1776,7 +1776,7 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindFirstNotOfA
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstNotOfA(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstNotOfA(Gs const * const str, Gindex const position,
    Char const * const letters)
 {
    Gs    *lstr;
@@ -1842,7 +1842,7 @@ str, letters
 return:
 int
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
    Gs const * const letters)
 {
    Gindex a,
@@ -1871,7 +1871,7 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindFirstOfA
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstOfA(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstOfA(Gs const * const str, Gindex const position,
    Char const * const letters)
 {
    Gs    *lstr;
@@ -1889,7 +1889,7 @@ grlAPI Gindex gsFindFirstOfA(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindFirstOfU1
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstOfU1(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstOfU1(Gs const * const str, Gindex const position,
    Gc1 const * const letters)
 {
    Gs    *lstr;
@@ -1907,7 +1907,7 @@ grlAPI Gindex gsFindFirstOfU1(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindFirstOfU2
 **************************************************************************************************/
-grlAPI Gindex gsFindFirstOfU2(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindFirstOfU2(Gs const * const str, Gindex const position,
    Gc2 const * const letters)
 {
    Gs    *lstr;
@@ -1937,7 +1937,7 @@ str, letters
 return:
 int
 **************************************************************************************************/
-grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
    Gs const * const letters)
 {
    Gindex a,
@@ -1995,7 +1995,7 @@ grlAPI Gindex gsFindLastNotOfA(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindLastNotOfU1
 **************************************************************************************************/
-grlAPI Gindex gsFindLastNotOfU1(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastNotOfU1(Gs const * const str, Gindex const position,
    Gc1 const * const letters)
 {
    Gs    *lstr;
@@ -2044,7 +2044,7 @@ return:
 int
    The position of the letter or GindexERROR if not present in the string.
 **************************************************************************************************/
-grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
    Gs const * const letters)
 {
    Gindex a,
@@ -2077,7 +2077,7 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindLastOfA
 **************************************************************************************************/
-grlAPI Gindex gsFindLastOfA(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastOfA(Gs const * const str, Gindex const position,
    Char const * const letters)
 {
    Gs    *lstr;
@@ -2095,7 +2095,7 @@ grlAPI Gindex gsFindLastOfA(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindLastOfU1
 **************************************************************************************************/
-grlAPI Gindex gsFindLastOfU1(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastOfU1(Gs const * const str, Gindex const position,
    Gc1 const * const letters)
 {
    Gs    *lstr;
@@ -2113,7 +2113,7 @@ grlAPI Gindex gsFindLastOfU1(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindLastOfU2
 **************************************************************************************************/
-grlAPI Gindex gsFindLastOfU2(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindLastOfU2(Gs const * const str, Gindex const position,
    Gc2 const * const letters)
 {
    Gs    *lstr;
@@ -2143,7 +2143,7 @@ return:
 int
    position of the substring or GindexERROR if not found.
 **************************************************************************************************/
-grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
    Gs const * const substr)
 {
    // This is a stupid simple algorithm just to get it done.  I didn't
@@ -2195,7 +2195,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindSubA
 **************************************************************************************************/
-grlAPI Gindex gsFindSubA(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindSubA(Gs const * const str, Gindex const position,
    Char const * const substr)
 {
    Gs    *lstr;
@@ -2213,7 +2213,7 @@ grlAPI Gindex gsFindSubA(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindSubU1
 **************************************************************************************************/
-grlAPI Gindex gsFindSubU1(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindSubU1(Gs const * const str, Gindex const position,
    Gc1 const * const substr)
 {
    Gs    *lstr;
@@ -2231,7 +2231,7 @@ grlAPI Gindex gsFindSubU1(Gs const * const str, Gindex const position,
 /**************************************************************************************************
 ** FUNC: gsFindSubU2
 **************************************************************************************************/
-grlAPI Gindex gsFindSubU2(Gs const * const str, Gindex const position, 
+grlAPI Gindex gsFindSubU2(Gs const * const str, Gindex const position,
    Gc2 const * const substr)
 {
    Gs    *lstr;
@@ -2313,7 +2313,7 @@ grlAPI Gi gsGetI(Gs const * const str)
 
 /**************************************************************************************************
 func: gsGetII
-Parses "[I]?[I]" wheren ? can be any character that does not appear in an 
+Parses "[I]?[I]" wheren ? can be any character that does not appear in an
 integer.
 **************************************************************************************************/
 grlAPI void gsGetII(Gs const * const str, Gi * const a, Gi * const b)
@@ -2327,7 +2327,7 @@ grlAPI void gsGetII(Gs const * const str, Gi * const a, Gi * const b)
 
    *a = (Gi) _wtoi64(gsGet(str));
 
-   itemp = gsFindFirstNotOfA(str, 0, "0123456789+-");
+   itemp = gsFindFirstNotOfA(str, 0, (Char const *) "0123456789+-");
    next  = gsClocFromSub(str, itemp + 1, GindexMAX);
 
    *b = (Gi) _wtoi64(gsGet(next));
@@ -2539,7 +2539,7 @@ Gs *gsInsert(Gs * const dst, Gindex const position, Gs const * const src)
 /**************************************************************************************************
 ** FUNC: gsInsertFormat
 **************************************************************************************************/
-grlAPI Gs *gsInsertFormat(Gs * const dst, Gindex const position, 
+grlAPI Gs *gsInsertFormat(Gs * const dst, Gindex const position,
    Gs const * const src, Gc2 const * const format)
 {
    Gs *stemp,
@@ -2574,7 +2574,7 @@ grlAPI Gs *gsInsertA(Gs * const dst, Gindex const position, Char const * const s
 /**************************************************************************************************
 ** FUNC: gsInsertFormatA
 **************************************************************************************************/
-grlAPI Gs *gsInsertFormatA(Gs * const dst, Gindex const position, 
+grlAPI Gs *gsInsertFormatA(Gs * const dst, Gindex const position,
    Char const * const src, Gc2 const * const format)
 {
    Gs *stemp,
@@ -2609,7 +2609,7 @@ grlAPI Gs *gsInsertU1(Gs * const dst, Gindex const position, Gc1 const * const s
 /**************************************************************************************************
 ** FUNC: gsInsertFormatU1
 **************************************************************************************************/
-grlAPI Gs *gsInsertFormatU1(Gs * const dst, Gindex const position, 
+grlAPI Gs *gsInsertFormatU1(Gs * const dst, Gindex const position,
    Gc1 const * const src, Gc2 const * const format)
 {
    Gs *stemp,
@@ -2644,7 +2644,7 @@ grlAPI Gs *gsInsertU2(Gs * const dst, Gindex const position, Gc2 const * const s
 /**************************************************************************************************
 ** FUNC: gsInsertFormatU2
 **************************************************************************************************/
-grlAPI Gs *gsInsertFormatU2(Gs * const dst, Gindex const position, 
+grlAPI Gs *gsInsertFormatU2(Gs * const dst, Gindex const position,
    Gc2 const * const src, Gc2 const * const format)
 {
    Gs *stemp,
@@ -2668,7 +2668,7 @@ grlAPI Gb gsIsBlank(Gs const *const str)
 
    greturnTrueIf(gsIsEmpty(str));
 
-   greturnTrueIf(gsFindFirstNotOfA(str, 0, WHITESPACE_A) == GindexERROR);
+   greturnTrueIf(gsFindFirstNotOfA(str, 0, (Char const *) WHITESPACE_A) == GindexERROR);
 
    greturn gbFALSE;
 }
@@ -3132,7 +3132,7 @@ grlAPI Gs *gsToCSV(Gs * const str)
 
    /* If the string contains a " (quote) or a , (comma) then we need
    ** to convert.  Not as efficient as it could be.*/
-   if (gsFindFirstOfA(str, 0, "\",") != GindexERROR)
+   if (gsFindFirstOfA(str, 0, (Char const *) "\",") != GindexERROR)
    {
       Gs *temp = gsCloc();
 
@@ -3676,21 +3676,21 @@ static Gcount _GetLength(Gp const * const ptr, GcType const type)
    switch (type)
    {
    case gcTypeA:
-      result = (Gcount) strlen((const Char *) ptr); 
+      result = (Gcount) strlen((char const *) ptr);
 
       greturn result;
 
    case gcTypeU1:
-      c1p = (const Gc1 *) ptr; 
+      c1p = (const Gc1 *) ptr;
       for (a = 0; ; a++)
       {
          greturnIf(c1p[0] == 0, a);
 
-         c1p = &(c1p[gcGetLetterByteCount((const Gp *) c1p, type)]); 
+         c1p = &(c1p[gcGetLetterByteCount((const Gp *) c1p, type)]);
       }
 
    case gcTypeU2:
-      c2p = (const Gc2 *) ptr; 
+      c2p = (const Gc2 *) ptr;
       for (a = 0; ; a++)
       {
          greturnIf(c2p[0] == 0, a);
@@ -3700,7 +3700,7 @@ static Gcount _GetLength(Gp const * const ptr, GcType const type)
       }
 
    case gcTypeU4:
-      c4p = (const Gc4 *) ptr; 
+      c4p = (const Gc4 *) ptr;
       for (a = 0; ; a++)
       {
          greturnIf(c4p[a] == 0, a);

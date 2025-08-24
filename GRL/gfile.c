@@ -537,7 +537,7 @@ grlAPI Gb gfileGetContentS(Gfile * const file, GcType const type, Gs * const str
 
       if (!first)
       {
-         if (!gsAppendA(str, "\n"))
+         if (!gsAppendA(str, (Char const *) "\n"))
          {
             debugHalt("strAppendA failed");
             break;

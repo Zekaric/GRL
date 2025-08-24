@@ -71,10 +71,10 @@ grlAPI Gs *gconGetS_(void)
 
    genter;
 
-   gets_s(buffer, 1024);
+   gets_s((char *) buffer, 1024);
 
    s = gsClocFromA(buffer);
-   
+
    greturn s;
 }
 
