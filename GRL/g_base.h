@@ -285,7 +285,7 @@ macro:
 #define debugHaltIf(VALUE, STRING)  if (VALUE) { debugHalt(STRING); }
 #define debugHalt(STRING)           /*lint -save -e944 -e917 -e920 -e960 -e9008 -e9007 */ assert(gbFALSE && (STRING)) /*lint -restore */
 #define debugPrintU2(WSTR)          OutputDebugStringW(WSTR)
-#define debugPrintA( WSTR)          OutputDebugStringA(WSTR)
+#define debugPrintA( ASTR)          OutputDebugStringA(ASTR)
 #define debugPrintFormatU2(FMT, ...)     \
 {\
    wchar_t __debug_str[1024];\
@@ -309,11 +309,15 @@ macro:
 
 #else
 
-#define debugHaltIf(VALUE, STRING)
-#define debugHalt(STRING)
-#define debugPrint(WSTR)
-#define debugCheckMemory()
-#define debugPrintMsg(FMT, ...)
+#define debugHaltIf(                VALUE, STRING)
+#define debugHalt(                  STRING)
+#define debugPrintU2(               WSTR)
+#define debugPrintA(                ASTR)
+#define debugPrintFormatU2(         FMT, ...)
+#define debugPrintFormatA(          FMT, ...)
+#define debugCheckMemory(           )
+#define debugSetCheckMemoryAgresive()
+#define debugPrintMsg(              FMT, ...)
 
 #endif
 
