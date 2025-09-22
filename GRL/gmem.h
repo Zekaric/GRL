@@ -96,10 +96,10 @@ prototype:
 // Not leak tracked.
 // I prefer using calloc even if it might be slower than malloc as it zeroes
 // the memory.  The overhead so far has not caused me grief.
-#define memoryCloc(            BYTECOUNT)                                      calloc((size_t) 1, (size_t) (BYTECOUNT))
-#define memoryClocType(        TYPE)                                  (TYPE *) memoryCloc(gsizeof(TYPE))
-#define memoryClocTypeArray(   TYPE, COUNT)                           (TYPE *) memoryCloc(gsizeof(TYPE) * (COUNT))
-#define memoryDloc(            P)                                              free((Gp *) (P))
+#define memoryCloc(            BYTECOUNT)                                        calloc((size_t) 1, (size_t) (BYTECOUNT))
+#define memoryClocType(        TYPE)                                    (TYPE *) memoryCloc(gsizeof(TYPE))
+#define memoryClocTypeArray(   TYPE, COUNT)                             (TYPE *) memoryCloc(gsizeof(TYPE) * (COUNT))
+#define memoryDloc(            P)                                                free((Gp *) (P))
 
 // Gmem functions.
 // Leak tracked.
@@ -116,14 +116,14 @@ prototype:
 #define gmemClearTypeArray(      P, TYPE, COUNT)                                 gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   0)
 #define gmemClearTypeArrayAt(    P, TYPE, COUNT, INDEX)                          gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX))
 
-// Copying data from withing the same array/buffer of type.
+// Copying data from within the same array/buffer of type.
 #define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
 
-// Copying data from one array over to some other array of a given type.
-#define gmemCopyOver(            P, BYTECOUNT,            PSRC)             gmemCopyOverAt((Gp *) (P),  (BYTECOUNT),             (Gi) 0,                    (Gp *) (PSRC), 0)
-#define gmemCopyOverType(        P, TYPE,                 PSRC)             gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE),           (Gi) 0,                    (Gp *) (PSRC), 0)
-#define gmemCopyOverTypeArray(   P, TYPE, COUNT,          PSRC)             gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), (Gi) 0,                    (Gp *) (PSRC), 0)
-#define gmemCopyOverTypeArrayAt( P, TYPE, COUNT, INDEX_P, PSRC, INDEX_SRC)  gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), gsizeof(TYPE) * (INDEX_P), (Gp *) (PSRC), gsizeof(TYPE) * (INDEX_SRC))
+// Copying data from one array over to some other array of same type.
+#define gmemCopyOver(            P, BYTECOUNT,            PSRC)                  gmemCopyOverAt((Gp *) (P),  (BYTECOUNT),             (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverType(        P, TYPE,                 PSRC)                  gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE),           (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverTypeArray(   P, TYPE, COUNT,          PSRC)                  gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), (Gi) 0,                    (Gp *) (PSRC), 0)
+#define gmemCopyOverTypeArrayAt( P, TYPE, COUNT, INDEX_P, PSRC, INDEX_SRC)       gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), gsizeof(TYPE) * (INDEX_P), (Gp *) (PSRC), gsizeof(TYPE) * (INDEX_SRC))
 
 // Create a dynamic memory buffer on the heap.
 // Type  - provide a type to define the size of the element(s) to create.
