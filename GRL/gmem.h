@@ -99,6 +99,7 @@ prototype:
 #define memoryCloc(            BYTECOUNT)                                        calloc((size_t) 1, (size_t) (BYTECOUNT))
 #define memoryClocType(        TYPE)                                    (TYPE *) memoryCloc(gsizeof(TYPE))
 #define memoryClocTypeArray(   TYPE, COUNT)                             (TYPE *) memoryCloc(gsizeof(TYPE) * (COUNT))
+#define memoryRlocTypeArray(   P, TYPE, COUNT)                          (TYPE *) realloc((Gp *) (P), (size_t) gsizeof(TYPE) * (COUNT))
 #define memoryDloc(            P)                                                free((Gp *) (P))
 
 // Gmem functions.
@@ -116,6 +117,13 @@ prototype:
 #define gmemClearTypeArray(      P, TYPE, COUNT)                                 gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   0)
 #define gmemClearTypeArrayAt(    P, TYPE, COUNT, INDEX)                          gmemClearAt(   (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX))
 
+// Create a dynamic memory buffer on the heap.
+// Type  - provide a type to define the size of the element(s) to create.
+// Array - indicates we are creating a buffer of N types.
+#define gmemCloc(                TYPE_CHAR,  BYTECOUNT)                          gleakCloc(gmemCloc_((Char *) (TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
+#define gmemClocType(            TYPE)                                  (TYPE *) gleakCloc(gmemCloc_((Char *) #TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
+#define gmemClocTypeArray(       TYPE,       COUNT)                     (TYPE *) gleakCloc(gmemCloc_((Char *) #TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
+
 // Copying data from within the same array/buffer of type.
 #define gmemCopyTypeArray(       P, TYPE, COUNT, INDEX_SRC,    INDEX_DST)        gmemCopy(      (P),     gsizeof(TYPE) * (COUNT),   gsizeof(TYPE) * (INDEX_SRC),  gsizeof(TYPE) * (INDEX_DST))
 
@@ -125,18 +133,11 @@ prototype:
 #define gmemCopyOverTypeArray(   P, TYPE, COUNT,          PSRC)                  gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), (Gi) 0,                    (Gp *) (PSRC), 0)
 #define gmemCopyOverTypeArrayAt( P, TYPE, COUNT, INDEX_P, PSRC, INDEX_SRC)       gmemCopyOverAt((Gp *) (P),  gsizeof(TYPE) * (COUNT), gsizeof(TYPE) * (INDEX_P), (Gp *) (PSRC), gsizeof(TYPE) * (INDEX_SRC))
 
-// Create a dynamic memory buffer on the heap.
-// Type  - provide a type to define the size of the element(s) to create.
-// Array - indicates we are creating a buffer of N types.
-#define gmemCloc(              TYPE_CHAR,  BYTECOUNT)                            gleakCloc((Gp *) gmemCloc_((Char *) (TYPE_CHAR),    (BYTECOUNT)),                   (BYTECOUNT))
-#define gmemClocType(          TYPE)                                    (TYPE *) gleakCloc((Gp *) gmemCloc_((Char *) #TYPE,          gsizeof(TYPE)),           gsizeof(TYPE))
-#define gmemClocTypeArray(     TYPE,       COUNT)                       (TYPE *) gleakCloc((Gp *) gmemCloc_((Char *) #TYPE " ARRAY", gsizeof(TYPE) * (COUNT)), gsizeof(TYPE) * (COUNT))
-
 // Low level memory comparison.
 #define gmemIsEqual(             PA, PB, COUNT)                                  (memcmp((PA), (PB), (size_t) (COUNT))  == 0)
 #define gmemIsEqualType(         PA, PB, TYPE)                                   (memcmp((PA), (PB), sizeof(TYPE))      == 0)
 
-// Setting a buffer to a specific byte value.
+// Setting a buffer to a specific byte value.,
 #define gmemSet(                 P,    BYTECOUNT, BYTEVALUE)                     memset((P), (BYTEVALUE), (size_t) (BYTECOUNT))
 //lint -restore
 
@@ -146,7 +147,7 @@ grlAPI Gb    gmemCopy(        Gp         * const p, Gcount const byteCount, Gind
 grlAPI Gb    gmemCopyOverAt(  Gp         * const p, Gcount const byteCount, Gindex const byteIndex, Gp const * const pSrc, Gindex const byteIndexSrc);
 grlAPI Gp   *gmemCloc_(       Char const * const type, Gcount const byteCount);
 
-grlAPI void  gmemDloc(        Gp        * const p);
+grlAPI void  gmemDloc(        Gp         * const p);
 
 grlAPI void  gmemFlushPools(  void);
 
