@@ -120,7 +120,7 @@ grlAPI Gp *gleakCloc_(Gp * const p, Gsize const size, Char const * const file, G
 {
    Leak *l;
 
-   returnIf(!p, p);
+   returnValIf(!p, p);
 
    // Thread safety.
    glockEnter(&_lock);
@@ -134,7 +134,7 @@ grlAPI Gp *gleakCloc_(Gp * const p, Gsize const size, Char const * const file, G
       // Create a new leak structure.
       l = (Leak *) calloc((size_t) 1, gsizeof(Leak)); //lint !e586
       debugHaltIf(  !l, "No more memory!");
-      returnIf(!l, p);
+      returnValIf(!l, p);
 
       // Fill in the structure.
       GTYPE_SET(l, "Gleak Leak");
@@ -162,7 +162,7 @@ Destroy a leak item.
 **************************************************************************************************/
 grlAPI Gp *gleakDloc_(Gp * const p)
 {
-   returnIf(!p, p);
+   returnValIf(!p, p);
 
    // Thread safety.
    glockEnter(&_lock);
@@ -376,7 +376,7 @@ static Leak *_Get(Gp const * const p)
    {
       breakIf(!l);
 
-      returnIf(l->p == p, l);
+      returnValIf(l->p == p, l);
 
       l = l->next;
    }
