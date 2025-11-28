@@ -63,29 +63,29 @@ grlAPI Gcompare gcCompare(Gcount const length, Gc const * const a, Gc const * co
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          (!a && !b) ||
          length <= 0,
       gcompareEQUAL);
 
-   greturnIf(!a, gcompareLESS_THAN);
+   greturnValIf(!a, gcompareLESS_THAN);
 
-   greturnIf(!b, gcompareGREATER_THAN);
+   greturnValIf(!b, gcompareGREATER_THAN);
 
    forCount(index, length)
    {
-      greturnIf(
+      greturnValIf(
             a[index] == 0 &&
             b[index] == 0,
          gcompareEQUAL);
 
-      greturnIf(a[index] == 0, gcompareLESS_THAN);
+      greturnValIf(a[index] == 0, gcompareLESS_THAN);
 
-      greturnIf(b[index] == 0, gcompareGREATER_THAN);
+      greturnValIf(b[index] == 0, gcompareGREATER_THAN);
 
       value = a[index] - b[index];
-      greturnIf(value < 0, gcompareLESS_THAN);
-      greturnIf(value > 0, gcompareGREATER_THAN);
+      greturnValIf(value < 0, gcompareLESS_THAN);
+      greturnValIf(value > 0, gcompareGREATER_THAN);
    }
 
    greturn gcompareEQUAL;
@@ -103,29 +103,29 @@ grlAPI Gcompare gcCompareBase(Gcount const length, Gc2 const * const a, Gc2 cons
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          (!a && !b) ||
          length <= 0,
       gcompareEQUAL);
 
-   greturnIf(!a, gcompareLESS_THAN);
+   greturnValIf(!a, gcompareLESS_THAN);
 
-   greturnIf(!b, gcompareGREATER_THAN);
+   greturnValIf(!b, gcompareGREATER_THAN);
 
    forCount(index, length)
    {
-      greturnIf(
+      greturnValIf(
             a[index] == 0 &&
             b[index] == 0,
          gcompareEQUAL);
 
-      greturnIf(a[index] == 0, gcompareLESS_THAN);
+      greturnValIf(a[index] == 0, gcompareLESS_THAN);
 
-      greturnIf(b[index] == 0, gcompareGREATER_THAN);
+      greturnValIf(b[index] == 0, gcompareGREATER_THAN);
 
       value = gcToLowerCase(a[index]) - gcToLowerCase(b[index]); //lint !e931
-      greturnIf(value < 0, gcompareLESS_THAN);
-      greturnIf(value > 0, gcompareGREATER_THAN);
+      greturnValIf(value < 0, gcompareLESS_THAN);
+      greturnValIf(value > 0, gcompareGREATER_THAN);
    }
 
    greturn gcompareEQUAL;
@@ -138,9 +138,9 @@ grlAPI Gcompare gc2Compare(Gc2 const * const a, Gc2 const * const b)
 {
    genter;
 
-   greturnIf(*a == *b, gcompareEQUAL);
-   greturnIf(*a < *b,  gcompareLESS_THAN);
-   greturn             gcompareGREATER_THAN;
+   greturnValIf(*a == *b, gcompareEQUAL);
+   greturnValIf(*a < *b,  gcompareLESS_THAN);
+   greturn                gcompareGREATER_THAN;
 }
 
 /**************************************************************************************************
@@ -178,14 +178,14 @@ grlAPI Gc gcFromU1(Gc1 const * const str)
 
    genter;
 
-   greturnIf(!str, 0);
+   greturn0If(!str);
 
    // one byte.
    if ((str[0] & 0x80) == 0)
    {
       greturn (Gc) str[0];
    }
-   
+
    // two byte.
    if ((str[0] & 0xe0) == 0xc0)
    {
@@ -385,14 +385,14 @@ grlAPI Gcount gcGetLetterByteCount(Gp const * const ptr, GcType const type)
 
    case gcTypeU1:
       c1 = (Gc1 const *) ptr;
-      greturnIf((c1[0] & 0x80) == 0,    1);
-      greturnIf((c1[0] & 0xe0) == 0xc0, 2);
-      greturnIf((c1[0] & 0xf0) == 0xe0, 3);
+      greturnValIf((c1[0] & 0x80) == 0,    1);
+      greturnValIf((c1[0] & 0xe0) == 0xc0, 2);
+      greturnValIf((c1[0] & 0xf0) == 0xe0, 3);
       break;
 
    case gcTypeU2:
       c2 = (Gc2 const *) ptr;
-      greturnIf((c2[0] & 0xd000) != 0xd000, 2);
+      greturnValIf((c2[0] & 0xd000) != 0xd000, 2);
       break;
    }
    //lint -restore
@@ -538,7 +538,7 @@ grlAPI Gc const *gcSearchForLetter(Gc const * const str, Gc const letter)
 
    for (strIndex = 0; str[strIndex] != 0; strIndex++)
    {
-      greturnIf(
+      greturnValIf(
             str[strIndex] == letter,
          &(str[strIndex]));
    }
@@ -560,13 +560,13 @@ grlAPI Gc const *gcSearchForLetters(Gc const * const str, Gc const * const lette
 
    greturnNullIf(!str);
 
-   greturnIf(!letters, str);
+   greturnValIf(!letters, str);
 
    for (strIndex = 0; str[strIndex] != 0; strIndex++)
    {
       for (letterIndex = 0; letters[letterIndex] != 0; letterIndex++)
       {
-         greturnIf(
+         greturnValIf(
                str[strIndex] == letters[letterIndex],
             &(str[strIndex]));
       }
@@ -589,13 +589,13 @@ grlAPI Gc const *gcSearchForLettersA(Gc const * const str, Char const * const le
 
    greturnNullIf(!str);
 
-   greturnIf(!letters, str);
+   greturnValIf(!letters, str);
 
    for (strIndex = 0; str[strIndex] != 0; strIndex++)
    {
       for (letterIndex = 0; letters[letterIndex] != 0; letterIndex++)
       {
-         greturnIf(
+         greturnValIf(
                str[strIndex] == gcFromA(letters[letterIndex]),
             &(str[strIndex])); //lint !e737
       }
@@ -619,7 +619,7 @@ grlAPI Gc const *gcSearchForLettersInv(Gc const * const str, Gc const * const le
 
    greturnNullIf(!str);
 
-   greturnIf(!letters, str);
+   greturnValIf(!letters, str);
 
    for (strIndex = 0; str[strIndex] != 0; strIndex++)
    {
@@ -634,7 +634,7 @@ grlAPI Gc const *gcSearchForLettersInv(Gc const * const str, Gc const * const le
          }
       }
 
-      greturnIf(found, &(str[strIndex]));
+      greturnValIf(found, &(str[strIndex]));
    }
 
    greturn &(str[strIndex]);
@@ -657,7 +657,7 @@ grlAPI Gc const *gcSearchForString(Gc const * const str, Gcount const subStrLeng
 
    greturnNullIf(!str);
 
-   greturnIf(
+   greturnValIf(
          subStrLength <= 0 ||
          !subStr,
       str);
@@ -680,7 +680,7 @@ grlAPI Gc const *gcSearchForString(Gc const * const str, Gcount const subStrLeng
       }
 
       // Found the substring.
-      greturnIf(found, &(str[strIndex]));
+      greturnValIf(found, &(str[strIndex]));
    }
 
    greturn &(str[strIndex]);
@@ -738,7 +738,7 @@ func: gcToA
 grlAPI Gc gcToA(Gc const letter)
 {
    genter;
-   greturnIf(letter < 256, (Gc) letter);
+   greturnValIf(letter < 256, (Gc) letter);
    greturn 0;
 }
 
@@ -781,7 +781,7 @@ grlAPI Gcount gcToU1(Gc const letter, Gc1 * const a, Gc1 * const b, Gc1 * const 
       *a = (Gc1) letter;
       greturn 1;
    }
-   
+
    if (letter < 0x000007ff)
    {
       *d = 0;
@@ -790,7 +790,7 @@ grlAPI Gcount gcToU1(Gc const letter, Gc1 * const a, Gc1 * const b, Gc1 * const 
       *a = (Gc1) (0xc0 | ((letter >> 6) & 0x1f));
       greturn 2;
    }
-   
+
    if (letter < 0x0000ffff)
    {
       *d = 0;

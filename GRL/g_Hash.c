@@ -174,7 +174,7 @@ grlAPI void g_HashDloc(G_Hash * const hash)
 {
    genter;
 
-   greturnVoidIf(!hash);
+   greturnIf(!hash);
 
    g_HashDlocContent(hash);
 
@@ -192,7 +192,7 @@ grlAPI void g_HashDlocContent(G_Hash * const hash)
 
    genter;
 
-   greturnVoidIf(!hash);
+   greturnIf(!hash);
 
    forCount(index, hash->binCount)
    {
@@ -259,7 +259,7 @@ grlAPI void g_HashFlush(G_Hash * const hash)
 
    genter;
 
-   greturnVoidIf(!hash);
+   greturnIf(!hash);
 
    forCount(index, hash->binCount)
    {

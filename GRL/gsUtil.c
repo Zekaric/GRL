@@ -29,10 +29,10 @@ grlAPI Gs *gsClocLoad_(Gpath const * const path)
 
    genter;
 
-   greturnIf(!gpathIsPath(path), NULL);
+   greturnNullIf(!gpathIsPath(path));
 
    file = gfileOpen(path, gfileOpenModeREAD_ONLY);
-   greturnIf(!file, NULL);
+   greturnNullIf(!file);
 
    str = gsCloc();
    if (str)
@@ -61,7 +61,7 @@ grlAPI Gs *gsClocInput_(void)
    genter;
 
    str = gsCloc();
-   greturnIf(!str, NULL);
+   greturnNullIf(!str);
 
    loop
    {
@@ -87,10 +87,10 @@ grlAPI GsArray *gsArrayClocLoad_(Gpath const * const path)
 
    genter;
 
-   greturnIf(!gpathIsPath(path), NULL);
+   greturnNullIf(!gpathIsPath(path));
 
    file = gfileOpen(path, gfileOpenModeREAD_ONLY);
-   greturnIf(!file, NULL);
+   greturnNullIf(!file);
 
    strArray = gsArrayCloc((GrlCompareFunc) NULL, gbTRUE);
    if (strArray)

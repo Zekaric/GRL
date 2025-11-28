@@ -44,9 +44,9 @@ func: gv1CompareI
 grlAPI Gcompare gv1CompareI(Gv1 const * const va, Gv1 const * const vb)
 {
    genter;
-   greturnIf(va->i < vb->i, gcompareLESS_THAN);
-   greturnIf(va->i > vb->i, gcompareGREATER_THAN);
-   greturn                  gcompareEQUAL;
+   greturnValIf(va->i < vb->i, gcompareLESS_THAN);
+   greturnValIf(va->i > vb->i, gcompareGREATER_THAN);
+   greturn                     gcompareEQUAL;
 }
 
 /**************************************************************************************************
@@ -55,9 +55,9 @@ func: gv1CompareN
 grlAPI Gcompare gv1CompareN(Gv1 const * const va, Gv1 const * const vb)
 {
    genter;
-   greturnIf(va->n < vb->n, gcompareLESS_THAN);
-   greturnIf(va->n > vb->n, gcompareGREATER_THAN);
-   greturn                  gcompareEQUAL;
+   greturnValIf(va->n < vb->n, gcompareLESS_THAN);
+   greturnValIf(va->n > vb->n, gcompareGREATER_THAN);
+   greturn                     gcompareEQUAL;
 }
 
 /**************************************************************************************************

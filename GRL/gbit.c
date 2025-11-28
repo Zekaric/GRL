@@ -111,10 +111,9 @@ grlAPI Gn4 gbitArrayGet(Gn4 const * const data, Gindex const bit, Gcount const c
 
    genter;
 
-   greturnIf(
-         !data       ||
-         (count < 1) || (31 < count),
-      0);
+   greturn0If(
+      !data       ||
+      (count < 1) || (31 < count));
 
    // bit and count span over two ints.
    if (((bit + count - 1) / Gn4SIZE) > (bit / Gn4SIZE))
@@ -163,10 +162,9 @@ grlAPI Gb gbitArraySet(Gn4 * const data, Gindex const bit, Gcount const count, G
 {
    genter;
 
-   greturnIf(
-         !data       ||
-         (count < 1) || (31 < count),
-      gbFALSE);
+   greturnFalseIf(
+      !data       ||
+      (count < 1) || (31 < count));
 
    if (((bit + count - 1) / Gn4SIZE) > (bit / Gn4SIZE))
    {

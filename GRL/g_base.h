@@ -249,19 +249,19 @@ macro:
 // Again some will hate these but I find they help prevent mistakes and improve
 // readability.
 // greturn* - macroes that call function exit code.  See genter.
-#define greturnIf(C,V)     if ((C)) { greturn (V); }
+#define greturnIf(C)       if ((C)) { greturn; }
+#define greturnValIf(C,V)  if ((C)) { greturn (V); }
 #define greturn0If(C)      if ((C)) { greturn 0; }
 #define greturn1If(C)      if ((C)) { greturn 1; }
-#define greturnVoidIf(C)   if ((C)) { greturn; }
 #define greturnNullIf(C)   if ((C)) { greturn NULL; }
 #define greturnTrueIf(C)   if ((C)) { greturn gbTRUE; }
 #define greturnFalseIf(C)  if ((C)) { greturn gbFALSE; }
 // return - macroes that do not call function exit code.  So just wrapping
 //          return keyword.
-#define returnIf(C,V)      if ((C)) { return (V); }
+#define returnIf(C)        if ((C)) { return; }
+#define returnValIf(C,V)   if ((C)) { return (V); }
 #define return0If(C)       if ((C)) { return 0; }
 #define return1If(C)       if ((C)) { return 1; }
-#define returnVoidIf(C)    if ((C)) { return; }
 #define returnNullIf(C)    if ((C)) { return NULL; }
 #define returnTrueIf(C)    if ((C)) { return gbTRUE; }
 #define returnFalseIf(C)   if ((C)) { return gbFALSE; }

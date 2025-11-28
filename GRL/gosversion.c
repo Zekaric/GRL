@@ -69,7 +69,7 @@ grlAPI Gosversion gosversionGet(void)
 
    genter;
 
-   greturnIf(version != gosversionNA, version);
+   greturnValIf(version != gosversionNA, version);
 
 #if _MSC_VER > 1900
 
@@ -143,7 +143,7 @@ grlAPI Gosversion gosversionGet(void)
          info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
          result = GetVersionEx((OSVERSIONINFO *) &info); //lint !e929
-         greturnIf(!result, gosversionNA);
+         greturnValIf(!result, gosversionNA);
       }
 #pragma warning(pop)
 

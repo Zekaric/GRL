@@ -122,7 +122,7 @@ grlAPI GdirArray *gdirArrayClocFromMask_(const Gpath * const path)
    htemp = (Gi4) _wfindfirst(gsGet(pathSystem), &finfo);
    gsDloc(pathSystem);
 
-   greturnIf(htemp == -1L, NULL);
+   greturnNullIf(htemp == -1L);
 
    list = gdirArrayCloc();
 
@@ -225,7 +225,7 @@ grlAPI void gdirDloc(Gdir * const gdir)
 {
    genter;
 
-   greturnVoidIf(!gdir)
+   greturnIf(!gdir)
 
    gdirDlocContent(gdir);
 
@@ -241,7 +241,7 @@ grlAPI void gdirDlocContent(Gdir * const gdir)
 {
    genter;
 
-   greturnVoidIf(!gdir)
+   greturnIf(!gdir)
 
    gsDloc(   gdir->name);
    gpathDloc(gdir->path);
@@ -531,7 +531,7 @@ grlAPI Gtime gdirGetTimeAccessed(Gdir const * const dir)
 {
    genter;
 
-   greturnIf(!dir, -1);
+   greturnValIf(!dir, -1);
 
    greturn dir->timeAccessed;
 }
@@ -543,7 +543,7 @@ grlAPI Gtime gdirGetTimeCreated(Gdir const * const dir)
 {
    genter;
 
-   greturnIf(!dir, -1);
+   greturnValIf(!dir, -1);
 
    greturn dir->timeCreated;
 }
@@ -555,7 +555,7 @@ grlAPI Gtime gdirGetTimeModified(Gdir const * const dir)
 {
    genter;
 
-   greturnIf(!dir, -1);
+   greturnValIf(!dir, -1);
 
    greturn dir->timeModified;
 }
@@ -567,7 +567,7 @@ grlAPI GdirType gdirGetType(Gdir const * const dir)
 {
    genter;
 
-   greturnIf(!dir, gdirTypeNONE);
+   greturnValIf(!dir, gdirTypeNONE);
 
    greturn dir->type;
 }
@@ -640,7 +640,7 @@ grlAPI Gb gdirSetWorking(const Gpath * const path)
    genter;
 
    ptemp = gpathClocFrom(path);
-   greturnIf(!ptemp, gbFALSE);
+   greturnFalseIf(!ptemp);
 
    gpathSetToSystem(ptemp); //lint !e534
 

@@ -85,7 +85,7 @@ grlAPI Gp *gswap2(Gp * const value)
 
    genter;
 
-   greturnIf(_isBigEndian, value);
+   greturnValIf(_isBigEndian, value);
 
    a = (Gswap2 *) value;
 
@@ -105,7 +105,7 @@ grlAPI Gp *gswap4(Gp * const value)
 
    genter;
 
-   greturnIf(_isBigEndian, value);
+   greturnValIf(_isBigEndian, value);
 
    a = (Gswap4 *) value;
 
@@ -127,7 +127,7 @@ grlAPI Gp *gswap8(Gp * const value)
 
    genter;
 
-   greturnIf(_isBigEndian, value);
+   greturnValIf(_isBigEndian, value);
 
    a = (Gswap8 *) value;
 

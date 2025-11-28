@@ -149,13 +149,12 @@ grlAPI Gb gmemCopy(Gp * const p, Gcount const byteCount, Gindex const byteIndexS
    Gn1 *pn;
 
    // Nothing to copy.
-   returnIf(byteCount == 0, gbTRUE);
+   returnTrueIf(byteCount == 0);
 
-   returnIf(
-         !p                ||
-         byteIndexSrc <  0 ||
-         byteIndexDst <  0,
-      gbFALSE);
+   returnFalseIf(
+      !p                ||
+      byteIndexSrc <  0 ||
+      byteIndexDst <  0);
 
    pn = (Gn1 *) p;
 
@@ -174,17 +173,16 @@ grlAPI Gb gmemCopyOverAt(Gp * const pDst, Gcount const byteCount, Gindex const b
        *psn;
 
    // Same pointer, internal copy.
-   returnIf(pDst == pSrc, gmemCopy(pDst, byteCount, byteIndexSrc, byteIndexDst));
+   returnValIf(pDst == pSrc, gmemCopy(pDst, byteCount, byteIndexSrc, byteIndexDst));
 
    // Nothing to copy.
-   returnIf(byteCount == 0, gbTRUE);
+   returnTrueIf(byteCount == 0);
 
-   returnIf(
-         !pDst             ||
-         !pSrc             ||
-         byteIndexSrc <  0 ||
-         byteIndexDst <  0,
-      gbFALSE);
+   returnFalseIf(
+      !pDst             ||
+      !pSrc             ||
+      byteIndexSrc <  0 ||
+      byteIndexDst <  0);
 
    pdn = (Gn1 *) pDst;
    psn = (Gn1 *) pSrc; //lint !e960 !e9005
@@ -203,7 +201,7 @@ grlAPI Gp *gmemCloc_(Char const * const type, Gcount const byteCount)
 {
    Gn1  *p;
 
-   returnIf(byteCount <= 0, NULL);
+   returnNullIf(byteCount <= 0);
 
 #if GCHECK_MEMORY_IS_ON == 1
    debugCheckMemory()
@@ -290,7 +288,7 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
 
    genter;
 
-   greturnVoidIf(byteCount <= 0);
+   greturnIf(byteCount <= 0);
 
    pn    = (Gn1 *) p;
    count = 0;
@@ -301,15 +299,15 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
       loopOnce
       {
          *pn = 0xf0; pn++; count++;
-         greturnVoidIf(count == byteCount);
+         greturnIf(count == byteCount);
          breakIf((((Gnp) pn) & 0x3) == 0); //lint !e923
 
          *pn = 0xf0; pn++; count++;
-         greturnVoidIf(count == byteCount);
+         greturnIf(count == byteCount);
          breakIf((((Gnp) pn) & 0x3) == 0); //lint !e923
 
          *pn = 0xf0; pn++; count++;
-         greturnVoidIf(count == byteCount);
+         greturnIf(count == byteCount);
          breakIf((((Gnp) pn) & 0x3) == 0); //lint !e923
       }
    }
@@ -325,7 +323,7 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
       *pn4 = 0xdeadbeef;
 #endif
       pn4++; count += 4;
-      greturnVoidIf(count == byteCount);
+      greturnIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
 #if defined(grlSWAP)
@@ -334,7 +332,7 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
       *pn4 = 0xfeedface;
 #endif
       pn4++; count += 4;
-      greturnVoidIf(count == byteCount);
+      greturnIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
 #if defined(grlSWAP)
@@ -343,7 +341,7 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
       *pn4 = 0xdeafcafe;
 #endif
       pn4++; count += 4;
-      greturnVoidIf(count == byteCount);
+      greturnIf(count == byteCount);
       breakIf(byteCount - count < 4);
 
 #if defined(grlSWAP)
@@ -352,19 +350,19 @@ grlAPI void gmemSetDefaced(Gp * const p, Gcount const byteCount)
       *pn4 = 0xfee1f00d;
 #endif
       pn4++; count += 4;
-      greturnVoidIf(count == byteCount);
+      greturnIf(count == byteCount);
       breakIf(byteCount - count < 4);
    }
 
    pn = (Gn1 *) pn4; //lint !e928
    *pn = 0xf0; pn++; count++;
-   greturnVoidIf(count == byteCount);
+   greturnIf(count == byteCount);
 
    *pn = 0xf0; pn++; count++;
-   greturnVoidIf(count == byteCount);
+   greturnIf(count == byteCount);
 
    *pn = 0xf0; /* pn++; */ count++;
-   greturnVoidIf(count == byteCount);
+   greturnIf(count == byteCount);
 }
 
 /**************************************************************************************************

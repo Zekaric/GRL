@@ -265,7 +265,7 @@ grlAPI Gb g_ArrayCopyFrom(G_Array * const aDst, Gindex const indexDst,
 
    greturnTrueIf(count == 0);
 
-   greturnIf(aDst == aSrc, g_ArrayCopy(aDst, count, indexSrc, indexDst));
+   greturnValIf(aDst == aSrc, g_ArrayCopy(aDst, count, indexSrc, indexDst));
 
    greturnFalseIf(
       count    < 0 ||
@@ -380,7 +380,7 @@ grlAPI void g_ArrayDloc(G_Array * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    g_ArrayDlocContent(a);
    gmemDloc(a);
@@ -395,7 +395,7 @@ grlAPI void g_ArrayDlocContent(G_Array const * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    gmemDloc(a->p);
 
@@ -509,7 +509,7 @@ grlAPI Gindex g_ArrayFind(G_Array const * const a, Gp const * const value)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a              ||
          !a->compareFunc ||
          a->count == 0   ||
@@ -535,7 +535,7 @@ grlAPI void g_ArrayFlush(G_Array * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    g_ArraySetCount(a, 0); //lint !e534
 
@@ -668,7 +668,7 @@ grlAPI Gcount g_ArrayGetCount(G_Array const * const a)
 {
    genter;
 
-   greturnIf(!a, 0);
+   greturnValIf(!a, 0);
 
    greturn a->count;
 }
@@ -694,7 +694,7 @@ grlAPI Gsize g_ArrayGetSize(G_Array const * const a)
 {
    genter;
 
-   greturnIf(!a, 0);
+   greturn0If(!a);
 
    greturn a->typeSize;
 }
@@ -875,7 +875,7 @@ static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb 
       data = g_ArrayGetAt(a, index);
 
       compare = a->compareFunc(value, data);
-      greturnIf(compare == gcompareEQUAL, index);
+      greturnValIf(compare == gcompareEQUAL, index);
 
       // Hi and lo are the same.  We are done.
       breakIf(hi == lo);
@@ -893,7 +893,7 @@ static Gindex _BinarySearch(G_Array const * const a, Gp const * const value, Gb 
 
    if (findLocation)
    {
-      greturnIf(compare == gcompareLESS_THAN, -index)
+      greturnValIf(compare == gcompareLESS_THAN, -index)
       greturn -(index + 1);
    }
 
@@ -916,7 +916,7 @@ static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb 
    if (a->count       == 0 ||
        a->compareFunc == NULL)
    {
-      greturnIf(findLocation, -(a->count));
+      greturnValIf(findLocation, -(a->count));
 
       greturn GindexERROR;
    }
@@ -927,15 +927,15 @@ static Gindex _LinearSearch(G_Array const * const a, Gp const * const value, Gb 
       data = g_ArrayGetAt(a, index);
 
       compare = a->compareFunc(value, data);
-      greturnIf(compare == gcompareEQUAL, index);
+      greturnValIf(compare == gcompareEQUAL, index);
 
-      greturnIf(
+      greturnValIf(
             findLocation &&
             compare == gcompareGREATER_THAN,
          -(index - 1));
    }
 
-   greturnIf(findLocation, -(a->count));
+   greturnValIf(findLocation, -(a->count));
 
    greturn GindexERROR;
 }
@@ -950,7 +950,7 @@ Gcount g_ArrayVectorSize(Gb const isVectorSizing, Gcount const size)
 
    genter;
 
-   greturnIf(!isVectorSizing, gMAX(1, size));
+   greturnValIf(!isVectorSizing, gMAX(1, size));
 
    step =
       y = 4;
@@ -958,31 +958,31 @@ Gcount g_ArrayVectorSize(Gb const isVectorSizing, Gcount const size)
    loop
    {
       // 001*
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 010*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 011*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 100*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 101*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 110*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // 111*
       y += step;
-      greturnIf(y > size, y);
+      greturnValIf(y > size, y);
 
       // Jump up a level.
       y   += step;

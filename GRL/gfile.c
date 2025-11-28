@@ -57,7 +57,7 @@ grlAPI void gfileClose(Gfile * const file)
 {
    genter;
 
-   greturnVoidIf(
+   greturnIf(
       !file ||
       !file->file);
 
@@ -94,10 +94,10 @@ grlAPI GfileCreate gfileCreateFromStrArray(Gpath const * const path, GcType cons
 
    genter;
 
-   greturnIf(!gpathIsPath(path), gfileCreateBAD_PATH);
+   greturnValIf(!gpathIsPath(path), gfileCreateBAD_PATH);
 
    file = gfileOpen(path, gfileOpenModeREAD_WRITE_NEW);
-   greturnIf(!file, gfileCreateFAILED_TO_OPEN_FILE);
+   greturnValIf(!file, gfileCreateFAILED_TO_OPEN_FILE);
 
    result = gfileCreateSUCCESS;
    count  = gfileSetSArray(file, type, lines);
@@ -575,7 +575,7 @@ grlAPI Gcount gfileGetContentSArray(Gfile * const file, GcType const type, GsArr
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !file       ||
          !file->file ||
          !strArray,
@@ -622,10 +622,9 @@ grlAPI GfileIndex gfileGetPosition(Gfile * const file)
 
    genter;
 
-   greturnIf(
-         !file ||
-         !file->file,
-      0);
+   greturn0If(
+      !file ||
+      !file->file);
 
    // Return the file position.
 #if grlWINDOWS == 1
@@ -746,8 +745,8 @@ Gfile *gfileOpen_(Gpath const * const path, GfileOpenMode const mode)
 
    genter;
 
-   debugHaltIf(!gpathIsPath(path), "Passing in path is not a Gpath.");
-   greturnIf(  !gpathIsPath(path), NULL);
+   debugHaltIf(  !gpathIsPath(path), "Passing in path is not a Gpath.");
+   greturnNullIf(!gpathIsPath(path));
 
    // Initialize
    file = gmemClocType(Gfile);
@@ -986,10 +985,9 @@ grlAPI Gcount gfileSetC(Gfile * const file, GcType const type, Gc const letter)
 
    genter;
 
-   greturnIf(
-         !file ||
-         !file->file,
-      0);
+   greturn0If(
+      !file ||
+      !file->file);
 
    // This set position call should allow us to call this function
    // right after a read function.
@@ -1022,7 +1020,8 @@ grlAPI Gcount gfileSetC(Gfile * const file, GcType const type, Gc const letter)
    } //lint !e787
 
    // Error
-   greturnIf(!result, 0);
+   greturn0If(!result);
+
    greturn 1;
 }
 
@@ -1247,11 +1246,10 @@ grlAPI Gcount gfileSetSArray(Gfile * const file, GcType const type, GsArray cons
 
    genter;
 
-   greturnIf(
-         !file       ||
-         !file->file ||
-         !lines,
-      0);
+   greturn0If(
+      !file       ||
+      !file->file ||
+      !lines);
 
    count = gsArrayGetCount(lines);
    forCount(index, count)
@@ -1274,13 +1272,13 @@ grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos
 {
    genter;
 
-   greturnIf(
+   greturnValIf(
          !file ||
          !file->file,
       gfileSetPositionBAD_FILE);
 
    // Prevent bad moves
-   greturnIf(
+   greturnValIf(
          pos == gpositionSTART &&
          offset < 0,
       gfileSetPositionBAD_POSITION);
@@ -1290,7 +1288,7 @@ grlAPI GfileSetPosition gfileSetPosition(Gfile * const file, Gposition const pos
    {
       GfileOffset newPos;
       newPos = _lseeki64(file->file, offset, pos); //lint !e641
-      greturnIf(newPos == -1, gfileSetPositionFAILURE);
+      greturnValIf(newPos == -1, gfileSetPositionFAILURE);
    }
 #else
    fseek(file->file, offset, pos);
@@ -1436,7 +1434,7 @@ static void _Prep(Gfile * const file, GfileOpStatus const status)
 
    // File is in a state that reading or writing is ok.  Nothing
    // needs to be done.
-   greturnVoidIf(file->opStatus & status);
+   greturnIf(file->opStatus & status);
 
    // Set the position so that we can read or write.
    position = gfileGetPosition(file);

@@ -59,10 +59,9 @@ grlAPI GfilePref *gfilePrefCloc_(const GfilePrefMode mode, Gp * const value)
 
    genter;
 
-   greturnIf(
-         mode == gfilePrefModeNONE ||
-         !value,
-      NULL);
+   greturnNullIf(
+      mode == gfilePrefModeNONE ||
+      !value);
 
    // Create the buffer.
    pref = gmemClocType(GfilePref);
@@ -84,11 +83,10 @@ grlAPI Gb gfilePrefClocContent(GfilePref * const pref, const GfilePrefMode mode,
 {
    genter;
 
-   greturnIf(
-         !pref                     ||
-         mode == gfilePrefModeNONE ||
-         !value,
-      gbFALSE);
+   greturnFalseIf(
+      !pref                     ||
+      mode == gfilePrefModeNONE ||
+      !value);
 
    GTYPE_SET(pref, "GPref");
 
@@ -114,7 +112,7 @@ grlAPI void gfilePrefDloc(GfilePref * const pref)
 {
    genter;
 
-   greturnVoidIf(!pref);
+   greturnIf(!pref);
 
    gfilePrefDlocContent(pref);
    gmemDloc(pref);
@@ -129,7 +127,7 @@ grlAPI void gfilePrefDlocContent(GfilePref * const pref)
 {
    genter;
 
-   greturnVoidIf(!pref);
+   greturnIf(!pref);
 
    gsDloc(pref->key);
    gsDloc(pref->value);
@@ -154,7 +152,7 @@ grlAPI Gb gfilePrefGet(GfilePref * const pref)
 
    genter;
 
-   greturnIf(!pref, gbFALSE);
+   greturnFalseIf(!pref);
 
    result = gbTRUE;
    line   = gsCloc();
@@ -279,7 +277,7 @@ grlAPI Gs *gfilePrefGetKey(const GfilePref * const pref)
 {
    genter;
 
-   greturnIf(!pref, NULL);
+   greturnNullIf(!pref);
 
    greturn pref->key;
 }
@@ -291,7 +289,7 @@ grlAPI Gs *gfilePrefGetValue(const GfilePref * const pref)
 {
    genter;
 
-   greturnIf(!pref, NULL);
+   greturnNullIf(!pref);
 
    greturn pref->value;
 }
@@ -306,10 +304,9 @@ grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray 
 
    genter;
 
-   greturnIf(
-         !pref ||
-         !strKeyValueArray,
-      gbFALSE);
+   greturnFalseIf(
+      !pref ||
+      !strKeyValueArray);
 
    // Populate the article with the key values.
    while (gfilePrefGet(pref))
@@ -319,7 +316,7 @@ grlAPI Gb gfilePrefLoadStrKeyValueArray(GfilePref * const pref, gsKeyValueArray 
       gsKeyValueSetKey(  kv, gfilePrefGetKey(  pref));
       gsKeyValueSetValue(kv, gfilePrefGetValue(pref));
 
-      greturnIf(!gsKeyValueArrayAddEnd(strKeyValueArray, kv), gbFALSE);
+      greturnFalseIf(!gsKeyValueArrayAddEnd(strKeyValueArray, kv));
    }
 
    greturn gbTRUE;
@@ -334,20 +331,18 @@ grlAPI Gb gfilePrefLoadStrTable(GfilePref * const pref, GsTable * const strTable
 {
    genter;
 
-   greturnIf(
-         !pref ||
-         !strTable,
-      gbFALSE);
+   greturnFalseIf(
+      !pref ||
+      !strTable);
 
    // Populate the article with the key values.
    while (gfilePrefGet(pref))
    {
-      greturnIf(
-            !gnameSet(
-               strTable,
-               gfilePrefGetKey(pref),
-               (Gp *) gsClocFrom(gfilePrefGetValue(pref))),
-         gbFALSE);
+      greturnFalseIf(
+         !gnameSet(
+            strTable,
+            gfilePrefGetKey(pref),
+            (Gp *) gsClocFrom(gfilePrefGetValue(pref))));
    }
 
    greturn gbTRUE;
@@ -365,10 +360,9 @@ grlAPI Gb gfilePrefSet(const GfilePref * const pref, const Gs * const key, const
 
    genter;
 
-   greturnIf(
-         !pref ||
-         !value,
-      gbFALSE);
+   greturnFalseIf(
+      !pref ||
+      !value);
 
    //lint -save -e534
    // Write to the file.
@@ -498,11 +492,10 @@ grlAPI Gb gfilePrefSetComment(const GfilePref * const pref, const Gs * const val
 
    genter;
 
-   greturnIf(
-         !pref  ||
-         !value ||
-         !gsGetCount(value),
-      gbFALSE);
+   greturnFalseIf(
+      !pref  ||
+      !value ||
+      !gsGetCount(value));
 
    //lint -save -e534
    // Write to the file.
@@ -512,45 +505,45 @@ grlAPI Gb gfilePrefSetComment(const GfilePref * const pref, const Gs * const val
       // don't want to spend the effort to check if the
       // first character in a line is a - or =.  This
       // ensures the line is a comment.
-      greturnIf(!gfileSetC(pref->file, gcTypeU1, '#'), gbFALSE);
-      greturnIf(!gfileSetC(pref->file, gcTypeU1, ' '), gbFALSE);
+      greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, '#'));
+      greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, ' '));
 
       forCount(a, gsGetCount(value))
       {
          if (*gsGetAt(value, a) == L'\n')
          {
-            greturnIf(!gfileSetC(pref->file, gcTypeU1, '\n'), gbFALSE);
-            greturnIf(!gfileSetC(pref->file, gcTypeU1, '#'), gbFALSE);
-            greturnIf(!gfileSetC(pref->file, gcTypeU1, ' '), gbFALSE);
+            greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, '\n'));
+            greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, '#'));
+            greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, ' '));
          }
          else
          {
-            greturnIf(!gfileSetC(pref->file, gcTypeU1, (Gc) *gsGetAt(value, a)), gbFALSE);//lint !e571
+            greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, (Gc) *gsGetAt(value, a)));
          }
       }
 
-      greturnIf(!gfileSetC(pref->file, gcTypeU1, '\n'), gbFALSE);
+      greturnFalseIf(!gfileSetC(pref->file, gcTypeU1, '\n'));
    }
    else
    {
-      greturnIf(!gsAppendC(pref->buffer, '#'), gbFALSE);
-      greturnIf(!gsAppendC(pref->buffer, ' '), gbFALSE);
+      greturnFalseIf(!gsAppendC(pref->buffer, '#'));
+      greturnFalseIf(!gsAppendC(pref->buffer, ' '));
 
       forCount(a, gsGetCount(value))
       {
          if (*gsGetAt(value, a) == L'\n')
          {
-            greturnIf(!gsAppendC(pref->buffer, '\n'), gbFALSE);
-            greturnIf(!gsAppendC(pref->buffer, '#'), gbFALSE);
-            greturnIf(!gsAppendC(pref->buffer, ' '), gbFALSE);
+            greturnFalseIf(!gsAppendC(pref->buffer, '\n'));
+            greturnFalseIf(!gsAppendC(pref->buffer, '#'));
+            greturnFalseIf(!gsAppendC(pref->buffer, ' '));
          }
          else
          {
-            greturnIf(!gsAppendC(pref->buffer, *gsGetAt(value, a)), gbFALSE);
+            greturnFalseIf(!gsAppendC(pref->buffer, *gsGetAt(value, a)));
          }
       }
 
-      greturnIf(!gsAppendC(pref->buffer, '\n'), gbFALSE);
+      greturnFalseIf(!gsAppendC(pref->buffer, '\n'));
    }
    //lint -restore
 
@@ -624,10 +617,9 @@ grlAPI Gb gsKeyValueArrayLoad(gsKeyValueArray * const strKeyValueArray, const Gp
 
    genter;
 
-   greturnIf(
-         !strKeyValueArray ||
-         !fileName,
-      gbFALSE);
+   greturnFalseIf(
+      !strKeyValueArray ||
+      !fileName);
 
    // open the file
    file = gfileOpen(fileName, gfileOpenREAD);
@@ -655,10 +647,9 @@ grlAPI Gb gssHashLoad(GsTable * const strTable, const Gpath * const filename)
 
    genter;
 
-   greturnIf(
-         !strTable ||
-         !filename,
-      gbFALSE);
+   greturnFalseIf(
+      !strTable ||
+      !filename);
 
    // open the file
    file = gfileOpen(filename, gfileOpenREAD);
@@ -706,14 +697,14 @@ static Gb _GetLine(GfilePref * const pref, Gs * const line)
            pref->bposition++)
       {
          letter = *gsGetAt(pref->buffer, pref->bposition);
-         greturnIf(!gsAppendC(line, letter), gbFALSE);
+         greturnFalseIf(!gsAppendC(line, letter));
 
          breakIf(letter == (Gc2) '\n');
       }
       pref->bposition++;
 
       // Nothing more to read.
-      greturnIf(!gsGetCount(line), gbFALSE);
+      greturnFalseIf(!gsGetCount(line));
    }
 
    greturn gbTRUE;

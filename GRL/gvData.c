@@ -42,9 +42,9 @@ grlAPI Gcompare gpCompare(Gp const * const valueA, Gp const * const valueB)
 {
    genter;
 
-   greturnIf(valueA < valueB, gcompareLESS_THAN);
-   greturnIf(valueA > valueB, gcompareGREATER_THAN);
-   greturn                    gcompareEQUAL;
+   greturnValIf(valueA < valueB, gcompareLESS_THAN);
+   greturnValIf(valueA > valueB, gcompareGREATER_THAN);
+   greturn                       gcompareEQUAL;
 }
 
 /**************************************************************************************************
@@ -54,36 +54,36 @@ grlAPI Gcompare gvDataCompareI(GvData const * const valueA, GvData const * const
 {
    genter;
 
-   greturnIf(valueA->value.i < valueB->value.i, gcompareLESS_THAN);
-   greturnIf(valueA->value.i > valueB->value.i, gcompareGREATER_THAN);
-   greturn                                      gcompareEQUAL;
+   greturnValIf(valueA->value.i < valueB->value.i, gcompareLESS_THAN);
+   greturnValIf(valueA->value.i > valueB->value.i, gcompareGREATER_THAN);
+   greturn                                         gcompareEQUAL;
 }
 
 grlAPI Gcompare gvDataCompareN(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
-   greturnIf(valueA->value.n < valueB->value.n, gcompareLESS_THAN);
-   greturnIf(valueA->value.n > valueB->value.n, gcompareGREATER_THAN);
-   greturn                                      gcompareEQUAL;
+   greturnValIf(valueA->value.n < valueB->value.n, gcompareLESS_THAN);
+   greturnValIf(valueA->value.n > valueB->value.n, gcompareGREATER_THAN);
+   greturn                                         gcompareEQUAL;
 }
 
 grlAPI Gcompare gvDataCompareP(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
-   greturnIf((Gnp) valueA->value.p < (Gnp) valueB->value.p, gcompareLESS_THAN);    //lint !e923
-   greturnIf((Gnp) valueA->value.p > (Gnp) valueB->value.p, gcompareGREATER_THAN); //lint !e923
-   greturn                                                  gcompareEQUAL;
+   greturnValIf((Gnp) valueA->value.p < (Gnp) valueB->value.p, gcompareLESS_THAN);    //lint !e923
+   greturnValIf((Gnp) valueA->value.p > (Gnp) valueB->value.p, gcompareGREATER_THAN); //lint !e923
+   greturn                                                     gcompareEQUAL;
 }
 
 grlAPI Gcompare gvDataCompareR(GvData const * const valueA, GvData const * const valueB)
 {
    genter;
 
-   greturnIf(valueA->value.r < valueB->value.r, gcompareLESS_THAN);
-   greturnIf(valueA->value.r > valueB->value.r, gcompareGREATER_THAN);
-   greturn                                      gcompareEQUAL;
+   greturnValIf(valueA->value.r < valueB->value.r, gcompareLESS_THAN);
+   greturnValIf(valueA->value.r > valueB->value.r, gcompareGREATER_THAN);
+   greturn                                         gcompareEQUAL;
 }
 
 /**************************************************************************************************
@@ -209,10 +209,10 @@ grlAPI Gi gvDataGetI(GvData const * const v)
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvDataTypeI,      v->value.i);
-   greturnIf(v->type == gvDataTypeN, (Gi) v->value.n);
-   greturnIf(v->type == gvDataTypeR, (Gi) v->value.r);
-//RDG   greturnIf(v->type == gvDataTypeS, (Gi) gsGetI(v->value.s));
+   greturnValIf(v->type == gvDataTypeI,      v->value.i);
+   greturnValIf(v->type == gvDataTypeN, (Gi) v->value.n);
+   greturnValIf(v->type == gvDataTypeR, (Gi) v->value.r);
+//RDG   greturnValIf(v->type == gvDataTypeS, (Gi) gsGetI(v->value.s));
 
    greturn 0;
 }
@@ -223,10 +223,10 @@ grlAPI Gn gvDataGetN(GvData const * const v)
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvDataTypeN,      v->value.n);
-   greturnIf(v->type == gvDataTypeI, (Gn) v->value.i);
-   greturnIf(v->type == gvDataTypeR, (Gn) v->value.r);
-//RDG   greturnIf(v->type == gvDataTypeS, (Gn) gsGetN(v->value.s));
+   greturnValIf(v->type == gvDataTypeN,      v->value.n);
+   greturnValIf(v->type == gvDataTypeI, (Gn) v->value.i);
+   greturnValIf(v->type == gvDataTypeR, (Gn) v->value.r);
+//RDG   greturnValIf(v->type == gvDataTypeS, (Gn) gsGetN(v->value.s));
 
    greturn 0;
 }
@@ -237,7 +237,7 @@ grlAPI Gp *gvDataGetP(GvData const * const v)
 
    greturnNullIf(!v);
 
-   greturnIf(
+   greturnValIf(
          v->type == gvDataTypeP ||
          v->type == gvDataTypeS,
       v->value.p);
@@ -251,10 +251,10 @@ grlAPI Gr gvDataGetR(GvData const * const v)
 
    greturn0If(!v);
 
-   greturnIf(v->type == gvDataTypeR,      v->value.r);
-   greturnIf(v->type == gvDataTypeI, (Gr) v->value.i);
-   greturnIf(v->type == gvDataTypeN, (Gr) v->value.n);
-//RDG   greturnIf(v->type == gvDataTypeS, (Gr) gsGetR(v->value.s));
+   greturnValIf(v->type == gvDataTypeR,      v->value.r);
+   greturnValIf(v->type == gvDataTypeI, (Gr) v->value.i);
+   greturnValIf(v->type == gvDataTypeN, (Gr) v->value.n);
+//RDG   greturnValIf(v->type == gvDataTypeS, (Gr) gsGetR(v->value.s));
 
    greturn 0;
 }
@@ -265,7 +265,7 @@ grlAPI Gs *gvDataGetS(GvData const * const v)
 
    greturnNullIf(!v);
 
-   greturnIf(v->type == gvDataTypeS, v->value.s);
+   greturnValIf(v->type == gvDataTypeS, v->value.s);
 
    greturn NULL;
 }
@@ -277,7 +277,7 @@ grlAPI GhashN gvDataHash(GvData const * const value)
 {
    genter;
 
-   greturnIf(
+   greturnValIf(
          value->type == gvDataTypeP ||
          value->type == gvDataTypeS,
       (GhashN) (value->value.n / 4));

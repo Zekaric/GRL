@@ -204,7 +204,7 @@ grlAPI void g_TreeKeyDloc(G_TreeKey * const tree)
 {
    genter;
 
-   greturnVoidIf(!tree);
+   greturnIf(!tree);
 
    g_TreeKeyDlocContent(tree);
 
@@ -223,7 +223,7 @@ grlAPI void g_TreeKeyDlocContent(G_TreeKey * const tree)
 
    genter;
 
-   greturnVoidIf(
+   greturnIf(
       !tree ||
       !tree->root);
 
@@ -425,7 +425,7 @@ grlAPI Gcount g_TreeKeyGetCount(G_TreeKey const * const tree)
 {
    genter;
 
-   greturnIf(!tree, 0);
+   greturn0If(!tree);
 
    greturn tree->count;
 }
@@ -569,7 +569,7 @@ static void _Dump(G_TreeKeyItem const * const node, Gi4 const level, Gs * const 
 
    genter;
 
-   greturnVoidIf(!gtempEnter());
+   greturnIf(!gtempEnter());
 
    if (node)
    {
@@ -632,7 +632,7 @@ static void _NodeDloc(G_TreeKey * const tree, G_TreeKeyItem * const node)
 {
    genter;
 
-   greturnVoidIf(
+   greturnIf(
       !tree ||
       !node);
 

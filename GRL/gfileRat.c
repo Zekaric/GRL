@@ -170,7 +170,7 @@ grlAPI void gfileRatDloc(GfileRat * const rat)
 {
    genter;
 
-   greturnVoidIf(!rat);
+   greturnIf(!rat);
 
    gfileRatDlocContent(rat);
 
@@ -189,7 +189,7 @@ grlAPI void gfileRatDlocContent(GfileRat * const rat)
 
    genter;
 
-   greturnVoidIf(!rat);
+   greturnIf(!rat);
 
    // Clean out all the dynamic values in the table.
    forCount (index, gfileRatRowArrayGetCount(rat->rowArray))
@@ -1205,7 +1205,7 @@ static void _RowDloc(GfileRat const * const rat, GfileRatRow * const row)
 
    genter;
 
-   greturnVoidIf(!row);
+   greturnIf(!row);
 
    // For all the strings...
    forCount (index, index < gfileRatColArrayGetCount(rat->colArray))

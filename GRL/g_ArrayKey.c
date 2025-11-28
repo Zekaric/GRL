@@ -266,7 +266,7 @@ grlAPI Gb g_ArrayKeyCopyFrom(G_ArrayKey * const aDst, Gindex const indexDst,
 
    greturnTrueIf(count == 0);
 
-   greturnIf(aDst == aSrc, g_ArrayKeyCopy(aDst, count, indexSrc, indexDst));
+   greturnValIf(aDst == aSrc, g_ArrayKeyCopy(aDst, count, indexSrc, indexDst));
 
    greturnFalseIf(
       count    < 0 ||
@@ -371,7 +371,7 @@ grlAPI void g_ArrayKeyDloc(G_ArrayKey * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    g_ArrayKeyDlocContent(a);
    gmemDloc(a);
@@ -386,7 +386,7 @@ grlAPI void g_ArrayKeyDlocContent(G_ArrayKey const * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    gmemDloc(a->p);
 
@@ -502,7 +502,7 @@ grlAPI Gindex g_ArrayKeyFind(G_ArrayKey const * const a, Gkey const * const key)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a              ||
          !a->compareFunc ||
          a->count == 0   ||
@@ -528,7 +528,7 @@ grlAPI void g_ArrayKeyFlush(G_ArrayKey * const a)
 {
    genter;
 
-   greturnVoidIf(!a);
+   greturnIf(!a);
 
    g_ArrayKeySetCount(a, 0); //lint !e534
 
@@ -661,7 +661,7 @@ grlAPI Gcount g_ArrayKeyGetCount(G_ArrayKey const * const a)
 {
    genter;
 
-   greturnIf(!a, 0);
+   greturn0If(!a);
 
    greturn a->count;
 }
@@ -673,7 +673,7 @@ grlAPI Gsize g_ArrayKeyGetSize(G_ArrayKey const * const a)
 {
    genter;
 
-   greturnIf(!a, 0);
+   greturn0If(!a);
 
    greturn a->typeSize;
 }
@@ -866,7 +866,7 @@ static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, 
       data = g_ArrayKeyGetAtKey(a, index);
 
       compare = a->compareFunc(key, data);
-      greturnIf(compare == gcompareEQUAL, index);
+      greturnValIf(compare == gcompareEQUAL, index);
 
       // Hi and lo are the same.  We are done.
       breakIf(hi == lo);
@@ -884,7 +884,7 @@ static Gindex _BinarySearch(G_ArrayKey const * const a, Gkey const * const key, 
 
    if (findLocation)
    {
-      greturnIf(compare == gcompareLESS_THAN, -index)
+      greturnValIf(compare == gcompareLESS_THAN, -index)
       greturn -(index + 1);
    }
 
@@ -907,7 +907,7 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, 
    if (a->count       == 0 ||
        a->compareFunc == NULL)
    {
-      greturnIf(findLocation, -(a->count));
+      greturnValIf(findLocation, -(a->count));
 
       greturn GindexERROR;
    }
@@ -918,15 +918,15 @@ static Gindex _LinearSearch(G_ArrayKey const * const a, Gkey const * const key, 
       data = g_ArrayKeyGetAtKey(a, index);
 
       compare = a->compareFunc(key, data);
-      greturnIf(compare == gcompareEQUAL, index);
+      greturnValIf(compare == gcompareEQUAL, index);
 
-      greturnIf(
+      greturnValIf(
             findLocation &&
             compare == gcompareGREATER_THAN,
          -(index - 1));
    }
 
-   greturnIf(findLocation, -(a->count));
+   greturnValIf(findLocation, -(a->count));
 
    greturn GindexERROR;
 }

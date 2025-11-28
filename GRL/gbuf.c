@@ -289,7 +289,7 @@ grlAPI void gbufDloc(Gbuf * const buf)
 {
    genter;
 
-   greturnVoidIf(!buf);
+   greturnIf(!buf);
 
    gbufDlocContent(buf);
 
@@ -305,7 +305,7 @@ grlAPI void gbufDlocContent(Gbuf * const buf)
 {
    genter;
 
-   greturnVoidIf(!buf);
+   greturnIf(!buf);
 
    gn1ArrayDlocContent(&buf->buf);
    buf->index = 0;
@@ -320,7 +320,7 @@ grlAPI void gbufFlush(Gbuf * const buf)
 {
    genter;
 
-   greturnVoidIf(!buf);
+   greturnIf(!buf);
 
    gn1ArrayFlush(&buf->buf);
    buf->index = 0;

@@ -46,7 +46,7 @@ grlAPI Gs *gsAppendA(Gs * const str, Char const * const cstr)
 
    // Nothing to add, append is ok.
    clength = (Gcount) strlen((char *) cstr); //lint !e586
-   greturnIf(!clength, str);
+   greturnValIf(!clength, str);
 
    // New size of the string.
    length = gsGetCount(str);
@@ -387,7 +387,7 @@ grlAPI Gs *gsAppendSub(Gs * const str, Gs const * const value, Gindex const star
       !value      ||
       start > end);
 
-   greturnIf(end == 0, str);
+   greturnValIf(end == 0, str);
 
    // fix bad input.
    startTemp = gMIN(gsGetCount(value), start);//lint !e666
@@ -531,7 +531,7 @@ grlAPI Gs *gsAppendU1(Gs * const str, Gc1 const * const cstr)
       !cstr);
 
    clength = _GetLength(cstr, gcTypeU1);
-   greturnIf(!clength, str);
+   greturnValIf(!clength, str);
 
    // New size of the string.
    length = gsGetCount(str);
@@ -594,7 +594,7 @@ grlAPI Gs *gsAppendU2(Gs * const str, Gc2 const * const cstr)
       !cstr);
 
    clength = (Gcount) wcslen(cstr);
-   greturnIf(!clength, str);
+   greturnValIf(!clength, str);
 
    // New size of the string.
    length = gsGetCount(str);
@@ -758,7 +758,7 @@ grlAPI Gs *gsAppendParams(Gs * const str, ...) //lint !e1916 !e960
 
    genter;
 
-   greturnIf(!str, str);
+   greturnValIf(!str, str);
 
    va_start(args, str);
 
@@ -832,7 +832,7 @@ grlAPI Gs *gsCapitalize(Gs * const str)
 
    greturnNullIf(!str);
 
-   greturnIf(gsGetCount(str) == 0, str);
+   greturnValIf(gsGetCount(str) == 0, str);
 
    // Officially not fully unicode compliant.
    letter = gcToUpperCase(*gsGetBegin(str));
@@ -854,7 +854,7 @@ grlAPI Gcompare gsCompare(Gs const * const as, Gs const * const bs)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !as ||
          !bs,
       gcompareEQUAL);
@@ -869,12 +869,12 @@ grlAPI Gcompare gsCompare(Gs const * const as, Gs const * const bs)
       a = *gsGetAt(as, index);
       b = *gsGetAt(bs, index);
 
-      greturnIf(a < b, gcompareLESS_THAN);
-      greturnIf(a > b, gcompareGREATER_THAN);
+      greturnValIf(a < b, gcompareLESS_THAN);
+      greturnValIf(a > b, gcompareGREATER_THAN);
    }
 
-   greturnIf(acount < bcount, gcompareLESS_THAN);
-   greturnIf(acount > bcount, gcompareGREATER_THAN);
+   greturnValIf(acount < bcount, gcompareLESS_THAN);
+   greturnValIf(acount > bcount, gcompareGREATER_THAN);
 
    greturn gcompareEQUAL;
 }
@@ -889,13 +889,13 @@ grlAPI Gcompare gsCompareA(Gs const * const a, Char const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromA(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
    gsDloc(stemp);
@@ -913,13 +913,13 @@ grlAPI Gcompare gsCompareU1(Gs const * const a, Gc1 const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU1(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
    gsDloc(stemp);
@@ -937,13 +937,13 @@ grlAPI Gcompare gsCompareU2(Gs const * const a, Gc2 const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU2(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompare(a, stemp);
    gsDloc(stemp);
@@ -968,7 +968,7 @@ grlAPI Gcompare gsCompareBase(Gs const * const as, Gs const * const bs)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !as ||
          !bs,
       gcompareEQUAL);
@@ -983,12 +983,12 @@ grlAPI Gcompare gsCompareBase(Gs const * const as, Gs const * const bs)
       a = gcToLowerCase(*gsGetAt(as, index));//lint !e732
       b = gcToLowerCase(*gsGetAt(bs, index));//lint !e732
 
-      greturnIf(a < b, gcompareLESS_THAN);
-      greturnIf(a > b, gcompareGREATER_THAN);
+      greturnValIf(a < b, gcompareLESS_THAN);
+      greturnValIf(a > b, gcompareGREATER_THAN);
    }
 
-   greturnIf(acount < bcount, gcompareLESS_THAN);
-   greturnIf(acount > bcount, gcompareGREATER_THAN);
+   greturnValIf(acount < bcount, gcompareLESS_THAN);
+   greturnValIf(acount > bcount, gcompareGREATER_THAN);
 
    greturn gcompareEQUAL;
 }
@@ -1003,13 +1003,13 @@ grlAPI Gcompare gsCompareBaseA(Gs const * const a, Char const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromA(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
    gsDloc(stemp);
@@ -1027,13 +1027,13 @@ grlAPI Gcompare gsCompareBaseU1(Gs const * const a, Gc1 const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU1(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
    gsDloc(stemp);
@@ -1051,13 +1051,13 @@ grlAPI Gcompare gsCompareBaseU2(Gs const * const a, Gc2 const * const b)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU2(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBase(a, stemp);
    gsDloc(stemp);
@@ -1084,7 +1084,7 @@ grlAPI Gcompare gsCompareBaseCount(Gs const * const as, Gs const * const bs, Gco
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !as ||
          !bs,
       gcompareEQUAL);
@@ -1099,8 +1099,8 @@ grlAPI Gcompare gsCompareBaseCount(Gs const * const as, Gs const * const bs, Gco
       a = gcToLowerCase(*gsGetAt(as, index));//lint !e732
       b = gcToLowerCase(*gsGetAt(bs, index));//lint !e732
 
-      greturnIf(a < b, gcompareLESS_THAN);
-      greturnIf(a > b, gcompareGREATER_THAN);
+      greturnValIf(a < b, gcompareLESS_THAN);
+      greturnValIf(a > b, gcompareGREATER_THAN);
    }
 
    greturn gcompareEQUAL;
@@ -1116,13 +1116,13 @@ grlAPI Gcompare gsCompareBaseCountA(Gs const * const a, Char const * const b, Gc
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromA(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
    gsDloc(stemp);
@@ -1140,13 +1140,13 @@ grlAPI Gcompare gsCompareBaseCountU1(Gs const * const a, Gc1 const * const b, Gc
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU1(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
    gsDloc(stemp);
@@ -1164,13 +1164,13 @@ grlAPI Gcompare gsCompareBaseCountU2(Gs const * const a, Gc2 const * const b, Gc
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU2(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareBaseCount(a, stemp, count);
    gsDloc(stemp);
@@ -1191,7 +1191,7 @@ grlAPI Gcompare gsCompareCount(Gs const * const as, Gs const * const bs, Gcount 
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !as ||
          !bs,
       gcompareEQUAL);
@@ -1206,8 +1206,8 @@ grlAPI Gcompare gsCompareCount(Gs const * const as, Gs const * const bs, Gcount 
       a = *gsGetAt(as, index);
       b = *gsGetAt(bs, index);
 
-      greturnIf(a < b, gcompareLESS_THAN);
-      greturnIf(a > b, gcompareGREATER_THAN);
+      greturnValIf(a < b, gcompareLESS_THAN);
+      greturnValIf(a > b, gcompareGREATER_THAN);
    }
 
    greturn gcompareEQUAL;
@@ -1223,13 +1223,13 @@ grlAPI Gcompare gsCompareCountA(Gs const * const a, Char const * const b, Gcount
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromA(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
    gsDloc(stemp);
@@ -1247,13 +1247,13 @@ grlAPI Gcompare gsCompareCountU1(Gs const * const a, Gc1 const * const b, Gcount
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU1(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
    gsDloc(stemp);
@@ -1271,13 +1271,13 @@ grlAPI Gcompare gsCompareCountU2(Gs const * const a, Gc2 const * const b, Gcount
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !a ||
          !b,
       gcompareEQUAL);
 
    stemp  = gsClocFromU2(b);
-   greturnIf(!stemp, gcompareEQUAL);
+   greturnValIf(!stemp, gcompareEQUAL);
 
    result = gsCompareCount(a, stemp, count);
    gsDloc(stemp);
@@ -1490,7 +1490,7 @@ grlAPI Gs *gsEraseSub(Gs * const str, Gindex const start, Gindex const end)
 
    greturnNullIf(start > end);
 
-   greturnIf(start == end, str);
+   greturnValIf(start == end, str);
 
    // fix start and end.
    startTemp = gMIN(gsGetCount(str), start);//lint !e666
@@ -1592,11 +1592,10 @@ grlAPI Gs *gsFindAndReplaceA(Gs * const str, Char const * const find,
 
    genter;
 
-   greturnIf(
-         !str  ||
-         !find ||
-         !replace,
-      NULL);
+   greturnNullIf(
+      !str  ||
+      !find ||
+      !replace);
 
    result = NULL;
    fstr   = gsClocFromA(find);
@@ -1749,7 +1748,7 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !letters,
       GindexERROR);
@@ -1767,7 +1766,7 @@ grlAPI Gindex gsFindFirstNotOf(Gs const * const str, Gindex const position,
          }
       }
 
-      greturnIf(found, a);
+      greturnValIf(found, a);
    }
 
    greturn GindexERROR;
@@ -1851,7 +1850,7 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !letters,
       GindexERROR);
@@ -1862,7 +1861,7 @@ grlAPI Gindex gsFindFirstOf(Gs const * const str, Gindex const position,
 
       forCount(b, gsGetCount(letters))
       {
-         greturnIf(aletter == *gsGetAt(letters, b), a);
+         greturnValIf(aletter == *gsGetAt(letters, b), a);
       }
    }
    greturn GindexERROR;
@@ -1947,7 +1946,7 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str     ||
          !letters,
       GindexERROR);
@@ -1966,7 +1965,7 @@ grlAPI Gindex gsFindLastNotOf(Gs const * const str, Gindex const position,
          }
       }
 
-      greturnIf(found, a);
+      greturnValIf(found, a);
 
       // End of the search.
       breakIf(!a);
@@ -2053,7 +2052,7 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str     ||
          !letters,
       GindexERROR);
@@ -2064,7 +2063,7 @@ grlAPI Gindex gsFindLastOf(Gs const * const str, Gindex const position,
 
       forCount(b, gsGetCount(letters))
       {
-         greturnIf(aletter == *gsGetAt(letters, b), a);
+         greturnValIf(aletter == *gsGetAt(letters, b), a);
       }
 
       // End of the string.
@@ -2160,7 +2159,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !substr,
       GindexERROR);
@@ -2180,7 +2179,7 @@ grlAPI Gindex gsFindSub(Gs const * const str, Gindex const position,
       }
 
       // We found the substr in str.
-      greturnIf(!*s2, (Gindex) (cp - gsGet(str)));//lint !e732 !e947 !e946
+      greturnValIf(!*s2, (Gindex) (cp - gsGet(str)));//lint !e732 !e947 !e946
 
       // substring is longer than the rest of the
       // search string.  Terminate.
@@ -2257,7 +2256,7 @@ grlAPI Gs *gsFromCSV(Gs * const str)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          gsGetCount(str) == 0,
       str);
@@ -2323,7 +2322,7 @@ grlAPI void gsGetII(Gs const * const str, Gi * const a, Gi * const b)
 
    genter;
 
-   greturnVoidIf(!str);
+   greturnIf(!str);
 
    *a = (Gi) _wtoi64(gsGet(str));
 
@@ -2686,7 +2685,7 @@ grlAPI Gb gsIsMultiline(Gs const * const str)
    {
       breakIf(index >= gsGetCount(str));
 
-      returnIf(*gsGetAt(str, index) == L'\n', gbTRUE);
+      returnTrueIf(*gsGetAt(str, index) == L'\n');
    }
 
    greturn gbFALSE;
@@ -3167,7 +3166,7 @@ grlAPI Gs *gsToFormat(Gs * const str, Gc2 const * const format)
 {
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !format,
       str);
@@ -3222,7 +3221,7 @@ grlAPI Gs *gsToUpperCase(Gs * const str)
 
    genter;
 
-   greturnIf(!str, str);
+   greturnValIf(!str, str);
 
    forCount(a, gsGetCount(str))
    {
@@ -3259,7 +3258,7 @@ grlAPI Gs *gsTrim(Gs * const str, Gs const * const letters)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !letters,
       str);
@@ -3345,7 +3344,7 @@ grlAPI Gs *gsTrimLeft(Gs * const str, Gs const * const letters)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !letters,
       str);
@@ -3439,7 +3438,7 @@ grlAPI Gs *gsTrimRight(Gs * const str, Gs const * const letters)
 
    genter;
 
-   greturnIf(
+   greturnValIf(
          !str ||
          !letters,
       str);
@@ -3625,7 +3624,7 @@ static Gcount _GetByteLength(Gp *ptr, GcType type)
       c1p = (Gc1 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(
+         greturnValIf(
                c1p[a] == 0,
             (Gcount) (c1p - ((Gc1 *) ptr)));
 
@@ -3636,7 +3635,7 @@ static Gcount _GetByteLength(Gp *ptr, GcType type)
       c2p = (Gc2 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(
+         greturnValIf(
                c2p[a] == 0,
             (Gcount) (c2p - ((Gc2 *) ptr)));
 
@@ -3648,7 +3647,7 @@ static Gcount _GetByteLength(Gp *ptr, GcType type)
       c4p = (Gc4 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(
+         greturnValIf(
                c4p[a] == 0,
             (Gcount) (c4p - ((Gc4 *) ptr)));
       }
@@ -3684,7 +3683,7 @@ static Gcount _GetLength(Gp const * const ptr, GcType const type)
       c1p = (const Gc1 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(c1p[0] == 0, a);
+         greturnValIf(c1p[0] == 0, a);
 
          c1p = &(c1p[gcGetLetterByteCount((const Gp *) c1p, type)]);
       }
@@ -3693,7 +3692,7 @@ static Gcount _GetLength(Gp const * const ptr, GcType const type)
       c2p = (const Gc2 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(c2p[0] == 0, a);
+         greturnValIf(c2p[0] == 0, a);
 
          c1p = (const Gc1 *) c2p; //lint !e928
          c2p = (const Gc2 *) &(c1p[gcGetLetterByteCount((const Gp *) c1p, type)]); //lint !e926 !e927 !e826
@@ -3703,7 +3702,7 @@ static Gcount _GetLength(Gp const * const ptr, GcType const type)
       c4p = (const Gc4 *) ptr;
       for (a = 0; ; a++)
       {
-         greturnIf(c4p[a] == 0, a);
+         greturnValIf(c4p[a] == 0, a);
       }
    } //lint !e787
 

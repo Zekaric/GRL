@@ -143,7 +143,7 @@ grlAPI void gsKeyStop(void)
 {
    genter;
 
-   greturnVoidIf(!_isStarted);
+   greturnIf(!_isStarted);
 
    gsKeyTableForEach(_strTable, (GrlForEachFunc) gsDlocFunc);
    gsKeyTableDloc(   _strTable);

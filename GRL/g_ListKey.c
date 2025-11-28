@@ -190,7 +190,7 @@ grlAPI void g_ListKeyDloc(G_ListKey * const list)
 {
    genter;
 
-   greturnVoidIf(!list);
+   greturnIf(!list);
 
    g_ListKeyDlocContent(list);
    gmemDloc(list);
@@ -208,7 +208,7 @@ grlAPI void g_ListKeyDlocContent(G_ListKey * const list)
 
    genter;
 
-   greturnVoidIf(!list);
+   greturnIf(!list);
 
    lcurr = list->head;
    loop
@@ -237,7 +237,7 @@ grlAPI Gb g_ListKeyErase(G_ListKey * const list, Gkey const * const key)
    genter;
 
    litem = _LinearSearch(list, key, gbFALSE);
-   greturnIf(!litem, gbFALSE);
+   greturnFalseIf(!litem);
 
    g_ListKeyItemErase(list, litem);
 
@@ -500,7 +500,7 @@ grlAPI G_ListKeyItem *g_ListKeyItemGetNext(G_ListKeyItem const * const litem)
 {
    genter;
 
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    greturn litem->next;
 }
@@ -512,7 +512,7 @@ grlAPI G_ListKeyItem *g_ListKeyItemGetPrev(G_ListKeyItem const * const litem)
 {
    genter;
 
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    greturn litem->prev;
 }
@@ -527,7 +527,7 @@ grlAPI void g_ListKeyItemUpdate(G_ListKey * const list, G_ListKeyItem * const li
 
    genter;
 
-   greturnVoidIf(!litem);
+   greturnIf(!litem);
 
    data = (Gn1 *) DATA_PTR(litem);
    gmemCopyOver(data, list->typeSize, value);
@@ -543,7 +543,7 @@ grlAPI void g_ListKeyItemUpdateKey(G_ListKey * const list, G_ListKeyItem *const 
 {
    genter;
 
-   greturnVoidIf(!litem || !key);
+   greturnIf(!litem || !key);
 
    litem->key = key;
 
@@ -704,13 +704,15 @@ static G_ListKeyItem *_LinearSearch(G_ListKey const * const list, Gkey const * c
       if (list->isSorted &&
           compare == gcompareLESS_THAN)
       {
-         greturnIf(findLocation, litem->prev);
+         greturnValIf(findLocation, litem->prev);
+
          greturn NULL;
       }
 
       litem = litem->next;
    }
 
-   greturnIf(findLocation, list->tail);
+   greturnValIf(findLocation, list->tail);
+
    greturn litem;
 }

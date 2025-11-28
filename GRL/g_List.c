@@ -86,10 +86,10 @@ grlAPI G_ListItem *g_ListAddBegin(G_List * const list, Gp const * const value)
 
    genter;
 
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    litem = _ClocAndSetListItem(list, value);
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    g_ListAddBegin_Add(list, litem);
 
@@ -107,10 +107,10 @@ grlAPI G_ListItem *g_ListAddEnd(G_List * const list, Gp const * const value)
 
    genter;
 
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    litem = _ClocAndSetListItem(list, value);
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    g_ListAddEnd_Add(list, litem);
 
@@ -132,7 +132,7 @@ grlAPI G_List *g_ListCloc_(Gsize const typeSize, Char const * const typeName,
    greturnNullIf(typeSize <= 0);
 
    list = gmemClocType(G_List);
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    if (!g_ListClocContent_(  
          list,
@@ -182,7 +182,7 @@ grlAPI void g_ListDloc(G_List * const list)
 {
    genter;
 
-   greturnVoidIf(!list);
+   greturnIf(!list);
 
    g_ListDlocContent(list);
    gmemDloc(list);
@@ -200,7 +200,7 @@ grlAPI void g_ListDlocContent(G_List * const list)
 
    genter;
 
-   greturnVoidIf(!list);
+   greturnIf(!list);
 
    lcurr = list->head;
    loop
@@ -229,7 +229,7 @@ grlAPI Gb g_ListErase(G_List * const list, Gp const * const value)
    genter;
 
    litem = _LinearSearch(list, value, gbFALSE);
-   greturnIf(!litem, gbFALSE);
+   greturnFalseIf(!litem);
 
    g_ListItemErase(list, litem);
 
@@ -245,10 +245,9 @@ grlAPI Gb g_ListEraseBegin(G_List * const list)
 
    genter;
 
-   greturnIf(
-         !list ||
-         !list->head,
-      gbFALSE);
+   greturnFalseIf(
+      !list ||
+      !list->head);
 
    litem      = list->head;
    list->head = litem->next;
@@ -278,10 +277,9 @@ grlAPI Gb g_ListEraseEnd(G_List * const list)
 
    genter;
 
-   greturnIf(
-         !list ||
-         !list->tail,
-      gbFALSE);
+   greturnFalseIf(
+      !list ||
+      !list->tail);
 
    litem      = list->tail;
    list->tail = litem->prev;
@@ -342,10 +340,9 @@ grlAPI Gb g_ListForEach(G_List const * const list, GrlForEachFunc const func)
 
    genter;
 
-   greturnIf(
-         !list ||
-         !func,
-      gbFALSE);
+   greturnFalseIf(
+      !list ||
+      !func);
 
    litem = list->head;
 
@@ -369,7 +366,7 @@ grlAPI G_ListItem *g_ListGetBegin(G_List const * const list)
 {
    genter;
 
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    greturn list->head;
 }
@@ -381,7 +378,7 @@ grlAPI Gcount g_ListGetCount(G_List const * const list)
 {
    genter;
 
-   greturnIf(!list, 0);
+   greturn0If(!list);
 
    greturn list->count;
 }
@@ -393,7 +390,7 @@ grlAPI G_ListItem *g_ListGetEnd(G_List const * const list)
 {
    genter;
 
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    greturn list->tail;
 }
@@ -408,10 +405,10 @@ grlAPI G_ListItem *g_ListItemAdd(G_List * const list, G_ListItem * const litem,
 
    genter;
 
-   greturnIf(!list, NULL);
+   greturnNullIf(!list);
 
    nitem = _ClocAndSetListItem(list, value);
-   greturnIf(!nitem, NULL);
+   greturnNullIf(!nitem);
 
    g_ListItemAdd_Add(list, litem, nitem);
 
@@ -429,10 +426,9 @@ grlAPI G_ListItem *g_ListItemErase(G_List * const list, G_ListItem * const litem
 
    genter;
 
-   greturnIf(
-         !list ||
-         !litem,
-      NULL);
+   greturnNullIf(
+      !list ||
+      !litem);
 
    nextItem = litem->next;
 
@@ -464,7 +460,7 @@ grlAPI Gp *g_ListItemGet(G_ListItem const * const litem)
 {
    genter;
 
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    greturn DATA_PTR(litem);
 }
@@ -476,7 +472,7 @@ grlAPI G_ListItem *g_ListItemGetNext(G_ListItem const * const litem)
 {
    genter;
 
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    greturn litem->next;
 }
@@ -488,7 +484,7 @@ grlAPI G_ListItem *g_ListItemGetPrev(G_ListItem const * const litem)
 {
    genter;
 
-   greturnIf(!litem, NULL);
+   greturnNullIf(!litem);
 
    greturn litem->prev;
 }
@@ -500,7 +496,7 @@ grlAPI void g_ListItemUpdate(G_List * const list, G_ListItem * const litem, Gp c
 {
    genter;
 
-   greturnVoidIf(!litem);
+   greturnIf(!litem);
 
    gmemCopyOver(DATA_PTR(litem), list->typeSize, value);
 
@@ -637,12 +633,11 @@ static G_ListItem *_LinearSearch(G_List const * const list, Gp const * const val
 
    genter;
 
-   greturnIf(
-         !list              ||
-         !list->compareFunc ||
-         list->count == 0   ||
-         !value,
-      NULL);
+   greturnNullIf(
+      !list              ||
+      !list->compareFunc ||
+      list->count == 0   ||
+      !value);
 
    litem = g_ListGetBegin(list);
 
@@ -656,13 +651,15 @@ static G_ListItem *_LinearSearch(G_List const * const list, Gp const * const val
       // List is sorted, no point comparing beyond this point.
       if (list->isSorted && compare == gcompareLESS_THAN)
       {
-         greturnIf(findLocation, litem->prev);
+         greturnValIf(findLocation, litem->prev);
+
          greturn NULL;
       }
 
       litem = litem->next;
    }
 
-   greturnIf(findLocation, list->tail);
+   greturnValIf(findLocation, list->tail);
+
    greturn litem;
 }

@@ -154,9 +154,9 @@ grlAPI G_Tree *g_TreeCloc_(Gsize const typeSize, Char const * const typeName,
    greturnNullIf(!tree);
 
    if (!g_TreeClocContent_(
-         tree, 
-         typeSize, 
-         typeName, 
+         tree,
+         typeSize,
+         typeName,
          isPointerType,
          compareFunc))
    {
@@ -170,7 +170,7 @@ grlAPI G_Tree *g_TreeCloc_(Gsize const typeSize, Char const * const typeName,
 /**************************************************************************************************
 func: g_TreeClocContent
 **************************************************************************************************/
-grlAPI Gb g_TreeClocContent_(G_Tree * const tree, Gsize const typeSize, 
+grlAPI Gb g_TreeClocContent_(G_Tree * const tree, Gsize const typeSize,
    Char const * const typeName, Gb const isPointerType, GrlCompareFunc const compareFunc)
 {
    genter;
@@ -198,7 +198,7 @@ grlAPI void g_TreeDloc(G_Tree * const tree)
 {
    genter;
 
-   greturnVoidIf(!tree);
+   greturnIf(!tree);
 
    g_TreeDlocContent(tree);
 
@@ -217,7 +217,7 @@ grlAPI void g_TreeDlocContent(G_Tree * const tree)
 
    genter;
 
-   greturnVoidIf(
+   greturnIf(
       !tree ||
       !tree->root);
 
@@ -277,10 +277,9 @@ grlAPI Gb g_TreeErase(G_Tree * const tree, Gp const * const value)
 
    genter;
 
-   greturnIf(
-         !tree ||
-         !value,
-      gbFALSE);
+   greturnFalseIf(
+      !tree ||
+      !value);
 
    node = g_TreeFind(tree, value);
 
@@ -295,9 +294,9 @@ func: g_TreeEraseBegin
 grlAPI Gb g_TreeEraseBegin(G_Tree * const tree)
 {
    Gb result;
-   
+
    genter;
-   
+
    result = g_TreeErase(tree, g_TreeGetBegin(tree));
 
    greturn result;
@@ -309,9 +308,9 @@ func: g_TreeEraseEnd
 grlAPI Gb g_TreeEraseEnd(G_Tree * const tree)
 {
    Gb result;
-   
+
    genter;
-   
+
    result = g_TreeErase(tree, g_TreeGetEnd(tree));
 
    greturn result;
@@ -344,10 +343,9 @@ grlAPI Gb g_TreeForEach(G_Tree const * const tree, GrlForEachFunc const func)
 
    genter;
 
-   greturnIf(
-         !tree ||
-         !func,
-      gbFALSE);
+   greturnFalseIf(
+      !tree ||
+      !func);
 
    node = g_TreeGetBegin(tree);
 
@@ -408,7 +406,7 @@ grlAPI G_TreeItem *g_TreeGetBegin(G_Tree const * const tree)
 
    node = tree->root;
    greturnNullIf(!node);
-   
+
    result = _NodeGetLeftMost(node);
 
    greturn result;
@@ -421,7 +419,7 @@ grlAPI Gcount g_TreeGetCount(G_Tree const * const tree)
 {
    genter;
 
-   greturnIf(!tree, 0);
+   greturn0If(!tree);
 
    greturn tree->count;
 }
@@ -438,7 +436,7 @@ grlAPI G_TreeItem *g_TreeGetEnd(G_Tree const * const tree)
 
    node = tree->root;
    greturnNullIf(!node);
-   
+
    result = _NodeGetRightMost(node);
 
    greturn result;
@@ -534,7 +532,7 @@ grlAPI G_TreeItem *g_TreeItemGetPrev(G_TreeItem const * const treeItem)
             node = node->parent;
             break;
          }
-         
+
          node = node->parent;
       }
    }
@@ -553,7 +551,7 @@ static void _Dump(G_TreeItem const * const node, Gi4 const level, Gs * const str
 
    genter;
 
-   greturnVoidIf(!gtempEnter());
+   greturnIf(!gtempEnter());
 
    if (node)
    {
@@ -616,7 +614,7 @@ static void _NodeDloc(G_Tree * const tree, G_TreeItem * const node)
 {
    genter;
 
-   greturnVoidIf(
+   greturnIf(
       !tree ||
       !node);
 
@@ -721,7 +719,7 @@ static void _NodeRotateUp(G_Tree * const tree, G_TreeItem * const node)
    //        node  ...   =>       .  parent
    //         /\                       /\    //
    //        .  child             child  .
-   // 
+   //
    // Links that change...
    // 1 parent->parent     = node
    // 2 parent->childLeft  = child
@@ -743,7 +741,7 @@ static void _NodeRotateUp(G_Tree * const tree, G_TreeItem * const node)
       child->parent     = parent;
    }
    //          parent                   node
-   //            /\                      /\   // 
+   //            /\                      /\   //
    //           .  node  ...   =>  parent  .
    //               /\               /\       //
    //          child  .             .  child
@@ -804,7 +802,7 @@ static void _NodeRemove(G_Tree * const tree, G_TreeItem * const node)
       // Nothing to do.
       greturn;
    }
-   
+
    if (childLeft &&
        !childRight)
    {
@@ -882,7 +880,7 @@ static void _NodeRemove(G_Tree * const tree, G_TreeItem * const node)
       {
          parentTemp->childLeft = swapNode;
       }
-      else 
+      else
       {
          parentTemp->childRight = swapNode;
       }

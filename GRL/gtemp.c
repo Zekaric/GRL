@@ -28,7 +28,7 @@ grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDlocFunc const des
 
    debugHaltIf(!scope, "Missing gtempEnter() call.");
 
-   greturnIf(
+   greturnValIf(
          !mem      ||
          !destroyF ||
          !scope,
@@ -36,7 +36,7 @@ grlAPI Gp *gtemp(GtempScope * const scope, Gp * const mem, GrlDlocFunc const des
 
    // Failed to create memory will cause a leak.
    data = gmemClocType(GtempData);
-   greturnIf(!data, mem);
+   greturnValIf(!data, mem);
 
    // Add to the list of temporaries in the current scope.
    GTYPE_SET(data, "GtempData");
