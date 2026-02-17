@@ -1,0 +1,55 @@
+/**************************************************************************************************
+file:       Gguid
+author:     Robbert de Groot
+copyright:  2000, Robbert de Groot
+
+description:
+GUID is the Globally Unique Identifier structure.  This code wraps some of the
+madness.
+**************************************************************************************************/
+
+/**************************************************************************************************
+MIT License
+
+Copyright (c) 2000, Robbert de Groot
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+**************************************************************************************************/
+
+#pragma once
+
+/*************************************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+/*************************************************************************************************/
+
+/**************************************************************************************************
+prototype:
+**************************************************************************************************/
+grlAPI void     gguidClocContent(      Gguid * const guid);
+grlAPI void     gguidClocContentFromA( Gguid * const guid, Char const * const string);
+
+grlAPI Gb       gguidIsEqual(          Gguid const a, Gguid const b);
+
+/*************************************************************************************************/
+#ifdef __cplusplus
+}
+#endif
+/*************************************************************************************************/

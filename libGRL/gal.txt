@@ -1,0 +1,148 @@
+GAL
+===
+
+Description:
+------------
+GAL stands for GRL Assembly Language.  A very simple and programmer unfriendly
+language.  Parsing is very trivial and the execution is brain dead easy.  The
+language is interpreted.
+
+Language:
+---------
+Rules:
+1. There can only be one instruction per line.
+2. Blank first character means what follows is a comment.
+3. The instruction must start at the first character.
+4. The command doesn't need a prefix.
+5. The parameters of the command all need a prefix to indicate what type of 
+   parameter is involved
+
+Types:
+------
+The following are the names of the types used for the type parameter when
+defining a variable.  Variables are only local to the module they are defined
+in.
+
+sa             - A dynamic ASCII string. 
+su             - A dynamic UNICODE string
+i1, i2, i4, i8 - An integer of 1, 2, 4, and 8 bytes.
+n1, n2, n4, n8 - A natural of 1, 2, 4 and 8 bytes.
+r4, r8         - real of 4 and 8 bytes.
+p              - pointer
+
+Prefix:
+-------
+What's a prefix.  It's a letter indicating what the [value] is that follows.  
+This is only needed for [value] below.
+
+" - what follows is a string and needs to be set verbatum till end of line.  
+    Does not include new line in string.
+' - just leave the token as is.  The token becomes a string but will stop at
+    the first whitespace.
+i - what follows is an integer.
+n - what follows is a natural.
+r - what follows is a real.
+v - what follows is a variable.
+
+Operations:
+-----------
+Variable Creation:
+v [type] [name]+
+   type is one of the types.
+   There can be more than one name.  All names will have the same type.
+   Names must start with a letter.  The program isn't fussy what characters
+   are used but caution would be advised.
+   
+   EG:   v 'i4 'index 'count 'voxal
+         v 'su 'name 'title 'carName 'balloonName
+
+Assignment:
+= [dest] [value]
+   destination must be a variable.
+   value can be a variable or actual value.
+   
+   EG:   = vdestination i40
+         = vname        "Harry Potter
+
+Math:
++ [dest] [value] [value]+
+- [dest] [value] [value]+
+* [dest] [value] [value]+
+/ [dest] [value] [value]+
+   destination must be a variable.
+   value must be 0 or more.  
+   for + and -, no value means, ABSOLUTE and NEGATE the destination.
+   for all, one value means [destination] = [destination] op [value]
+   
+   EG:   + vdestination vdestination i1 
+            
+   destination = destination + 1
+   
+   EG:   + vdestination vvalue i40
+       
+   destination = value + 40
+   
+Bit Operations:
+>> [dest] [value] [value]
+<< [dest] [value] [value]
+~ [dest] [value]
+| [dest] [value] [value]+
+& [dest] [value] [value]+
+   for | and & the behaviour is like the similar math functions.
+   these functions only work on N and I variable types.
+   
+   
+Logic:
+|| [dest] [value] [value]+
+&& [dest] [value] [value]+
+! [dest] [value]
+   These functions only work on N and I variable types.
+
+Desision Control:
+if [value]
+...
+else
+...
+endif
+   There is no else if.  Mainly because it is difficult enough to fill in value.  
+   As a reault only an if.  if's can be nested.
+   
+Loop Control:
+loop
+...
+endloop
+   There is no for loop.  Just a simple loop.  Loops can be nested.
+   
+Function Control:
+call [dest] [function] [value]*
+   dest is the variable to hold the return data.  Use just a ' if you want to
+   ignore the the return value.
+   
+   function is the name of the GAL script to load up next and run.  If the 
+   GAL script is in a different directory then use dir/name
+   
+   value will be the parameters into the function.
+   
+param [dest] [intvalue]
+   Get a value of the parameter and store it into a variable.
+   
+return [value]
+   return the given value.
+   
+
+Examples:   
+---------
+
+Hello World!:
+
+   call ' 'sys/print "Hello World!
+   call ' 'sys/printNewLine
+   return i0
+   
+   Note a string will run till the end of line.  If you need multiple parameters
+   then you will need to put the string into a variable first or break up the
+   calls.
+   
+   Call the file using...
+   
+      > gal hello.gal

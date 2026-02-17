@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libGRL", "libGRL\libGRL.vcxproj", "{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libGRL_TEST", "libGRL_TEST\libGRL_TEST.vcxproj", "{6DD9D61C-0A97-4FFA-A081-38F6120742D7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9} = {0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}.Debug|x64.ActiveCfg = Debug|x64
+		{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}.Debug|x64.Build.0 = Debug|x64
+		{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}.Release|x64.ActiveCfg = Release|x64
+		{0B47910F-7F93-4A96-B2A4-FD17E02AE0F9}.Release|x64.Build.0 = Release|x64
+		{6DD9D61C-0A97-4FFA-A081-38F6120742D7}.Debug|x64.ActiveCfg = Debug|x64
+		{6DD9D61C-0A97-4FFA-A081-38F6120742D7}.Debug|x64.Build.0 = Debug|x64
+		{6DD9D61C-0A97-4FFA-A081-38F6120742D7}.Release|x64.ActiveCfg = Release|x64
+		{6DD9D61C-0A97-4FFA-A081-38F6120742D7}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BC0E28F-6800-4FE5-A853-7A1BF80EC9B9}
+	EndGlobalSection
+EndGlobal

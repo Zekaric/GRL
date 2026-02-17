@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Container">
+      <UniqueIdentifier>{83440979-3454-4413-bcac-b536f48125e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileSystem">
+      <UniqueIdentifier>{0f5f57ca-d78b-4ef2-8de0-8c8d8bf7b9ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Memory">
+      <UniqueIdentifier>{0d2d17e1-6493-4425-a38b-6fe943676aab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BaseType">
+      <UniqueIdentifier>{0862f175-0147-4b02-89ea-e57d5b2d111e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Thread">
+      <UniqueIdentifier>{699bc8f8-075b-4442-b3fb-18b113e32a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{f986ba0c-7e49-452f-bbe7-075b867bad2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{8f1af753-fc8a-42c4-b125-88043e57e432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\String">
+      <UniqueIdentifier>{c2a0b017-6248-4177-b030-90196709808e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{f244b573-598d-4fb9-aee1-baced725dd61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Container">
+      <UniqueIdentifier>{6c75ac0a-8f85-4501-b1c0-3e90aa0aec0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileSystem">
+      <UniqueIdentifier>{62ea48d5-d646-4bde-913d-81d5cc57703d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Memory">
+      <UniqueIdentifier>{91182e53-fac2-4703-bccc-cd42c2eeb471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BaseType">
+      <UniqueIdentifier>{331ee76b-7fce-406d-a50c-aa7dc729296b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{6cab0a2f-3813-4920-a1a2-8a3804173136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{18e983e2-1b6f-424a-970e-69b81523fffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\String">
+      <UniqueIdentifier>{3a63d309-3c48-4e05-947c-51ff012adcf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{6cc96af7-0be4-45ee-b2b2-936c9fb7614d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{a604f9e3-aaa6-452f-938f-4fb5036c9b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO">
+      <UniqueIdentifier>{6c53cdca-2f98-4584-9be7-6df658df8bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO">
+      <UniqueIdentifier>{c4036757-a5fa-46fb-9ef1-c7b037590c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\GOD">
+      <UniqueIdentifier>{ccd8a32f-32d1-45ea-a0d7-c5b4e2d71b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\JSON">
+      <UniqueIdentifier>{2619f664-3aeb-41bd-afd0-cc4b2bed6197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\RAT">
+      <UniqueIdentifier>{1880dfeb-a396-4068-a77a-c92a098b88ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\Pref">
+      <UniqueIdentifier>{cf2db784-0313-4e49-b424-0a693d95e6ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\Pref">
+      <UniqueIdentifier>{fbfed5b4-58c9-40cd-ab8f-a27cd8e75abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\GOD">
+      <UniqueIdentifier>{ea76846d-d187-4d0e-89fc-4eeebca95d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\JSON">
+      <UniqueIdentifier>{730ba535-774c-4bc4-981d-2970d72b2c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\RAT">
+      <UniqueIdentifier>{6be4e285-5fd0-47ca-b3f2-9b92e8de1f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\RUB">
+      <UniqueIdentifier>{fff832af-ede6-41ff-836c-6edebc6fd28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\RUB">
+      <UniqueIdentifier>{ce3b1d17-4e2b-4a4f-8bc1-ec3e17647660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO\ROB">
+      <UniqueIdentifier>{80e2072f-13e7-409c-b9eb-458c9e764602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO\ROB">
+      <UniqueIdentifier>{19222e44-d4c8-484e-b89f-9a665f397537}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gkvArray.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gvContainer.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gvHash.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gkvHash.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gvList.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gkvList.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gvTree.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gkvTree.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="gdir.h">
+      <Filter>Header Files\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="gfile.h">
+      <Filter>Header Files\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="gpath.h">
+      <Filter>Header Files\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="gmem.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="gleak.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="gbit.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gbuf.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gindex.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gv.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="glock.h">
+      <Filter>Header Files\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="gthread.h">
+      <Filter>Header Files\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ginterp.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gmath.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gmatrix3.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="grandom.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gvec2.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gvec3.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="grect.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gtemp.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="gtime.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="gswap.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="gs.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="gsFunction.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="gskey.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="gsUtil.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="gchar.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="gcon.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="gheap.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="gprofile.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="gtrace.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="gunitTest.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="gguid.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="gv1.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gv2.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gv4.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gv8.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gvData.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gvArray.h">
+      <Filter>Header Files\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="g_base.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gkv.h">
+      <Filter>Header Files\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="gioJsonLocal.h">
+      <Filter>Header Files\IO\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="gioJson.h">
+      <Filter>Header Files\IO\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="gatomic.h">
+      <Filter>Header Files\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="gioGod.h">
+      <Filter>Header Files\IO\GOD</Filter>
+    </ClInclude>
+    <ClInclude Include="gioGodLocal.h">
+      <Filter>Header Files\IO\GOD</Filter>
+    </ClInclude>
+    <ClInclude Include="gioRat.h">
+      <Filter>Header Files\IO\RAT</Filter>
+    </ClInclude>
+    <ClInclude Include="gio.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="gioPref.h">
+      <Filter>Header Files\IO\Pref</Filter>
+    </ClInclude>
+    <ClInclude Include="gioRub.h">
+      <Filter>Header Files\IO\RUB</Filter>
+    </ClInclude>
+    <ClInclude Include="gioRob.h">
+      <Filter>Header Files\IO\ROB</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gtime.c">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="gswap.c">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="gchar.c">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="gs.c">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="gsFunction.c">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="gskey.c">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="gsUtil.c">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="gguid.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="gheap.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="gprofile.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="gtrace.c">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="gvec3.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gvec2.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="grandom.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gmatrix3.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gmath.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="ginterp.c">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="gvData.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gv4.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gv2.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gv1.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gv.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gindex.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gbuf.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gbit.c">
+      <Filter>Source Files\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="gleak.c">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="gmem.c">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="gtemp.c">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="gdir.c">
+      <Filter>Source Files\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="gfile.c">
+      <Filter>Source Files\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="gpath.c">
+      <Filter>Source Files\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="gvArray.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gkvArray.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gkvHash.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gkvList.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gkvTree.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gvHash.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gvList.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gvTree.c">
+      <Filter>Source Files\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="gioJsonGet.c">
+      <Filter>Source Files\IO\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="gioJsonSet.c">
+      <Filter>Source Files\IO\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="gioJsonString.c">
+      <Filter>Source Files\IO\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="gioJson.c">
+      <Filter>Source Files\IO\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="gioGod.c">
+      <Filter>Source Files\IO\GOD</Filter>
+    </ClCompile>
+    <ClCompile Include="gioGodGet.c">
+      <Filter>Source Files\IO\GOD</Filter>
+    </ClCompile>
+    <ClCompile Include="gioGodSet.c">
+      <Filter>Source Files\IO\GOD</Filter>
+    </ClCompile>
+    <ClCompile Include="gioRat.c">
+      <Filter>Source Files\IO\RAT</Filter>
+    </ClCompile>
+    <ClCompile Include="gio.c">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="gioPref.c">
+      <Filter>Source Files\IO\Pref</Filter>
+    </ClCompile>
+    <ClCompile Include="gioRub.c">
+      <Filter>Source Files\IO\RUB</Filter>
+    </ClCompile>
+    <ClCompile Include="gioRob.c">
+      <Filter>Source Files\IO\ROB</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Documentation\todo.md">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Documentation\GRL_Organized_Data_File_Format (GOD File).md">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Documentation\Groot%27s Runtime Library (GRL).md">
+      <Filter>Documentation</Filter>
+    </None>
+  </ItemGroup>
+</Project>

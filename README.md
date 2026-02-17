@@ -18,12 +18,12 @@ For instance, for a time there was no go free profiler for windows to work with.
 There is no real unit tests as well and I am going to try to incorporate that into the new code as well if it does not become too much of a task.
 
 ## License.
-See license file, it is BSD 2 clause. 
+See license file, it is MIT. 
 
 ## Contributions
-This library is a bit of a labor of love and personal.  I am not against contributions but know that I am very fussy on code style and will refactor to match.  I vehimently dislike code that has multiple personalities.  Which I have to deal with at work and it bugs me to no end as, I find, it distracts from actually understanding the code you need to work with or fix.
+This library is a bit of a labor of love and personal.  I am not against contributions but know that I am very fussy on code style and will refactor to match.  I vehimently dislike code that has multiple personalities.  Which I have to deal with at work and it bugs me to no end.  I find it distracts from actually understanding the code you need to work with or fix.
 
 ## Goals
-The goals of the library is to provide a set of features in one place.  Kitchen Sink library.  So, memory handling, file IO, data containers, networking, etc.  All with a, hopefully, simpler interface that will be 'good enough'.  I try to make the code fast and simple but there will always be a tradeoff or two somewhere.  Not everything will be fully fleshed out either as I only develope to a point where I satisfy a need.  For example the Networking just implements simple TCP connections since I didn't need UDP at the time I was working on it.
+The goals of the library is to provide a set of features in one place.  Kitchen Sink library.  So, memory handling, file IO, data containers, networking, etc.  All with a, hopefully, simpler interface that will be 'good enough'.  I try to make the code fast and simple but there will always be a tradeoff or two somewhere.  Not everything will be fully fleshed out as I only develop to a point where I satisfy a need.
 
-Ultimately I do want this to become cross platform.  Windows, MacOS, and Linux.  However most of my life is currently developing on Windows so that is the main focus of the commits and code base.  I do have a Mac and Linux machine at home but I have not had a need to make a cross platform program just yet to warrant the effort to port the code properly over to those machines.
+Cross platform is acchieved using libSDL 3 library for some of the heavy lifting.

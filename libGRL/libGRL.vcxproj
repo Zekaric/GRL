@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{0b47910f-7f93-4a96-b2a4-fd17e02ae0f9}</ProjectGuid>
+    <RootNamespace>libGRL</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)build$(PlatformArchitecture)$(Configuration)\</OutDir>
+    <IntDir>build$(PlatformArchitecture)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)build$(PlatformArchitecture)$(Configuration)\</OutDir>
+    <IntDir>build$(PlatformArchitecture)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;LIBGRL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(libSDL_LIB)\include;$(libSDL_NET)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(libSDL_LIB)\lib\$(Platform);$(libSDL_NET)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(libSDL_LIB_LIBNAME).lib;$(libSDL_NET_LIBNAME).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;LIBGRL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(libSDL_LIB)\include;$(libSDL_NET)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(libSDL_LIB)\lib\$(Platform);$(libSDL_NET)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(libSDL_LIB_LIBNAME).lib;$(libSDL_NET_LIBNAME).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="gatomic.h" />
+    <ClInclude Include="gbit.h" />
+    <ClInclude Include="gbuf.h" />
+    <ClInclude Include="gchar.h" />
+    <ClInclude Include="gcon.h" />
+    <ClInclude Include="gdir.h" />
+    <ClInclude Include="gfile.h" />
+    <ClInclude Include="gioPref.h" />
+    <ClInclude Include="gio.h" />
+    <ClInclude Include="gioRat.h" />
+    <ClInclude Include="gguid.h" />
+    <ClInclude Include="gheap.h" />
+    <ClInclude Include="gindex.h" />
+    <ClInclude Include="ginterp.h" />
+    <ClInclude Include="gioJson.h" />
+    <ClInclude Include="gioJsonLocal.h" />
+    <ClInclude Include="gioRob.h" />
+    <ClInclude Include="gioRub.h" />
+    <ClInclude Include="gkv.h" />
+    <ClInclude Include="gleak.h" />
+    <ClInclude Include="glock.h" />
+    <ClInclude Include="gmath.h" />
+    <ClInclude Include="gmatrix3.h" />
+    <ClInclude Include="gmem.h" />
+    <ClInclude Include="gioGod.h" />
+    <ClInclude Include="gioGodLocal.h" />
+    <ClInclude Include="gvArray.h" />
+    <ClInclude Include="gpath.h" />
+    <ClInclude Include="gprofile.h" />
+    <ClInclude Include="grandom.h" />
+    <ClInclude Include="grect.h" />
+    <ClInclude Include="grl.h" />
+    <ClInclude Include="gs.h" />
+    <ClInclude Include="gsFunction.h" />
+    <ClInclude Include="gskey.h" />
+    <ClInclude Include="gsUtil.h" />
+    <ClInclude Include="gswap.h" />
+    <ClInclude Include="gtemp.h" />
+    <ClInclude Include="gthread.h" />
+    <ClInclude Include="gtime.h" />
+    <ClInclude Include="gtrace.h" />
+    <ClInclude Include="gunitTest.h" />
+    <ClInclude Include="gv.h" />
+    <ClInclude Include="gv1.h" />
+    <ClInclude Include="gv2.h" />
+    <ClInclude Include="gv4.h" />
+    <ClInclude Include="gv8.h" />
+    <ClInclude Include="gvData.h" />
+    <ClInclude Include="gvec2.h" />
+    <ClInclude Include="gvec3.h" />
+    <ClInclude Include="gkvArray.h" />
+    <ClInclude Include="g_base.h" />
+    <ClInclude Include="g_config.h" />
+    <ClInclude Include="gvContainer.h" />
+    <ClInclude Include="gvHash.h" />
+    <ClInclude Include="gkvHash.h" />
+    <ClInclude Include="gvList.h" />
+    <ClInclude Include="gkvList.h" />
+    <ClInclude Include="gvTree.h" />
+    <ClInclude Include="gkvTree.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gbit.c" />
+    <ClCompile Include="gbuf.c" />
+    <ClCompile Include="gchar.c" />
+    <ClCompile Include="gdir.c" />
+    <ClCompile Include="gfile.c" />
+    <ClCompile Include="gioPref.c" />
+    <ClCompile Include="gio.c" />
+    <ClCompile Include="gioRat.c" />
+    <ClCompile Include="gguid.c" />
+    <ClCompile Include="gheap.c" />
+    <ClCompile Include="gindex.c" />
+    <ClCompile Include="ginterp.c" />
+    <ClCompile Include="gioJson.c" />
+    <ClCompile Include="gioJsonGet.c" />
+    <ClCompile Include="gioJsonSet.c" />
+    <ClCompile Include="gioJsonString.c" />
+    <ClCompile Include="gioRob.c" />
+    <ClCompile Include="gioRub.c" />
+    <ClCompile Include="gkvArray.c" />
+    <ClCompile Include="gkvHash.c" />
+    <ClCompile Include="gkvList.c" />
+    <ClCompile Include="gkvTree.c" />
+    <ClCompile Include="gleak.c" />
+    <ClCompile Include="gmath.c" />
+    <ClCompile Include="gmatrix3.c" />
+    <ClCompile Include="gmem.c" />
+    <ClCompile Include="gioGod.c" />
+    <ClCompile Include="gioGodGet.c" />
+    <ClCompile Include="gioGodSet.c" />
+    <ClCompile Include="gvArray.c" />
+    <ClCompile Include="gpath.c" />
+    <ClCompile Include="gprofile.c" />
+    <ClCompile Include="grandom.c" />
+    <ClCompile Include="grl.c" />
+    <ClCompile Include="gs.c" />
+    <ClCompile Include="gsFunction.c" />
+    <ClCompile Include="gskey.c" />
+    <ClCompile Include="gsUtil.c" />
+    <ClCompile Include="gswap.c" />
+    <ClCompile Include="gtemp.c" />
+    <ClCompile Include="gtime.c" />
+    <ClCompile Include="gtrace.c" />
+    <ClCompile Include="gv.c" />
+    <ClCompile Include="gv1.c" />
+    <ClCompile Include="gv2.c" />
+    <ClCompile Include="gv4.c" />
+    <ClCompile Include="gvData.c" />
+    <ClCompile Include="gvec2.c" />
+    <ClCompile Include="gvec3.c" />
+    <ClCompile Include="gvHash.c" />
+    <ClCompile Include="gvList.c" />
+    <ClCompile Include="gvTree.c" />
+    <ClCompile Include="pch.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Documentation\GRL_Organized_Data_File_Format (GOD File).md" />
+    <None Include="Documentation\Groot%27s Runtime Library (GRL).md" />
+    <None Include="Documentation\todo.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
